@@ -19,9 +19,10 @@ class APIService {
     );
 
     if (response.statusCode == 200) {
-      print(json.encode(response.data));
+      // print(json.encode(response.data));
+      return json.encode(response.data);
     } else {
-      print(response.statusMessage);
+      print('${response.statusCode} : ${response.statusMessage}');
     }
   }
 }

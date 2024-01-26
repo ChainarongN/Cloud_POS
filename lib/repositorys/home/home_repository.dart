@@ -11,6 +11,7 @@ class HomeRepository implements IHomeRepository {
       'grant_type': grantType,
       'client_secret': clientSecret
     };
-    await APIService().post(Endpoints.authUrl, data);
+    var response = await APIService().post(Endpoints.authUrl, data);
+    return response;
   }
 }

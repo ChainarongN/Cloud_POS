@@ -2,7 +2,7 @@ import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 
-Drawer drawer() {
+Drawer drawer(BuildContext context) {
   return Drawer(
     child: Padding(
       padding: const EdgeInsets.all(15),
@@ -11,7 +11,7 @@ Drawer drawer() {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Constants.primaryColor,
               ),
@@ -61,7 +61,10 @@ Drawer drawer() {
             ListTile(
               title: AppTextStyle().textNormal('Log Off'),
               leading: Icon(Icons.power_settings_new),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/loginPage', (route) => false);
+              },
             ),
           ],
         ),

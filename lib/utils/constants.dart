@@ -16,4 +16,6 @@ class Constants {
   static const primaryColor = Color(0xff87C4FF);
   static const secondaryColor = Color(0xffEEF5FF);
   static const textColor = Color(0xFF222B45);
+
+  static const bg_login = 'assets/bg_1.jpg';
 }

@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Clound Pos'),
       ),
-      drawer: drawer(),
+      drawer: drawer(context),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Row(

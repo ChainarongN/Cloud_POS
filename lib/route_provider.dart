@@ -7,6 +7,7 @@ import 'repositorys/repository.dart';
 List<SingleChildWidget> routeProvider() {
   return [
     ChangeNotifierProvider(create: (_) => HomeProvider(HomeRepository())),
-     ChangeNotifierProvider(create: (_) => MenuProvider(MenuRepository())),
+    ChangeNotifierProvider(create: (_) => MenuProvider(MenuRepository())),
+    ChangeNotifierProvider(create: (_) => LoginProvider(LoginRepository())),
   ];
 }
