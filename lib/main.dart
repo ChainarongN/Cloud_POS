@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Constants.primaryColor),
           useMaterial3: true,
           appBarTheme: const AppBarTheme(
-            color: Colors.white,
+            color: Constants.secondaryColor,
             iconTheme: IconThemeData(color: Colors.black),
           ),
         ),

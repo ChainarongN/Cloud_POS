@@ -1,6 +1,5 @@
 import 'package:cloud_pos/pages/menu/widgets/appbar_action.dart';
 import 'package:cloud_pos/pages/menu/widgets/manage_menu.dart';
-import 'package:cloud_pos/pages/menu/widgets/recipe_item.dart';
 import 'package:cloud_pos/pages/menu/widgets/tab_menu_title.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/fav_one_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/menu_tab.dart';

@@ -66,29 +66,34 @@ class _LoginPageState extends State<LoginPage> {
         const Spacer(),
         Column(
           children: [
-            Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(bottom: 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                gradient: const LinearGradient(
-                  colors: [
-                    Constants.secondaryColor,
-                    Constants.primaryColor,
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/configPage');
+              },
+              child: Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.only(bottom: 20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  gradient: const LinearGradient(
+                    colors: [
+                      Constants.secondaryColor,
+                      Constants.primaryColor,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Constants.primaryColor,
+                        blurRadius: 8,
+                        offset: Offset(0, 6)),
                   ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
                 ),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Constants.primaryColor,
-                      blurRadius: 8,
-                      offset: Offset(0, 6)),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: AppTextStyle().textNormal('Configuration', size: 16),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: AppTextStyle().textNormal('Configuration', size: 16),
+                ),
               ),
             ),
             AppTextStyle().textNormal('Version : 0.0.19', size: 16),
