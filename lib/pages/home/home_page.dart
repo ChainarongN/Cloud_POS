@@ -4,6 +4,7 @@ import 'package:cloud_pos/pages/home/widgets/drawer.dart';
 import 'package:cloud_pos/pages/home/widgets/group_list.dart';
 import 'package:cloud_pos/pages/home/widgets/nationality.dart';
 import 'package:cloud_pos/pages/home/widgets/sex.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,6 +36,7 @@ class _HomePageState extends State<HomePage> {
     var homeRead = context.read<HomeProvider>();
     var homeWatch = context.watch<HomeProvider>();
     return Scaffold(
+      backgroundColor: Constants.secondaryColor,
       appBar: AppBar(
         title: const Text('Clound Pos'),
       ),

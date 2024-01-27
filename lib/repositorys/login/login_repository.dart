@@ -14,6 +14,6 @@ class LoginRepository implements ILoginRepository {
       'client_secret': clientSecret
     };
     var response = await APIService().post(Endpoints.authUrl, data);
-    return jsonDecode(response);
+    return jsonDecode(response) ;
   }
 }

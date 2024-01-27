@@ -25,16 +25,10 @@ class HomeProvider extends ChangeNotifier {
   List<String> get getGroupItem => _groupItem;
   List<String> get getDetailGroupItem => _detailGroupItem;
 
-  init() {
-    // auth();
-  }
+  init() {}
 
-  auth() {
-    var response = _homeRepository.authToken(
-        clientID: 'verticaltec.cloudinventory.dev',
-        grantType: 'client_credentials',
-        clientSecret: 'acf7e10c71296430');
-    print(response);
+  writeCoreDataInit() {
+    
   }
 
   addCount() {
