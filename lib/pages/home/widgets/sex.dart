@@ -15,33 +15,30 @@ Wrap sex(HomeProvider homeWatch, HomeProvider homeRead, BuildContext context) {
           width: MediaQuery.of(context).size.width * 0.1,
           height: MediaQuery.of(context).size.height * 0.08,
           decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
-              border: homeWatch.getSexValue == homeWatch.getSexItem[index]
-                  ? Border.all(color: Colors.blue.shade900)
-                  : Border.all(color: Constants.primaryColor),
-              boxShadow: const [
-                BoxShadow(
-                    color: Constants.primaryColor,
-                    blurRadius: 8,
-                    offset: Offset(0, 6)),
-              ],
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomCenter,
-                  colors: homeWatch.getSexValue == homeWatch.getSexItem[index]
-                      ? [
-                          Constants.primaryColor,
-                          Constants.primaryColor,
-                          Constants.primaryColor,
-                          Constants.primaryColor,
-                        ]
-                      : [
-                          Constants.secondaryColor,
-                          Constants.secondaryColor,
-                          Constants.secondaryColor,
-                          Constants.secondaryColor,
-                        ],
-                  stops: const [0.1, 0.3, 0.9, 1.0])),
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+            border: homeWatch.getSexValue == homeWatch.getSexItem[index]
+                ? Border.all(color: Colors.blue.shade900)
+                : Border.all(color: Constants.primaryColor),
+            boxShadow: const [
+              BoxShadow(
+                  color: Constants.primaryColor,
+                  blurRadius: 8,
+                  offset: Offset(0, 6)),
+            ],
+            gradient: LinearGradient(
+              colors: homeWatch.getSexValue == homeWatch.getSexItem[index]
+                  ? [
+                      const Color.fromARGB(255, 113, 134, 255),
+                      const Color.fromARGB(255, 157, 198, 255),
+                    ]
+                  : [
+                      const Color.fromARGB(255, 165, 222, 249),
+                      const Color.fromARGB(255, 177, 200, 241),
+                    ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
           child: Center(
             child: AppTextStyle().textNormal(homeWatch.getSexItem[index]),
           ),

@@ -1,5 +1,4 @@
 import 'package:cloud_pos/providers/home_provider.dart';
-import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 
@@ -23,23 +22,30 @@ SizedBox groupList(
               margin: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                border:
-                    homeWatch.getGroupItemValue == homeWatch.getGroupItem[index]
-                        ? Border.all(color: Colors.blue.shade900)
-                        : Border.all(color: Constants.primaryColor),
-                color:
-                    homeWatch.getGroupItemValue == homeWatch.getGroupItem[index]
-                        ? Constants.primaryColor
-                        : Constants.secondaryColor,
+                gradient: LinearGradient(
+                  colors: homeWatch.getGroupItemValue ==
+                          homeWatch.getGroupItem[index]
+                      ? [
+                          const Color.fromARGB(255, 113, 134, 255),
+                          const Color.fromARGB(255, 157, 198, 255),
+                        ]
+                      : [
+                          const Color.fromARGB(255, 138, 196, 255),
+                          const Color.fromARGB(255, 182, 212, 255),
+                        ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
                 boxShadow: const [
                   BoxShadow(
-                      color: Constants.primaryColor,
+                      color: Color.fromARGB(255, 182, 212, 255),
                       blurRadius: 8,
                       offset: Offset(0, 6)),
                 ],
               ),
               child: Center(
-                  child: AppTextStyle().textNormal(homeWatch.getGroupItem[index])),
+                  child: AppTextStyle().textBold(homeWatch.getGroupItem[index],
+                      size: 14, color: Colors.white)),
             ),
           ),
         ),

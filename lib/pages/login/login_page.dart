@@ -13,6 +13,11 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var loginRead = context.read<LoginProvider>();
     var loginWatch = context.watch<LoginProvider>();
@@ -44,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 20),
                     password(context, loginWatch, loginRead),
                     const SizedBox(height: 20),
-                    btnLogin(context),
+                    btnLogin(context, loginRead),
                     merchantDetail(context),
                     const Spacer(),
                     footbar()
@@ -103,9 +108,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  GestureDetector btnLogin(BuildContext context) {
+  GestureDetector btnLogin(BuildContext context, LoginProvider loginRead) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        // loginRead.authToken();
         Navigator.pushReplacementNamed(context, '/homePage');
       },
       child: Container(

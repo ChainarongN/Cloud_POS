@@ -17,37 +17,36 @@ Wrap nationality(
           width: MediaQuery.of(context).size.width * 0.09,
           height: MediaQuery.of(context).size.height * 0.08,
           decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
-              border: homeWatch.getNationalityValue ==
-                      homeWatch.getNationalityItem[index]
-                  ? Border.all(color: Colors.blue.shade900)
-                  : Border.all(color: Constants.primaryColor),
-              boxShadow: const [
-                BoxShadow(
-                    color: Constants.primaryColor,
-                    blurRadius: 8,
-                    offset: Offset(0, 6)),
-              ],
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomCenter,
-                  colors: homeWatch.getNationalityValue ==
-                          homeWatch.getNationalityItem[index]
-                      ? [
-                          Constants.primaryColor,
-                          Constants.primaryColor,
-                          Constants.primaryColor,
-                          Constants.primaryColor,
-                        ]
-                      : [
-                          Constants.secondaryColor,
-                          Constants.secondaryColor,
-                          Constants.secondaryColor,
-                          Constants.secondaryColor,
-                        ],
-                  stops: const [0.1, 0.3, 0.9, 1.0])),
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+            border: homeWatch.getNationalityItem[index] ==
+                    homeWatch.getNationalityValue
+                ? Border.all(color: Colors.blue.shade900)
+                : Border.all(color: Constants.primaryColor),
+            gradient: LinearGradient(
+              colors: homeWatch.getNationalityItem[index] ==
+                      homeWatch.getNationalityValue
+                  ? [
+                      const Color.fromARGB(255, 113, 134, 255),
+                      const Color.fromARGB(255, 157, 198, 255),
+                    ]
+                  : [
+                      const Color.fromARGB(255, 165, 222, 249),
+                      const Color.fromARGB(255, 177, 200, 241),
+                    ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: const [
+              BoxShadow(
+                  color: Color.fromARGB(255, 189, 209, 247),
+                  blurRadius: 8,
+                  offset: Offset(0, 6)),
+            ],
+          ),
           child: Center(
-            child: AppTextStyle().textNormal(homeWatch.getNationalityItem[index]),
+            child: AppTextStyle().textNormal(
+                homeWatch.getNationalityItem[index],
+                color: Constants.textColor),
           ),
         ),
       ),

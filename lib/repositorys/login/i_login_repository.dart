@@ -1,3 +1,3 @@
 abstract class ILoginRepository {
-  getSomething();
+  authToken({String? clientID, String? grantType, String? clientSecret});
 }

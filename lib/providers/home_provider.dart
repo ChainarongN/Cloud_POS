@@ -10,7 +10,6 @@ class HomeProvider extends ChangeNotifier {
   String? _nationalityValue = '';
   String? _sexValue = '';
   String? _groupItemValue = 'ALL';
-  String? _detailGroupItemValue = '';
   num _countValue = 1;
 
   String get getCategoryValue => _categoryValue!;
@@ -18,7 +17,6 @@ class HomeProvider extends ChangeNotifier {
   String get getNationalityValue => _nationalityValue!;
   String get getSexValue => _sexValue!;
   String get getGroupItemValue => _groupItemValue!;
-  String get getDetailGroupItemValue => _detailGroupItemValue!;
   num get getCountValue => _countValue;
   List<String> get getServiceItem => _serviceItems;
   List<String> get getCategoryItem => _categoryItems;
@@ -51,11 +49,6 @@ class HomeProvider extends ChangeNotifier {
 
   setGroupItemValue(String value) {
     _groupItemValue = value;
-    notifyListeners();
-  }
-
-  setDetailGroupItemValue(String value) {
-    _detailGroupItemValue = value;
     notifyListeners();
   }
 

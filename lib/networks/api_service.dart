@@ -18,11 +18,17 @@ class APIService {
       data: data,
     );
 
-    if (response.statusCode == 200) {
-      // print(json.encode(response.data));
-      return json.encode(response.data);
-    } else {
-      print('${response.statusCode} : ${response.statusMessage}');
-    }
+    try {
+      if (response.statusCode == 200) {
+        // print(json.encode(response.data));
+        return json.encode(response.data);
+      } else {}
+    } catch (e) {}
   }
+}
+
+class Failure {
+  int code;
+  Object errorResponse;
+  Failure({required this.code, required this.errorResponse});
 }
