@@ -1,5 +1,8 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:async';
 import 'dart:convert';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:dio/dio.dart';
 // import 'package:http/http.dart' as http;
 
@@ -10,20 +13,27 @@ class APIService {
 
   Future post(String url, var data) async {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-
     var dio = Dio();
-    var response = await dio.request(
-      url,
-      options: Options(method: 'POST', headers: headers),
-      data: data,
-    );
-
     try {
+      var response = await dio.request(
+        url,
+        options: Options(method: 'POST', headers: headers),
+        data: data,
+      );
       if (response.statusCode == 200) {
         // print(json.encode(response.data));
         return json.encode(response.data);
-      } else {}
-    } catch (e) {}
+      }
+      return Failure(
+        code: response.statusCode!,
+        errorResponse: response.data,
+      );
+    } catch (e) {
+      return Failure(
+        code: Constants.UNKNOWN_ERROR,
+        errorResponse: '$e',
+      );
+    }
   }
 }
 
@@ -32,3 +42,5 @@ class Failure {
   Object errorResponse;
   Failure({required this.code, required this.errorResponse});
 }
+
+enum ApiState { LOADING, COMPLETED, ERROR }

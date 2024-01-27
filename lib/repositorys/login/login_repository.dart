@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
@@ -12,6 +14,6 @@ class LoginRepository implements ILoginRepository {
       'client_secret': clientSecret
     };
     var response = await APIService().post(Endpoints.authUrl, data);
-    return response;
+    return jsonDecode(response);
   }
 }

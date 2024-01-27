@@ -1,3 +1,4 @@
+import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
@@ -28,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(Constants.bg_login),
+              image: AssetImage(Constants.bgLogin),
               fit: BoxFit.cover,
             ),
           ),
@@ -49,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 20),
                     password(context, loginWatch, loginRead),
                     const SizedBox(height: 20),
-                    btnLogin(context, loginRead),
+                    btnLogin(context, loginRead, loginWatch),
                     merchantDetail(context),
                     const Spacer(),
                     footbar()
@@ -108,11 +109,15 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  GestureDetector btnLogin(BuildContext context, LoginProvider loginRead) {
+  GestureDetector btnLogin(
+      BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
     return GestureDetector(
-      onTap: () async {
-        // loginRead.authToken();
-        Navigator.pushReplacementNamed(context, '/homePage');
+      onTap: () {
+        loginRead.authToken().then((value) {
+          if (loginWatch.apisState == ApiState.COMPLETED) {
+            Navigator.pushReplacementNamed(context, '/homePage');
+          }
+        });
       },
       child: Container(
         alignment: Alignment.center,

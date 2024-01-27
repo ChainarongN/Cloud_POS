@@ -17,5 +17,17 @@ class Constants {
   static const secondaryColor = Color(0xffEEF5FF);
   static const textColor = Color(0xFF222B45);
 
-  static const bg_login = 'assets/bg_1.jpg';
+  static const bgLogin = 'assets/bg_1.jpg';
+
+  void printInfo(String text) {
+    print('\x1B[34m$text\x1B[0m');
+  }
+
+  void printWarning(String text) {
+    print('\x1B[33m$text\x1B[0m');
+  }
+
+  void printError(String text) {
+    print('\x1B[31m$text\x1B[0m');
+  }
 }
