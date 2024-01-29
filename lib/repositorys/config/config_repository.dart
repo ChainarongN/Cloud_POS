@@ -1,8 +1,8 @@
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
-import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
+import 'package:cloud_pos/repositorys/config/i_config_repository.dart';
 
-class LoginRepository implements ILoginRepository {
+class ConfigRepository implements IConfigRepository {
   @override
   Future authToken(
       {String? clientID, String? grantType, String? clientSecret}) async {

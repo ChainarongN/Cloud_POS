@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: BorderRadius.circular(20),
               ),
               width: MediaQuery.of(context).size.width * 0.4,
-              height: MediaQuery.of(context).size.height * 0.7,
+              height: MediaQuery.of(context).size.height * 0.8,
               child: Padding(
                 padding: const EdgeInsets.all(15),
                 child: Column(
@@ -53,7 +53,10 @@ class _LoginPageState extends State<LoginPage> {
                     username(context),
                     const SizedBox(height: 20),
                     password(context, loginWatch, loginRead),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
+                    AppTextStyle()
+                        .textNormal(loginWatch.getErrorText, color: Colors.red),
+                    const SizedBox(height: 15),
                     btnLogin(context, loginRead, loginWatch),
                     merchantDetail(context),
                     const Spacer(),

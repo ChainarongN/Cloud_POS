@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_pos/models/auth_token_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
@@ -10,9 +12,14 @@ class LoginProvider extends ChangeNotifier {
   ApiState apisState = ApiState.COMPLETED;
   AuthTokenModel? authTokenModel;
   bool _passwordVisible = false;
+  String? _errorText = '';
+
+  String get getErrorText => _errorText!;
   bool get passwordVisible => _passwordVisible;
 
-  init() {}
+  init() {
+    _errorText = '';
+  }
 
   Future authToken() async {
     apisState = ApiState.LOADING;
@@ -24,11 +31,15 @@ class LoginProvider extends ChangeNotifier {
     if (response is Failure) {
       apisState = ApiState.ERROR;
       Constants().printError(response.code.toString());
+      _errorText = 'Invalid username or password';
     } else {
-      authTokenModel = AuthTokenModel.fromJson(response);
+      authTokenModel = AuthTokenModel.fromJson(jsonDecode(response));
       apisState = ApiState.COMPLETED;
       Constants().printInfo(authTokenModel.toString());
+      _errorText = '';
     }
+
+    notifyListeners();
   }
 
   setPasswordVisible() {

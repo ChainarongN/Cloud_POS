@@ -9,5 +9,6 @@ List<SingleChildWidget> routeProvider() {
     ChangeNotifierProvider(create: (_) => HomeProvider(HomeRepository())),
     ChangeNotifierProvider(create: (_) => MenuProvider(MenuRepository())),
     ChangeNotifierProvider(create: (_) => LoginProvider(LoginRepository())),
+    ChangeNotifierProvider(create: (_) => ConfigProvider(ConfigRepository())),
   ];
 }

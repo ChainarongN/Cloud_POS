@@ -1,3 +1,4 @@
+import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/home/i_home_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -5,11 +6,13 @@ class HomeProvider extends ChangeNotifier {
   final IHomeRepository _homeRepository;
   HomeProvider(this._homeRepository);
 
+  ApiState apisState = ApiState.COMPLETED;
   String? _categoryValue;
   String? _serviceValue;
   String? _nationalityValue = '';
   String? _sexValue = '';
   String? _groupItemValue = 'ALL';
+
   num _countValue = 1;
 
   String get getCategoryValue => _categoryValue!;
@@ -27,9 +30,7 @@ class HomeProvider extends ChangeNotifier {
 
   init() {}
 
-  writeCoreDataInit() {
-    
-  }
+  writeCoreDataInit() {}
 
   addCount() {
     _countValue++;

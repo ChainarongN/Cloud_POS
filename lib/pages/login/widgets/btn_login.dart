@@ -1,3 +1,4 @@
+import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +7,11 @@ GestureDetector btnLogin(
     BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
   return GestureDetector(
     onTap: () {
-      // loginRead.authToken().then((value) {
-      //   if (loginWatch.apisState == ApiState.COMPLETED) {
+      loginRead.authToken().then((value) {
+        if (loginWatch.apisState == ApiState.COMPLETED) {
           Navigator.pushReplacementNamed(context, '/homePage');
-      //   }
-      // });
+        }
+      });
     },
     child: Container(
       alignment: Alignment.center,
