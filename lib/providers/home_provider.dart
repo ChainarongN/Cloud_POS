@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/home/i_home_repository.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class HomeProvider extends ChangeNotifier {
@@ -12,6 +16,7 @@ class HomeProvider extends ChangeNotifier {
   String? _nationalityValue = '';
   String? _sexValue = '';
   String? _groupItemValue = 'ALL';
+  String _exceptionText = '';
 
   num _countValue = 1;
 
@@ -20,6 +25,7 @@ class HomeProvider extends ChangeNotifier {
   String get getNationalityValue => _nationalityValue!;
   String get getSexValue => _sexValue!;
   String get getGroupItemValue => _groupItemValue!;
+  String get getExceptionText => _exceptionText;
   num get getCountValue => _countValue;
   List<String> get getServiceItem => _serviceItems;
   List<String> get getCategoryItem => _categoryItems;
@@ -28,7 +34,41 @@ class HomeProvider extends ChangeNotifier {
   List<String> get getGroupItem => _groupItem;
   List<String> get getDetailGroupItem => _detailGroupItem;
 
-  init() {}
+  bool loading = false;
+  CoreInitModel? coreInitModel;
+
+  init() async {
+    getCoreDataInit();
+  }
+
+  Future getCoreDataInit() async {
+    apisState = ApiState.LOADING;
+    var response = await _homeRepository.getCoreDataDetail(
+      deviceKey: '0288-7363-6560-2714',
+      langID: '1',
+    );
+
+    if (response is Failure) {
+      apisState = ApiState.ERROR;
+      Constants().printError(response.code.toString());
+      Constants().printError(response.errorResponse.toString());
+    } else {
+      try {
+        coreInitModel = CoreInitModel.fromJson(jsonDecode(response));
+        apisState = ApiState.COMPLETED;
+        Constants().printInfo(response.toString());
+        Constants().printWarning(
+            coreInitModel!.responseObj!.saleModeData![0].toString());
+      } catch (e, strack) {
+        apisState = ApiState.ERROR;
+        _exceptionText = e.toString();
+        Constants().printError(e.toString());
+        Constants().printError(strack.toString());
+      }
+    }
+
+    notifyListeners();
+  }
 
   writeCoreDataInit() {}
 

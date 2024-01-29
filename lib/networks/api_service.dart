@@ -11,6 +11,36 @@ class APIService {
   static final APIService _instance = APIService._internal();
   factory APIService() => _instance;
 
+  Future postParams({String? url, String? token, var data}) async {
+    var headers = {'Authorization': 'Bearer $token'};
+    var dio = Dio();
+
+    try {
+      var response = await dio.request(
+        url!,
+        options: Options(
+          method: 'POST',
+          headers: headers,
+        ),
+        queryParameters: data,
+      );
+
+      if (response.statusCode == 200) {
+        // print(json.encode(response.data));
+        return json.encode(response.data);
+      }
+      return Failure(
+        code: response.statusCode!,
+        errorResponse: response.data,
+      );
+    } catch (e) {
+      return Failure(
+        code: Constants.UNKNOWN_ERROR,
+        errorResponse: '$e',
+      );
+    }
+  }
+
   Future post(String url, var data) async {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     var dio = Dio();

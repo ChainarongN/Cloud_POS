@@ -1,9 +1,9 @@
 import 'dart:convert';
-
 import 'package:cloud_pos/models/auth_token_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
 import 'package:cloud_pos/utils/constants.dart';
+import 'package:cloud_pos/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
 
 class LoginProvider extends ChangeNotifier {
@@ -34,6 +34,7 @@ class LoginProvider extends ChangeNotifier {
       _errorText = 'Invalid username or password';
     } else {
       authTokenModel = AuthTokenModel.fromJson(jsonDecode(response));
+      await SharedPref().setToken(authTokenModel!.accessToken!);
       apisState = ApiState.COMPLETED;
       Constants().printInfo(authTokenModel.toString());
       _errorText = '';
