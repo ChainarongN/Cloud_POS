@@ -1,3 +1,4 @@
+import 'package:cloud_pos/pages/config/widget/about_setting.dart';
 import 'package:cloud_pos/pages/config/widget/base_url_setting.dart';
 import 'package:cloud_pos/pages/config/widget/menu_config.dart';
 import 'package:cloud_pos/pages/config/widget/printer_setting.dart';
@@ -48,6 +49,9 @@ class _ConfigPageState extends State<ConfigPage> {
                     break;
                   case 'printer':
                     widget = printerSetting(context, configRead, configWatch);
+                    break;
+                  case 'about':
+                    widget = aboutSetting(context, configRead, configWatch);
                     break;
                 }
                 return widget;

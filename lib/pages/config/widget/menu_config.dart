@@ -101,32 +101,37 @@ SingleChildScrollView menuConfig(BuildContext context,
                 size: 20, color: Colors.white),
           ),
         ),
-        Container(
-          alignment: Alignment.center,
-          height: MediaQuery.of(context).size.height * 0.09,
-          width: MediaQuery.of(context).size.width * 0.25,
-          margin: const EdgeInsets.only(bottom: 20),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: const LinearGradient(
-              colors: [
-                Color.fromARGB(255, 138, 196, 255),
-                Color.fromARGB(255, 182, 212, 255),
+        GestureDetector(
+          onTap: () {
+            configRead.setWidgetString('about');
+          },
+          child: Container(
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height * 0.09,
+            width: MediaQuery.of(context).size.width * 0.25,
+            margin: const EdgeInsets.only(bottom: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              gradient: const LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 138, 196, 255),
+                  Color.fromARGB(255, 182, 212, 255),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              boxShadow: const [
+                BoxShadow(
+                    color: Color.fromARGB(255, 182, 212, 255),
+                    blurRadius: 8,
+                    offset: Offset(0, 6)),
               ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
             ),
-            boxShadow: const [
-              BoxShadow(
-                  color: Color.fromARGB(255, 182, 212, 255),
-                  blurRadius: 8,
-                  offset: Offset(0, 6)),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: AppTextStyle()
-                .textNormal('About', size: 20, color: Colors.white),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: AppTextStyle()
+                  .textNormal('About', size: 20, color: Colors.white),
+            ),
           ),
         ),
       ],

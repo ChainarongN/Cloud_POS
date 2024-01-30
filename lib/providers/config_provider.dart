@@ -1,5 +1,6 @@
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/config/i_config_repository.dart';
+import 'package:cloud_pos/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
 
 class ConfigProvider extends ChangeNotifier {
@@ -8,19 +9,22 @@ class ConfigProvider extends ChangeNotifier {
 
   ApiState apisState = ApiState.COMPLETED;
   String _widgetString = 'baseUrl';
-  bool _printerStatus = true;
+  bool _printerSwitch = true;
+  bool _newDataSwitch = false;
   String? _printerValue = 'Senor';
   String? _connectionValue = 'Wifi';
 
   String get getWidgetString => _widgetString;
-  bool get getprinterStatus => _printerStatus;
+  bool get getprinterSwitch => _printerSwitch;
+  bool get getNewDataSwitch => _newDataSwitch;
   String get getPrintValue => _printerValue!;
   String get getConnectionValue => _connectionValue!;
   List<String> get getPrinterList => _printerList;
   List<String> get getConnectList => _connectionList;
 
-  init() {
+  init() async {
     _widgetString = 'baseUrl';
+    _newDataSwitch = await SharedPref().getNewDataSwitch();
   }
 
   setWidgetString(String value) {
@@ -28,8 +32,14 @@ class ConfigProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  setPrinterStatus(bool value) {
-    _printerStatus = value;
+  setPrinterSwitch(bool value) {
+    _printerSwitch = value;
+    notifyListeners();
+  }
+
+  setNewDataSwitch(bool value) async {
+    _newDataSwitch = value;
+    await SharedPref().setNewDataSwitch(value);
     notifyListeners();
   }
 

@@ -8,8 +8,8 @@ import 'package:cloud_pos/pages/home/widgets/sex.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/error_widget.dart';
+import 'package:cloud_pos/utils/widgets/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import '../../providers/provider.dart';
 
@@ -38,12 +38,7 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: drawer(context),
       body: homeWatch.apisState == ApiState.LOADING
-          ? Center(
-              child: LoadingAnimationWidget.fourRotatingDots(
-                color: Constants.primaryColor,
-                size: 150,
-              ),
-            )
+          ? const LoaddingData()
           : homeWatch.apisState == ApiState.ERROR
               ? CustomErrorWidget(errorMessage: homeWatch.getExceptionText)
               : Padding(

@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/home/i_home_repository.dart';
 import 'package:cloud_pos/utils/constants.dart';
+import 'package:cloud_pos/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class HomeProvider extends ChangeNotifier {
   final IHomeRepository _homeRepository;
@@ -38,7 +41,23 @@ class HomeProvider extends ChangeNotifier {
   CoreInitModel? coreInitModel;
 
   init() async {
-    getCoreDataInit();
+    checkReadCoreData();
+  }
+
+  checkReadCoreData() async {
+    bool statusCoreData = await SharedPref().getNewDataSwitch();
+    if (statusCoreData) {
+      getCoreDataInit();
+    } else {
+      String? fileResponse = await _readCoreInit();
+      if (fileResponse == '') {
+        getCoreDataInit();
+      } else {
+        coreInitModel = CoreInitModel.fromJson(jsonDecode(fileResponse));
+        Constants().printWarning('Read file "core_init.txt"');
+      }
+    }
+    notifyListeners();
   }
 
   Future getCoreDataInit() async {
@@ -47,7 +66,6 @@ class HomeProvider extends ChangeNotifier {
       deviceKey: '0288-7363-6560-2714',
       langID: '1',
     );
-
     if (response is Failure) {
       apisState = ApiState.ERROR;
       Constants().printError(response.code.toString());
@@ -55,10 +73,10 @@ class HomeProvider extends ChangeNotifier {
     } else {
       try {
         coreInitModel = CoreInitModel.fromJson(jsonDecode(response));
+        _writeCoreInit(response);
         apisState = ApiState.COMPLETED;
         Constants().printInfo(response.toString());
-        Constants().printWarning(
-            coreInitModel!.responseObj!.saleModeData![0].toString());
+        Constants().printWarning('CoreDataInit');
       } catch (e, strack) {
         apisState = ApiState.ERROR;
         _exceptionText = e.toString();
@@ -66,11 +84,31 @@ class HomeProvider extends ChangeNotifier {
         Constants().printError(strack.toString());
       }
     }
-
     notifyListeners();
   }
 
-  writeCoreDataInit() {}
+  _writeCoreInit(String text) async {
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/core_init.txt');
+    await file.writeAsString(text);
+  }
+
+  Future<String> _readCoreInit() async {
+    String? text;
+    try {
+      final Directory directory = await getApplicationDocumentsDirectory();
+      final File file = File('${directory.path}/core_init.txt');
+      bool fileExists = file.existsSync();
+      if (fileExists) {
+        text = await file.readAsString();
+      } else {
+        text = '';
+      }
+    } catch (e) {
+      Constants().printError("Couldn't read file 'core_init.txt'");
+    }
+    return text!;
+  }
 
   addCount() {
     _countValue++;

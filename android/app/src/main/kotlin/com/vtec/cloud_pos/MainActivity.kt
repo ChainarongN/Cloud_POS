@@ -1,4 +1,4 @@
-package com.example.cloud_pos
+package com.vtec.cloud_pos
 
 import io.flutter.embedding.android.FlutterActivity
 

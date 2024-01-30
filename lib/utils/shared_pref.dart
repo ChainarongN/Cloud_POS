@@ -7,6 +7,7 @@ class SharedPref {
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   static const String keyToken = 'token';
+  static const String keyNewDataSwitch = 'newDataSwitch';
 
   // ----------------------------- set ------------------------------- //
 
@@ -15,11 +16,22 @@ class SharedPref {
     await prefs.setString(keyToken, value);
   }
 
+  Future setNewDataSwitch(bool value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setBool(keyNewDataSwitch, value);
+  }
+
   // ----------------------------- get ------------------------------- //
 
   Future<String> getToken() async {
     SharedPreferences prefs = await _prefs;
     String? token = prefs.getString(keyToken);
     return token!;
+  }
+
+  Future<bool> getNewDataSwitch() async {
+    SharedPreferences prefs = await _prefs;
+    bool? token = prefs.getBool(keyNewDataSwitch) ?? false;
+    return token;
   }
 }

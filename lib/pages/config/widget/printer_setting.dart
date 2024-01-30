@@ -296,13 +296,18 @@ Container receiptPrinter(BuildContext context, ConfigProvider configRead,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Icon(Icons.print,
-                    color: Constants.primaryColor, size: 40),
+                Icon(
+                  Icons.print,
+                  color: configWatch.getprinterSwitch
+                      ? Constants.primaryColor
+                      : Colors.grey.shade500,
+                  size: 40,
+                ),
                 Switch(
-                  value: configWatch.getprinterStatus,
+                  value: configWatch.getprinterSwitch,
                   activeColor: Colors.blue.shade600,
                   onChanged: (bool value) {
-                    configRead.setPrinterStatus(value);
+                    configRead.setPrinterSwitch(value);
                   },
                 ),
               ],
