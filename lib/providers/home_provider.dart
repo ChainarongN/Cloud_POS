@@ -35,12 +35,14 @@ class HomeProvider extends ChangeNotifier {
   List<String> get getNationalityItem => _nationalityItem;
   List<String> get getSexItem => _sexItem;
   List<String> get getGroupItem => _groupItem;
-  List<String> get getDetailGroupItem => _detailGroupItem;
 
   bool loading = false;
   CoreInitModel? coreInitModel;
+  SaleModeData? saleModeData;
+  List<SaleModeData>? saleModeDataList;
 
   init() async {
+    saleModeDataList = [];
     checkReadCoreData();
   }
 
@@ -49,12 +51,14 @@ class HomeProvider extends ChangeNotifier {
     if (statusCoreData) {
       getCoreDataInit();
     } else {
-      String? fileResponse = await _readCoreInit();
+      String? fileResponse = await _readCoreInit(Constants.SALE_MODE_TXT);
       if (fileResponse == '') {
         getCoreDataInit();
       } else {
-        coreInitModel = CoreInitModel.fromJson(jsonDecode(fileResponse));
-        Constants().printWarning('Read file "core_init.txt"');
+        saleModeDataList = (jsonDecode(fileResponse) as List)
+            .map((e) => SaleModeData.fromJson(e))
+            .toList();
+        Constants().printWarning('Read from file "${Constants.SALE_MODE_TXT}"');
       }
     }
     notifyListeners();
@@ -73,7 +77,26 @@ class HomeProvider extends ChangeNotifier {
     } else {
       try {
         coreInitModel = CoreInitModel.fromJson(jsonDecode(response));
-        _writeCoreInit(response);
+        await Future.wait(
+          [
+            _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.saleModeData),
+                Constants.SALE_MODE_TXT),
+            _writeCoreInit(
+                jsonEncode(
+                    coreInitModel!.responseObj!.productData!.productGroup),
+                Constants.PROD_GROUP_TXT),
+            _writeCoreInit(
+                jsonEncode(coreInitModel!.responseObj!.productData!.products),
+                Constants.PROD_TXT),
+            _writeCoreInit(
+                jsonEncode(coreInitModel!.responseObj!.favoriteGroup),
+                Constants.FAV_GROUP_TXT),
+            _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.favoriteData),
+                Constants.FAV_DATA_TXT)
+          ],
+        );
+        saleModeDataList = coreInitModel!.responseObj!.saleModeData;
+
         apisState = ApiState.COMPLETED;
         Constants().printInfo(response.toString());
         Constants().printWarning('CoreDataInit');
@@ -87,17 +110,17 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  _writeCoreInit(String text) async {
+  Future _writeCoreInit(String text, String fileName) async {
     final Directory directory = await getApplicationDocumentsDirectory();
-    final File file = File('${directory.path}/core_init.txt');
+    final File file = File('${directory.path}/$fileName');
     await file.writeAsString(text);
   }
 
-  Future<String> _readCoreInit() async {
+  Future<String> _readCoreInit(String filename) async {
     String? text;
     try {
       final Directory directory = await getApplicationDocumentsDirectory();
-      final File file = File('${directory.path}/core_init.txt');
+      final File file = File('${directory.path}/$filename');
       bool fileExists = file.existsSync();
       if (fileExists) {
         text = await file.readAsString();
@@ -105,7 +128,7 @@ class HomeProvider extends ChangeNotifier {
         text = '';
       }
     } catch (e) {
-      Constants().printError("Couldn't read file 'core_init.txt'");
+      Constants().printError("Couldn't read file '$filename'");
     }
     return text!;
   }
@@ -156,15 +179,5 @@ class HomeProvider extends ChangeNotifier {
     'DELIVERY',
     'CREDIT SALES',
     'FAGT DELIVERY',
-  ];
-  final List<String> _detailGroupItem = [
-    'TA_TAKEAWAY_INSTORE',
-    'FA_FOOD PANDA',
-    'CS_CATERING',
-    'TA_TAKEAWAY KIOSK',
-    'FA-IN_GRAB FOOD',
-    'FA-IN_ROBINHOOD',
-    'FA-IN_SHOPEE FOOD',
-    'FA-IN-LINE MAN'
   ];
 }

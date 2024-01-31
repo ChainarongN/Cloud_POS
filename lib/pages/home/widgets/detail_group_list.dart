@@ -12,7 +12,7 @@ SizedBox detailGroupList(
         spacing: 3,
         runSpacing: 5,
         children: List.generate(
-          homeWatch.getDetailGroupItem.length,
+          homeWatch.saleModeDataList!.length,
           (index) => GestureDetector(
             onTap: () async {
               Navigator.pushNamed(context, '/menuPage');
@@ -45,8 +45,10 @@ SizedBox detailGroupList(
                 children: <Widget>[
                   const Icon(Icons.adb_rounded,
                       color: Colors.white, size: 35.0),
-                  AppTextStyle().textBold(homeWatch.getDetailGroupItem[index],
-                      color: Colors.white, size: 16),
+                  AppTextStyle().textBold(
+                      homeWatch.saleModeDataList![index].saleModeName!,
+                      color: Colors.white,
+                      size: 16),
                 ],
               )),
             ),

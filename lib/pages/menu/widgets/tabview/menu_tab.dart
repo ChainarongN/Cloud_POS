@@ -20,35 +20,38 @@ Center menuTab(
                 child: Wrap(
                   runSpacing: 15,
                   children: List.generate(
-                    menuWatch.getCategoryMenuTextList.length,
-                    (index) => Container(
-                      alignment: Alignment.center,
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      width: MediaQuery.of(context).size.width * 0.135,
-                      margin: const EdgeInsets.only(right: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color(0xffffb157),
-                            Color(0xffffa057),
+                    menuWatch.prodGroupList!.length,
+                    (index) => GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: MediaQuery.of(context).size.width * 0.135,
+                        margin: const EdgeInsets.only(right: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xffffb157),
+                              Color(0xffffa057),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Color(0xffffa057),
+                                blurRadius: 8,
+                                offset: Offset(0, 6)),
                           ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
                         ),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Color(0xffffa057),
-                              blurRadius: 8,
-                              offset: Offset(0, 6)),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: AppTextStyle().textNormal(
-                            menuWatch.getCategoryMenuTextList[index],
-                            size: 16,
-                            color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: AppTextStyle().textNormal(
+                              menuWatch.prodGroupList![index].productGroupName!,
+                              size: 16,
+                              color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -63,10 +66,10 @@ Center menuTab(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: GridView.builder(
-                itemCount: menuWatch.getMenuTextList.length,
+                itemCount: menuWatch.prodList!.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  childAspectRatio: 2,
+                  childAspectRatio: 1.9,
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
@@ -90,9 +93,9 @@ Center menuTab(
                       ],
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.only(left: 5, right: 5),
                       child: AppTextStyle().textNormal(
-                          menuWatch.getMenuTextList[index]['name'],
+                          menuWatch.prodList![index].productName!,
                           size: 16,
                           color: Colors.white),
                     ),

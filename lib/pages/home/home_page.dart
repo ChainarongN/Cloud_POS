@@ -8,7 +8,7 @@ import 'package:cloud_pos/pages/home/widgets/sex.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/error_widget.dart';
-import 'package:cloud_pos/utils/widgets/loading.dart';
+import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/provider.dart';
@@ -37,7 +37,8 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Clound Pos'),
       ),
       drawer: drawer(context),
-      body: homeWatch.apisState == ApiState.LOADING
+      body: homeWatch.apisState == ApiState.LOADING ||
+              homeWatch.saleModeDataList!.isEmpty
           ? const LoaddingData()
           : homeWatch.apisState == ApiState.ERROR
               ? CustomErrorWidget(errorMessage: homeWatch.getExceptionText)

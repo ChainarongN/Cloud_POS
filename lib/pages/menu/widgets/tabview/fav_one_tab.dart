@@ -19,7 +19,7 @@ Center favoriteTab1(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Row(
                   children: List.generate(
-                    menuWatch.getCategoryMenuTextList.length,
+                    menuWatch.prodGroupList!.length,
                     (index) => Container(
                       alignment: Alignment.center,
                       height: MediaQuery.of(context).size.height * 0.07,
@@ -45,7 +45,7 @@ Center favoriteTab1(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 5, right: 5),
                         child: AppTextStyle().textNormal(
-                            menuWatch.getCategoryMenuTextList[index],
+                            menuWatch.prodGroupList![index].productGroupName!,
                             size: 16,
                             color: Colors.white),
                       ),
@@ -63,15 +63,15 @@ Center favoriteTab1(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   // itemCount: 15,
-                  itemCount: menuWatch.getMenuTextList.length,
+                  itemCount: menuWatch.prodList!.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     childAspectRatio: 1.06,
                   ),
                   itemBuilder: (BuildContext context, int index) {
                     return RecipeItem(
-                      recipeName: menuWatch.getMenuTextList[index]['name'],
-                      recipeImage: menuWatch.getMenuTextList[index]['image'],
+                      recipeName: menuWatch.prodList![index].productName!,
+                      recipeImage: 'assets/coffee2.jpg',
                     );
                   },
                 ),

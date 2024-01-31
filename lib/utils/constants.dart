@@ -12,6 +12,11 @@ class Constants {
   static const INVALID_FORMAT = 102;
   static const UNKNOWN_ERROR = 103;
   static const TIME_OUT = 408;
+  static const SALE_MODE_TXT = 'sale_mode.txt';
+  static const PROD_GROUP_TXT = 'prod_group.txt';
+  static const PROD_TXT = 'prod.txt';
+  static const FAV_GROUP_TXT = 'fav_group.txt';
+  static const FAV_DATA_TXT = 'fav_data.txt';
 
   static const primaryColor = Color(0xff87C4FF);
   static const secondaryColor = Color(0xffEEF5FF);

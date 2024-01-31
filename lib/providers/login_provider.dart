@@ -29,9 +29,9 @@ class LoginProvider extends ChangeNotifier {
         clientSecret: 'acf7e10c71296430');
 
     if (response is Failure) {
-      apisState = ApiState.ERROR;
       Constants().printError(response.code.toString());
       _errorText = 'Invalid username or password';
+      apisState = ApiState.ERROR;
     } else {
       authTokenModel = AuthTokenModel.fromJson(jsonDecode(response));
       await SharedPref().setToken(authTokenModel!.accessToken!);
