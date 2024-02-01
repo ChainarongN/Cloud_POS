@@ -10,9 +10,9 @@ Container username(BuildContext context) {
         filled: true,
         fillColor: Colors.white.withOpacity(0.3),
         labelText: "Username",
-        border: myinputborder(), //normal border
-        enabledBorder: myinputborder(), //enabled border
-        focusedBorder: myfocusborder(), //focused border
+        border: Constants().myinputborder(), //normal border
+        enabledBorder: Constants().myinputborder(), //enabled border
+        focusedBorder: Constants().myfocusborder(), //focused border
         prefixIcon: const Padding(
           padding: EdgeInsets.only(left: 25, right: 15),
           child: Icon(Icons.people),
@@ -20,19 +20,5 @@ Container username(BuildContext context) {
       ),
       style: const TextStyle(color: Constants.textColor, fontSize: 20),
     ),
-  );
-}
-
-OutlineInputBorder myinputborder() {
-  return const OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(10)),
-    borderSide: BorderSide(color: Colors.transparent),
-  );
-}
-
-OutlineInputBorder myfocusborder() {
-  return const OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(10)),
-    borderSide: BorderSide(color: Colors.transparent),
   );
 }

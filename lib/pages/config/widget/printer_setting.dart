@@ -124,7 +124,7 @@ SizedBox printerAddress(BuildContext context) {
                   filled: true,
                   fillColor: Colors.grey.shade100.withOpacity(0.1),
                   labelText: "Printer IP Address",
-                  border: myinputborder(),
+                  border: Constants().myinputborder(),
                   prefixIcon: const Padding(
                     padding: EdgeInsets.only(left: 30, right: 25),
                     child: Icon(
@@ -319,9 +319,3 @@ Container receiptPrinter(BuildContext context, ConfigProvider configRead,
   );
 }
 
-OutlineInputBorder myinputborder() {
-  return const OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(10)),
-    borderSide: BorderSide(color: Colors.black45),
-  );
-}

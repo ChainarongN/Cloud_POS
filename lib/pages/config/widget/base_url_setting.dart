@@ -171,7 +171,7 @@ Column baseUrlConfig(BuildContext context) {
               filled: true,
               fillColor: Colors.grey.shade100.withOpacity(0.1),
               labelText: "Platform API Base Url",
-              border: myinputborder(),
+              border: Constants().myinputborder(),
               prefixIcon: const Padding(
                 padding: EdgeInsets.only(left: 25, right: 25),
                 child: Icon(
@@ -227,19 +227,5 @@ Column baseUrlConfig(BuildContext context) {
         ),
       ),
     ],
-  );
-}
-
-OutlineInputBorder myinputborder() {
-  return const OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(10)),
-    borderSide: BorderSide(color: Colors.black45),
-  );
-}
-
-OutlineInputBorder myfocusborder() {
-  return const OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(10)),
-    borderSide: BorderSide(color: Colors.transparent),
   );
 }

@@ -11,9 +11,9 @@ SizedBox password(
         filled: true,
         fillColor: Colors.white.withOpacity(0.3),
         labelText: "Password",
-        border: myinputborder(),
-        enabledBorder: myinputborder(),
-        focusedBorder: myfocusborder(),
+        border: Constants().myinputborder(),
+        enabledBorder: Constants().myinputborder(),
+        focusedBorder: Constants().myfocusborder(),
         prefixIcon: const Padding(
           padding: EdgeInsets.only(left: 25, right: 15),
           child: Icon(Icons.lock),
@@ -31,19 +31,5 @@ SizedBox password(
       obscureText: loginWatch.passwordVisible,
       style: const TextStyle(color: Constants.textColor, fontSize: 20),
     ),
-  );
-}
-
-OutlineInputBorder myinputborder() {
-  return const OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(10)),
-    borderSide: BorderSide(color: Colors.transparent),
-  );
-}
-
-OutlineInputBorder myfocusborder() {
-  return const OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(10)),
-    borderSide: BorderSide(color: Colors.transparent),
   );
 }

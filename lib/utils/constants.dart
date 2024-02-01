@@ -17,7 +17,8 @@ class Constants {
   static const PROD_TXT = 'prod.txt';
   static const FAV_GROUP_TXT = 'fav_group.txt';
   static const FAV_DATA_TXT = 'fav_data.txt';
-  static const INVALID_LOGIN = 'This log in information is not registered to system.';
+  static const INVALID_LOGIN =
+      'This log in information is not registered to system.';
 
   static const primaryColor = Color(0xff87C4FF);
   static const secondaryColor = Color(0xffEEF5FF);
@@ -35,5 +36,19 @@ class Constants {
 
   void printError(String text) {
     print('\x1B[31m$text\x1B[0m');
+  }
+
+  OutlineInputBorder myinputborder() {
+    return const OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+      borderSide: BorderSide(color: Colors.transparent),
+    );
+  }
+
+  OutlineInputBorder myfocusborder() {
+    return const OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+      borderSide: BorderSide(color: Colors.transparent),
+    );
   }
 }

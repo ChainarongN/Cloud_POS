@@ -1,13 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/pages/home/function/read_salemode_func.dart';
 import 'package:cloud_pos/repositorys/home/i_home_repository.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 class HomeProvider extends ChangeNotifier {
   final IHomeRepository _homeRepository;

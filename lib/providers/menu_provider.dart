@@ -14,6 +14,7 @@ class MenuProvider extends ChangeNotifier {
   List<ProductGroup>? prodGroupList;
   List<Products>? prodList;
   List<Products>? prodToShow;
+  List<Products>? prodToSearch;
   int? _valueSelect;
 
   String _exceptionText = '';
@@ -24,6 +25,7 @@ class MenuProvider extends ChangeNotifier {
   init() async {
     prodGroupList = [];
     prodList = [];
+    prodToSearch = [];
     await _readData();
     setWhereMenu(prodGroupList![0].productGroupID.toString());
 
@@ -46,6 +48,18 @@ class MenuProvider extends ChangeNotifier {
       Constants().printError(e.toString());
       Constants().printError(strack.toString());
     }
+  }
+
+  searchMenu(String value) {
+    if (value.isEmpty) {
+      prodToSearch = [];
+    } else {
+      prodToSearch = prodList!
+          .where(
+              (e) => e.productName!.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    }
+    notifyListeners();
   }
 
   setWhereMenu(String value) {
