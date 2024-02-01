@@ -158,7 +158,7 @@ Row binButton(BuildContext context) {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Icon(Icons.adb_rounded, color: Colors.white, size: 40.0),
+              Icon(Icons.receipt_long, color: Colors.white, size: 45.0),
             ],
           ),
         ),
@@ -183,7 +183,8 @@ Row binButton(BuildContext context) {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Icon(Icons.adb_rounded, color: Colors.white, size: 40.0),
+              Icon(Icons.local_printshop_rounded,
+                  color: Colors.white, size: 45.0),
             ],
           ),
         ),

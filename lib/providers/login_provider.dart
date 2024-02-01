@@ -36,13 +36,13 @@ class LoginProvider extends ChangeNotifier {
         clientSecret: 'acf7e10c71296430');
     if (response is Failure) {
       Constants().printError(response.code.toString());
+      _errorText = response.code.toString();
       apisState = ApiState.ERROR;
     } else {
       authTokenModel = AuthTokenModel.fromJson(jsonDecode(response));
       await SharedPref().setToken(authTokenModel!.accessToken!);
       await login();
     }
-
     notifyListeners();
   }
 
@@ -69,6 +69,8 @@ class LoginProvider extends ChangeNotifier {
           await getCoreDataInit(true);
         }
       } else {
+        Constants().printInfo(response.toString());
+        Constants().printWarning('Success Login');
         await checkReadCoreData();
         apisState = ApiState.COMPLETED;
         _errorText = '';

@@ -17,7 +17,7 @@ class ReadFileFunc {
     prodGroupList = (jsonDecode(fileResponse) as List)
         .map((e) => ProductGroup.fromJson(e))
         .toList();
-    Constants().printWarning('Read from file "Prod Group"');
+    Constants().printWarning('Read from file "${Constants.PROD_GROUP_TXT}"');
 
     return prodGroupList;
   }
@@ -29,7 +29,7 @@ class ReadFileFunc {
     prodList = (jsonDecode(fileResponse) as List)
         .map((e) => Products.fromJson(e))
         .toList();
-    Constants().printWarning('Read from file "Product"');
+    Constants().printWarning('Read from file "${Constants.PROD_TXT}"');
 
     return prodList;
   }

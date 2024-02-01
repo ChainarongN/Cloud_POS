@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
+import 'package:cloud_pos/pages/home/function/read_salemode_func.dart';
 import 'package:cloud_pos/repositorys/home/i_home_repository.dart';
 import 'package:cloud_pos/utils/constants.dart';
-import 'package:cloud_pos/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -47,30 +47,26 @@ class HomeProvider extends ChangeNotifier {
   }
 
   readSaleModeFile() async {
-    String? fileResponse = await _readCoreInit(Constants.SALE_MODE_TXT);
-    saleModeDataList = (jsonDecode(fileResponse) as List)
-        .map((e) => SaleModeData.fromJson(e))
-        .toList();
-
-    Constants().printWarning('Read from file "${Constants.SALE_MODE_TXT}"');
-    notifyListeners();
-  }
-
-  Future<String> _readCoreInit(String filename) async {
-    String? text;
     try {
-      final Directory directory = await getApplicationDocumentsDirectory();
-      final File file = File('${directory.path}/$filename');
-      bool fileExists = file.existsSync();
-      if (fileExists) {
-        text = await file.readAsString();
+      String? fileResponse =
+          await ReadSaleModeFunc().readCoreInit(Constants.SALE_MODE_TXT);
+      if (fileResponse == '') {
+        Constants().printError('${Constants.SALE_MODE_TXT} is null');
+        _exceptionText = '${Constants.SALE_MODE_TXT} is null';
+        apisState = ApiState.ERROR;
       } else {
-        text = '';
+        saleModeDataList = (jsonDecode(fileResponse) as List)
+            .map((e) => SaleModeData.fromJson(e))
+            .toList();
+        Constants().printWarning('Read from file "${Constants.SALE_MODE_TXT}"');
       }
-    } catch (e) {
-      Constants().printError("Couldn't read file '$filename'");
+    } catch (e, strack) {
+      Constants().printError('$e - $strack');
+      _exceptionText = e.toString();
+      apisState = ApiState.ERROR;
     }
-    return text!;
+
+    notifyListeners();
   }
 
   addCount() {
