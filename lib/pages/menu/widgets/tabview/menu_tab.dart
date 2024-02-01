@@ -22,7 +22,11 @@ Center menuTab(
                   children: List.generate(
                     menuWatch.prodGroupList!.length,
                     (index) => GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        menuRead.setWhereMenu(menuWatch
+                            .prodGroupList![index].productGroupID
+                            .toString());
+                      },
                       child: Container(
                         alignment: Alignment.center,
                         height: MediaQuery.of(context).size.height * 0.1,
@@ -30,19 +34,30 @@ Center menuTab(
                         margin: const EdgeInsets.only(right: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          gradient: const LinearGradient(
-                            colors: [
-                              Color(0xffffb157),
-                              Color(0xffffa057),
-                            ],
+                          gradient: LinearGradient(
+                            colors: menuWatch
+                                        .prodGroupList![index].productGroupID ==
+                                    menuWatch.getvalueSelect
+                                ? [
+                                    const Color.fromARGB(255, 113, 134, 255),
+                                    const Color.fromARGB(255, 157, 198, 255),
+                                  ]
+                                : [
+                                    const Color(0xffffb157),
+                                    const Color(0xffffa057),
+                                  ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          boxShadow: const [
+                          boxShadow: [
                             BoxShadow(
-                                color: Color(0xffffa057),
+                                color: menuWatch.prodGroupList![index]
+                                            .productGroupID ==
+                                        menuWatch.getvalueSelect
+                                    ? const Color.fromARGB(255, 157, 198, 255)
+                                    : const Color(0xffffa057),
                                 blurRadius: 8,
-                                offset: Offset(0, 6)),
+                                offset: const Offset(0, 6)),
                           ],
                         ),
                         child: Padding(
@@ -66,7 +81,7 @@ Center menuTab(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: GridView.builder(
-                itemCount: menuWatch.prodList!.length,
+                itemCount: menuWatch.prodToShow!.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   childAspectRatio: 1.9,
@@ -95,7 +110,7 @@ Center menuTab(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 5, right: 5),
                       child: AppTextStyle().textNormal(
-                          menuWatch.prodList![index].productName!,
+                          menuWatch.prodToShow![index].productName!,
                           size: 16,
                           color: Colors.white),
                     ),

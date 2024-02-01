@@ -43,77 +43,17 @@ class HomeProvider extends ChangeNotifier {
 
   init() async {
     saleModeDataList = [];
-    checkReadCoreData();
+    readSaleModeFile();
   }
 
-  checkReadCoreData() async {
-    bool statusCoreData = await SharedPref().getNewDataSwitch();
-    if (statusCoreData) {
-      getCoreDataInit();
-    } else {
-      String? fileResponse = await _readCoreInit(Constants.SALE_MODE_TXT);
-      if (fileResponse == '') {
-        getCoreDataInit();
-      } else {
-        saleModeDataList = (jsonDecode(fileResponse) as List)
-            .map((e) => SaleModeData.fromJson(e))
-            .toList();
-        Constants().printWarning('Read from file "${Constants.SALE_MODE_TXT}"');
-      }
-    }
+  readSaleModeFile() async {
+    String? fileResponse = await _readCoreInit(Constants.SALE_MODE_TXT);
+    saleModeDataList = (jsonDecode(fileResponse) as List)
+        .map((e) => SaleModeData.fromJson(e))
+        .toList();
+
+    Constants().printWarning('Read from file "${Constants.SALE_MODE_TXT}"');
     notifyListeners();
-  }
-
-  Future getCoreDataInit() async {
-    apisState = ApiState.LOADING;
-    var response = await _homeRepository.getCoreDataDetail(
-      deviceKey: '0288-7363-6560-2714',
-      langID: '1',
-    );
-    if (response is Failure) {
-      apisState = ApiState.ERROR;
-      Constants().printError(response.code.toString());
-      Constants().printError(response.errorResponse.toString());
-    } else {
-      try {
-        coreInitModel = CoreInitModel.fromJson(jsonDecode(response));
-        await Future.wait(
-          [
-            _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.saleModeData),
-                Constants.SALE_MODE_TXT),
-            _writeCoreInit(
-                jsonEncode(
-                    coreInitModel!.responseObj!.productData!.productGroup),
-                Constants.PROD_GROUP_TXT),
-            _writeCoreInit(
-                jsonEncode(coreInitModel!.responseObj!.productData!.products),
-                Constants.PROD_TXT),
-            _writeCoreInit(
-                jsonEncode(coreInitModel!.responseObj!.favoriteGroup),
-                Constants.FAV_GROUP_TXT),
-            _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.favoriteData),
-                Constants.FAV_DATA_TXT)
-          ],
-        );
-        saleModeDataList = coreInitModel!.responseObj!.saleModeData;
-
-        apisState = ApiState.COMPLETED;
-        Constants().printInfo(response.toString());
-        Constants().printWarning('CoreDataInit');
-      } catch (e, strack) {
-        apisState = ApiState.ERROR;
-        _exceptionText = e.toString();
-        Constants().printError(e.toString());
-        Constants().printError(strack.toString());
-      }
-    }
-    notifyListeners();
-  }
-
-  Future _writeCoreInit(String text, String fileName) async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final File file = File('${directory.path}/$fileName');
-    await file.writeAsString(text);
   }
 
   Future<String> _readCoreInit(String filename) async {

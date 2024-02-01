@@ -20,34 +20,52 @@ Center favoriteTab1(
                 child: Row(
                   children: List.generate(
                     menuWatch.prodGroupList!.length,
-                    (index) => Container(
-                      alignment: Alignment.center,
-                      height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.width * 0.126,
-                      margin: const EdgeInsets.only(right: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color(0xffff5895),
-                            Color(0xfff85560),
+                    (index) => GestureDetector(
+                      onTap: () {
+                        menuRead.setWhereMenu(menuWatch
+                            .prodGroupList![index].productGroupID
+                            .toString());
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        width: MediaQuery.of(context).size.width * 0.126,
+                        margin: const EdgeInsets.only(right: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          gradient: LinearGradient(
+                            colors: menuWatch
+                                        .prodGroupList![index].productGroupID ==
+                                    menuWatch.getvalueSelect
+                                ? [
+                                    const Color.fromARGB(255, 113, 134, 255),
+                                    const Color.fromARGB(255, 157, 198, 255),
+                                  ]
+                                : [
+                                    const Color(0xffff5895),
+                                    const Color(0xfff85560),
+                                  ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                                color: menuWatch.prodGroupList![index]
+                                            .productGroupID ==
+                                        menuWatch.getvalueSelect
+                                    ? const Color.fromARGB(255, 157, 198, 255)
+                                    : const Color(0xfff85560),
+                                blurRadius: 8,
+                                offset: const Offset(0, 6)),
                           ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
                         ),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Color(0xfff85560),
-                              blurRadius: 8,
-                              offset: Offset(0, 6)),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 5, right: 5),
-                        child: AppTextStyle().textNormal(
-                            menuWatch.prodGroupList![index].productGroupName!,
-                            size: 16,
-                            color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 5, right: 5),
+                          child: AppTextStyle().textNormal(
+                              menuWatch.prodGroupList![index].productGroupName!,
+                              size: 16,
+                              color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -63,14 +81,14 @@ Center favoriteTab1(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   // itemCount: 15,
-                  itemCount: menuWatch.prodList!.length,
+                  itemCount: menuWatch.prodToShow!.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     childAspectRatio: 1.06,
                   ),
                   itemBuilder: (BuildContext context, int index) {
                     return RecipeItem(
-                      recipeName: menuWatch.prodList![index].productName!,
+                      recipeName: menuWatch.prodToShow![index].productName!,
                       recipeImage: 'assets/coffee2.jpg',
                     );
                   },

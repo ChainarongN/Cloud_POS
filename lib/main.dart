@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
             iconTheme: IconThemeData(color: Colors.black),
           ),
         ),
-        initialRoute: '/homePage',
-        // initialRoute: '/loginPage',
+        // initialRoute: '/homePage',
+        initialRoute: '/loginPage',
         routes: routes,
       ),
     );

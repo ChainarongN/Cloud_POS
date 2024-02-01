@@ -5,4 +5,5 @@ class Endpoints {
   static const String authUrl = "https://auth.vtec-system.com/connect/token";
 
   static const String coreDataInit = "$baseUrl/api/POSModule/POS_Init";
+  static const String login = "$baseUrl/api/POSModule/POS_StaffLogin";
 }

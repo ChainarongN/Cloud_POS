@@ -13,15 +13,20 @@ class MenuProvider extends ChangeNotifier {
   ApiState apiState = ApiState.COMPLETED;
   List<ProductGroup>? prodGroupList;
   List<Products>? prodList;
+  List<Products>? prodToShow;
+  int? _valueSelect;
 
   String _exceptionText = '';
   List get getOrderItem => _orderItem;
   String get getExceptionText => _exceptionText;
+  int get getvalueSelect => _valueSelect!;
 
   init() async {
     prodGroupList = [];
     prodList = [];
     await _readData();
+    setWhereMenu(prodGroupList![0].productGroupID.toString());
+
     notifyListeners();
   }
 
@@ -41,6 +46,14 @@ class MenuProvider extends ChangeNotifier {
       Constants().printError(e.toString());
       Constants().printError(strack.toString());
     }
+  }
+
+  setWhereMenu(String value) {
+    _valueSelect = int.parse(value);
+    prodToShow = prodList!
+        .where((e) => e.productGroupID.toString().toLowerCase().contains(value))
+        .toList();
+    notifyListeners();
   }
 
   addCountOrder(int index) {

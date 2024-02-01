@@ -11,7 +11,7 @@ class APIService {
   static final APIService _instance = APIService._internal();
   factory APIService() => _instance;
 
-  Future postParams({String? url, String? token, var data}) async {
+  Future postParams({String? url, String? token, var param}) async {
     var headers = {'Authorization': 'Bearer $token'};
     var dio = Dio();
 
@@ -22,7 +22,7 @@ class APIService {
           method: 'POST',
           headers: headers,
         ),
-        queryParameters: data,
+        queryParameters: param,
       );
 
       if (response.statusCode == 200) {

@@ -17,6 +17,7 @@ class Constants {
   static const PROD_TXT = 'prod.txt';
   static const FAV_GROUP_TXT = 'fav_group.txt';
   static const FAV_DATA_TXT = 'fav_data.txt';
+  static const INVALID_LOGIN = 'This log in information is not registered to system.';
 
   static const primaryColor = Color(0xff87C4FF);
   static const secondaryColor = Color(0xffEEF5FF);
