@@ -45,39 +45,44 @@ class _HomePageState extends State<HomePage> {
               : Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.30,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            const SizedBox(height: 10),
-                            addCustomer(homeWatch, homeRead),
-                            const SizedBox(height: 30),
-                            AppTextStyle().textBold('สัญชาติ'),
-                            const SizedBox(height: 15),
-                            nationality(homeWatch, homeRead, context),
-                            const SizedBox(height: 10),
-                            AppTextStyle().textBold('เพศ'),
-                            const SizedBox(height: 15),
-                            sex(homeWatch, homeRead, context),
-                          ],
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              const SizedBox(height: 10),
+                              addCustomer(context, homeWatch, homeRead),
+                              const SizedBox(height: 30),
+                              AppTextStyle().textBold('สัญชาติ'),
+                              const SizedBox(height: 15),
+                              nationality(homeWatch, homeRead, context),
+                              const SizedBox(height: 10),
+                              AppTextStyle().textBold('เพศ'),
+                              const SizedBox(height: 15),
+                              sex(homeWatch, homeRead, context),
+                            ],
+                          ),
                         ),
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 3, right: 3),
                         child: const VerticalDivider(thickness: 1),
                       ),
-                      Column(
-                        children: <Widget>[
-                          groupList(context, homeWatch, homeRead),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.5,
-                            margin: const EdgeInsets.only(top: 5, bottom: 5),
-                            child: const Divider(thickness: 1.5),
-                          ),
-                          detailGroupList(context, homeWatch, homeRead)
-                        ],
+                      SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            groupList(context, homeWatch, homeRead),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              margin: const EdgeInsets.only(top: 5, bottom: 5),
+                              child: const Divider(thickness: 1.5),
+                            ),
+                            detailGroupList(context, homeWatch, homeRead)
+                          ],
+                        ),
                       ),
                     ],
                   ),

@@ -1,24 +1,36 @@
 import 'package:cloud_pos/providers/home_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
-import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-Row addCustomer(HomeProvider homeWatch, HomeProvider homeRead) {
+Row addCustomer(
+    BuildContext context, HomeProvider homeWatch, HomeProvider homeRead) {
   return Row(
+    crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       const Icon(Icons.person_4, color: Colors.black, size: 40.0),
       Container(
-        width: 110,
-        height: 50,
-        margin: const EdgeInsets.only(left: 10, right: 15),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black54, width: 2),
-        ),
-        child: Center(
-          child: AppTextStyle().textBold(
-              homeWatch.getCountValue.toString(),
-              color: Constants.textColor,
-              size: 20),
+        margin: const EdgeInsets.only(left: 10, right: 10),
+        width: MediaQuery.of(context).size.width * 0.11,
+        child: TextField(
+          controller: homeWatch.getCustomerValue,
+          onChanged: (value) {
+            homeRead.setCountText(value);
+          },
+          textAlign: TextAlign.center,
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            FilteringTextInputFormatter.digitsOnly
+          ],
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white.withOpacity(0.3),
+            border: myinputborder(), //normal border
+            enabledBorder: myinputborder(), //enabled border
+            focusedBorder: myfocusborder(), //focused border
+          ),
+          style: const TextStyle(color: Constants.textColor, fontSize: 20),
         ),
       ),
       GestureDetector(
@@ -37,5 +49,19 @@ Row addCustomer(HomeProvider homeWatch, HomeProvider homeRead) {
             color: Constants.primaryColor, size: 45.0),
       ),
     ],
+  );
+}
+
+OutlineInputBorder myinputborder() {
+  return const OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(10)),
+    borderSide: BorderSide(color: Colors.black),
+  );
+}
+
+OutlineInputBorder myfocusborder() {
+  return const OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(10)),
+    borderSide: BorderSide(color: Colors.black),
   );
 }

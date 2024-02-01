@@ -11,6 +11,7 @@ class HomeProvider extends ChangeNotifier {
   HomeProvider(this._homeRepository);
 
   ApiState apisState = ApiState.COMPLETED;
+
   String? _categoryValue;
   String? _serviceValue;
   String? _nationalityValue = '';
@@ -18,8 +19,10 @@ class HomeProvider extends ChangeNotifier {
   String? _groupItemValue = 'ALL';
   String _exceptionText = '';
 
+  final TextEditingController _customerCount = TextEditingController();
   num _countValue = 1;
 
+  TextEditingController get getCustomerValue => _customerCount;
   String get getCategoryValue => _categoryValue!;
   String get getServiceValue => _serviceValue!;
   String get getNationalityValue => _nationalityValue!;
@@ -39,6 +42,7 @@ class HomeProvider extends ChangeNotifier {
   List<SaleModeData>? saleModeDataList;
 
   init() async {
+    _customerCount.text = "1";
     saleModeDataList = [];
     readSaleModeFile();
   }
@@ -68,12 +72,19 @@ class HomeProvider extends ChangeNotifier {
 
   addCount() {
     _countValue++;
+    _customerCount.text = _countValue.toString();
     notifyListeners();
   }
 
   removeCount() {
     if (_countValue > 1) _countValue--;
+    _customerCount.text = _countValue.toString();
     notifyListeners();
+  }
+
+  setCountText(String value) {
+    _countValue = num.parse(value);
+    _customerCount.text = value;
   }
 
   setGroupItemValue(String value) {
