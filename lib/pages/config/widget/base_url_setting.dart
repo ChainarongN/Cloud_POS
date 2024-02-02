@@ -1,5 +1,7 @@
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 SingleChildScrollView baseUrlSetting(BuildContext context) {
@@ -25,35 +27,15 @@ Column detailBrand(BuildContext context) {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTextStyle().textBold('Merchant Name', size: 18),
+                AppTextStyle()
+                    .textBold(LocaleKeys.merchant_name.tr(), size: 18),
                 AppTextStyle().textNormal('-', size: 18),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTextStyle().textBold('Brand Name', size: 18),
-                AppTextStyle().textNormal('-', size: 18),
-              ],
-            ),
-          ],
-        ),
-      ),
-      cardDetail(
-        context,
-        Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppTextStyle().textBold('Shop Name', size: 18),
-                AppTextStyle().textNormal('-', size: 18),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppTextStyle().textBold('Shop key', size: 18),
+                AppTextStyle().textBold(LocaleKeys.brand_name.tr(), size: 18),
                 AppTextStyle().textNormal('-', size: 18),
               ],
             ),
@@ -67,14 +49,35 @@ Column detailBrand(BuildContext context) {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTextStyle().textBold('POS Name', size: 18),
+                AppTextStyle().textBold(LocaleKeys.shop_name.tr(), size: 18),
                 AppTextStyle().textNormal('-', size: 18),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTextStyle().textBold('Device key', size: 18),
+                AppTextStyle().textBold(LocaleKeys.shop_key.tr(), size: 18),
+                AppTextStyle().textNormal('-', size: 18),
+              ],
+            ),
+          ],
+        ),
+      ),
+      cardDetail(
+        context,
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppTextStyle().textBold(LocaleKeys.pos_name.tr(), size: 18),
+                AppTextStyle().textNormal('-', size: 18),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppTextStyle().textBold(LocaleKeys.device_key.tr(), size: 18),
                 AppTextStyle().textNormal('6102-1234-5678-1234', size: 18),
               ],
             ),
@@ -88,7 +91,8 @@ Column detailBrand(BuildContext context) {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTextStyle().textBold('Store Address', size: 18),
+                AppTextStyle()
+                    .textBold(LocaleKeys.store_address.tr(), size: 18),
                 AppTextStyle().textNormal('-', size: 18),
               ],
             ),
@@ -152,8 +156,8 @@ Container saveConfigBtn(BuildContext context) {
                 size: 40,
                 color: Colors.white,
               )),
-          AppTextStyle()
-              .textNormal('Save Config', size: 20, color: Colors.white),
+          AppTextStyle().textNormal(LocaleKeys.save_config.tr(),
+              size: 20, color: Colors.white),
         ],
       ),
     ),
@@ -220,7 +224,7 @@ Column baseUrlConfig(BuildContext context) {
                     size: 40,
                     color: Colors.white,
                   )),
-              AppTextStyle().textNormal('Get Shop Data Information',
+              AppTextStyle().textNormal(LocaleKeys.get_shop_data.tr(),
                   size: 20, color: Colors.white),
             ],
           ),

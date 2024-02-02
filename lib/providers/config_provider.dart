@@ -1,6 +1,8 @@
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/config/i_config_repository.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/shared_pref.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ConfigProvider extends ChangeNotifier {
@@ -22,10 +24,12 @@ class ConfigProvider extends ChangeNotifier {
   List<String> get getPrinterList => _printerList;
   List<String> get getConnectList => _connectionList;
 
+
   init() async {
     _widgetString = 'baseUrl';
     _newDataSwitch = await SharedPref().getNewDataSwitch();
   }
+
 
   setWidgetString(String value) {
     _widgetString = value;
@@ -53,6 +57,7 @@ class ConfigProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+
 
 List<String> _printerList = ['Senor', 'Something'];
 List<String> _connectionList = ['Wifi', 'Something'];

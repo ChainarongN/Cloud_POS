@@ -7,6 +7,7 @@ import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/shared_pref.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -23,6 +24,7 @@ class LoginProvider extends ChangeNotifier {
 
   String get getErrorText => _errorText!;
   bool get passwordVisible => _passwordVisible;
+  List<String> get getLanguageList => _languageList;
 
   init() {
     _errorText = '';
@@ -148,4 +150,11 @@ class LoginProvider extends ChangeNotifier {
     _passwordVisible = !_passwordVisible;
     notifyListeners();
   }
+
+  setLanguage(BuildContext context, String value) async {
+    await context.setLocale(Locale(value.toLowerCase()));
+    notifyListeners();
+  }
+
+  List<String> _languageList = ['EN', 'TH'];
 }

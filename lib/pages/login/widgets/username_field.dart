@@ -1,4 +1,6 @@
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 Container username(BuildContext context) {
@@ -9,7 +11,7 @@ Container username(BuildContext context) {
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white.withOpacity(0.3),
-        labelText: "Username",
+        labelText: LocaleKeys.username.tr(),
         border: Constants().myinputborder(), //normal border
         enabledBorder: Constants().myinputborder(), //enabled border
         focusedBorder: Constants().myfocusborder(), //focused border

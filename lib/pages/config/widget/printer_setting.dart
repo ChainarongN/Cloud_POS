@@ -1,7 +1,9 @@
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 SingleChildScrollView printerSetting(BuildContext context,
@@ -56,8 +58,8 @@ Container btnSave(BuildContext context) {
                 size: 40,
                 color: Colors.white,
               )),
-          AppTextStyle()
-              .textNormal('Save Config', size: 20, color: Colors.white),
+          AppTextStyle().textNormal(LocaleKeys.save_config.tr(),
+              size: 20, color: Colors.white),
         ],
       ),
     ),
@@ -99,7 +101,7 @@ Container testPrintBtn(BuildContext context) {
                 size: 40,
                 color: Colors.white,
               )),
-          AppTextStyle().textNormal('Test Print to Receipt Printer',
+          AppTextStyle().textNormal(LocaleKeys.test_print.tr(),
               size: 20, color: Colors.white),
         ],
       ),
@@ -115,7 +117,8 @@ SizedBox printerAddress(BuildContext context) {
       padding: const EdgeInsets.only(left: 40, right: 40),
       child: Row(
         children: <Widget>[
-          AppTextStyle().textNormal('IP Address Printer : ', size: 18),
+          AppTextStyle()
+              .textNormal('${LocaleKeys.ip_printer.tr()} : ', size: 18),
           const Spacer(),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.44,
@@ -123,7 +126,7 @@ SizedBox printerAddress(BuildContext context) {
               decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey.shade100.withOpacity(0.1),
-                  labelText: "Printer IP Address",
+                  labelText: LocaleKeys.ip_printer.tr(),
                   border: Constants().myinputborder(),
                   prefixIcon: const Padding(
                     padding: EdgeInsets.only(left: 30, right: 25),
@@ -154,7 +157,8 @@ SizedBox connectionType(BuildContext context, ConfigProvider configRead,
       padding: const EdgeInsets.only(left: 40, right: 40),
       child: Row(
         children: <Widget>[
-          AppTextStyle().textNormal('Connection Type : ', size: 18),
+          AppTextStyle()
+              .textNormal('${LocaleKeys.connection_type.tr()} : ', size: 18),
           const Spacer(),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.17,
@@ -184,7 +188,8 @@ Container printerModel(BuildContext context, ConfigProvider configRead,
       padding: const EdgeInsets.only(left: 40, right: 40),
       child: Row(
         children: <Widget>[
-          AppTextStyle().textNormal('Printer Model : ', size: 18),
+          AppTextStyle()
+              .textNormal('${LocaleKeys.printer_model.tr()} : ', size: 18),
           const Spacer(),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.17,
@@ -281,7 +286,7 @@ Container receiptPrinter(BuildContext context, ConfigProvider configRead,
       child: Row(
         children: <Widget>[
           AppTextStyle().textNormal(
-            'Receipt Printer',
+            LocaleKeys.receipt_printer.tr(),
             size: 20,
             color: Colors.white,
           ),
@@ -318,4 +323,3 @@ Container receiptPrinter(BuildContext context, ConfigProvider configRead,
     ),
   );
 }
-

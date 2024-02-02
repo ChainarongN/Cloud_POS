@@ -44,6 +44,7 @@ dependencies:
   path_provider: ^2.1.2
   loading_animation_widget: ^1.2.0+4
   uuid: ^4.3.3
+  easy_localization: ^3.0.3
 
 dev_dependencies:
   flutter_test:

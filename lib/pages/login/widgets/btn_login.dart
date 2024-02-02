@@ -1,7 +1,9 @@
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 GestureDetector btnLogin(
@@ -42,7 +44,7 @@ GestureDetector btnLogin(
       ),
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: AppTextStyle().textNormal('Login', size: 20),
+        child: AppTextStyle().textNormal(LocaleKeys.login.tr(), size: 20),
       ),
     ),
   );

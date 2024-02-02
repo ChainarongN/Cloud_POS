@@ -1,5 +1,7 @@
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 SizedBox password(
@@ -10,7 +12,7 @@ SizedBox password(
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white.withOpacity(0.3),
-        labelText: "Password",
+        labelText: LocaleKeys.password.tr(),
         border: Constants().myinputborder(),
         enabledBorder: Constants().myinputborder(),
         focusedBorder: Constants().myfocusborder(),

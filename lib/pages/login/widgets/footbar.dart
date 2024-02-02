@@ -1,12 +1,16 @@
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 Row footbar(BuildContext context) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.end,
     children: <Widget>[
-      AppTextStyle().textNormal('Device ID : 6102-3452-2456-1234', size: 16),
+      AppTextStyle().textNormal(
+          '${LocaleKeys.device_key.tr()} : 6102-3452-2456-1234',
+          size: 16),
       const Spacer(),
       Column(
         children: [
@@ -36,11 +40,13 @@ Row footbar(BuildContext context) {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(10),
-                child: AppTextStyle().textNormal('Configuration', size: 16),
+                child: AppTextStyle()
+                    .textNormal(LocaleKeys.configuration.tr(), size: 16),
               ),
             ),
           ),
-          AppTextStyle().textNormal('Version : 0.0.19', size: 16),
+          AppTextStyle()
+              .textNormal('${LocaleKeys.version.tr()} : 0.0.19', size: 16),
         ],
       ),
     ],

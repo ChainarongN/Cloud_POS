@@ -18,7 +18,6 @@ Center searchTab(
               width: MediaQuery.of(context).size.width * 0.25,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                // border: Border.all(color: Constants.primaryColor),
               ),
               child: TextField(
                 onChanged: (value) {
@@ -44,7 +43,7 @@ Center searchTab(
             Container(
               margin: const EdgeInsets.only(top: 5),
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.77,
+              height: MediaQuery.of(context).size.height * 0.7,
               child: GridView.builder(
                 shrinkWrap: true,
                 itemCount: menuWatch.prodToSearch!.length,

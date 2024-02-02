@@ -1,6 +1,8 @@
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 SingleChildScrollView aboutSetting(BuildContext context,
@@ -50,14 +52,12 @@ Container loadDataSetting(BuildContext context, ConfigProvider configRead,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AppTextStyle().textNormal(
-                'Get New Data',
+                LocaleKeys.get_new_data.tr(),
                 size: 20,
                 color: Colors.white,
               ),
-              AppTextStyle().textNormal(
-                  'Retrieve new information every time you log in.',
-                  size: 16,
-                  color: Colors.grey.shade100)
+              AppTextStyle().textNormal(LocaleKeys.get_new_data_detail.tr(),
+                  size: 16, color: Colors.grey.shade100)
             ],
           ),
           const Spacer(),

@@ -1,5 +1,7 @@
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 SingleChildScrollView menuConfig(BuildContext context,
@@ -35,7 +37,7 @@ SingleChildScrollView menuConfig(BuildContext context,
             ),
             child: Padding(
               padding: const EdgeInsets.all(10),
-              child: AppTextStyle().textNormal('Base Url Setting',
+              child: AppTextStyle().textNormal(LocaleKeys.base_url_setting.tr(),
                   size: 20, color: Colors.white),
             ),
           ),
@@ -68,8 +70,8 @@ SingleChildScrollView menuConfig(BuildContext context,
             ),
             child: Padding(
               padding: const EdgeInsets.all(10),
-              child: AppTextStyle()
-                  .textNormal('Printer Setting', size: 20, color: Colors.white),
+              child: AppTextStyle().textNormal(LocaleKeys.printer_setting.tr(),
+                  size: 20, color: Colors.white),
             ),
           ),
         ),
@@ -97,7 +99,7 @@ SingleChildScrollView menuConfig(BuildContext context,
           ),
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: AppTextStyle().textNormal('Licenes Information',
+            child: AppTextStyle().textNormal(LocaleKeys.licenes_setting.tr(),
                 size: 20, color: Colors.white),
           ),
         ),
@@ -129,8 +131,8 @@ SingleChildScrollView menuConfig(BuildContext context,
             ),
             child: Padding(
               padding: const EdgeInsets.all(10),
-              child: AppTextStyle()
-                  .textNormal('About', size: 20, color: Colors.white),
+              child: AppTextStyle().textNormal(LocaleKeys.about_setting.tr(),
+                  size: 20, color: Colors.white),
             ),
           ),
         ),

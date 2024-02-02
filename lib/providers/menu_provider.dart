@@ -65,7 +65,7 @@ class MenuProvider extends ChangeNotifier {
   setWhereMenu(String value) {
     _valueSelect = int.parse(value);
     prodToShow = prodList!
-        .where((e) => e.productGroupID.toString().toLowerCase().contains(value))
+        .where((e) => e.productGroupID.toString().contains(value))
         .toList();
     notifyListeners();
   }

@@ -1,4 +1,6 @@
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 Container merchantDetail(BuildContext context) {
@@ -10,7 +12,8 @@ Container merchantDetail(BuildContext context) {
           children: <Widget>[
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.11,
-              child: AppTextStyle().textBold('Merchant Name : ', size: 16),
+              child: AppTextStyle()
+                  .textBold('${LocaleKeys.merchant_name.tr()} : ', size: 16),
             ),
             AppTextStyle().textNormal('vTec Restaurant', size: 16)
           ],
@@ -19,7 +22,8 @@ Container merchantDetail(BuildContext context) {
           children: <Widget>[
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.11,
-              child: AppTextStyle().textBold('Brand Name : ', size: 16),
+              child: AppTextStyle()
+                  .textBold('${LocaleKeys.brand_name.tr()} : ', size: 16),
             ),
             AppTextStyle().textNormal('vTec Brand', size: 16)
           ],
@@ -28,7 +32,8 @@ Container merchantDetail(BuildContext context) {
           children: <Widget>[
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.11,
-              child: AppTextStyle().textBold('Outlet Name : ', size: 16),
+              child: AppTextStyle()
+                  .textBold('${LocaleKeys.shop_name.tr()} : ', size: 16),
             ),
             AppTextStyle().textNormal('vTec Demo Store', size: 16)
           ],
@@ -37,7 +42,8 @@ Container merchantDetail(BuildContext context) {
           children: <Widget>[
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.11,
-              child: AppTextStyle().textBold('POS Name : ', size: 16),
+              child: AppTextStyle()
+                  .textBold('${LocaleKeys.pos_name.tr()} : ', size: 16),
             ),
             AppTextStyle().textNormal('POS Demo', size: 16)
           ],
