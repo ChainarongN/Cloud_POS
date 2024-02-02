@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:cloud_pos/models/auth_token_model.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/models/login_model.dart';
+import 'package:cloud_pos/models/open_session_model.dart';
+import 'package:cloud_pos/models/start_process_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -18,6 +20,8 @@ class LoginProvider extends ChangeNotifier {
   ApiState apisState = ApiState.COMPLETED;
   AuthTokenModel? authTokenModel;
   CoreInitModel? coreInitModel;
+  StartProcessModel? startProcessModel;
+  OpenSessionModel? openSessionModel;
   LoginModel? loginModel;
   bool _passwordVisible = false;
   String? _errorText = '';
@@ -30,8 +34,57 @@ class LoginProvider extends ChangeNotifier {
     _errorText = '';
   }
 
-  Future authToken() async {
+  Future flowOpen() async {
     apisState = ApiState.LOADING;
+    await authToken();
+    await login();
+    await startProcess();
+    apisState = ApiState.COMPLETED;
+
+    String uuid = await SharedPref().getUuid();
+    Constants().printWarning(uuid);
+    notifyListeners();
+  }
+
+  Future startProcess() async {
+    var response = await _loginRepository.startProcess(
+        deviceId: '0288-7363-6560-2714', langID: '1');
+    if (response is Failure) {
+      Constants().printError(response.code.toString());
+      _errorText = response.code.toString();
+      apisState = ApiState.ERROR;
+    } else {
+      startProcessModel = StartProcessModel.fromJson(jsonDecode(response));
+      await SharedPref()
+          .setComputerID(startProcessModel!.responseObj!.computerID!);
+      await SharedPref().setShopID(startProcessModel!.responseObj!.shopID!);
+      await SharedPref().setSaleDate(startProcessModel!.responseObj!.saleDate!);
+
+      Constants().printInfo(response);
+      Constants().printWarning('startProcess');
+      if (startProcessModel!.responseObj!.actionInfo!.actionCode != null) {
+        await openSession();
+      }
+    }
+  }
+
+  Future openSession() async {
+    var response = await _loginRepository.openSession(
+        deviceId: '0288-7363-6560-2714', langID: '1');
+    if (response is Failure) {
+      Constants().printError(response.code.toString());
+      _errorText = response.code.toString();
+      apisState = ApiState.ERROR;
+    } else {
+      openSessionModel = OpenSessionModel.fromJson(jsonDecode(response));
+      await SharedPref().setSessionKey(openSessionModel!.responseObj!.key!);
+
+      Constants().printInfo(response);
+      Constants().printWarning('openSession');
+    }
+  }
+
+  Future authToken() async {
     var response = await _loginRepository.authToken(
         clientID: 'verticaltec.cloudinventory.dev',
         grantType: 'client_credentials',
@@ -43,9 +96,7 @@ class LoginProvider extends ChangeNotifier {
     } else {
       authTokenModel = AuthTokenModel.fromJson(jsonDecode(response));
       await SharedPref().setToken(authTokenModel!.accessToken!);
-      await login();
     }
-    notifyListeners();
   }
 
   Future login() async {
@@ -73,8 +124,9 @@ class LoginProvider extends ChangeNotifier {
       } else {
         Constants().printInfo(response.toString());
         Constants().printWarning('Success Login');
+        await SharedPref()
+            .setStaffID(loginModel!.responseObj!.staffInfo!.staffID!);
         await checkReadCoreData();
-        apisState = ApiState.COMPLETED;
         _errorText = '';
       }
     }

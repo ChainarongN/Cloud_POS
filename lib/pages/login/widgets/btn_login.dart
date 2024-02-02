@@ -11,7 +11,7 @@ GestureDetector btnLogin(
   return GestureDetector(
     onTap: () {
       _dialogBuilder(context);
-      loginRead.authToken().then((value) {
+      loginRead.flowOpen().then((value) {
         Navigator.maybePop(context);
         Future.delayed(const Duration(milliseconds: 500), () {
           if (loginWatch.apisState == ApiState.COMPLETED) {

@@ -6,4 +6,6 @@ class Endpoints {
 
   static const String coreDataInit = "$baseUrl/api/POSModule/POS_Init";
   static const String login = "$baseUrl/api/POSModule/POS_StaffLogin";
+  static const String startProcess = "$baseUrl/api/POSModule/POS_StartProcess";
+  static const String openSession = "$baseUrl/api/POSModule/POS_OpenSession";
 }
