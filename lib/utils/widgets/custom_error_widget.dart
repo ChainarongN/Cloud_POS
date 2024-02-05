@@ -19,7 +19,7 @@ class CustomErrorWidget extends StatelessWidget {
           ),
           Column(
             children: [
-              AppTextStyle().textNormal('Oops... something went wrong',
+              AppTextStyle().textNormal('Something went wrong',
                   size: 20, color: Colors.red),
               AppTextStyle().textNormal(errorMessage)
             ],

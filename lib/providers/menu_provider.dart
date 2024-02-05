@@ -16,8 +16,10 @@ class MenuProvider extends ChangeNotifier {
   List<Products>? prodToShow;
   List<Products>? prodToSearch;
   int? _valueSelect;
-
+  String? _orderId = '';
   String _exceptionText = '';
+
+  String get getOrderId => _orderId!;
   List get getOrderItem => _orderItem;
   String get getExceptionText => _exceptionText;
   int get getvalueSelect => _valueSelect!;
@@ -29,8 +31,11 @@ class MenuProvider extends ChangeNotifier {
     await _readData();
     setWhereMenu(prodGroupList![0].productGroupID.toString());
 
+    Constants().printWarning("OrderId : $_orderId");
     notifyListeners();
   }
+
+  Future setOrderId(String value) async => _orderId = value;
 
   Future _readData() async {
     apiState = ApiState.LOADING;

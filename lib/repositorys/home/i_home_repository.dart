@@ -1,3 +1,4 @@
 abstract class IHomeRepository {
-  getCoreDataDetail({String? deviceKey, String? langID});
+  Future openTransaction(
+      {String? deviceKey, String? langID, int? saleModeId, int? noCustomer});
 }

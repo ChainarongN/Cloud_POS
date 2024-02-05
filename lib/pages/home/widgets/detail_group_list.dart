@@ -1,9 +1,12 @@
-import 'package:cloud_pos/providers/home_provider.dart';
+import 'package:cloud_pos/networks/api_service.dart';
+import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:cloud_pos/utils/widgets/custom_error_widget.dart';
+import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:flutter/material.dart';
 
-SizedBox detailGroupList(
-    BuildContext context, HomeProvider homeWatch, HomeProvider homeRead) {
+SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
+    HomeProvider homeRead, MenuProvider menuRead) {
   return SizedBox(
     width: MediaQuery.of(context).size.width * 0.65,
     height: MediaQuery.of(context).size.height * 0.65,
@@ -15,7 +18,23 @@ SizedBox detailGroupList(
           homeWatch.saleModeDataList!.length,
           (index) => GestureDetector(
             onTap: () async {
-              Navigator.pushNamed(context, '/menuPage');
+              _dialogBuilder(context);
+              await homeRead.openTransaction(context, index).then((value) {
+                if (homeWatch.apisState == ApiState.COMPLETED) {
+                  Navigator.maybePop(context);
+                  menuRead
+                      .setOrderId(homeWatch
+                          .openTranModel!.responseObj!.tranData!.orderID!)
+                      .then((value) {
+                    Navigator.pushNamed(context, '/menuPage');
+                  });
+                } else {
+                  Navigator.maybePop(context);
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    errorDialog(context, homeWatch);
+                  });
+                }
+              });
             },
             child: Container(
               width: MediaQuery.of(context).size.width * 0.2,
@@ -58,53 +77,26 @@ SizedBox detailGroupList(
     ),
   );
 }
-// Expanded detailGroupList(HomeProvider homeWatch, HomeProvider homeRead) {
-//   return Expanded(
-//     child: GridView.extent(
-//       childAspectRatio: (2 / 2),
-//       crossAxisSpacing: 5,
-//       mainAxisSpacing: 5,
-//       padding: const EdgeInsets.all(8.0),
-//       maxCrossAxisExtent: 200.0,
-//       children: List.generate(homeWatch.getDetailGroupItem.length, (index) {
-//         return GestureDetector(
-//           onTap: () {
-//             homeRead
-//                 .setDetailGroupItemValue(homeWatch.getDetailGroupItem[index]);
-//           },
-//           child: Container(
-//             padding: const EdgeInsets.all(5.0),
-//             margin: const EdgeInsets.all(2),
-//             decoration: BoxDecoration(
-//               borderRadius: BorderRadius.circular(10),
-//               border: homeWatch.getDetailGroupItemValue ==
-//                       homeWatch.getDetailGroupItem[index]
-//                   ? Border.all(color: Colors.blue.shade900)
-//                   : Border.all(color: Constants.primaryColor),
-//               color: homeWatch.getDetailGroupItemValue ==
-//                       homeWatch.getDetailGroupItem[index]
-//                   ? Constants.primaryColor
-//                   : Constants.secondaryColor,
-//               boxShadow: const [
-//                 BoxShadow(
-//                   color: Constants.secondaryColor,
-//                   offset: Offset(0, 10),
-//                   blurRadius: 30,
-//                 ),
-//               ],
-//             ),
-//             child: Center(
-//                 child: Column(
-//               mainAxisAlignment: MainAxisAlignment.spaceAround,
-//               children: <Widget>[
-//                 const Icon(Icons.adb_rounded,
-//                     color: Colors.black54, size: 35.0),
-//                 AppTextStyle().textNormal(homeWatch.getDetailGroupItem[index]),
-//               ],
-//             )),
-//           ),
-//         );
-//       }),
-//     ),
-//   );
-// }
+
+Future<dynamic> errorDialog(BuildContext context, HomeProvider homeWatch) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.35,
+                child: CustomErrorWidget(errorMessage: homeWatch.getErrorText)),
+          ),
+        );
+      });
+}
+
+Future<void> _dialogBuilder(BuildContext context) {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return const LoaddingData();
+    },
+  );
+}

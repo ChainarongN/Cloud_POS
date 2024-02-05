@@ -7,7 +7,7 @@ import 'package:cloud_pos/pages/home/widgets/nationality.dart';
 import 'package:cloud_pos/pages/home/widgets/sex.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
-import 'package:cloud_pos/utils/widgets/error_widget.dart';
+import 'package:cloud_pos/utils/widgets/custom_error_widget.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var homeRead = context.read<HomeProvider>();
     var homeWatch = context.watch<HomeProvider>();
+    var menuRead = context.watch<MenuProvider>();
     return Scaffold(
       backgroundColor: Constants.secondaryColor,
       appBar: AppBar(
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
               homeWatch.saleModeDataList!.isEmpty
           ? const LoaddingData()
           : homeWatch.apisState == ApiState.ERROR
-              ? CustomErrorWidget(errorMessage: homeWatch.getExceptionText)
+              ? CustomErrorWidget(errorMessage: homeWatch.getErrorText)
               : Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: Row(
@@ -80,7 +81,8 @@ class _HomePageState extends State<HomePage> {
                               margin: const EdgeInsets.only(top: 5, bottom: 5),
                               child: const Divider(thickness: 1.5),
                             ),
-                            detailGroupList(context, homeWatch, homeRead)
+                            detailGroupList(
+                                context, homeWatch, homeRead, menuRead)
                           ],
                         ),
                       ),

@@ -8,4 +8,5 @@ class Endpoints {
   static const String login = "$baseUrl/api/POSModule/POS_StaffLogin";
   static const String startProcess = "$baseUrl/api/POSModule/POS_StartProcess";
   static const String openSession = "$baseUrl/api/POSModule/POS_OpenSession";
+  static const String openTran = "$baseUrl/api/POSModule/POS_TranOpen";
 }

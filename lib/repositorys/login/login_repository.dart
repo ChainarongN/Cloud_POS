@@ -84,7 +84,7 @@ class LoginRepository implements ILoginRepository {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     if (uuid == '') {
-      String uuid = const Uuid().v4();
+      uuid = const Uuid().v4();
       await SharedPref().setUuid(uuid);
     }
 

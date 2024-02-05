@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cloud_pos/models/code_init_model.dart';
+import 'package:cloud_pos/models/open_tran_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/pages/home/function/read_salemode_func.dart';
 import 'package:cloud_pos/repositorys/home/i_home_repository.dart';
@@ -17,18 +18,19 @@ class HomeProvider extends ChangeNotifier {
   String? _nationalityValue = '';
   String? _sexValue = '';
   String? _groupItemValue = 'ALL';
-  String _exceptionText = '';
+  String? _errorText = '';
 
   final TextEditingController _customerCount = TextEditingController();
   num _countValue = 1;
 
+  String get getErrorText => _errorText!;
   TextEditingController get getCustomerValue => _customerCount;
   String get getCategoryValue => _categoryValue!;
   String get getServiceValue => _serviceValue!;
   String get getNationalityValue => _nationalityValue!;
   String get getSexValue => _sexValue!;
   String get getGroupItemValue => _groupItemValue!;
-  String get getExceptionText => _exceptionText;
+
   num get getCountValue => _countValue;
   List<String> get getServiceItem => _serviceItems;
   List<String> get getCategoryItem => _categoryItems;
@@ -37,36 +39,52 @@ class HomeProvider extends ChangeNotifier {
   List<String> get getGroupItem => _groupItem;
 
   bool loading = false;
-  CoreInitModel? coreInitModel;
   SaleModeData? saleModeData;
+  OpenTranModel? openTranModel;
   List<SaleModeData>? saleModeDataList;
 
   init() async {
     _customerCount.text = "1";
     saleModeDataList = [];
-    readSaleModeFile();
+    await readSaleModeFile();
   }
 
-  readSaleModeFile() async {
+  Future openTransaction(BuildContext context, int index) async {
+    apisState = ApiState.LOADING;
+    var response = await _homeRepository.openTransaction(
+      deviceKey: '0288-7363-6560-2714',
+      langID: '1',
+      noCustomer: int.parse(_customerCount.text),
+      saleModeId: saleModeDataList![index].saleModeID!,
+    );
+    if (response is Failure) {
+      Constants().printError(response.code.toString());
+      _errorText = response.errorResponse.toString();
+      apisState = ApiState.ERROR;
+    } else {
+      openTranModel = OpenTranModel.fromJson(jsonDecode(response));
+      if (openTranModel!.responseCode == "") {
+        apisState = ApiState.COMPLETED;
+      } else {
+        apisState = ApiState.ERROR;
+        _errorText = openTranModel!.responseText;
+      }
+    }
+  }
+
+  Future readSaleModeFile() async {
     try {
       String? fileResponse =
           await ReadSaleModeFunc().readCoreInit(Constants.SALE_MODE_TXT);
-      if (fileResponse == '') {
-        Constants().printError('${Constants.SALE_MODE_TXT} is null');
-        _exceptionText = '${Constants.SALE_MODE_TXT} is null';
-        apisState = ApiState.ERROR;
-      } else {
-        saleModeDataList = (jsonDecode(fileResponse) as List)
-            .map((e) => SaleModeData.fromJson(e))
-            .toList();
-        Constants().printWarning('Read from file "${Constants.SALE_MODE_TXT}"');
-      }
+      saleModeDataList = (jsonDecode(fileResponse) as List)
+          .map((e) => SaleModeData.fromJson(e))
+          .toList();
+      Constants().printWarning('Read from file "${Constants.SALE_MODE_TXT}"');
     } catch (e, strack) {
       Constants().printError('$e - $strack');
-      _exceptionText = e.toString();
+      _errorText = e.toString();
       apisState = ApiState.ERROR;
     }
-
     notifyListeners();
   }
 
