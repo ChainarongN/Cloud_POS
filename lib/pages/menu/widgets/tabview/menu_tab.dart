@@ -37,7 +37,7 @@ Center menuTab(
                           gradient: LinearGradient(
                             colors: menuWatch
                                         .prodGroupList![index].productGroupID ==
-                                    menuWatch.getvalueSelect
+                                    menuWatch.getvalueMenuSelect
                                 ? [
                                     const Color.fromARGB(255, 113, 134, 255),
                                     const Color.fromARGB(255, 157, 198, 255),
@@ -53,7 +53,7 @@ Center menuTab(
                             BoxShadow(
                                 color: menuWatch.prodGroupList![index]
                                             .productGroupID ==
-                                        menuWatch.getvalueSelect
+                                        menuWatch.getvalueMenuSelect
                                     ? const Color.fromARGB(255, 157, 198, 255)
                                     : const Color(0xffffa057),
                                 blurRadius: 8,

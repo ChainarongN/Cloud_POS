@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:flutter/material.dart';
 
 class Constants {
@@ -17,6 +18,7 @@ class Constants {
   static const PROD_TXT = 'prod.txt';
   static const FAV_GROUP_TXT = 'fav_group.txt';
   static const FAV_DATA_TXT = 'fav_data.txt';
+  static const REASON_GROUP_TXT = 'rea_group.txt';
   static const INVALID_LOGIN =
       'This log in information is not registered to system.';
 
@@ -49,6 +51,15 @@ class Constants {
     return const OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(10)),
       borderSide: BorderSide(color: Colors.transparent),
+    );
+  }
+
+  Future<void> dialogBuilder(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return const LoaddingData();
+      },
     );
   }
 }

@@ -7,13 +7,15 @@ class ContainerStyle extends StatelessWidget {
   final double height;
   final Color primaryColor;
   final Color secondaryColor;
+  final bool selected;
   const ContainerStyle(
       {super.key,
       required this.title,
       required this.width,
       required this.height,
       required this.primaryColor,
-      required this.secondaryColor});
+      required this.secondaryColor,
+      required this.selected});
 
   @override
   Widget build(BuildContext context) {
@@ -21,37 +23,34 @@ class ContainerStyle extends StatelessWidget {
       alignment: Alignment.center,
       height: height,
       width: width,
-      // margin: const EdgeInsets.only(top: 15),
+      margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         gradient: LinearGradient(
-          colors: [
-            primaryColor,
-            secondaryColor,
-          ],
+          colors: selected
+              ? [
+                  const Color.fromARGB(255, 113, 134, 255),
+                  const Color.fromARGB(255, 157, 198, 255),
+                ]
+              : [
+                  secondaryColor,
+                  primaryColor,
+                ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         boxShadow: [
           BoxShadow(
-              color: secondaryColor, blurRadius: 8, offset: const Offset(0, 6)),
+              color: selected
+                  ? const Color.fromARGB(255, 157, 198, 255)
+                  : primaryColor,
+              blurRadius: 8,
+              offset: const Offset(0, 6)),
         ],
       ),
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-                margin: const EdgeInsets.only(right: 25),
-                child: const Icon(
-                  Icons.cloud_done_outlined,
-                  size: 40,
-                  color: Colors.white,
-                )),
-            AppTextStyle().textNormal(title, size: 20, color: Colors.white),
-          ],
-        ),
+        child: AppTextStyle().textNormal(title, size: 16, color: Colors.white),
       ),
     );
   }

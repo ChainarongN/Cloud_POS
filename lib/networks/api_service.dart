@@ -34,6 +34,19 @@ class APIService {
         code: response.statusCode!,
         errorResponse: response.data,
       );
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout) {
+        return Failure(
+          code: 408,
+          errorResponse: 'Connection Timeout. Check your internet',
+        );
+      }
+      if (e.type == DioExceptionType.receiveTimeout) {
+        return Failure(
+          code: 408,
+          errorResponse: 'Connection Timeout. Check your internet',
+        );
+      }
     } catch (e) {
       return Failure(
         code: Constants.UNKNOWN_ERROR,
@@ -63,6 +76,19 @@ class APIService {
         code: response.statusCode!,
         errorResponse: response.data,
       );
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout) {
+        return Failure(
+          code: 408,
+          errorResponse: 'Connection Timeout. Check your internet',
+        );
+      }
+      if (e.type == DioExceptionType.receiveTimeout) {
+        return Failure(
+          code: 408,
+          errorResponse: 'Connection Timeout. Check your internet',
+        );
+      }
     } catch (e) {
       return Failure(
         code: Constants.UNKNOWN_ERROR,
@@ -88,6 +114,19 @@ class APIService {
         code: response.statusCode!,
         errorResponse: response.data,
       );
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout) {
+        return Failure(
+          code: 408,
+          errorResponse: 'Connection Timeout. Check your internet',
+        );
+      }
+      if (e.type == DioExceptionType.receiveTimeout) {
+        return Failure(
+          code: 408,
+          errorResponse: 'Connection Timeout. Check your internet',
+        );
+      }
     } catch (e) {
       return Failure(
         code: Constants.UNKNOWN_ERROR,

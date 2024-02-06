@@ -138,7 +138,7 @@ class LoginProvider extends ChangeNotifier {
       await getCoreDataInit(false);
     } else {
       final Directory directory = await getApplicationDocumentsDirectory();
-      final File file = File('${directory.path}/${Constants.SALE_MODE_TXT}');
+      final File file = File('${directory.path}/${Constants.REASON_GROUP_TXT}');
       bool fileExists = file.existsSync();
       if (!fileExists) {
         await getCoreDataInit(false);
@@ -173,7 +173,9 @@ class LoginProvider extends ChangeNotifier {
                 jsonEncode(coreInitModel!.responseObj!.favoriteGroup),
                 Constants.FAV_GROUP_TXT),
             _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.favoriteData),
-                Constants.FAV_DATA_TXT)
+                Constants.FAV_DATA_TXT),
+            _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.reasonGroup),
+                Constants.REASON_GROUP_TXT)
           ],
         );
 

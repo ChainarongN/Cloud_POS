@@ -34,6 +34,18 @@ class ReadFileFunc {
     return prodList;
   }
 
+  Future<List<ReasonGroup>> readReason() async {
+    List<ReasonGroup> reasonList = [];
+
+    String? fileResponse = await _readFile(Constants.REASON_GROUP_TXT);
+    reasonList = (jsonDecode(fileResponse) as List)
+        .map((e) => ReasonGroup.fromJson(e))
+        .toList();
+    Constants().printWarning('Read from file "${Constants.REASON_GROUP_TXT}"');
+
+    return reasonList;
+  }
+
   Future<String> _readFile(String filename) async {
     String? text;
     try {
