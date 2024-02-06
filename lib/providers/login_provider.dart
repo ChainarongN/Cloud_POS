@@ -24,17 +24,22 @@ class LoginProvider extends ChangeNotifier {
   OpenSessionModel? openSessionModel;
   LoginModel? loginModel;
   bool _passwordVisible = false;
+  bool _openSession = false;
   String? _errorText = '';
+  final TextEditingController _openAmountController = TextEditingController();
 
   String get getErrorText => _errorText!;
   bool get passwordVisible => _passwordVisible;
+  bool get getOpenSession => _openSession;
   List<String> get getLanguageList => _languageList;
+  TextEditingController get getOpenAmountController => _openAmountController;
 
   init() {
     _errorText = '';
   }
 
   Future flowOpen() async {
+    _openSession = false;
     apisState = ApiState.LOADING;
     await authToken();
     await login();
@@ -63,14 +68,17 @@ class LoginProvider extends ChangeNotifier {
       Constants().printInfo(response);
       Constants().printWarning('startProcess');
       if (startProcessModel!.responseObj!.actionInfo!.actionCode != null) {
-        await openSession();
+        _openSession = true;
       }
     }
   }
 
   Future openSession() async {
+    apisState = ApiState.LOADING;
     var response = await _loginRepository.openSession(
-        deviceId: '0288-7363-6560-2714', langID: '1');
+        deviceId: '0288-7363-6560-2714',
+        langID: '1',
+        openAmount: _openAmountController.text);
     if (response is Failure) {
       Constants().printError(response.code.toString());
       _errorText = response.code.toString();
@@ -79,6 +87,7 @@ class LoginProvider extends ChangeNotifier {
       openSessionModel = OpenSessionModel.fromJson(jsonDecode(response));
       await SharedPref().setSessionKey(openSessionModel!.responseObj!.key!);
 
+      apisState = ApiState.COMPLETED;
       Constants().printInfo(response);
       Constants().printWarning('openSession');
     }

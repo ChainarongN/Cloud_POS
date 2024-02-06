@@ -8,7 +8,8 @@ import 'package:uuid/uuid.dart';
 
 class LoginRepository implements ILoginRepository {
   @override
-  Future openSession({String? langID, String? deviceId}) async {
+  Future openSession(
+      {String? langID, String? deviceId, String? openAmount}) async {
     String token = await SharedPref().getToken();
     String uuid = await SharedPref().getUuid();
     int staffId = await SharedPref().getStaffID();
@@ -26,7 +27,7 @@ class LoginRepository implements ILoginRepository {
       "shopID": shopId,
       "computerID": computerId,
       "saleDate": saleDate,
-      "openAmount": 1000
+      "openAmount": int.parse(openAmount!)
     });
     var response = await APIService().postAndParams(
         url: Endpoints.openSession, param: param, token: token, data: data);

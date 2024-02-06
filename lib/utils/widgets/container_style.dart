@@ -1,21 +1,20 @@
-import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 
 class ContainerStyle extends StatelessWidget {
-  final String title;
   final double width;
   final double height;
   final Color primaryColor;
   final Color secondaryColor;
   final bool selected;
+  final Widget widget;
   const ContainerStyle(
       {super.key,
-      required this.title,
       required this.width,
       required this.height,
       required this.primaryColor,
       required this.secondaryColor,
-      required this.selected});
+      required this.selected,
+      required this.widget});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,6 @@ class ContainerStyle extends StatelessWidget {
       alignment: Alignment.center,
       height: height,
       width: width,
-      margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         gradient: LinearGradient(
@@ -50,7 +48,7 @@ class ContainerStyle extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: AppTextStyle().textNormal(title, size: 16, color: Colors.white),
+        child: widget,
       ),
     );
   }

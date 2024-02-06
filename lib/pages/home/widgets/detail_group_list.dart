@@ -1,8 +1,8 @@
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/custom_error_widget.dart';
-import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:flutter/material.dart';
 
 SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
@@ -18,7 +18,7 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
           homeWatch.saleModeDataList!.length,
           (index) => GestureDetector(
             onTap: () async {
-              _dialogBuilder(context);
+              Constants().dialogBuilder(context);
               await homeRead.openTransaction(context, index).then((value) {
                 if (homeWatch.apisState == ApiState.COMPLETED) {
                   Navigator.maybePop(context);
@@ -90,13 +90,4 @@ Future<dynamic> errorDialog(BuildContext context, HomeProvider homeWatch) {
           ),
         );
       });
-}
-
-Future<void> _dialogBuilder(BuildContext context) {
-  return showDialog<void>(
-    context: context,
-    builder: (BuildContext context) {
-      return const LoaddingData();
-    },
-  );
 }

@@ -6,11 +6,13 @@ import 'package:cloud_pos/pages/menu/widgets/tabview/fav_one_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/menu_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/search_tab.dart';
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style.dart';
 import 'package:cloud_pos/utils/widgets/custom_error_widget.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -105,13 +107,16 @@ class _MenuPageState extends State<MenuPage> {
                           child: ContainerStyle(
                             height: MediaQuery.of(context).size.height * 0.1,
                             width: MediaQuery.of(context).size.width * 0.135,
-                            title: dataProvider.reasonGroupList![index].name!,
                             primaryColor: const Color(0xffDA0C81),
                             secondaryColor: const Color(0xffE95793),
                             selected: dataProvider.getvalueReasonGroupSelect ==
                                     dataProvider.reasonGroupList![index].name
                                 ? true
                                 : false,
+                            widget: AppTextStyle().textNormal(
+                                dataProvider.reasonGroupList![index].name!,
+                                size: 16,
+                                color: Colors.white),
                           ),
                         ),
                       ),
@@ -135,19 +140,27 @@ class _MenuPageState extends State<MenuPage> {
                                   (index) => GestureDetector(
                                     onTap: () =>
                                         dataProvider.addReasonText(index),
-                                    child: ContainerStyle(
-                                      height:
-                                          MediaQuery.of(context).size.height *
+                                    child: Container(
+                                      margin: const EdgeInsets.only(right: 10),
+                                      child: ContainerStyle(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
                                               0.1,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.135,
-                                      title: dataProvider.reasonModel!
-                                          .responseObj![index].text!,
-                                      primaryColor: const Color.fromARGB(
-                                          255, 255, 104, 190),
-                                      secondaryColor: const Color.fromARGB(
-                                          255, 254, 144, 190),
-                                      selected: false,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.135,
+                                          primaryColor: const Color.fromARGB(
+                                              255, 255, 104, 190),
+                                          secondaryColor: const Color.fromARGB(
+                                              255, 254, 144, 190),
+                                          selected: false,
+                                          widget: AppTextStyle().textNormal(
+                                              dataProvider.reasonModel!
+                                                  .responseObj![index].text!,
+                                              size: 16,
+                                              color: Colors.white)),
                                     ),
                                   ),
                                 ),
@@ -181,10 +194,11 @@ class _MenuPageState extends State<MenuPage> {
                         child: ContainerStyle(
                           height: MediaQuery.of(context).size.height * 0.08,
                           width: MediaQuery.of(context).size.width * 0.115,
-                          title: 'Clear',
                           primaryColor: Constants.primaryColor,
                           secondaryColor: Colors.blue.shade800,
                           selected: false,
+                          widget: AppTextStyle().textNormal('Clear',
+                              size: 16, color: Colors.white),
                         ),
                       ),
                     ),
@@ -195,13 +209,22 @@ class _MenuPageState extends State<MenuPage> {
           ),
           actions: <Widget>[
             TextButton(
-                child: AppTextStyle().textNormal('OK', size: 20),
-                onPressed: () async {
-                  Constants().dialogBuilder(context);
-                  await dataProvider.cancelTransaction().then((value) {
-                    Navigator.of(context).popUntil(ModalRoute.withName('/homePage'));
-                  });
-                }),
+              child: AppTextStyle().textNormal('OK', size: 20),
+              onPressed: () async {
+                Constants().dialogBuilder(context);
+                await dataProvider.cancelTransaction().then((value) {
+                  Navigator.of(context)
+                      .popUntil(ModalRoute.withName('/homePage'));
+                });
+              },
+            ),
+            TextButton(
+              child: AppTextStyle()
+                  .textNormal('Cancel', size: 20, color: Colors.red),
+              onPressed: () async {
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),

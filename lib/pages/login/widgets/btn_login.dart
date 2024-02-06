@@ -1,60 +1,105 @@
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
-import 'package:cloud_pos/utils/widgets/loading_data.dart';
+import 'package:cloud_pos/utils/widgets/container_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 GestureDetector btnLogin(
     BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
   return GestureDetector(
-    onTap: () {
-      _dialogBuilder(context);
-      loginRead.flowOpen().then((value) {
-        Navigator.maybePop(context);
-        Future.delayed(const Duration(milliseconds: 500), () {
-          if (loginWatch.apisState == ApiState.COMPLETED) {
-            Navigator.pushReplacementNamed(context, '/homePage');
-          }
+      onTap: () {
+        Constants().dialogBuilder(context);
+        loginRead.flowOpen().then((value) {
+          Navigator.maybePop(context);
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (loginWatch.getOpenSession) {
+              loginRead.getOpenAmountController.text = '';
+              openAmountDialog(context, loginWatch, loginRead);
+            } else {
+              if (loginWatch.apisState == ApiState.COMPLETED) {
+                Navigator.pushReplacementNamed(context, '/homePage');
+              }
+            }
+          });
         });
-      });
-    },
-    child: Container(
-      alignment: Alignment.center,
-      height: MediaQuery.of(context).size.height * 0.07,
-      width: MediaQuery.of(context).size.width * 0.3,
-      margin: const EdgeInsets.only(bottom: 20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        gradient: const LinearGradient(
-          colors: [
-            Color.fromARGB(255, 165, 222, 249),
-            Color.fromARGB(255, 177, 200, 241),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 20),
+        child: ContainerStyle(
+          height: MediaQuery.of(context).size.height * 0.07,
+          width: MediaQuery.of(context).size.width * 0.3,
+          primaryColor: Colors.blue.shade400,
+          secondaryColor: Colors.blue.shade400,
+          selected: false,
+          widget: AppTextStyle()
+              .textNormal(LocaleKeys.login.tr(), size: 16, color: Colors.white),
         ),
-        boxShadow: const [
-          BoxShadow(
-              color: Color.fromARGB(255, 189, 209, 247),
-              blurRadius: 8,
-              offset: Offset(0, 6)),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: AppTextStyle().textNormal(LocaleKeys.login.tr(), size: 20),
-      ),
-    ),
-  );
+      ));
 }
 
-Future<void> _dialogBuilder(BuildContext context) {
+Future<void> openAmountDialog(
+    BuildContext context, LoginProvider loginWatch, LoginProvider loginRead) {
   return showDialog<void>(
     context: context,
-    builder: (BuildContext context) {
-      return const LoaddingData();
+    builder: (context) {
+      return AlertDialog(
+        content: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.15,
+          child: Column(
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width * 0.2,
+                margin: const EdgeInsets.only(top: 10, bottom: 10),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: loginWatch.getOpenAmountController,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.3),
+                    labelText: 'Open amount',
+                    border: Constants().myinputborder(), //normal border
+                    enabledBorder: Constants().myinputborder(), //enabled border
+                    focusedBorder: Constants().myfocusborder(), //focused border
+                  ),
+                  style:
+                      const TextStyle(color: Constants.textColor, fontSize: 20),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: AppTextStyle().textNormal('OK', size: 18),
+            onPressed: () async {
+              if (loginWatch.getOpenAmountController.text.isNotEmpty) {
+                Constants().dialogBuilder(context);
+                await loginRead.openSession().then((value) {
+                  if (loginWatch.apisState == ApiState.COMPLETED) {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/homePage', (route) => false);
+                  }
+                });
+              }
+            },
+          ),
+          TextButton(
+            child: AppTextStyle()
+                .textNormal('Cancel', size: 18, color: Colors.red),
+            onPressed: () async {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      );
     },
   );
 }
