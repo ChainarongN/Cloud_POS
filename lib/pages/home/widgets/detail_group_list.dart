@@ -29,10 +29,9 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
                     Navigator.pushNamed(context, '/menuPage');
                   });
                 } else {
-                  Navigator.maybePop(context);
+                  Navigator.pop(context);
                   Future.delayed(const Duration(milliseconds: 500), () {
-                    Constants()
-                        .dialogError(context, homeWatch.getErrorText);
+                    Constants().dialogError(context, homeWatch.getErrorText);
                   });
                 }
               });

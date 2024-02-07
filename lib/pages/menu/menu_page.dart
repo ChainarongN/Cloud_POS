@@ -132,6 +132,7 @@ class _MenuPageState extends State<MenuPage> {
             onPressed: () async {
               Navigator.maybePop(context).then((value) {
                 menuRead.clearReasonText();
+                menuRead.setExceptionText('');
                 reasonDialog(context);
               });
             },

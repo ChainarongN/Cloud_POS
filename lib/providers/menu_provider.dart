@@ -76,7 +76,7 @@ class MenuProvider extends ChangeNotifier {
       apiState = ApiState.ERROR;
       Constants().printError(e.toString());
       Constants().printError(strack.toString());
-      _exceptionText = strack.toString();
+      _exceptionText = e.toString();
     }
   }
 
@@ -103,7 +103,7 @@ class MenuProvider extends ChangeNotifier {
       apiState = ApiState.ERROR;
       Constants().printError(e.toString());
       Constants().printError(strack.toString());
-      _exceptionText = strack.toString();
+      _exceptionText = e.toString();
     }
 
     notifyListeners();

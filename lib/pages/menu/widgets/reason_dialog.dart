@@ -35,11 +35,16 @@ Future<void> reasonDialog(BuildContext context) {
             onPressed: () async {
               if (dataProvider.getReasonText.text.isNotEmpty ||
                   dataProvider.getReasonController.text.isNotEmpty) {
-                dataProvider.setExceptionText('');
                 Constants().dialogLoadding(context);
                 await dataProvider.cancelTransaction().then((value) {
-                  Navigator.of(context)
-                      .popUntil(ModalRoute.withName('/homePage'));
+                  if (dataProvider.apiState == ApiState.ERROR) {
+                    Navigator.pop(context);
+                    Constants()
+                        .dialogError(context, dataProvider.getExceptionText);
+                  } else {
+                    Navigator.of(context)
+                        .popUntil(ModalRoute.withName('/homePage'));
+                  }
                 });
               } else {
                 dataProvider
@@ -136,33 +141,29 @@ SizedBox detailReason(BuildContext context, MenuProvider dataProvider) {
     child: SingleChildScrollView(
       child: dataProvider.reasonModel == null
           ? const LoaddingData()
-          : dataProvider.apiState == ApiState.ERROR
-              ? CustomErrorWidget(errorMessage: dataProvider.getExceptionText)
-              : Wrap(
-                  runSpacing: 10,
-                  children: List.generate(
-                    dataProvider.reasonModel!.responseObj!.length,
-                    (index) => GestureDetector(
-                      onTap: () => dataProvider.addReasonText(index),
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 10),
-                        child: ContainerStyle(
-                            height: MediaQuery.of(context).size.height * 0.1,
-                            width: MediaQuery.of(context).size.width * 0.135,
-                            primaryColor:
-                                const Color.fromARGB(255, 255, 104, 190),
-                            secondaryColor:
-                                const Color.fromARGB(255, 254, 144, 190),
-                            selected: false,
-                            widget: AppTextStyle().textNormal(
-                                dataProvider
-                                    .reasonModel!.responseObj![index].text!,
-                                size: 16,
-                                color: Colors.white)),
-                      ),
-                    ),
+          : Wrap(
+              runSpacing: 10,
+              children: List.generate(
+                dataProvider.reasonModel!.responseObj!.length,
+                (index) => GestureDetector(
+                  onTap: () => dataProvider.addReasonText(index),
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    child: ContainerStyle(
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: MediaQuery.of(context).size.width * 0.135,
+                        primaryColor: const Color.fromARGB(255, 255, 104, 190),
+                        secondaryColor:
+                            const Color.fromARGB(255, 254, 144, 190),
+                        selected: false,
+                        widget: AppTextStyle().textNormal(
+                            dataProvider.reasonModel!.responseObj![index].text!,
+                            size: 16,
+                            color: Colors.white)),
                   ),
                 ),
+              ),
+            ),
     ),
   );
 }
@@ -176,7 +177,11 @@ SizedBox groupMenu(BuildContext context, MenuProvider dataProvider) {
         dataProvider.reasonGroupList!.length,
         (index) => GestureDetector(
           onTap: () {
-            dataProvider.setReason(index);
+            dataProvider.setReason(index).then((value) {
+              if (dataProvider.apiState == ApiState.ERROR) {
+                Constants().dialogError(context, dataProvider.getExceptionText);
+              }
+            });
           },
           child: Container(
             alignment: Alignment.center,
