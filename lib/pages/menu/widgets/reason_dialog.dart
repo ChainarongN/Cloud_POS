@@ -36,7 +36,7 @@ Future<void> reasonDialog(BuildContext context) {
               if (dataProvider.getReasonText.text.isNotEmpty ||
                   dataProvider.getReasonController.text.isNotEmpty) {
                 dataProvider.setExceptionText('');
-                Constants().dialogBuilder(context);
+                Constants().dialogLoadding(context);
                 await dataProvider.cancelTransaction().then((value) {
                   Navigator.of(context)
                       .popUntil(ModalRoute.withName('/homePage'));

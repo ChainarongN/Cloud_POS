@@ -14,8 +14,13 @@ class SharedPref {
   static const String keyComId = 'comId';
   static const String keySaleDate = 'saleDate';
   static const String keySessionKey = 'sessionKey';
+  static const String keyOpenTokenDay = 'openTokenDay';
 
   // ----------------------------- set ------------------------------- //
+  Future setOpenTokenDay(String value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setString(keyOpenTokenDay, value);
+  }
 
   Future setToken(String value) async {
     SharedPreferences prefs = await _prefs;
@@ -58,6 +63,11 @@ class SharedPref {
   }
 
   // ----------------------------- get ------------------------------- //
+  Future<String> getOpenTokenDay() async {
+    SharedPreferences prefs = await _prefs;
+    String? result = prefs.getString(keyOpenTokenDay) ?? '';
+    return result;
+  }
 
   Future<String> getSessionKey() async {
     SharedPreferences prefs = await _prefs;

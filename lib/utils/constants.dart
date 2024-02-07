@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:cloud_pos/utils/widgets/custom_error_widget.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:flutter/material.dart';
 
@@ -61,12 +62,26 @@ class Constants {
     );
   }
 
-  Future<void> dialogBuilder(BuildContext context) {
+  Future<void> dialogLoadding(BuildContext context) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return const LoaddingData();
       },
     );
+  }
+
+  Future<void> dialogError(BuildContext context, String errorString) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: SingleChildScrollView(
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.35,
+                  child: CustomErrorWidget(errorMessage: errorString)),
+            ),
+          );
+        });
   }
 }

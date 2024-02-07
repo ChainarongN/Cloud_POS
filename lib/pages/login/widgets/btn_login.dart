@@ -12,19 +12,26 @@ GestureDetector btnLogin(
     BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
   return GestureDetector(
       onTap: () {
-        Constants().dialogBuilder(context);
+        Constants().dialogLoadding(context);
         loginRead.flowOpen().then((value) {
-          Navigator.maybePop(context);
-          Future.delayed(const Duration(milliseconds: 500), () {
-            if (loginWatch.getOpenSession) {
-              loginRead.getOpenAmountController.text = '';
-              openAmountDialog(context, loginWatch, loginRead);
-            } else {
-              if (loginWatch.apisState == ApiState.COMPLETED) {
-                Navigator.pushReplacementNamed(context, '/homePage');
+          if (loginWatch.apisState == ApiState.ERROR) {
+            Navigator.pop(context);
+            Future.delayed(const Duration(milliseconds: 500), () {
+              Constants().dialogError(context, loginWatch.getErrorText);
+            });
+          } else {
+            Navigator.maybePop(context);
+            Future.delayed(const Duration(milliseconds: 500), () {
+              if (loginWatch.getOpenSession) {
+                loginRead.getOpenAmountController.text = '';
+                openAmountDialog(context, loginWatch, loginRead);
+              } else {
+                if (loginWatch.apisState == ApiState.COMPLETED) {
+                  Navigator.pushReplacementNamed(context, '/homePage');
+                }
               }
-            }
-          });
+            });
+          }
         });
       },
       child: Container(
@@ -81,11 +88,16 @@ Future<void> openAmountDialog(
             child: AppTextStyle().textNormal('OK', size: 18),
             onPressed: () async {
               if (loginWatch.getOpenAmountController.text.isNotEmpty) {
-                Constants().dialogBuilder(context);
+                Constants().dialogLoadding(context);
                 await loginRead.openSession().then((value) {
                   if (loginWatch.apisState == ApiState.COMPLETED) {
                     Navigator.pushNamedAndRemoveUntil(
                         context, '/homePage', (route) => false);
+                  } else {
+                    Navigator.pop(context);
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      Constants().dialogError(context, loginWatch.getErrorText);
+                    });
                   }
                 });
               }

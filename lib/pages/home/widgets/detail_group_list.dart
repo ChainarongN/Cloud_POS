@@ -18,7 +18,7 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
           homeWatch.saleModeDataList!.length,
           (index) => GestureDetector(
             onTap: () async {
-              Constants().dialogBuilder(context);
+              Constants().dialogLoadding(context);
               await homeRead.openTransaction(context, index).then((value) {
                 if (homeWatch.apisState == ApiState.COMPLETED) {
                   Navigator.maybePop(context);
@@ -31,7 +31,8 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
                 } else {
                   Navigator.maybePop(context);
                   Future.delayed(const Duration(milliseconds: 500), () {
-                    errorDialog(context, homeWatch);
+                    Constants()
+                        .dialogError(context, homeWatch.getErrorText);
                   });
                 }
               });
@@ -76,18 +77,4 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
       ),
     ),
   );
-}
-
-Future<dynamic> errorDialog(BuildContext context, HomeProvider homeWatch) {
-  return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: SingleChildScrollView(
-            child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.35,
-                child: CustomErrorWidget(errorMessage: homeWatch.getErrorText)),
-          ),
-        );
-      });
 }

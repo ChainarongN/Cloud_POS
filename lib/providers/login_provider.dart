@@ -39,6 +39,7 @@ class LoginProvider extends ChangeNotifier {
   }
 
   Future flowOpen() async {
+    _errorText = '';
     _openSession = false;
     apisState = ApiState.LOADING;
     await authToken();
@@ -56,7 +57,7 @@ class LoginProvider extends ChangeNotifier {
         deviceId: '0288-7363-6560-2714', langID: '1');
     if (response is Failure) {
       Constants().printError(response.code.toString());
-      _errorText = response.code.toString();
+      _errorText = response.errorResponse.toString();
       apisState = ApiState.ERROR;
     } else {
       startProcessModel = StartProcessModel.fromJson(jsonDecode(response));
@@ -75,36 +76,49 @@ class LoginProvider extends ChangeNotifier {
 
   Future openSession() async {
     apisState = ApiState.LOADING;
-    var response = await _loginRepository.openSession(
-        deviceId: '0288-7363-6560-2714',
-        langID: '1',
-        openAmount: _openAmountController.text);
-    if (response is Failure) {
-      Constants().printError(response.code.toString());
-      _errorText = response.code.toString();
-      apisState = ApiState.ERROR;
-    } else {
-      openSessionModel = OpenSessionModel.fromJson(jsonDecode(response));
-      await SharedPref().setSessionKey(openSessionModel!.responseObj!.key!);
+    try {
+      var response = await _loginRepository.openSession(
+          deviceId: '0288-7363-6560-2714',
+          langID: '1',
+          openAmount: _openAmountController.text);
+      if (response is Failure) {
+        Constants().printError(response.code.toString());
+        _errorText = response.errorResponse.toString();
+        apisState = ApiState.ERROR;
+      } else {
+        openSessionModel = OpenSessionModel.fromJson(jsonDecode(response));
+        await SharedPref().setSessionKey(openSessionModel!.responseObj!.key!);
 
-      apisState = ApiState.COMPLETED;
-      Constants().printInfo(response);
-      Constants().printWarning('openSession');
+        apisState = ApiState.COMPLETED;
+        Constants().printInfo(response);
+        Constants().printWarning('openSession');
+      }
+    } catch (e, strack) {
+      _errorText = strack.toString();
+      apisState = ApiState.ERROR;
     }
   }
 
   Future authToken() async {
-    var response = await _loginRepository.authToken(
-        clientID: 'verticaltec.cloudinventory.dev',
-        grantType: 'client_credentials',
-        clientSecret: 'acf7e10c71296430');
-    if (response is Failure) {
-      Constants().printError(response.code.toString());
-      _errorText = response.code.toString();
-      apisState = ApiState.ERROR;
-    } else {
-      authTokenModel = AuthTokenModel.fromJson(jsonDecode(response));
-      await SharedPref().setToken(authTokenModel!.accessToken!);
+    DateTime now = DateTime.now();
+    String openTokenDay = await SharedPref().getOpenTokenDay();
+    if (openTokenDay.isEmpty || openTokenDay != now.day.toString()) {
+      var response = await _loginRepository.authToken(
+          clientID: 'verticaltec.cloudinventory.dev',
+          grantType: 'client_credentials',
+          clientSecret: 'acf7e10c71296430');
+      if (response is Failure) {
+        Constants().printError(response.code.toString());
+        _errorText = response.errorResponse.toString();
+        apisState = ApiState.ERROR;
+      } else {
+        authTokenModel = AuthTokenModel.fromJson(jsonDecode(response));
+        await SharedPref().setToken(authTokenModel!.accessToken!);
+        await SharedPref().setOpenTokenDay(now.day.toString());
+
+        Constants().printInfo(response);
+        Constants().printWarning('auth token');
+      }
     }
   }
 
@@ -118,7 +132,7 @@ class LoginProvider extends ChangeNotifier {
     if (response is Failure) {
       Constants().printError(response.code.toString());
       Constants().printError(response.errorResponse.toString());
-      _errorText = 'Invalid username or password';
+      _errorText = response.errorResponse.toString();
       apisState = ApiState.ERROR;
     } else {
       loginModel = LoginModel.fromJson(jsonDecode(response));
@@ -161,9 +175,9 @@ class LoginProvider extends ChangeNotifier {
       langID: '1',
     );
     if (response is Failure) {
-      apisState = ApiState.ERROR;
       Constants().printError(response.code.toString());
       Constants().printError(response.errorResponse.toString());
+      apisState = ApiState.ERROR;
     } else {
       try {
         coreInitModel = CoreInitModel.fromJson(jsonDecode(response));
@@ -194,10 +208,10 @@ class LoginProvider extends ChangeNotifier {
           await login();
         }
       } catch (e, strack) {
-        apisState = ApiState.ERROR;
         _errorText = e.toString();
         Constants().printError(e.toString());
         Constants().printError(strack.toString());
+        apisState = ApiState.ERROR;
       }
     }
     notifyListeners();
