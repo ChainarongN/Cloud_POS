@@ -39,8 +39,10 @@ Drawer drawer(BuildContext context) {
             ),
             ListTile(
               title: AppTextStyle().textNormal('Utility'),
-              leading: Icon(Icons.access_alarm),
-              onTap: () {},
+              leading: const Icon(Icons.build),
+              onTap: () {
+                Navigator.pushNamed(context, '/utilityPage');
+              },
             ),
             ListTile(
               title: AppTextStyle().textNormal('News'),

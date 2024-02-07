@@ -1,5 +1,5 @@
 import 'package:cloud_pos/providers/home_provider.dart';
-import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:cloud_pos/utils/widgets/container_style_2.dart';
 import 'package:flutter/material.dart';
 
 SizedBox groupList(
@@ -11,95 +11,84 @@ SizedBox groupList(
       child: Row(
         children: List.generate(
           homeWatch.getGroupItem.length,
-          (index) => GestureDetector(
-            onTap: () {
-              homeRead.setGroupItemValue(homeWatch.getGroupItem[index]);
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.1,
-              height: MediaQuery.of(context).size.height * 0.15,
-              padding: const EdgeInsets.all(5.0),
-              margin: const EdgeInsets.all(2),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                gradient: LinearGradient(
-                  colors: homeWatch.getGroupItemValue ==
-                          homeWatch.getGroupItem[index]
-                      ? [
-                          const Color.fromARGB(255, 113, 134, 255),
-                          const Color.fromARGB(255, 157, 198, 255),
-                        ]
-                      : [
-                          const Color.fromARGB(255, 138, 196, 255),
-                          const Color.fromARGB(255, 182, 212, 255),
-                        ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Color.fromARGB(255, 182, 212, 255),
-                      blurRadius: 8,
-                      offset: Offset(0, 6)),
-                ],
-              ),
-              child: Center(
-                  child: AppTextStyle().textBold(homeWatch.getGroupItem[index],
-                      size: 14, color: Colors.white)),
-            ),
+          (index) => Container(
+            margin: const EdgeInsets.all(2),
+            child: homeWatch.getGroupItemValue == homeWatch.getGroupItem[index]
+                ? ContainerStyle2(
+                    onlyText: true,
+                    title: homeWatch.getGroupItem[index],
+                    icon: Icons.android,
+                    size: 18,
+                    radius: 8,
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    shadowColor: Colors.blue.shade500,
+                    gradient1: Colors.blue.shade400,
+                    gradient2: Colors.blue.shade400,
+                    gradient3: Colors.blue.shade600,
+                    gradient4: Colors.blue.shade600,
+                    onPressed: () {
+                      homeRead.setGroupItemValue(homeWatch.getGroupItem[index]);
+                    },
+                  )
+                : ContainerStyle2(
+                    onlyText: true,
+                    title: homeWatch.getGroupItem[index],
+                    icon: Icons.android,
+                    size: 18,
+                    radius: 8,
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    shadowColor: Colors.blueAccent.shade200,
+                    gradient1: Colors.blue.shade100,
+                    gradient2: Colors.blue.shade100,
+                    gradient3: Colors.blue.shade300,
+                    gradient4: Colors.blue.shade300,
+                    onPressed: () {
+                      homeRead.setGroupItemValue(homeWatch.getGroupItem[index]);
+                    },
+                  ),
           ),
+
+          // GestureDetector(
+          //   onTap: () {
+          //     homeRead.setGroupItemValue(homeWatch.getGroupItem[index]);
+          //   },
+          //   child: Container(
+          //     width: MediaQuery.of(context).size.width * 0.1,
+          //     height: MediaQuery.of(context).size.height * 0.15,
+          //     padding: const EdgeInsets.all(5.0),
+          //     margin: const EdgeInsets.all(2),
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(10),
+          //       gradient: LinearGradient(
+          //         colors: homeWatch.getGroupItemValue ==
+          //                 homeWatch.getGroupItem[index]
+          //             ? [
+          //                 const Color.fromARGB(255, 113, 134, 255),
+          //                 const Color.fromARGB(255, 157, 198, 255),
+          //               ]
+          //             : [
+          //                 const Color.fromARGB(255, 138, 196, 255),
+          //                 const Color.fromARGB(255, 182, 212, 255),
+          //               ],
+          //         begin: Alignment.topLeft,
+          //         end: Alignment.bottomRight,
+          //       ),
+          //       boxShadow: const [
+          //         BoxShadow(
+          //             color: Color.fromARGB(255, 182, 212, 255),
+          //             blurRadius: 8,
+          //             offset: Offset(0, 6)),
+          //       ],
+          //     ),
+          //     child: Center(
+          //         child: AppTextStyle().textBold(homeWatch.getGroupItem[index],
+          //             size: 14, color: Colors.white)),
+          //   ),
+          // ),
         ),
       ),
     ),
   );
 }
-
-// Expanded groupList(HomeProvider homeWatch, HomeProvider homeRead) {
-//   return Expanded(
-//     child: GridView.extent(
-//       childAspectRatio: (2 / 2),
-//       crossAxisSpacing: 5,
-//       mainAxisSpacing: 5,
-//       padding: const EdgeInsets.all(10.0),
-//       maxCrossAxisExtent: 200.0,
-//       children: List.generate(homeWatch.getGroupItem.length, (index) {
-//         return GestureDetector(
-//           onTap: () {
-//             homeRead.setGroupItemValue(homeWatch.getGroupItem[index]);
-//           },
-//           child: Container(
-//             padding: const EdgeInsets.all(5.0),
-//             margin: const EdgeInsets.all(2),
-//             decoration: BoxDecoration(
-//               borderRadius: BorderRadius.circular(10),
-//               border:
-//                   homeWatch.getGroupItemValue == homeWatch.getGroupItem[index]
-//                       ? Border.all(color: Colors.blue.shade900)
-//                       : Border.all(color: Constants.primaryColor),
-//               color:
-//                   homeWatch.getGroupItemValue == homeWatch.getGroupItem[index]
-//                       ? Constants.primaryColor
-//                       : Constants.secondaryColor,
-//               boxShadow: const [
-//                 BoxShadow(
-//                   color: Constants.secondaryColor,
-//                   offset: Offset(0, 10),
-//                   blurRadius: 30,
-//                 ),
-//               ],
-//             ),
-//             child: Center(
-//                 child: Column(
-//               mainAxisAlignment: MainAxisAlignment.spaceAround,
-//               children: <Widget>[
-//                 const Icon(Icons.adb_rounded,
-//                     color: Colors.black54, size: 35.0),
-//                 AppTextStyle().textNormal(homeWatch.getGroupItem[index]),
-//               ],
-//             )),
-//           ),
-//         );
-//       }),
-//     ),
-//   );
-// }

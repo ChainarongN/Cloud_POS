@@ -140,13 +140,13 @@ class APIService {
       if (e.type == DioExceptionType.connectionTimeout) {
         return Failure(
           code: 408,
-          errorResponse: 'Connection Timeout. Check your internet',
+          errorResponse: 'Connection Timeout. Check your internet or Try again',
         );
       }
       if (e.type == DioExceptionType.receiveTimeout) {
         return Failure(
           code: 408,
-          errorResponse: 'Connection Timeout. Check your internet',
+          errorResponse: 'Connection Timeout. Check your internet or Try again',
         );
       }
     } catch (e) {
