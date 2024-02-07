@@ -4,5 +4,6 @@ abstract class IMenuRepository {
       {String? orderId,
       String? reasonIDList,
       String? langId,
-      String? deviceKey});
+      String? deviceKey,
+      String? reasonText});
 }

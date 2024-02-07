@@ -6,3 +6,5 @@ export 'login/i_login_repository.dart';
 export 'login/login_repository.dart';
 export 'config/i_config_repository.dart';
 export 'config/config_repository.dart';
+export 'utility/i_utility_repositoty.dart';
+export 'utility/utility_repository.dart';

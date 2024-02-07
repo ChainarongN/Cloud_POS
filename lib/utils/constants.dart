@@ -54,6 +54,13 @@ class Constants {
     );
   }
 
+  OutlineInputBorder myColorborder(Color color) {
+    return OutlineInputBorder(
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
+      borderSide: BorderSide(color: color),
+    );
+  }
+
   Future<void> dialogBuilder(BuildContext context) {
     return showDialog<void>(
       context: context,

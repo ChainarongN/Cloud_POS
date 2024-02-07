@@ -6,4 +6,5 @@ final Map<String, WidgetBuilder> routes = {
   '/menuPage': (BuildContext context) => const MenuPage(),
   '/loginPage': (BuildContext context) => const LoginPage(),
   '/configPage': (BuildContext context) => const ConfigPage(),
+  '/utilityPage': (BuildContext context) => const UtilityPage(),
 };

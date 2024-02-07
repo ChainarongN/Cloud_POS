@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:dio/dio.dart';
 // import 'package:http/http.dart' as http;
@@ -18,7 +19,14 @@ class APIService {
       'Authorization': 'Bearer $token'
     };
 
-    var dio = Dio();
+    BaseOptions options = BaseOptions(
+      baseUrl: Endpoints.baseUrl,
+      receiveDataWhenStatusError: true,
+      connectTimeout: const Duration(minutes: 1),
+      receiveTimeout: const Duration(minutes: 1),
+    );
+
+    var dio = Dio(options);
     try {
       var response = await dio.request(url!,
           options: Options(
@@ -57,7 +65,14 @@ class APIService {
 
   Future postParams({String? url, String? token, var param}) async {
     var headers = {'Authorization': 'Bearer $token'};
-    var dio = Dio();
+
+    BaseOptions options = BaseOptions(
+      baseUrl: Endpoints.baseUrl,
+      receiveDataWhenStatusError: true,
+      connectTimeout: const Duration(minutes: 1),
+      receiveTimeout: const Duration(minutes: 1),
+    );
+    var dio = Dio(options);
 
     try {
       var response = await dio.request(
@@ -99,7 +114,14 @@ class APIService {
 
   Future post(String url, var data) async {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    var dio = Dio();
+
+    BaseOptions options = BaseOptions(
+      baseUrl: Endpoints.baseUrl,
+      receiveDataWhenStatusError: true,
+      connectTimeout: const Duration(minutes: 1),
+      receiveTimeout: const Duration(minutes: 1),
+    );
+    var dio = Dio(options);
     try {
       var response = await dio.request(
         url,

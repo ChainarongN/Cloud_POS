@@ -219,5 +219,5 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<String> _languageList = ['EN', 'TH'];
+  final List<String> _languageList = ['EN', 'TH'];
 }

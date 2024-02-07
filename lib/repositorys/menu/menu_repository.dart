@@ -29,7 +29,8 @@ class MenuRepository implements IMenuRepository {
       {String? orderId,
       String? reasonIDList,
       String? langId,
-      String? deviceKey}) async {
+      String? deviceKey,
+      String? reasonText}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String saleDate = await SharedPref().getSaleDate();
@@ -40,6 +41,7 @@ class MenuRepository implements IMenuRepository {
       "LangID": langId,
       "OrderId": orderId,
       "ReasonIDList": reasonIDList,
+      "ReasonText": reasonText,
       "StaffID": staffId.toString(),
       "TodayDate": saleDate
     };

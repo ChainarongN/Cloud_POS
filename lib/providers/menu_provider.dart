@@ -28,7 +28,8 @@ class MenuProvider extends ChangeNotifier {
   String? _orderId = '';
   String _exceptionText = '';
   final TextEditingController _reasonController = TextEditingController();
-  final TextEditingController _valueIdReasonText = TextEditingController();
+  final TextEditingController _valueIdReason = TextEditingController();
+  final TextEditingController _reasonTextController = TextEditingController();
 
   String get getOrderId => _orderId!;
   List get getOrderItem => _orderItem;
@@ -36,7 +37,8 @@ class MenuProvider extends ChangeNotifier {
   int get getvalueMenuSelect => _valueMenuSelect!;
   String get getvalueReasonGroupSelect => _valueReasonGroupSelect!;
   TextEditingController get getReasonController => _reasonController;
-  TextEditingController get getvalueReasonText => _valueIdReasonText;
+  TextEditingController get getvalueReason => _valueIdReason;
+  TextEditingController get getReasonText => _reasonTextController;
 
   init() async {
     prodGroupList = [];
@@ -57,7 +59,8 @@ class MenuProvider extends ChangeNotifier {
           deviceKey: '0288-7363-6560-2714',
           langId: '1',
           orderId: _orderId,
-          reasonIDList: _valueIdReasonText.text);
+          reasonIDList: _valueIdReason.text,
+          reasonText: _reasonTextController.text);
       if (response is Failure) {
         apiState = ApiState.ERROR;
         _exceptionText = response.errorResponse.toString();
@@ -78,6 +81,7 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future setReason(int index) async {
+    reasonModel = null;
     apiState = ApiState.LOADING;
     _valueReasonGroupSelect = reasonGroupList![index].name;
     try {
@@ -107,17 +111,18 @@ class MenuProvider extends ChangeNotifier {
 
   Future clearReasonText() async {
     _reasonController.text = '';
-    _valueIdReasonText.text = '';
+    _valueIdReason.text = '';
+    _reasonTextController.text = '';
     notifyListeners();
   }
 
   Future addReasonText(int index) async {
-    if (_reasonController.text == '' && _valueIdReasonText.text == '') {
+    if (_reasonController.text == '' && _valueIdReason.text == '') {
       _reasonController.text = reasonModel!.responseObj![index].text!;
-      _valueIdReasonText.text = reasonModel!.responseObj![index].iD!.toString();
+      _valueIdReason.text = reasonModel!.responseObj![index].iD!.toString();
     } else {
       _reasonController.text += ', ${reasonModel!.responseObj![index].text!}';
-      _valueIdReasonText.text +=
+      _valueIdReason.text +=
           ',${reasonModel!.responseObj![index].iD!.toString()}';
     }
     notifyListeners();
@@ -174,6 +179,11 @@ class MenuProvider extends ChangeNotifier {
     if (_orderItem[index]['count'] > 1) {
       _orderItem[index]['count']--;
     }
+    notifyListeners();
+  }
+
+  setExceptionText(String value) {
+    _exceptionText = value;
     notifyListeners();
   }
 
