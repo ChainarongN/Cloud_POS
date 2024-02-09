@@ -3,8 +3,8 @@ import 'package:cloud_pos/providers/menu_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style.dart';
-import 'package:cloud_pos/utils/widgets/custom_error_widget.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
+import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,11 +35,11 @@ Future<void> reasonDialog(BuildContext context) {
             onPressed: () async {
               if (dataProvider.getReasonText.text.isNotEmpty ||
                   dataProvider.getReasonController.text.isNotEmpty) {
-                Constants().dialogLoadding(context);
+                LoadingStyle().dialogLoadding(context);
                 await dataProvider.cancelTransaction().then((value) {
                   if (dataProvider.apiState == ApiState.ERROR) {
                     Navigator.pop(context);
-                    Constants()
+                    LoadingStyle()
                         .dialogError(context, dataProvider.getExceptionText);
                   } else {
                     Navigator.of(context)
@@ -179,7 +179,8 @@ SizedBox groupMenu(BuildContext context, MenuProvider dataProvider) {
           onTap: () {
             dataProvider.setReason(index).then((value) {
               if (dataProvider.apiState == ApiState.ERROR) {
-                Constants().dialogError(context, dataProvider.getExceptionText);
+                LoadingStyle()
+                    .dialogError(context, dataProvider.getExceptionText);
               }
             });
           },

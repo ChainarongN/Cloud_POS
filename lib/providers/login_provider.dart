@@ -140,6 +140,8 @@ class LoginProvider extends ChangeNotifier {
         if (loginModel!.responseText == Constants.INVALID_LOGIN) {
           _errorText = 'Invalid username or password';
         } else {
+          Constants().printInfo(response.toString());
+          Constants().printWarning('GenUUID Login');
           String uuid = const Uuid().v4();
           await SharedPref().setUuid(uuid);
           await getCoreDataInit(true);

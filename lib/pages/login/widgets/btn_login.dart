@@ -4,6 +4,7 @@ import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style.dart';
+import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,12 +13,12 @@ GestureDetector btnLogin(
     BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
   return GestureDetector(
       onTap: () {
-        Constants().dialogLoadding(context);
+        LoadingStyle().dialogLoadding(context);
         loginRead.flowOpen().then((value) {
           if (loginWatch.apisState == ApiState.ERROR) {
             Navigator.pop(context);
             Future.delayed(const Duration(milliseconds: 500), () {
-              Constants().dialogError(context, loginWatch.getErrorText);
+              LoadingStyle().dialogError(context, loginWatch.getErrorText);
             });
           } else {
             Navigator.maybePop(context);
@@ -52,6 +53,7 @@ Future<void> openAmountDialog(
     BuildContext context, LoginProvider loginWatch, LoginProvider loginRead) {
   return showDialog<void>(
     context: context,
+    barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
         content: SizedBox(
@@ -88,7 +90,7 @@ Future<void> openAmountDialog(
             child: AppTextStyle().textNormal('OK', size: 18),
             onPressed: () async {
               if (loginWatch.getOpenAmountController.text.isNotEmpty) {
-                Constants().dialogLoadding(context);
+                LoadingStyle().dialogLoadding(context);
                 await loginRead.openSession().then((value) {
                   if (loginWatch.apisState == ApiState.COMPLETED) {
                     Navigator.pushNamedAndRemoveUntil(
@@ -96,7 +98,8 @@ Future<void> openAmountDialog(
                   } else {
                     Navigator.pop(context);
                     Future.delayed(const Duration(milliseconds: 500), () {
-                      Constants().dialogError(context, loginWatch.getErrorText);
+                      LoadingStyle()
+                          .dialogError(context, loginWatch.getErrorText);
                     });
                   }
                 });

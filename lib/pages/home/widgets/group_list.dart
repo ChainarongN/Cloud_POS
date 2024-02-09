@@ -49,44 +49,6 @@ SizedBox groupList(
                     },
                   ),
           ),
-
-          // GestureDetector(
-          //   onTap: () {
-          //     homeRead.setGroupItemValue(homeWatch.getGroupItem[index]);
-          //   },
-          //   child: Container(
-          //     width: MediaQuery.of(context).size.width * 0.1,
-          //     height: MediaQuery.of(context).size.height * 0.15,
-          //     padding: const EdgeInsets.all(5.0),
-          //     margin: const EdgeInsets.all(2),
-          //     decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.circular(10),
-          //       gradient: LinearGradient(
-          //         colors: homeWatch.getGroupItemValue ==
-          //                 homeWatch.getGroupItem[index]
-          //             ? [
-          //                 const Color.fromARGB(255, 113, 134, 255),
-          //                 const Color.fromARGB(255, 157, 198, 255),
-          //               ]
-          //             : [
-          //                 const Color.fromARGB(255, 138, 196, 255),
-          //                 const Color.fromARGB(255, 182, 212, 255),
-          //               ],
-          //         begin: Alignment.topLeft,
-          //         end: Alignment.bottomRight,
-          //       ),
-          //       boxShadow: const [
-          //         BoxShadow(
-          //             color: Color.fromARGB(255, 182, 212, 255),
-          //             blurRadius: 8,
-          //             offset: Offset(0, 6)),
-          //       ],
-          //     ),
-          //     child: Center(
-          //         child: AppTextStyle().textBold(homeWatch.getGroupItem[index],
-          //             size: 14, color: Colors.white)),
-          //   ),
-          // ),
         ),
       ),
     ),

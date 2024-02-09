@@ -1,8 +1,7 @@
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
-import 'package:cloud_pos/utils/constants.dart';
-import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
-import 'package:cloud_pos/utils/widgets/custom_error_widget.dart';
+import 'package:cloud_pos/utils/widgets/container_style_2.dart';
+import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
 
 SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
@@ -16,60 +15,41 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
         runSpacing: 5,
         children: List.generate(
           homeWatch.saleModeDataList!.length,
-          (index) => GestureDetector(
-            onTap: () async {
-              Constants().dialogLoadding(context);
-              await homeRead.openTransaction(context, index).then((value) {
-                if (homeWatch.apisState == ApiState.COMPLETED) {
-                  Navigator.maybePop(context);
-                  menuRead
-                      .setOrderId(homeWatch
-                          .openTranModel!.responseObj!.tranData!.orderID!)
-                      .then((value) {
-                    Navigator.pushNamed(context, '/menuPage');
-                  });
-                } else {
-                  Navigator.pop(context);
-                  Future.delayed(const Duration(milliseconds: 500), () {
-                    Constants().dialogError(context, homeWatch.getErrorText);
-                  });
-                }
-              });
-            },
-            child: Container(
+          (index) => Container(
+            margin: const EdgeInsets.all(2),
+            child: ContainerStyle2(
+              onlyText: true, 
+              title: homeWatch.saleModeDataList![index].saleModeName!,
+              icon: Icons.android,
+              size: 16,
+              radius: 35,
               width: MediaQuery.of(context).size.width * 0.2,
               height: MediaQuery.of(context).size.height * 0.2,
-              padding: const EdgeInsets.all(5.0),
-              margin: const EdgeInsets.all(2),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                gradient: const LinearGradient(
-                  colors: [
-                    Color.fromARGB(255, 138, 196, 255),
-                    Color.fromARGB(255, 182, 212, 255),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Color.fromARGB(255, 157, 198, 255),
-                      blurRadius: 8,
-                      offset: Offset(0, 6)),
-                ],
-              ),
-              child: Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  const Icon(Icons.adb_rounded,
-                      color: Colors.white, size: 35.0),
-                  AppTextStyle().textBold(
-                      homeWatch.saleModeDataList![index].saleModeName!,
-                      color: Colors.white,
-                      size: 16),
-                ],
-              )),
+              shadowColor: Colors.blue.shade400,
+              gradient1: Colors.blue.shade200,
+              gradient2: Colors.blue.shade300,
+              gradient3: Colors.blue.shade500,
+              gradient4: Colors.blue.shade500,
+              onPressed: () async {
+                LoadingStyle().dialogLoadding(context);
+                await homeRead.openTransaction(context, index).then((value) {
+                  if (homeWatch.apisState == ApiState.COMPLETED) {
+                    Navigator.maybePop(context);
+                    menuRead
+                        .setOrderId(homeWatch
+                            .openTranModel!.responseObj!.tranData!.orderID!)
+                        .then((value) {
+                      Navigator.pushNamed(context, '/menuPage');
+                    });
+                  } else {
+                    Navigator.pop(context);
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      LoadingStyle()
+                          .dialogError(context, homeWatch.getErrorText);
+                    });
+                  }
+                });
+              },
             ),
           ),
         ),

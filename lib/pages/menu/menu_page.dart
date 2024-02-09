@@ -11,6 +11,7 @@ import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/custom_error_widget.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
+import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,14 @@ class _MenuPageState extends State<MenuPage> {
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
-              confirmDialog(context, menuRead);
+              LoadingStyle().confirmDialog(context,
+                  title: 'You need cancel transaction. ?', onPressed: () {
+                Navigator.maybePop(context).then((value) {
+                  menuRead.clearReasonText();
+                  menuRead.setExceptionText('');
+                  reasonDialog(context);
+                });
+              });
             }),
         actions: <Widget>[
           employee(context),
@@ -103,48 +111,6 @@ class _MenuPageState extends State<MenuPage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Future<dynamic> confirmDialog(BuildContext context, MenuProvider menuRead) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        content: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 15),
-                child: AppTextStyle().textNormal(
-                    'You need cancel transaction. ?',
-                    color: Colors.red.shade400,
-                    size: 18),
-              ),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: AppTextStyle().textNormal('OK', size: 16),
-            onPressed: () async {
-              Navigator.maybePop(context).then((value) {
-                menuRead.clearReasonText();
-                menuRead.setExceptionText('');
-                reasonDialog(context);
-              });
-            },
-          ),
-          TextButton(
-            child: AppTextStyle()
-                .textNormal('Cancel', size: 16, color: Colors.red),
-            onPressed: () async {
-              Navigator.pop(context);
-            },
-          ),
-        ],
       ),
     );
   }

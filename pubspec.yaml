@@ -46,6 +46,7 @@ dependencies:
   uuid: ^4.3.3
   easy_localization: ^3.0.3
   cloud_firestore: ^4.15.3
+  flutter_widget_from_html: ^0.14.11
 
 dev_dependencies:
   flutter_test:

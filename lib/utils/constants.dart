@@ -61,27 +61,4 @@ class Constants {
       borderSide: BorderSide(color: color),
     );
   }
-
-  Future<void> dialogLoadding(BuildContext context) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return const LoaddingData();
-      },
-    );
-  }
-
-  Future<void> dialogError(BuildContext context, String errorString) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: SingleChildScrollView(
-              child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  child: CustomErrorWidget(errorMessage: errorString)),
-            ),
-          );
-        });
-  }
 }
