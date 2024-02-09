@@ -4,7 +4,7 @@ import 'package:cloud_pos/models/close_session_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/utility/i_utility_repositoty.dart';
 import 'package:cloud_pos/utils/constants.dart';
-import 'package:cloud_pos/utils/shared_pref.dart';
+import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:flutter/material.dart';
 
 class UtilityProvider extends ChangeNotifier {
@@ -33,17 +33,14 @@ class UtilityProvider extends ChangeNotifier {
           sessionId: sessionId,
           closeSSAmount: _closeAmountController.text);
       if (response is Failure) {
-        Constants().printError(response.code.toString());
         _errorText = response.errorResponse.toString();
         apiState = ApiState.ERROR;
-        _errorText = '';
       } else {
         closeSessionModel = CloseSessionModel.fromJson(jsonDecode(response));
         if (closeSessionModel!.responseCode!.isEmpty) {
           _htmlCloseSession = closeSessionModel!.responseObj!.printDataHtml!;
           apiState = ApiState.COMPLETED;
-          Constants().printInfo(response);
-          Constants().printWarning('closeSession');
+          Constants().printCheckFlow(response, 'closeSession');
         } else {
           _errorText = closeSessionModel!.responseText!;
           apiState = ApiState.ERROR;

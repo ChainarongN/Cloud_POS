@@ -87,32 +87,37 @@ Center menuTab(
                   childAspectRatio: 1.9,
                 ),
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(right: 10, bottom: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color.fromARGB(255, 225, 162, 242),
-                          Color.fromARGB(255, 166, 151, 240),
+                  return GestureDetector(
+                    onTap: () {
+                      menuRead.callProductObj(index);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.only(right: 10, bottom: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 225, 162, 242),
+                            Color.fromARGB(255, 166, 151, 240),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Color.fromARGB(255, 166, 151, 240),
+                              blurRadius: 8,
+                              offset: Offset(0, 6)),
                         ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
                       ),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Color.fromARGB(255, 166, 151, 240),
-                            blurRadius: 8,
-                            offset: Offset(0, 6)),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 5, right: 5),
-                      child: AppTextStyle().textNormal(
-                          menuWatch.prodToShow![index].productName!,
-                          size: 16,
-                          color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 5, right: 5),
+                        child: AppTextStyle().textNormal(
+                            menuWatch.prodToShow![index].productName!,
+                            size: 16,
+                            color: Colors.white),
+                      ),
                     ),
                   );
                 },

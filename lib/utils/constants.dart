@@ -1,7 +1,4 @@
 // ignore_for_file: constant_identifier_names
-
-import 'package:cloud_pos/utils/widgets/custom_error_widget.dart';
-import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:flutter/material.dart';
 
 class Constants {
@@ -60,5 +57,10 @@ class Constants {
       borderRadius: const BorderRadius.all(Radius.circular(10)),
       borderSide: BorderSide(color: color),
     );
+  }
+
+  printCheckFlow(var first, var second) {
+    Constants().printInfo(first.toString());
+    Constants().printWarning(second.toString());
   }
 }

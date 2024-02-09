@@ -1,7 +1,7 @@
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/utility/i_utility_repositoty.dart';
-import 'package:cloud_pos/utils/shared_pref.dart';
+import 'package:cloud_pos/service/shared_pref.dart';
 
 class UtilityRepository implements IUtilityRepository {
   @override

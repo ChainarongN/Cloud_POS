@@ -18,7 +18,7 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
           (index) => Container(
             margin: const EdgeInsets.all(2),
             child: ContainerStyle2(
-              onlyText: true, 
+              onlyText: true,
               title: homeWatch.saleModeDataList![index].saleModeName!,
               icon: Icons.android,
               size: 16,
@@ -35,9 +35,13 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
                 await homeRead.openTransaction(context, index).then((value) {
                   if (homeWatch.apisState == ApiState.COMPLETED) {
                     Navigator.maybePop(context);
+                    String orderId = homeWatch
+                        .openTranModel!.responseObj!.tranData!.orderID!;
+                    String tranData = homeWatch
+                        .openTranModel!.responseObj!.tranData!
+                        .toString();
                     menuRead
-                        .setOrderId(homeWatch
-                            .openTranModel!.responseObj!.tranData!.orderID!)
+                        .setTranData(orderID: orderId, tranObject: tranData)
                         .then((value) {
                       Navigator.pushNamed(context, '/menuPage');
                     });

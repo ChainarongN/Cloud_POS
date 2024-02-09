@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
+import 'package:cloud_pos/models/product_obj_model.dart';
 import 'package:cloud_pos/models/reason_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/pages/menu/function/read_file_func.dart';
+import 'package:cloud_pos/service/function/read_file_func.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,8 @@ class MenuProvider extends ChangeNotifier {
   List<Products>? prodToSearch;
   ReasonModel? reasonModel;
   CancelTranModel? cancelTranModel;
+  ProductObjModel? productObjModel;
+  String? _tranData;
 
   int? _valueMenuSelect;
   String? _valueReasonGroupSelect;
@@ -52,6 +55,34 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future callProductObj(int index) async {
+    apiState = ApiState.LOADING;
+    try {
+      var response = await _menuRepository.productObj(
+          tranData: _tranData,
+          productId: prodToShow![index].productID!.toString(),
+          deviceKey: '0288-7363-6560-2714');
+      if (response is Failure) {
+        _exceptionText = response.errorResponse.toString();
+        apiState = ApiState.ERROR;
+      } else {
+        productObjModel = ProductObjModel.fromJson(jsonDecode(response));
+        if (productObjModel!.responseCode!.isEmpty) {
+          Constants().printInfo(response);
+          apiState = ApiState.COMPLETED;
+        } else {
+          _exceptionText = productObjModel!.responseText.toString();
+          apiState = ApiState.ERROR;
+        }
+      }
+    } catch (e, strack) {
+      Constants().printError('$e - $strack');
+      _exceptionText = e.toString();
+      apiState = ApiState.ERROR;
+    }
+    notifyListeners();
+  }
+
   Future cancelTransaction() async {
     apiState = ApiState.LOADING;
     try {
@@ -62,21 +93,18 @@ class MenuProvider extends ChangeNotifier {
           reasonIDList: _valueIdReason.text,
           reasonText: _reasonTextController.text);
       if (response is Failure) {
-        apiState = ApiState.ERROR;
         _exceptionText = response.errorResponse.toString();
-        Constants().printError(response.code.toString());
-        Constants().printError(response.errorResponse.toString());
+        apiState = ApiState.ERROR;
+        Constants().printCheckFlow(response.code, response.errorResponse);
       } else {
         // cancelTranModel = CancelTranModel.fromJson(jsonDecode(response));
         apiState = ApiState.COMPLETED;
-        Constants().printInfo(response);
-        Constants().printWarning('Cancel Transaction');
+        Constants().printCheckFlow(response, 'Cancel Transaction');
       }
     } catch (e, strack) {
+      _exceptionText = strack.toString();
+      Constants().printError('$e - $strack');
       apiState = ApiState.ERROR;
-      Constants().printError(e.toString());
-      Constants().printError(strack.toString());
-      _exceptionText = e.toString();
     }
   }
 
@@ -91,19 +119,17 @@ class MenuProvider extends ChangeNotifier {
           reasonId: reasonGroupList![index].iD.toString());
 
       if (response is Failure) {
-        apiState = ApiState.ERROR;
         _exceptionText = response.errorResponse.toString();
-        Constants().printError(response.code.toString());
-        Constants().printError(response.errorResponse.toString());
+        apiState = ApiState.ERROR;
+        Constants().printCheckFlow(response.code, response.errorResponse);
       } else {
         reasonModel = ReasonModel.fromJson(jsonDecode(response));
         apiState = ApiState.COMPLETED;
       }
     } catch (e, strack) {
+      _exceptionText = strack.toString();
+      Constants().printError('$e - $strack');
       apiState = ApiState.ERROR;
-      Constants().printError(e.toString());
-      Constants().printError(strack.toString());
-      _exceptionText = e.toString();
     }
 
     notifyListeners();
@@ -128,8 +154,6 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future setOrderId(String value) async => _orderId = value;
-
   Future _readData() async {
     apiState = ApiState.LOADING;
     try {
@@ -143,10 +167,9 @@ class MenuProvider extends ChangeNotifier {
       reasonGroupList = value[2] as List<ReasonGroup>;
       apiState = ApiState.COMPLETED;
     } catch (e, strack) {
+      _exceptionText = strack.toString();
+      Constants().printError('$e - $strack');
       apiState = ApiState.ERROR;
-      _exceptionText = e.toString();
-      Constants().printError(e.toString());
-      Constants().printError(strack.toString());
     }
   }
 
@@ -185,6 +208,11 @@ class MenuProvider extends ChangeNotifier {
   setExceptionText(String value) {
     _exceptionText = value;
     notifyListeners();
+  }
+
+  Future setTranData({String? tranObject, String? orderID}) async {
+    _tranData = tranObject;
+    _orderId = orderID;
   }
 
   final List _orderItem = [

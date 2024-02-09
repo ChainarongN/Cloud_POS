@@ -12,4 +12,5 @@ class Endpoints {
   static const String reason = "$baseUrl/api/POSModule/POS_Reason";
   static const String cancelTran = "$baseUrl/api/POSModule/POS_TranVoid";
   static const String closeSession = "$baseUrl/api/POSModule/POS_SessionClose";
+  static const String productObj = "$baseUrl/api/POSModule/OrderMenu_Obj";
 }

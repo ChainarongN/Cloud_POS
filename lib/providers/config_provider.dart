@@ -1,6 +1,6 @@
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/config/i_config_repository.dart';
-import 'package:cloud_pos/utils/shared_pref.dart';
+import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:flutter/material.dart';
 
 class ConfigProvider extends ChangeNotifier {

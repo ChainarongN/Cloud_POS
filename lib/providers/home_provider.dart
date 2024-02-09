@@ -1,8 +1,8 @@
 import 'dart:convert';
+import 'package:cloud_pos/service/function/read_file_func.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/models/open_tran_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/pages/home/function/read_salemode_func.dart';
 import 'package:cloud_pos/repositorys/home/i_home_repository.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +59,7 @@ class HomeProvider extends ChangeNotifier {
         saleModeId: saleModeDataList![index].saleModeID!,
       );
       if (response is Failure) {
-        Constants().printError(response.code.toString());
+        Constants().printCheckFlow(response.code, response.errorResponse);
         _errorText = response.errorResponse.toString();
         apisState = ApiState.ERROR;
       } else {
@@ -67,20 +67,21 @@ class HomeProvider extends ChangeNotifier {
         if (openTranModel!.responseCode == "") {
           apisState = ApiState.COMPLETED;
         } else {
-          apisState = ApiState.ERROR;
           _errorText = openTranModel!.responseText;
+          apisState = ApiState.ERROR;
         }
       }
     } catch (e, strack) {
-      apisState = ApiState.ERROR;
       _errorText = strack.toString();
+      apisState = ApiState.ERROR;
+      Constants().printError('$e - $strack');
     }
   }
 
   Future readSaleModeFile() async {
     try {
       String? fileResponse =
-          await ReadSaleModeFunc().readCoreInit(Constants.SALE_MODE_TXT);
+          await ReadFileFunc().readCoreInit(Constants.SALE_MODE_TXT);
       saleModeDataList = (jsonDecode(fileResponse) as List)
           .map((e) => SaleModeData.fromJson(e))
           .toList();

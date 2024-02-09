@@ -8,7 +8,7 @@ import 'package:cloud_pos/models/start_process_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
 import 'package:cloud_pos/utils/constants.dart';
-import 'package:cloud_pos/utils/shared_pref.dart';
+import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -66,8 +66,7 @@ class LoginProvider extends ChangeNotifier {
       await SharedPref().setShopID(startProcessModel!.responseObj!.shopID!);
       await SharedPref().setSaleDate(startProcessModel!.responseObj!.saleDate!);
 
-      Constants().printInfo(response);
-      Constants().printWarning('startProcess');
+      Constants().printCheckFlow(response, 'startProcess');
       if (startProcessModel!.responseObj!.actionInfo!.actionCode != null) {
         _openSession = true;
       }
@@ -90,11 +89,11 @@ class LoginProvider extends ChangeNotifier {
         await SharedPref().setSessionKey(openSessionModel!.responseObj!.key!);
 
         apisState = ApiState.COMPLETED;
-        Constants().printInfo(response);
-        Constants().printWarning('openSession');
+        Constants().printCheckFlow(response, 'openSession');
       }
     } catch (e, strack) {
       _errorText = strack.toString();
+      Constants().printError('$e - $strack');
       apisState = ApiState.ERROR;
     }
   }
@@ -108,7 +107,6 @@ class LoginProvider extends ChangeNotifier {
           grantType: 'client_credentials',
           clientSecret: 'acf7e10c71296430');
       if (response is Failure) {
-        Constants().printError(response.code.toString());
         _errorText = response.errorResponse.toString();
         apisState = ApiState.ERROR;
       } else {
@@ -116,8 +114,7 @@ class LoginProvider extends ChangeNotifier {
         await SharedPref().setToken(authTokenModel!.accessToken!);
         await SharedPref().setOpenTokenDay(now.day.toString());
 
-        Constants().printInfo(response);
-        Constants().printWarning('auth token');
+        Constants().printCheckFlow(response, 'auth token');
       }
     }
   }
@@ -140,15 +137,13 @@ class LoginProvider extends ChangeNotifier {
         if (loginModel!.responseText == Constants.INVALID_LOGIN) {
           _errorText = 'Invalid username or password';
         } else {
-          Constants().printInfo(response.toString());
-          Constants().printWarning('GenUUID Login');
+          Constants().printCheckFlow(response, 'GenUUId login');
           String uuid = const Uuid().v4();
           await SharedPref().setUuid(uuid);
           await getCoreDataInit(true);
         }
       } else {
-        Constants().printInfo(response.toString());
-        Constants().printWarning('Success Login');
+        Constants().printCheckFlow(response, 'Success Login');
         await SharedPref()
             .setStaffID(loginModel!.responseObj!.staffInfo!.staffID!);
         await checkReadCoreData();
@@ -177,8 +172,7 @@ class LoginProvider extends ChangeNotifier {
       langID: '1',
     );
     if (response is Failure) {
-      Constants().printError(response.code.toString());
-      Constants().printError(response.errorResponse.toString());
+      _errorText = response.errorResponse.toString();
       apisState = ApiState.ERROR;
     } else {
       try {
@@ -204,15 +198,13 @@ class LoginProvider extends ChangeNotifier {
           ],
         );
 
-        Constants().printInfo(response.toString());
-        Constants().printWarning('CoreDataInit');
+        Constants().printCheckFlow(response, 'CoreDataInit');
         if (loginAgain) {
           await login();
         }
       } catch (e, strack) {
-        _errorText = e.toString();
-        Constants().printError(e.toString());
-        Constants().printError(strack.toString());
+        _errorText = strack.toString();
+        Constants().printError('$e - $strack');
         apisState = ApiState.ERROR;
       }
     }

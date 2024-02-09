@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
-import 'package:cloud_pos/utils/shared_pref.dart';
+import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:uuid/uuid.dart';
 
 class LoginRepository implements ILoginRepository {
@@ -72,6 +72,8 @@ class LoginRepository implements ILoginRepository {
       'grant_type': grantType,
       'client_secret': clientSecret
     };
+    String uuid = const Uuid().v4();
+    await SharedPref().setUuid(uuid);
     var response = await APIService().post(Endpoints.authUrl, data);
     return response;
   }
@@ -84,7 +86,7 @@ class LoginRepository implements ILoginRepository {
       String? password}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
-    if (uuid == '') {
+    if (uuid.isEmpty) {
       uuid = const Uuid().v4();
       await SharedPref().setUuid(uuid);
     }
