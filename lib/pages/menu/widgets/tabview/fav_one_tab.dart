@@ -76,29 +76,25 @@ Center favoriteTab1(
               margin: const EdgeInsets.only(top: 5),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.7,
-              child: NotificationListener<ScrollUpdateNotification>(
-                child: GridView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  // itemCount: 15,
-                  itemCount: menuWatch.prodToShow!.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1.06,
-                  ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return RecipeItem(
+              child: GridView.builder(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: menuWatch.prodToShow!.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 1.06,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      menuRead.addProduct(context,
+                          menuWatch.prodToShow![index].productID!, 1, '0');
+                    },
+                    child: RecipeItem(
                       recipeName: menuWatch.prodToShow![index].productName!,
                       recipeImage: 'assets/coffee2.jpg',
-                    );
-                  },
-                ),
-                onNotification: (notification) {
-                  if (notification.metrics.pixels ==
-                      notification.metrics.maxScrollExtent) {
-                    // print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-                  }
-                  return true;
+                    ),
+                  );
                 },
               ),
             ),

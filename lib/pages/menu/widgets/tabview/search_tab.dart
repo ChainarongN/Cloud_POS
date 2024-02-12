@@ -52,9 +52,15 @@ Center searchTab(
                   childAspectRatio: 0.9,
                 ),
                 itemBuilder: (BuildContext context, int index) {
-                  return RecipeItem(
-                    recipeName: menuWatch.prodToSearch![index].productName!,
-                    recipeImage: 'assets/coffee2.jpg',
+                  return GestureDetector(
+                    onTap: () {
+                      menuRead.addProduct(context,
+                          menuWatch.prodToSearch![index].productID!, 1, '0');
+                    },
+                    child: RecipeItem(
+                      recipeName: menuWatch.prodToSearch![index].productName!,
+                      recipeImage: 'assets/coffee2.jpg',
+                    ),
                   );
                 },
               ),

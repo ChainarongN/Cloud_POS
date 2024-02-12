@@ -396,8 +396,11 @@ SizedBox orderList(
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: AppTextStyle().textNormal(
-                                        menuWatch.getOrderItem[index]['name']),
+                                    title: AppTextStyle().textNormal(menuWatch
+                                        .productAddModel!
+                                        .responseObj!
+                                        .orderList![index]
+                                        .itemName!),
                                     content: TextField(
                                       onChanged: (value) {},
                                       decoration: const InputDecoration(

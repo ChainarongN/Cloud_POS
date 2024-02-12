@@ -61,10 +61,10 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future addProduct(BuildContext context, int index, double count,
+  Future addProduct(BuildContext context, int prodId, double count,
       String orderDetailId) async {
     LoadingStyle().dialogLoadding(context);
-    await callProductObj(context, index, orderDetailId);
+    await callProductObj(context, prodId, orderDetailId);
     await callProductAdd(context, count)
         .then((value) => Navigator.maybePop(context));
     notifyListeners();
@@ -100,11 +100,11 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future callProductObj(
-      BuildContext context, int index, String orderDetailId) async {
+      BuildContext context, int prodId, String orderDetailId) async {
     try {
       var response = await _menuRepository.productObj(
           tranData: _tranData,
-          productId: prodToShow![index].productID!.toString(),
+          productId: prodId.toString(),
           deviceKey: '0288-7363-6560-2714',
           orderDetailId: orderDetailId);
       if (response is Failure) {
@@ -244,7 +244,7 @@ class MenuProvider extends ChangeNotifier {
   addCountOrder(BuildContext context, int index) {
     addProduct(
         context,
-        index,
+        productAddModel!.responseObj!.orderList![index].productID!,
         productAddModel!.responseObj!.orderList![index].qty! + 1,
         productAddModel!.responseObj!.orderList![index].orderDetailID
             .toString());
@@ -253,7 +253,7 @@ class MenuProvider extends ChangeNotifier {
   removeCountOrder(BuildContext context, int index) {
     addProduct(
         context,
-        index,
+        productAddModel!.responseObj!.orderList![index].productID!,
         productAddModel!.responseObj!.orderList![index].qty! - 1,
         productAddModel!.responseObj!.orderList![index].orderDetailID
             .toString());
