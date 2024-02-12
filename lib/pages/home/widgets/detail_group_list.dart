@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/container_style_2.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +40,8 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
                     Navigator.maybePop(context);
                     String orderId = homeWatch
                         .openTranModel!.responseObj!.tranData!.orderID!;
-                    String tranData = homeWatch
-                        .openTranModel!.responseObj!.tranData!
-                        .toString();
+                    String tranData = json.encode(
+                        homeWatch.openTranModel!.responseObj!.tranData!);
                     menuRead
                         .setTranData(orderID: orderId, tranObject: tranData)
                         .then((value) {

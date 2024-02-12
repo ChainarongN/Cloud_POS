@@ -17,7 +17,7 @@ Card manageMenu(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              orderTitle(),
+              orderTitle(menuWatch),
               Divider(thickness: 2, color: Colors.grey.shade300),
               orderList(menuWatch, menuRead, context),
               Divider(thickness: 2, color: Colors.grey.shade300),
@@ -373,108 +373,123 @@ Row orderDetail(BuildContext context) {
 
 SizedBox orderList(
     MenuProvider menuWatch, MenuProvider menuRead, BuildContext context) {
-  return SizedBox(
-    height: MediaQuery.of(context).size.height * 0.3,
-    child: ListView(
-      children: [
-        Column(
-          children: List.generate(
-            menuWatch.getOrderItem.length,
-            (index) => Slidable(
-              endActionPane: ActionPane(
-                motion: const BehindMotion(),
-                children: [
-                  SlidableAction(
-                    flex: 2,
-                    onPressed: (context) {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: AppTextStyle().textNormal(
-                                  menuWatch.getOrderItem[index]['name']),
-                              content: TextField(
-                                onChanged: (value) {},
-                                decoration: const InputDecoration(
-                                    hintText: "Input your remark"),
-                              ),
-                              actions: [
-                                GestureDetector(
-                                  onTap: () => Navigator.pop(context),
-                                  child: AppTextStyle()
-                                      .textNormal('Cancel', color: Colors.red),
-                                ),
-                                const SizedBox(width: 20),
-                                GestureDetector(
-                                  onTap: () => Navigator.pop(context),
-                                  child: AppTextStyle().textBold('OK',
-                                      color: Constants.primaryColor),
-                                ),
-                              ],
-                            );
-                          });
-                    },
-                    backgroundColor: Colors.grey,
-                    foregroundColor: Colors.white,
-                    icon: Icons.archive,
-                    label: 'Remark',
+  return menuWatch.productAddModel == null
+      ? SizedBox(
+          height: MediaQuery.of(context).size.height * 0.3,
+          child: Center(child: AppTextStyle().textNormal('There is no menu.')),
+        )
+      : SizedBox(
+          height: MediaQuery.of(context).size.height * 0.3,
+          child: ListView(
+            children: [
+              Column(
+                children: List.generate(
+                  menuWatch.productAddModel!.responseObj!.orderList!.length,
+                  (index) => Slidable(
+                    endActionPane: ActionPane(
+                      motion: const BehindMotion(),
+                      children: [
+                        SlidableAction(
+                          flex: 2,
+                          onPressed: (context) {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: AppTextStyle().textNormal(
+                                        menuWatch.getOrderItem[index]['name']),
+                                    content: TextField(
+                                      onChanged: (value) {},
+                                      decoration: const InputDecoration(
+                                          hintText: "Input your remark"),
+                                    ),
+                                    actions: [
+                                      GestureDetector(
+                                        onTap: () => Navigator.pop(context),
+                                        child: AppTextStyle().textNormal(
+                                            'Cancel',
+                                            color: Colors.red),
+                                      ),
+                                      const SizedBox(width: 20),
+                                      GestureDetector(
+                                        onTap: () => Navigator.pop(context),
+                                        child: AppTextStyle().textBold('OK',
+                                            color: Constants.primaryColor),
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                          backgroundColor: Colors.grey,
+                          foregroundColor: Colors.white,
+                          icon: Icons.archive,
+                          label: 'Remark',
+                        ),
+                        SlidableAction(
+                          flex: 2,
+                          onPressed: (context) {},
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                          icon: Icons.save,
+                          label: 'Delete',
+                        ),
+                      ],
+                    ),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.055,
+                      margin: const EdgeInsets.only(bottom: 5, right: 5),
+                      child: Row(
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () =>
+                                menuRead.removeCountOrder(context, index),
+                            child: const Icon(Icons.remove_circle_outline,
+                                color: Colors.red, size: 35.0),
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width * 0.03,
+                            child: AppTextStyle().textBold(
+                                menuWatch.productAddModel!.responseObj!
+                                    .orderList![index].qty
+                                    .toString()
+                                    .split(
+                                        '.') //Why split ? because int.parse is Invalid radix-10 number. i don't know why
+                                    .first,
+                                size: 16),
+                          ),
+                          GestureDetector(
+                            onTap: () => menuRead.addCountOrder(context, index),
+                            child: const Icon(Icons.add_box_outlined,
+                                color: Constants.primaryColor, size: 35.0),
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.16,
+                              child: AppTextStyle().textBold(
+                                  menuWatch.productAddModel!.responseObj!
+                                      .orderList![index].itemName!,
+                                  size: 16)),
+                          const Spacer(),
+                          Container(
+                              alignment: Alignment.centerRight,
+                              width: MediaQuery.of(context).size.width * 0.06,
+                              child: AppTextStyle().textBold(
+                                  menuWatch.productAddModel!.responseObj!
+                                      .orderList![index].retailPrice!
+                                      .toString(),
+                                  size: 16)),
+                        ],
+                      ),
+                    ),
                   ),
-                  SlidableAction(
-                    flex: 2,
-                    onPressed: (context) {},
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    icon: Icons.save,
-                    label: 'Delete',
-                  ),
-                ],
-              ),
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.055,
-                margin: const EdgeInsets.only(bottom: 5, right: 5),
-                child: Row(
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () => menuRead.removeCountOrder(index),
-                      child: const Icon(Icons.remove_circle_outline,
-                          color: Colors.red, size: 35.0),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width * 0.03,
-                      child: AppTextStyle().textBold(
-                          menuWatch.getOrderItem[index]['count'].toString(),
-                          size: 16),
-                    ),
-                    GestureDetector(
-                      onTap: () => menuRead.addCountOrder(index),
-                      child: const Icon(Icons.add_box_outlined,
-                          color: Constants.primaryColor, size: 35.0),
-                    ),
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.16,
-                        child: AppTextStyle().textBold(
-                            '${menuWatch.getOrderItem[index]['name']}',
-                            size: 16)),
-                    const Spacer(),
-                    Container(
-                        alignment: Alignment.centerRight,
-                        width: MediaQuery.of(context).size.width * 0.06,
-                        child: AppTextStyle().textBold(
-                            '฿${menuWatch.getOrderItem[index]['price']}',
-                            size: 16)),
-                  ],
                 ),
               ),
-            ),
+            ],
           ),
-        ),
-      ],
-    ),
-  );
+        );
 }
 
-Row orderTitle() {
+Row orderTitle(MenuProvider menuWatch) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: <Widget>[
@@ -482,7 +497,11 @@ Row orderTitle() {
         child: AppTextStyle().textBold('DINE IN', size: 22),
       ),
       Container(
-        child: AppTextStyle().textBold('฿260', size: 22),
+        child: menuWatch.productAddModel != null
+            ? AppTextStyle().textBold(
+                menuWatch.productAddModel!.responseObj!.retailAmount.toString(),
+                size: 22)
+            : AppTextStyle().textBold('0.00', size: 22),
       )
     ],
   );

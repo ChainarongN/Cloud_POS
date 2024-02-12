@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/menu/i_menu_repository.dart';
@@ -7,14 +5,33 @@ import 'package:cloud_pos/service/shared_pref.dart';
 
 class MenuRepository implements IMenuRepository {
   @override
-  Future productObj(
-      {String? tranData, String? productId, String? deviceKey}) async {
+  Future productAdd({String? deviceKey, String? prodObj}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     var param = {
       "reqId": uuid,
       "deviceKey": deviceKey,
-      "OrderDetailID": '0',
+      "LangID": '1',
+      "ViewOrderInfo": 'true',
+    };
+    var response = await APIService().postAndParams(
+        url: Endpoints.productAdd, param: param, token: token, data: prodObj);
+
+    return response;
+  }
+
+  @override
+  Future productObj(
+      {String? tranData,
+      String? productId,
+      String? deviceKey,
+      String? orderDetailId}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceKey,
+      "OrderDetailID": orderDetailId,
       "SelProductID": productId,
       "LangID": '1'
     };

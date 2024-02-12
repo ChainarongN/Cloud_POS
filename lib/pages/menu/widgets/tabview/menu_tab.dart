@@ -89,7 +89,7 @@ Center menuTab(
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
-                      menuRead.callProductObj(index);
+                      menuRead.addProduct(context, index, 1, '0');
                     },
                     child: Container(
                       alignment: Alignment.center,

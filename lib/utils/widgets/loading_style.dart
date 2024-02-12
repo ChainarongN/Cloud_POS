@@ -59,9 +59,15 @@ class LoadingStyle {
           return AlertDialog(
             content: SingleChildScrollView(
               child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.35,
+                  height: MediaQuery.of(context).size.height * 0.33,
                   child: CustomErrorWidget(errorMessage: errorString)),
             ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: AppTextStyle().textNormal('OK', size: 16),
+              ),
+            ],
           );
         });
   }

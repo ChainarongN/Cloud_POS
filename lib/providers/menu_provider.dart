@@ -1,12 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
+import 'package:cloud_pos/models/product_add_model.dart';
 import 'package:cloud_pos/models/product_obj_model.dart';
 import 'package:cloud_pos/models/reason_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/service/function/read_file_func.dart';
 import 'package:cloud_pos/utils/constants.dart';
+import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
 
 import '../repositorys/repository.dart';
@@ -24,6 +28,7 @@ class MenuProvider extends ChangeNotifier {
   ReasonModel? reasonModel;
   CancelTranModel? cancelTranModel;
   ProductObjModel? productObjModel;
+  ProductAddModel? productAddModel;
   String? _tranData;
 
   int? _valueMenuSelect;
@@ -44,6 +49,7 @@ class MenuProvider extends ChangeNotifier {
   TextEditingController get getReasonText => _reasonTextController;
 
   init() async {
+    productAddModel = null;
     prodGroupList = [];
     prodList = [];
     prodToSearch = [];
@@ -55,30 +61,72 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future callProductObj(int index) async {
-    apiState = ApiState.LOADING;
+  Future addProduct(BuildContext context, int index, double count,
+      String orderDetailId) async {
+    LoadingStyle().dialogLoadding(context);
+    await callProductObj(context, index, orderDetailId);
+    await callProductAdd(context, count)
+        .then((value) => Navigator.maybePop(context));
+    notifyListeners();
+  }
+
+  Future callProductAdd(BuildContext context, double count) async {
     try {
-      var response = await _menuRepository.productObj(
-          tranData: _tranData,
-          productId: prodToShow![index].productID!.toString(),
-          deviceKey: '0288-7363-6560-2714');
+      productObjModel!.responseObj!.productData!.productQty = count;
+      var response = await _menuRepository.productAdd(
+          deviceKey: '0288-7363-6560-2714',
+          prodObj: json.encode(productObjModel!.responseObj));
       if (response is Failure) {
-        _exceptionText = response.errorResponse.toString();
         apiState = ApiState.ERROR;
+        await LoadingStyle()
+            .dialogError(context, response.errorResponse.toString());
       } else {
-        productObjModel = ProductObjModel.fromJson(jsonDecode(response));
+        productAddModel = ProductAddModel.fromJson(jsonDecode(response));
         if (productObjModel!.responseCode!.isEmpty) {
           Constants().printInfo(response);
-          apiState = ApiState.COMPLETED;
+          Constants().printWarning('product add');
         } else {
-          _exceptionText = productObjModel!.responseText.toString();
           apiState = ApiState.ERROR;
+          await LoadingStyle()
+              .dialogError(context, productObjModel!.responseText.toString());
         }
       }
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       _exceptionText = e.toString();
       apiState = ApiState.ERROR;
+      await LoadingStyle().dialogError(context, e.toString());
+    }
+  }
+
+  Future callProductObj(
+      BuildContext context, int index, String orderDetailId) async {
+    try {
+      var response = await _menuRepository.productObj(
+          tranData: _tranData,
+          productId: prodToShow![index].productID!.toString(),
+          deviceKey: '0288-7363-6560-2714',
+          orderDetailId: orderDetailId);
+      if (response is Failure) {
+        apiState = ApiState.ERROR;
+        await LoadingStyle()
+            .dialogError(context, response.errorResponse.toString());
+      } else {
+        productObjModel = ProductObjModel.fromJson(jsonDecode(response));
+        if (productObjModel!.responseCode!.isEmpty) {
+          Constants().printInfo(response);
+          Constants().printWarning('product obj');
+        } else {
+          apiState = ApiState.ERROR;
+          await LoadingStyle()
+              .dialogError(context, productObjModel!.responseText.toString());
+        }
+      }
+    } catch (e, strack) {
+      Constants().printError('$e - $strack');
+      _exceptionText = e.toString();
+      apiState = ApiState.ERROR;
+      await LoadingStyle().dialogError(context, e.toString());
     }
     notifyListeners();
   }
@@ -135,13 +183,6 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future clearReasonText() async {
-    _reasonController.text = '';
-    _valueIdReason.text = '';
-    _reasonTextController.text = '';
-    notifyListeners();
-  }
-
   Future addReasonText(int index) async {
     if (_reasonController.text == '' && _valueIdReason.text == '') {
       _reasonController.text = reasonModel!.responseObj![index].text!;
@@ -193,16 +234,29 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  addCountOrder(int index) {
-    _orderItem[index]['count']++;
+  Future clearReasonText() async {
+    _reasonController.text = '';
+    _valueIdReason.text = '';
+    _reasonTextController.text = '';
     notifyListeners();
   }
 
-  removeCountOrder(int index) {
-    if (_orderItem[index]['count'] > 1) {
-      _orderItem[index]['count']--;
-    }
-    notifyListeners();
+  addCountOrder(BuildContext context, int index) {
+    addProduct(
+        context,
+        index,
+        productAddModel!.responseObj!.orderList![index].qty! + 1,
+        productAddModel!.responseObj!.orderList![index].orderDetailID
+            .toString());
+  }
+
+  removeCountOrder(BuildContext context, int index) {
+    addProduct(
+        context,
+        index,
+        productAddModel!.responseObj!.orderList![index].qty! - 1,
+        productAddModel!.responseObj!.orderList![index].orderDetailID
+            .toString());
   }
 
   setExceptionText(String value) {

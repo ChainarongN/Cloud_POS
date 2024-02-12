@@ -57,30 +57,44 @@ class _MenuPageState extends State<MenuPage> {
       ),
       body: menuWatch.apiState == ApiState.LOADING
           ? const LoaddingData()
-          : menuWatch.apiState == ApiState.ERROR
-              ? CustomErrorWidget(errorMessage: menuWatch.getExceptionText)
-              : Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Constants.primaryColor),
-                      color: Constants.secondaryColor,
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        // listItem(menuWatch, context),
-                        manageMenu(context, menuWatch, menuRead),
-                        tabViewAll(context, menuWatch, menuRead),
-                      ],
-                    ),
-                  ),
+          : Padding(
+              padding: const EdgeInsets.all(8),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Constants.primaryColor),
+                  color: Constants.secondaryColor,
                 ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    manageMenu(context, menuWatch, menuRead),
+                    tabViewAll(context, menuWatch, menuRead),
+                  ],
+                ),
+              ),
+            ),
     );
   }
+
+  // Widget _status(
+  //     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
+  //   switch (menuWatch.apiState) {
+  //     case ApiState.LOADING:
+  //       LoadingStyle().dialogLoadding(context);
+  //       return completedWidget(context, menuWatch, menuRead);
+
+  //     case ApiState.COMPLETED:
+  //       Navigator.maybePop(context);
+  //       return completedWidget(context, menuWatch, menuRead);
+
+  //     case ApiState.ERROR:
+  //       LoadingStyle().dialogError(context, menuWatch.getExceptionText);
+  //       return completedWidget(context, menuWatch, menuRead);
+  //   }
+  // }
 
   Expanded tabViewAll(
       BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
