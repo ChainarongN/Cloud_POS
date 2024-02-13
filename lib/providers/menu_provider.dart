@@ -63,7 +63,7 @@ class MenuProvider extends ChangeNotifier {
 
   Future addProduct(BuildContext context, int prodId, double count,
       String orderDetailId) async {
-    LoadingStyle().dialogLoadding(context);
+    LoadingStyle().dialogLoadding(context, true);
     await callProductObj(context, prodId, orderDetailId);
     await callProductAdd(context, count)
         .then((value) => Navigator.maybePop(context));

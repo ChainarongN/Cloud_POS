@@ -35,7 +35,7 @@ Future<void> reasonDialog(BuildContext context) {
             onPressed: () async {
               if (dataProvider.getReasonText.text.isNotEmpty ||
                   dataProvider.getReasonController.text.isNotEmpty) {
-                LoadingStyle().dialogLoadding(context);
+                LoadingStyle().dialogLoadding(context, false);
                 await dataProvider.cancelTransaction().then((value) {
                   if (dataProvider.apiState == ApiState.ERROR) {
                     Navigator.pop(context);

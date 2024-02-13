@@ -12,7 +12,6 @@ import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:uuid/uuid.dart';
 
 class LoginProvider extends ChangeNotifier {
   final ILoginRepository _loginRepository;
@@ -137,9 +136,6 @@ class LoginProvider extends ChangeNotifier {
         if (loginModel!.responseText == Constants.INVALID_LOGIN) {
           _errorText = 'Invalid username or password';
         } else {
-          Constants().printCheckFlow(response, 'GenUUId login');
-          // String uuid = const Uuid().v4();
-          // await SharedPref().setUuid(uuid);
           await getCoreDataInit(true);
         }
       } else {

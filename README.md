@@ -15,3 +15,8 @@ how to use :
 how to setLocale :
 
 - await context.setLocale(Locale('en'));
+
+# Run
+
+- flutter pub get
+- flutter run

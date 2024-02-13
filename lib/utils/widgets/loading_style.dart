@@ -43,8 +43,9 @@ class LoadingStyle {
     );
   }
 
-  Future<void> dialogLoadding(BuildContext context) {
+  Future<void> dialogLoadding(BuildContext context, bool barrier) {
     return showDialog<void>(
+      barrierDismissible: barrier,
       context: context,
       builder: (BuildContext context) {
         return const LoaddingData();

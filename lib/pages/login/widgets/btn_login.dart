@@ -13,7 +13,7 @@ GestureDetector btnLogin(
     BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
   return GestureDetector(
       onTap: () {
-        LoadingStyle().dialogLoadding(context);
+        LoadingStyle().dialogLoadding(context, false);
         loginRead.flowOpen().then((value) {
           if (loginWatch.apisState == ApiState.ERROR) {
             Navigator.pop(context);
@@ -90,7 +90,7 @@ Future<void> openAmountDialog(
             child: AppTextStyle().textNormal('OK', size: 18),
             onPressed: () async {
               if (loginWatch.getOpenAmountController.text.isNotEmpty) {
-                LoadingStyle().dialogLoadding(context);
+                LoadingStyle().dialogLoadding(context, false);
                 await loginRead.openSession().then((value) {
                   if (loginWatch.apisState == ApiState.COMPLETED) {
                     Navigator.pushNamedAndRemoveUntil(

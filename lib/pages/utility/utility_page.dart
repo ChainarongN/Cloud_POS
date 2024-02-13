@@ -161,7 +161,7 @@ class _UtilityPageState extends State<UtilityPage> {
               child: AppTextStyle().textNormal('OK', size: 18),
               onPressed: () async {
                 if (utilityWatch.getCloseAmountController.text.isNotEmpty) {
-                  LoadingStyle().dialogLoadding(context);
+                  LoadingStyle().dialogLoadding(context, false);
                   utilityRead.closeSession().then((value) {
                     if (utilityWatch.apiState == ApiState.ERROR) {
                       Navigator.pop(context);

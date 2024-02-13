@@ -5,6 +5,41 @@ import 'package:cloud_pos/service/shared_pref.dart';
 
 class MenuRepository implements IMenuRepository {
   @override
+  Future paymentSubmit(
+      {String? deviceKey, int? payAmount, String? tranData}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    int staffId = await SharedPref().getStaffID();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceKey,
+      "LangID": '1',
+      "ViewOrderInfo": 'true',
+    };
+
+    var data = {
+      "payTypeID": 1,
+      "payTypeCode": "CS",
+      "payTypeName": "Cash",
+      "edcType": 0,
+      "payRemark": "",
+      "currencyID": 1,
+      "currencyCode": "THB",
+      "customerCode": "",
+      "edcResponse": "",
+      "staffID": staffId,
+      "payAmount": payAmount,
+      "tranData": tranData,
+      "ccInfo": null,
+      "voucherInfo": null
+    };
+    var response = await APIService().postAndParams(
+        url: Endpoints.paymenySubmit, param: param, token: token, data: data);
+
+    return response;
+  }
+
+  @override
   Future productAdd({String? deviceKey, String? prodObj}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();

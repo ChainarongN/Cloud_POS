@@ -4,7 +4,6 @@ import 'package:cloud_pos/pages/login/widgets/merchant_detail.dart';
 import 'package:cloud_pos/pages/login/widgets/password_field.dart';
 import 'package:cloud_pos/pages/login/widgets/username_field.dart';
 import 'package:cloud_pos/providers/provider.dart';
-import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
