@@ -15,8 +15,26 @@ class SharedPref {
   static const String keySaleDate = 'saleDate';
   static const String keySessionKey = 'sessionKey';
   static const String keyOpenTokenDay = 'openTokenDay';
+  static const String orderId = 'orderId';
+  static const String username = 'username';
+  static const String appVersion = 'appVersion';
 
   // ----------------------------- set ------------------------------- //
+  Future setAppVersion(String value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setString(appVersion, value);
+  }
+
+  Future setUsername(String value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setString(username, value);
+  }
+
+  Future setOrderId(String value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setString(orderId, value);
+  }
+
   Future setOpenTokenDay(String value) async {
     SharedPreferences prefs = await _prefs;
     await prefs.setString(keyOpenTokenDay, value);
@@ -63,6 +81,24 @@ class SharedPref {
   }
 
   // ----------------------------- get ------------------------------- //
+  Future<String> getAppVersion() async {
+    SharedPreferences prefs = await _prefs;
+    String? result = prefs.getString(appVersion) ?? '';
+    return result;
+  }
+
+  Future<String> getUsername() async {
+    SharedPreferences prefs = await _prefs;
+    String? result = prefs.getString(username) ?? '';
+    return result;
+  }
+
+  Future<String> getOrderId() async {
+    SharedPreferences prefs = await _prefs;
+    String? result = prefs.getString(orderId) ?? '';
+    return result;
+  }
+
   Future<String> getOpenTokenDay() async {
     SharedPreferences prefs = await _prefs;
     String? result = prefs.getString(keyOpenTokenDay) ?? '';
@@ -71,8 +107,8 @@ class SharedPref {
 
   Future<String> getSessionKey() async {
     SharedPreferences prefs = await _prefs;
-    String? sessionKey = prefs.getString(keySessionKey);
-    return sessionKey!;
+    String? sessionKey = prefs.getString(keySessionKey) ?? '';
+    return sessionKey;
   }
 
   Future<String> getSaleDate() async {

@@ -36,7 +36,11 @@ class HomeRepository implements IHomeRepository {
       "customerName": ""
     });
     var response = await APIService().postAndParams(
-        param: param, token: token, url: Endpoints.openTran, data: data);
+        param: param,
+        token: token,
+        url: Endpoints.openTran,
+        data: data,
+        actionBy: 'openTransaction');
     return response;
   }
 }

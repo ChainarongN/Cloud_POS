@@ -30,7 +30,11 @@ class LoginRepository implements ILoginRepository {
       "openAmount": int.parse(openAmount!)
     });
     var response = await APIService().postAndParams(
-        url: Endpoints.openSession, param: param, token: token, data: data);
+        url: Endpoints.openSession,
+        param: param,
+        token: token,
+        data: data,
+        actionBy: 'openSession');
     return response;
   }
 
@@ -45,8 +49,11 @@ class LoginRepository implements ILoginRepository {
       'LangID': langID,
       'StaffID': staffId.toString(),
     };
-    var response = await APIService()
-        .postParams(url: Endpoints.startProcess, param: data, token: token);
+    var response = await APIService().postParams(
+        url: Endpoints.startProcess,
+        param: data,
+        token: token,
+        actionBy: 'startProcess');
     return response;
   }
 
@@ -59,8 +66,11 @@ class LoginRepository implements ILoginRepository {
       "deviceKey": deviceKey,
       "LangID": langID,
     };
-    var response = await APIService()
-        .postParams(param: data, token: token, url: Endpoints.coreDataInit);
+    var response = await APIService().postParams(
+        param: data,
+        token: token,
+        url: Endpoints.coreDataInit,
+        actionBy: 'getCoreDataDetail');
     return response;
   }
 
@@ -98,8 +108,8 @@ class LoginRepository implements ILoginRepository {
       'username': username,
       'password': password
     };
-    var response = await APIService()
-        .postParams(param: data, token: token, url: Endpoints.login);
+    var response = await APIService().postParams(
+        param: data, token: token, url: Endpoints.login, actionBy: 'login');
 
     return response;
   }

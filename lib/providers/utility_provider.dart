@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_pos/models/close_session_model.dart';
+import 'package:cloud_pos/models/end_day_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/utility/i_utility_repositoty.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -13,16 +14,44 @@ class UtilityProvider extends ChangeNotifier {
 
   ApiState apiState = ApiState.COMPLETED;
   CloseSessionModel? closeSessionModel;
+  EndDayModel? endDayModel;
   String _errorText = '';
   final TextEditingController _closeAmountController = TextEditingController();
   String _htmlCloseSession = '';
+  String _htmlEndDay = '';
 
   TextEditingController get getCloseAmountController => _closeAmountController;
   String get getErrorText => _errorText;
   String get getHtmlCloseSession => _htmlCloseSession;
+  String get getHtmlEndDay => _htmlEndDay;
+
+  Future endDay() async {
+    apiState = ApiState.LOADING;
+    try {
+      var response =
+          await _utilityRepository.endDay(deviceKey: '0288-7363-6560-2714');
+      if (response is Failure) {
+        _errorText = response.errorResponse.toString();
+        apiState = ApiState.ERROR;
+      } else {
+        endDayModel = EndDayModel.fromJson(jsonDecode(response));
+        if (endDayModel!.responseCode!.isEmpty) {
+          _htmlEndDay = endDayModel!.responseObj!.printDataHtml!;
+          apiState = ApiState.COMPLETED;
+          Constants().printCheckFlow(response, 'endDay');
+        } else {
+          _errorText = endDayModel!.responseText!;
+          apiState = ApiState.ERROR;
+        }
+      }
+    } catch (e, strack) {
+      apiState = ApiState.ERROR;
+      _errorText = strack.toString();
+    }
+  }
 
   Future closeSession() async {
-    apiState = ApiState.COMPLETED;
+    apiState = ApiState.LOADING;
     String key = await SharedPref().getSessionKey();
     int idx = key.indexOf(":");
     String sessionId = key.substring(0, idx).trim();

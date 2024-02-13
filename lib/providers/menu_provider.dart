@@ -9,6 +9,7 @@ import 'package:cloud_pos/models/product_obj_model.dart';
 import 'package:cloud_pos/models/reason_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/service/function/read_file_func.dart';
+import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +59,7 @@ class MenuProvider extends ChangeNotifier {
     setWhereMenu(prodGroupList![0].productGroupID.toString());
 
     Constants().printWarning("OrderId : $_orderId");
+    SharedPref().setOrderId(_orderId!);
     notifyListeners();
   }
 

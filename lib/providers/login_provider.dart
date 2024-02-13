@@ -119,8 +119,9 @@ class LoginProvider extends ChangeNotifier {
   }
 
   Future login() async {
+    String username = 'cpos';
     var response = await _loginRepository.login(
-        username: 'cpos',
+        username: username,
         password: 'cpos',
         deviceKey: '0288-7363-6560-2714',
         langId: '1');
@@ -142,6 +143,7 @@ class LoginProvider extends ChangeNotifier {
         Constants().printCheckFlow(response, 'Success Login');
         await SharedPref()
             .setStaffID(loginModel!.responseObj!.staffInfo!.staffID!);
+        await SharedPref().setUsername(username);
         await checkReadCoreData();
         _errorText = '';
       }

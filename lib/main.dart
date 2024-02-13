@@ -1,15 +1,22 @@
 import 'package:cloud_pos/route_provider.dart';
 import 'package:cloud_pos/routes.dart';
+import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/translations/codegen_loader.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  SharedPref().setAppVersion(packageInfo.version);
   runApp(
     EasyLocalization(
       path: 'assets/translations',

@@ -1,3 +1,4 @@
+import 'package:cloud_pos/service/firebase_log.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';

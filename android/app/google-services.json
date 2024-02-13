@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "996901859557",
+    "project_id": "vtec-cloudpos",
+    "storage_bucket": "vtec-cloudpos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996901859557:android:357aa941dcf0d550d2e40c",
+        "android_client_info": {
+          "package_name": "com.vtec.cloud_pos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBB9HDvOi2-J5dtsZ2XIDFciCa-IxbGg4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

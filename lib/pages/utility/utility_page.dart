@@ -222,7 +222,7 @@ class _UtilityPageState extends State<UtilityPage> {
                           Navigator.pushNamedAndRemoveUntil(
                               context, '/loginPage', (route) => false);
                         } else {
-                          exit(0);
+                          utilityRead.endDay().then((value) => exit(0));
                         }
                       },
                       radius: 25,

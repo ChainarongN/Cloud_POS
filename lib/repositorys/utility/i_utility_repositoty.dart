@@ -4,4 +4,5 @@ abstract class IUtilityRepository {
       String? deviceKey,
       String? closeSSAmount,
       String? sessionId});
+  Future endDay({String? deviceKey});
 }

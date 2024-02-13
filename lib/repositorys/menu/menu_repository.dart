@@ -34,7 +34,11 @@ class MenuRepository implements IMenuRepository {
       "voucherInfo": null
     };
     var response = await APIService().postAndParams(
-        url: Endpoints.paymenySubmit, param: param, token: token, data: data);
+        url: Endpoints.paymenySubmit,
+        param: param,
+        token: token,
+        data: data,
+        actionBy: 'paymentSubmit');
 
     return response;
   }
@@ -50,7 +54,11 @@ class MenuRepository implements IMenuRepository {
       "ViewOrderInfo": 'true',
     };
     var response = await APIService().postAndParams(
-        url: Endpoints.productAdd, param: param, token: token, data: prodObj);
+        url: Endpoints.productAdd,
+        param: param,
+        token: token,
+        data: prodObj,
+        actionBy: 'productAdd');
 
     return response;
   }
@@ -71,7 +79,11 @@ class MenuRepository implements IMenuRepository {
       "LangID": '1'
     };
     var response = await APIService().postAndParams(
-        url: Endpoints.productObj, token: token, param: param, data: tranData);
+        url: Endpoints.productObj,
+        token: token,
+        param: param,
+        data: tranData,
+        actionBy: 'productObj');
 
     return response;
   }
@@ -90,8 +102,8 @@ class MenuRepository implements IMenuRepository {
       "ShopID": shopId.toString(),
       "StaffID": staffId.toString()
     };
-    var response = await APIService()
-        .postParams(param: data, token: token, url: Endpoints.reason);
+    var response = await APIService().postParams(
+        param: data, token: token, url: Endpoints.reason, actionBy: 'reason');
     return response;
   }
 
@@ -116,8 +128,11 @@ class MenuRepository implements IMenuRepository {
       "StaffID": staffId.toString(),
       "TodayDate": saleDate
     };
-    var response = await APIService()
-        .postParams(param: data, token: token, url: Endpoints.cancelTran);
+    var response = await APIService().postParams(
+        param: data,
+        token: token,
+        url: Endpoints.cancelTran,
+        actionBy: 'cancelTran');
 
     return response;
   }

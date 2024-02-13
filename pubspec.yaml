@@ -47,6 +47,8 @@ dependencies:
   easy_localization: ^3.0.3
   cloud_firestore: ^4.15.3
   flutter_widget_from_html: ^0.14.11
+  package_info_plus: ^5.0.1
+  firebase_core: ^2.25.4
 
 dev_dependencies:
   flutter_test:
