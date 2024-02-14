@@ -100,9 +100,20 @@ class _UtilityPageState extends State<UtilityPage> {
                             if (utilityWatch.apiState == ApiState.COMPLETED) {
                               Future.delayed(const Duration(milliseconds: 500),
                                   () async {
-                                await dialogResultHtml(
-                                    context, utilityWatch, utilityRead);
-                                utilityRead.endDay().then((value) => exit(0));
+                                dialogResultHtml(
+                                        context, utilityWatch, utilityRead)
+                                    .then((value) async {
+                                  LoadingStyle().dialogLoadding(context);
+                                  utilityRead.endDay().then((value) async {
+                                    if (utilityWatch.apiState ==
+                                        ApiState.COMPLETED) {
+                                      Navigator.pop(context);
+                                      await dialogResultHtml(
+                                          context, utilityWatch, utilityRead);
+                                      exit(0);
+                                    }
+                                  });
+                                });
                               });
                             }
                           }
