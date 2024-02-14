@@ -13,12 +13,12 @@ GestureDetector btnLogin(
     BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
   return GestureDetector(
       onTap: () {
-        LoadingStyle().dialogLoadding(context, false);
+        LoadingStyle().dialogLoadding(context);
         loginRead.flowOpen().then((value) {
           if (loginWatch.apisState == ApiState.ERROR) {
-            Navigator.pop(context);
             Future.delayed(const Duration(milliseconds: 500), () {
-              LoadingStyle().dialogError(context, loginWatch.getErrorText);
+              LoadingStyle()
+                  .dialogError(context, loginWatch.getErrorText, '/loginPage');
             });
           } else {
             Navigator.maybePop(context);
@@ -90,16 +90,15 @@ Future<void> openAmountDialog(
             child: AppTextStyle().textNormal('OK', size: 18),
             onPressed: () async {
               if (loginWatch.getOpenAmountController.text.isNotEmpty) {
-                LoadingStyle().dialogLoadding(context, false);
+                LoadingStyle().dialogLoadding(context);
                 await loginRead.openSession().then((value) {
                   if (loginWatch.apisState == ApiState.COMPLETED) {
                     Navigator.pushNamedAndRemoveUntil(
                         context, '/homePage', (route) => false);
                   } else {
-                    Navigator.pop(context);
                     Future.delayed(const Duration(milliseconds: 500), () {
-                      LoadingStyle()
-                          .dialogError(context, loginWatch.getErrorText);
+                      LoadingStyle().dialogError(
+                          context, loginWatch.getErrorText, '/loginPage');
                     });
                   }
                 });

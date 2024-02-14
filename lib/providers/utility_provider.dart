@@ -17,13 +17,11 @@ class UtilityProvider extends ChangeNotifier {
   EndDayModel? endDayModel;
   String _errorText = '';
   final TextEditingController _closeAmountController = TextEditingController();
-  String _htmlCloseSession = '';
-  String _htmlEndDay = '';
+  String _htmlResult = '';
 
   TextEditingController get getCloseAmountController => _closeAmountController;
   String get getErrorText => _errorText;
-  String get getHtmlCloseSession => _htmlCloseSession;
-  String get getHtmlEndDay => _htmlEndDay;
+  String get getHtml => _htmlResult;
 
   Future endDay() async {
     apiState = ApiState.LOADING;
@@ -36,7 +34,7 @@ class UtilityProvider extends ChangeNotifier {
       } else {
         endDayModel = EndDayModel.fromJson(jsonDecode(response));
         if (endDayModel!.responseCode!.isEmpty) {
-          _htmlEndDay = endDayModel!.responseObj!.printDataHtml!;
+          _htmlResult = endDayModel!.responseObj!.printDataHtml!;
           apiState = ApiState.COMPLETED;
           Constants().printCheckFlow(response, 'endDay');
         } else {
@@ -67,7 +65,7 @@ class UtilityProvider extends ChangeNotifier {
       } else {
         closeSessionModel = CloseSessionModel.fromJson(jsonDecode(response));
         if (closeSessionModel!.responseCode!.isEmpty) {
-          _htmlCloseSession = closeSessionModel!.responseObj!.printDataHtml!;
+          _htmlResult = closeSessionModel!.responseObj!.printDataHtml!;
           apiState = ApiState.COMPLETED;
           Constants().printCheckFlow(response, 'closeSession');
         } else {

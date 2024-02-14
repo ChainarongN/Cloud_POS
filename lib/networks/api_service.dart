@@ -27,8 +27,8 @@ class APIService {
     BaseOptions options = BaseOptions(
       baseUrl: Endpoints.baseUrl,
       receiveDataWhenStatusError: true,
-      connectTimeout: const Duration(minutes: 1),
-      receiveTimeout: const Duration(minutes: 1),
+      connectTimeout: const Duration(minutes: 2),
+      receiveTimeout: const Duration(minutes: 2),
     );
 
     var dio = Dio(options);
@@ -40,6 +40,7 @@ class APIService {
           ),
           data: data,
           queryParameters: param);
+
       if (response.statusCode == 200) {
         FirebaseLog().logData(true,
             actionBy: actionBy,
@@ -100,8 +101,8 @@ class APIService {
     BaseOptions options = BaseOptions(
       baseUrl: Endpoints.baseUrl,
       receiveDataWhenStatusError: true,
-      connectTimeout: const Duration(minutes: 1),
-      receiveTimeout: const Duration(minutes: 1),
+      connectTimeout: const Duration(minutes: 2),
+      receiveTimeout: const Duration(minutes: 2),
     );
     var dio = Dio(options);
 
@@ -162,8 +163,8 @@ class APIService {
     BaseOptions options = BaseOptions(
       baseUrl: Endpoints.baseUrl,
       receiveDataWhenStatusError: true,
-      connectTimeout: const Duration(minutes: 1),
-      receiveTimeout: const Duration(minutes: 1),
+      connectTimeout: const Duration(minutes: 2),
+      receiveTimeout: const Duration(minutes: 2),
     );
     var dio = Dio(options);
     try {

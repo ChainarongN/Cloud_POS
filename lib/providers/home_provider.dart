@@ -86,6 +86,7 @@ class HomeProvider extends ChangeNotifier {
           .map((e) => SaleModeData.fromJson(e))
           .toList();
       Constants().printWarning('Read from file "${Constants.SALE_MODE_TXT}"');
+      apisState = ApiState.COMPLETED;
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       _errorText = e.toString();

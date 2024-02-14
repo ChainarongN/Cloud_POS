@@ -4,6 +4,8 @@ import 'dart:convert';
 
 import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
+import 'package:cloud_pos/models/finalize_bill_model.dart';
+import 'package:cloud_pos/models/payment_submit_model.dart';
 import 'package:cloud_pos/models/product_add_model.dart';
 import 'package:cloud_pos/models/product_obj_model.dart';
 import 'package:cloud_pos/models/reason_model.dart';
@@ -30,7 +32,9 @@ class MenuProvider extends ChangeNotifier {
   CancelTranModel? cancelTranModel;
   ProductObjModel? productObjModel;
   ProductAddModel? productAddModel;
-  String? _tranData;
+  PaymentSubmitModel? paymentSubmitModel;
+  FinalizeBillModel? finalizeBillModel;
+  String? _tranDataFromOpenTran;
 
   int? _valueMenuSelect;
   String? _valueReasonGroupSelect;
@@ -41,7 +45,6 @@ class MenuProvider extends ChangeNotifier {
   final TextEditingController _reasonTextController = TextEditingController();
 
   String get getOrderId => _orderId!;
-  List get getOrderItem => _orderItem;
   String get getExceptionText => _exceptionText;
   int get getvalueMenuSelect => _valueMenuSelect!;
   String get getvalueReasonGroupSelect => _valueReasonGroupSelect!;
@@ -63,12 +66,104 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future payment({BuildContext? context, String? payAmount}) async {
+    if (productAddModel == null ||
+        productAddModel!.responseObj!.orderList!.isEmpty) {
+      return;
+    } else {
+      await LoadingStyle().confirmDialog(
+        context!,
+        title: 'You need to pay $payAmount THB.  ?',
+        onPressed: () async {
+          LoadingStyle().dialogLoadding(context);
+          await paymentSubmit(payAmount: payAmount);
+          if (apiState == ApiState.ERROR) {
+            LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
+          } else {
+            await finalizeBill();
+            if (apiState == ApiState.ERROR) {
+              LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
+            } else {
+              await LoadingStyle().dialogPayment(
+                  context,
+                  paymentSubmitModel!.responseObj!.paymentList!.last.cashChange
+                      .toString(),
+                  true,
+                  popToPage: '/homePage');
+            }
+          }
+        },
+      );
+    }
+    notifyListeners();
+  }
+
+  Future finalizeBill() async {
+    apiState = ApiState.LOADING;
+    try {
+      var response = await _menuRepository.finalizeBill(
+          deviceKey: '0288-7363-6560-2714',
+          computerId:
+              paymentSubmitModel!.responseObj!.tranData!.computerID.toString(),
+          tranData: json.encode(paymentSubmitModel!.responseObj!.tranData));
+      if (response is Failure) {
+        _exceptionText = response.errorResponse.toString();
+        apiState = ApiState.ERROR;
+      } else {
+        finalizeBillModel = FinalizeBillModel.fromJson(jsonDecode(response));
+        if (finalizeBillModel!.responseCode!.isEmpty) {
+          Constants().printInfo(response);
+          Constants().printWarning('finalizeBill');
+          apiState = ApiState.COMPLETED;
+        } else {
+          _exceptionText = finalizeBillModel!.responseText.toString();
+          apiState = ApiState.ERROR;
+        }
+      }
+    } catch (e, strack) {
+      Constants().printError('$e - $strack');
+      _exceptionText = e.toString();
+      apiState = ApiState.ERROR;
+    }
+  }
+
+  Future paymentSubmit({String? payAmount}) async {
+    apiState = ApiState.LOADING;
+    try {
+      var response = await _menuRepository.paymentSubmit(
+          deviceKey: '0288-7363-6560-2714',
+          payAmount: payAmount,
+          tranData: productAddModel!.responseObj!.tranData!.toJson(),
+          payCode: "CS",
+          payName: "Cash",
+          currencyCode: "THB",
+          payId: 1);
+      if (response is Failure) {
+        _exceptionText = response.errorResponse.toString();
+        apiState = ApiState.ERROR;
+      } else {
+        paymentSubmitModel = PaymentSubmitModel.fromJson(jsonDecode(response));
+        if (productObjModel!.responseCode!.isEmpty) {
+          Constants().printInfo(response);
+          Constants().printWarning('payment submit');
+          apiState = ApiState.COMPLETED;
+        } else {
+          _exceptionText = productObjModel!.responseText.toString();
+          apiState = ApiState.ERROR;
+        }
+      }
+    } catch (e, strack) {
+      Constants().printError('$e - $strack');
+      _exceptionText = e.toString();
+      apiState = ApiState.ERROR;
+    }
+  }
+
   Future addProduct(BuildContext context, int prodId, double count,
       String orderDetailId) async {
-    LoadingStyle().dialogLoadding(context, true);
+    LoadingStyle().dialogLoadding(context);
     await callProductObj(context, prodId, orderDetailId);
-    await callProductAdd(context, count)
-        .then((value) => Navigator.maybePop(context));
+    await callProductAdd(context, count);
     notifyListeners();
   }
 
@@ -80,24 +175,25 @@ class MenuProvider extends ChangeNotifier {
           prodObj: json.encode(productObjModel!.responseObj));
       if (response is Failure) {
         apiState = ApiState.ERROR;
-        await LoadingStyle()
-            .dialogError(context, response.errorResponse.toString());
+        await LoadingStyle().dialogError(
+            context, response.errorResponse.toString(), '/menuPage');
       } else {
         productAddModel = ProductAddModel.fromJson(jsonDecode(response));
         if (productObjModel!.responseCode!.isEmpty) {
           Constants().printInfo(response);
           Constants().printWarning('product add');
+          Navigator.maybePop(context);
         } else {
           apiState = ApiState.ERROR;
-          await LoadingStyle()
-              .dialogError(context, productObjModel!.responseText.toString());
+          await LoadingStyle().dialogError(
+              context, productObjModel!.responseText.toString(), '/menuPage');
         }
       }
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       _exceptionText = e.toString();
       apiState = ApiState.ERROR;
-      await LoadingStyle().dialogError(context, e.toString());
+      await LoadingStyle().dialogError(context, e.toString(), '/menuPage');
     }
   }
 
@@ -105,14 +201,14 @@ class MenuProvider extends ChangeNotifier {
       BuildContext context, int prodId, String orderDetailId) async {
     try {
       var response = await _menuRepository.productObj(
-          tranData: _tranData,
+          tranData: _tranDataFromOpenTran,
           productId: prodId.toString(),
           deviceKey: '0288-7363-6560-2714',
           orderDetailId: orderDetailId);
       if (response is Failure) {
         apiState = ApiState.ERROR;
-        await LoadingStyle()
-            .dialogError(context, response.errorResponse.toString());
+        await LoadingStyle().dialogError(
+            context, response.errorResponse.toString(), '/menuPage');
       } else {
         productObjModel = ProductObjModel.fromJson(jsonDecode(response));
         if (productObjModel!.responseCode!.isEmpty) {
@@ -120,15 +216,15 @@ class MenuProvider extends ChangeNotifier {
           Constants().printWarning('product obj');
         } else {
           apiState = ApiState.ERROR;
-          await LoadingStyle()
-              .dialogError(context, productObjModel!.responseText.toString());
+          await LoadingStyle().dialogError(
+              context, productObjModel!.responseText.toString(), '/menuPage');
         }
       }
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       _exceptionText = e.toString();
       apiState = ApiState.ERROR;
-      await LoadingStyle().dialogError(context, e.toString());
+      await LoadingStyle().dialogError(context, e.toString(), '/menuPage');
     }
     notifyListeners();
   }
@@ -267,13 +363,7 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future setTranData({String? tranObject, String? orderID}) async {
-    _tranData = tranObject;
+    _tranDataFromOpenTran = tranObject;
     _orderId = orderID;
   }
-
-  final List _orderItem = [
-    {"price": "140", "count": 2, "name": "Hot Americano", "image": ""},
-    {"price": "60", "count": 1, "name": "Americano", "image": ""},
-    {"price": "60", "count": 1, "name": "Mocha", "image": ""},
-  ];
 }

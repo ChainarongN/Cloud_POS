@@ -137,19 +137,19 @@ class SharedPref {
 
   Future<int> getStaffID() async {
     SharedPreferences prefs = await _prefs;
-    int? staffId = prefs.getInt(keyStaffID);
+    int? staffId = prefs.getInt(keyStaffID) ?? 0;
     return staffId!;
   }
 
   Future<int> getShopID() async {
     SharedPreferences prefs = await _prefs;
-    int? shopID = prefs.getInt(keyShopID);
+    int? shopID = prefs.getInt(keyShopID) ?? 0;
     return shopID!;
   }
 
   Future<int> getComputerID() async {
     SharedPreferences prefs = await _prefs;
-    int? computerId = prefs.getInt(keyComId);
-    return computerId!;
+    int? computerId = prefs.getInt(keyComId) ?? 0;
+    return computerId;
   }
 }

@@ -26,7 +26,7 @@ class ProductAddModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['ResponseCode'] = responseCode;
     data['ResponseText'] = responseText;
     data['PendingReqId'] = pendingReqId;
@@ -238,7 +238,7 @@ class ResponseObj {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['OrderID'] = orderID;
     data['OrderNumber'] = orderNumber;
     data['BillHeader'] = billHeader;
@@ -325,23 +325,20 @@ class OrderList {
   String? vATCode;
   int? statusID;
   int? pProductID;
-  List<Null>? promoItemList;
-  List<Null>? childItemList;
 
-  OrderList(
-      {this.orderDetailID,
-      this.productID,
-      this.itemNo,
-      this.itemCode,
-      this.itemName,
-      this.unitPrice,
-      this.qty,
-      this.retailPrice,
-      this.vATCode,
-      this.statusID,
-      this.pProductID,
-      this.promoItemList,
-      this.childItemList});
+  OrderList({
+    this.orderDetailID,
+    this.productID,
+    this.itemNo,
+    this.itemCode,
+    this.itemName,
+    this.unitPrice,
+    this.qty,
+    this.retailPrice,
+    this.vATCode,
+    this.statusID,
+    this.pProductID,
+  });
 
   OrderList.fromJson(Map<String, dynamic> json) {
     orderDetailID = json['OrderDetailID'];
@@ -358,7 +355,7 @@ class OrderList {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['OrderDetailID'] = orderDetailID;
     data['ProductID'] = productID;
     data['ItemNo'] = itemNo;
@@ -458,7 +455,7 @@ class TranData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['OrderID'] = orderID;
     data['TransactionID'] = transactionID;
     data['ComputerID'] = computerID;

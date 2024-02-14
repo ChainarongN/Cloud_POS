@@ -1,4 +1,4 @@
-class PaymentSubmitModel {
+class FinalizeBillModel {
   String? responseCode;
   String? responseText;
   var pendingReqId;
@@ -6,7 +6,7 @@ class PaymentSubmitModel {
   var responseObj2;
   var loyaltyObj;
 
-  PaymentSubmitModel(
+  FinalizeBillModel(
       {this.responseCode,
       this.responseText,
       this.pendingReqId,
@@ -14,7 +14,7 @@ class PaymentSubmitModel {
       this.responseObj2,
       this.loyaltyObj});
 
-  PaymentSubmitModel.fromJson(Map<String, dynamic> json) {
+  FinalizeBillModel.fromJson(Map<String, dynamic> json) {
     responseCode = json['ResponseCode'];
     responseText = json['ResponseText'];
     pendingReqId = json['PendingReqId'];
@@ -54,8 +54,8 @@ class ResponseObj {
   int? shopID;
   String? shopCode;
   String? shopName;
-  var storeKey;
-  var storeName;
+  Null? storeKey;
+  Null? storeName;
   String? saleDate;
   int? saleModeID;
   String? saleModeName;
@@ -97,10 +97,10 @@ class ResponseObj {
   String? riderStatusName;
   String? agentOrderId;
   String? agentOrderRef;
-  var deliveryAddress;
-  var pickupStoreInfo;
+  Null? deliveryAddress;
+  Null? pickupStoreInfo;
   TranData? tranData;
-  var paymentStatus;
+  Null? paymentStatus;
 
   ResponseObj(
       {this.orderID,
@@ -219,6 +219,7 @@ class ResponseObj {
         orderList!.add(OrderList.fromJson(v));
       });
     }
+
     if (json['PaymentList'] != null) {
       paymentList = <PaymentList>[];
       json['PaymentList'].forEach((v) {
@@ -326,20 +327,23 @@ class OrderList {
   String? vATCode;
   int? statusID;
   int? pProductID;
+  List<Null>? promoItemList;
+  List<Null>? childItemList;
 
-  OrderList({
-    this.orderDetailID,
-    this.productID,
-    this.itemNo,
-    this.itemCode,
-    this.itemName,
-    this.unitPrice,
-    this.qty,
-    this.retailPrice,
-    this.vATCode,
-    this.statusID,
-    this.pProductID,
-  });
+  OrderList(
+      {this.orderDetailID,
+      this.productID,
+      this.itemNo,
+      this.itemCode,
+      this.itemName,
+      this.unitPrice,
+      this.qty,
+      this.retailPrice,
+      this.vATCode,
+      this.statusID,
+      this.pProductID,
+      this.promoItemList,
+      this.childItemList});
 
   OrderList.fromJson(Map<String, dynamic> json) {
     orderDetailID = json['OrderDetailID'];
@@ -381,8 +385,8 @@ class PaymentList {
   String? remark;
   double? payAmount;
   double? cashChange;
-  String? payTypeImage;
-  String? payTypeDesp;
+  Null? payTypeImage;
+  Null? payTypeDesp;
 
   PaymentList(
       {this.payDetailID,

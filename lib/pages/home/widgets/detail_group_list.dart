@@ -33,7 +33,7 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
               gradient3: Colors.blue.shade500,
               gradient4: Colors.blue.shade500,
               onPressed: () async {
-                LoadingStyle().dialogLoadding(context, false);
+                LoadingStyle().dialogLoadding(context);
                 await homeRead.openTransaction(context, index).then((value) {
                   if (homeWatch.apisState == ApiState.COMPLETED) {
                     Navigator.maybePop(context);
@@ -47,10 +47,9 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
                       Navigator.pushNamed(context, '/menuPage');
                     });
                   } else {
-                    Navigator.pop(context);
                     Future.delayed(const Duration(milliseconds: 500), () {
-                      LoadingStyle()
-                          .dialogError(context, homeWatch.getErrorText);
+                      LoadingStyle().dialogError(
+                          context, homeWatch.getErrorText, '/homePage');
                     });
                   }
                 });

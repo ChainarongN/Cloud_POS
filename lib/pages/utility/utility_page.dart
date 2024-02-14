@@ -64,8 +64,8 @@ class _UtilityPageState extends State<UtilityPage> {
                             if (utilityWatch.apiState == ApiState.COMPLETED) {
                               Future.delayed(const Duration(milliseconds: 500),
                                   () {
-                                dialogResultCloseSession(
-                                    context, utilityWatch, utilityRead, true);
+                                dialogResultHtml(
+                                    context, utilityWatch, utilityRead);
                               });
                             }
                           }
@@ -99,9 +99,10 @@ class _UtilityPageState extends State<UtilityPage> {
                           if (val != false) {
                             if (utilityWatch.apiState == ApiState.COMPLETED) {
                               Future.delayed(const Duration(milliseconds: 500),
-                                  () {
-                                dialogResultCloseSession(
-                                    context, utilityWatch, utilityRead, false);
+                                  () async {
+                                await dialogResultHtml(
+                                    context, utilityWatch, utilityRead);
+                                utilityRead.endDay().then((value) => exit(0));
                               });
                             }
                           }
@@ -161,13 +162,12 @@ class _UtilityPageState extends State<UtilityPage> {
               child: AppTextStyle().textNormal('OK', size: 18),
               onPressed: () async {
                 if (utilityWatch.getCloseAmountController.text.isNotEmpty) {
-                  LoadingStyle().dialogLoadding(context, false);
+                  LoadingStyle().dialogLoadding(context);
                   utilityRead.closeSession().then((value) {
                     if (utilityWatch.apiState == ApiState.ERROR) {
-                      Navigator.pop(context);
                       Future.delayed(const Duration(milliseconds: 500), () {
-                        LoadingStyle()
-                            .dialogError(context, utilityWatch.getErrorText);
+                        LoadingStyle().dialogError(
+                            context, utilityWatch.getErrorText, '/utilityPage');
                       });
                     } else {
                       Navigator.of(context)
@@ -190,11 +190,8 @@ class _UtilityPageState extends State<UtilityPage> {
     );
   }
 
-  Future<dynamic> dialogResultCloseSession(
-      BuildContext context,
-      UtilityProvider utilityWatch,
-      UtilityProvider utilityRead,
-      bool isSession) {
+  Future<dynamic> dialogResultHtml(BuildContext context,
+      UtilityProvider utilityWatch, UtilityProvider utilityRead) {
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -211,19 +208,14 @@ class _UtilityPageState extends State<UtilityPage> {
                     height: MediaQuery.of(context).size.height,
                     child: Scrollbar(
                       child: SingleChildScrollView(
-                          child: HtmlWidget(utilityWatch.getHtmlCloseSession)),
+                          child: HtmlWidget(utilityWatch.getHtml)),
                     ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 50),
                     child: ContainerStyle2(
                       onPressed: () {
-                        if (isSession) {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/loginPage', (route) => false);
-                        } else {
-                          utilityRead.endDay().then((value) => exit(0));
-                        }
+                        Navigator.pop(context);
                       },
                       radius: 25,
                       width: MediaQuery.of(context).size.width * 0.17,

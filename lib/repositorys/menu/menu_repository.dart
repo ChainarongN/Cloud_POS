@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/menu/i_menu_repository.dart';
@@ -5,11 +7,40 @@ import 'package:cloud_pos/service/shared_pref.dart';
 
 class MenuRepository implements IMenuRepository {
   @override
-  Future paymentSubmit(
-      {String? deviceKey, int? payAmount, String? tranData}) async {
+  Future finalizeBill(
+      {String? deviceKey, String? tranData, String? computerId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int staffId = await SharedPref().getStaffID();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceKey,
+      "LangID": '1',
+      "CloseComputerID": computerId,
+      "StaffID": staffId.toString()
+    };
+    var response = await APIService().postAndParams(
+        url: Endpoints.finalizeBill,
+        param: param,
+        token: token,
+        data: tranData,
+        actionBy: 'finalizeBill');
+    return response;
+  }
+
+  @override
+  Future paymentSubmit(
+      {String? deviceKey,
+      String? payAmount,
+      var tranData,
+      String? payCode,
+      String? payName,
+      String? currencyCode,
+      int? payId}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    int staffId = await SharedPref().getStaffID();
+
     var param = {
       "reqId": uuid,
       "deviceKey": deviceKey,
@@ -19,20 +50,21 @@ class MenuRepository implements IMenuRepository {
 
     var data = {
       "payTypeID": 1,
-      "payTypeCode": "CS",
-      "payTypeName": "Cash",
+      "payTypeCode": payCode,
+      "payTypeName": payName,
       "edcType": 0,
-      "payRemark": "",
+      "payRemark": '',
       "currencyID": 1,
-      "currencyCode": "THB",
-      "customerCode": "",
-      "edcResponse": "",
+      "currencyCode": currencyCode,
+      "customerCode": '',
+      "edcResponse": '',
       "staffID": staffId,
-      "payAmount": payAmount,
+      "payAmount": int.parse(payAmount!),
       "tranData": tranData,
       "ccInfo": null,
       "voucherInfo": null
     };
+
     var response = await APIService().postAndParams(
         url: Endpoints.paymenySubmit,
         param: param,

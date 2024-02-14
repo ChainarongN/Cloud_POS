@@ -12,5 +12,14 @@ abstract class IMenuRepository {
       String? deviceKey,
       String? orderDetailId});
   Future productAdd({String? deviceKey, String? prodObj});
-  Future paymentSubmit({String? deviceKey, int? payAmount, String? tranData});
+  Future paymentSubmit(
+      {String? deviceKey,
+      String? payAmount,
+      var tranData,
+      String? payCode,
+      String? payName,
+      String? currencyCode,
+      int? payId});
+  Future finalizeBill(
+      {String? deviceKey, String? tranData, String? computerId});
 }

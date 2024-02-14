@@ -21,11 +21,11 @@ Card manageMenu(
               Divider(thickness: 2, color: Colors.grey.shade300),
               orderList(menuWatch, menuRead, context),
               Divider(thickness: 2, color: Colors.grey.shade300),
-              orderDetail(context),
+              orderDetail(context, menuWatch),
               Divider(thickness: 2, color: Colors.grey.shade300),
               couponList(context),
               binButton(context),
-              priceList(context)
+              priceList(context, menuRead)
             ],
           ),
         ),
@@ -34,99 +34,120 @@ Card manageMenu(
   );
 }
 
-Row priceList(BuildContext context) {
+Row priceList(BuildContext context, MenuProvider menuRead) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: <Widget>[
-      Container(
-        width: MediaQuery.of(context).size.width * 0.065,
-        height: MediaQuery.of(context).size.height * 0.1,
-        padding: const EdgeInsets.all(5.0),
-        margin: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.black),
-          color: Constants.primaryColor,
-          boxShadow: const [
-            BoxShadow(
-                color: Constants.primaryColor,
-                blurRadius: 8,
-                offset: Offset(0, 6)),
-          ],
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              AppTextStyle().textBold('50', size: 25),
+      GestureDetector(
+        onTap: () {
+          menuRead.payment(context: context, payAmount: '50');
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.065,
+          height: MediaQuery.of(context).size.height * 0.1,
+          padding: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.black),
+            color: Constants.primaryColor,
+            boxShadow: const [
+              BoxShadow(
+                  color: Constants.primaryColor,
+                  blurRadius: 8,
+                  offset: Offset(0, 6)),
             ],
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                AppTextStyle().textBold('50', size: 25),
+              ],
+            ),
           ),
         ),
       ),
-      Container(
-        width: MediaQuery.of(context).size.width * 0.065,
-        height: MediaQuery.of(context).size.height * 0.1,
-        padding: const EdgeInsets.all(5.0),
-        margin: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.black),
-          color: Colors.red.shade400,
-          boxShadow: const [
-            BoxShadow(color: Colors.red, blurRadius: 8, offset: Offset(0, 6)),
-          ],
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              AppTextStyle().textBold('100', size: 25),
+      GestureDetector(
+        onTap: () {
+          menuRead.payment(context: context, payAmount: '100');
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.065,
+          height: MediaQuery.of(context).size.height * 0.1,
+          padding: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.black),
+            color: Colors.red.shade400,
+            boxShadow: const [
+              BoxShadow(color: Colors.red, blurRadius: 8, offset: Offset(0, 6)),
             ],
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                AppTextStyle().textBold('100', size: 25),
+              ],
+            ),
           ),
         ),
       ),
-      Container(
-        width: MediaQuery.of(context).size.width * 0.065,
-        height: MediaQuery.of(context).size.height * 0.1,
-        padding: const EdgeInsets.all(5.0),
-        margin: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.black),
-          color: Colors.purple.shade300,
-          boxShadow: const [
-            BoxShadow(
-                color: Colors.purple, blurRadius: 8, offset: Offset(0, 6)),
-          ],
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              AppTextStyle().textBold('500', size: 25),
+      GestureDetector(
+        onTap: () {
+          menuRead.payment(context: context, payAmount: '500');
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.065,
+          height: MediaQuery.of(context).size.height * 0.1,
+          padding: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.black),
+            color: Colors.purple.shade300,
+            boxShadow: const [
+              BoxShadow(
+                  color: Colors.purple, blurRadius: 8, offset: Offset(0, 6)),
             ],
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                AppTextStyle().textBold('500', size: 25),
+              ],
+            ),
           ),
         ),
       ),
-      Container(
-        width: MediaQuery.of(context).size.width * 0.065,
-        height: MediaQuery.of(context).size.height * 0.1,
-        padding: const EdgeInsets.all(5.0),
-        margin: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.black),
-          color: Colors.grey.shade300,
-          boxShadow: const [
-            BoxShadow(color: Colors.grey, blurRadius: 8, offset: Offset(0, 6)),
-          ],
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              AppTextStyle().textBold('1000', size: 25),
+      GestureDetector(
+        onTap: () {
+          menuRead.payment(context: context, payAmount: '1000');
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.065,
+          height: MediaQuery.of(context).size.height * 0.1,
+          padding: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.black),
+            color: Colors.grey.shade300,
+            boxShadow: const [
+              BoxShadow(
+                  color: Colors.grey, blurRadius: 8, offset: Offset(0, 6)),
             ],
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                AppTextStyle().textBold('1000', size: 25),
+              ],
+            ),
           ),
         ),
       ),
@@ -279,7 +300,7 @@ Row couponList(BuildContext context) {
   );
 }
 
-Row orderDetail(BuildContext context) {
+Row orderDetail(BuildContext context, MenuProvider menuWatch) {
   return Row(
     children: <Widget>[
       SizedBox(
@@ -290,35 +311,63 @@ Row orderDetail(BuildContext context) {
               children: <Widget>[
                 AppTextStyle().textNormal('Total Qty:'),
                 const Spacer(),
-                AppTextStyle().textNormal('0.00'),
+                menuWatch.productAddModel == null ||
+                        menuWatch.productAddModel!.responseCode!.isNotEmpty ||
+                        menuWatch
+                            .productAddModel!.responseObj!.orderList!.isEmpty
+                    ? AppTextStyle().textNormal('-')
+                    : AppTextStyle().textNormal(menuWatch
+                        .productAddModel!.responseObj!.totalQty!
+                        .toStringAsFixed(2)),
               ],
             ),
             Row(
               children: <Widget>[
                 AppTextStyle().textNormal('Total Discount:'),
                 const Spacer(),
-                AppTextStyle().textNormal('0.00'),
+                menuWatch.productAddModel == null ||
+                        menuWatch.productAddModel!.responseCode!.isNotEmpty ||
+                        menuWatch
+                            .productAddModel!.responseObj!.orderList!.isEmpty
+                    ? AppTextStyle().textNormal('-')
+                    : AppTextStyle().textNormal(menuWatch
+                        .productAddModel!.responseObj!.totalDiscount!
+                        .toStringAsFixed(2)),
               ],
             ),
             Row(
               children: <Widget>[
                 AppTextStyle().textNormal('Service Charge:'),
                 const Spacer(),
-                AppTextStyle().textNormal('0.00'),
+                menuWatch.productAddModel == null ||
+                        menuWatch.productAddModel!.responseCode!.isNotEmpty ||
+                        menuWatch
+                            .productAddModel!.responseObj!.orderList!.isEmpty
+                    ? AppTextStyle().textNormal('-')
+                    : AppTextStyle().textNormal(menuWatch
+                        .productAddModel!.responseObj!.serviceCharge!
+                        .toStringAsFixed(2)),
               ],
             ),
             Row(
               children: <Widget>[
                 AppTextStyle().textNormal('Other Income:'),
                 const Spacer(),
-                AppTextStyle().textNormal('0.00'),
+                AppTextStyle().textNormal('-'),
               ],
             ),
             Row(
               children: <Widget>[
                 AppTextStyle().textNormal('Tax 7.00%:'),
                 const Spacer(),
-                AppTextStyle().textNormal('0.00'),
+                menuWatch.productAddModel == null ||
+                        menuWatch.productAddModel!.responseCode!.isNotEmpty ||
+                        menuWatch
+                            .productAddModel!.responseObj!.orderList!.isEmpty
+                    ? AppTextStyle().textNormal('-')
+                    : AppTextStyle().textNormal(menuWatch
+                        .productAddModel!.responseObj!.vATPercent!
+                        .toStringAsFixed(2)),
               ],
             ),
           ],
@@ -333,35 +382,49 @@ Row orderDetail(BuildContext context) {
               children: <Widget>[
                 AppTextStyle().textNormal('Sub Total:'),
                 const Spacer(),
-                AppTextStyle().textNormal('0.00'),
+                AppTextStyle().textNormal('-'),
               ],
             ),
             Row(
               children: <Widget>[
                 AppTextStyle().textNormal('Grand Total:'),
                 const Spacer(),
-                AppTextStyle().textNormal('0.00'),
+                AppTextStyle().textNormal('-'),
               ],
             ),
             Row(
               children: <Widget>[
                 AppTextStyle().textNormal('Rounding:'),
                 const Spacer(),
-                AppTextStyle().textNormal('0.00'),
+                menuWatch.productAddModel == null ||
+                        menuWatch.productAddModel!.responseCode!.isNotEmpty ||
+                        menuWatch
+                            .productAddModel!.responseObj!.orderList!.isEmpty
+                    ? AppTextStyle().textNormal('-')
+                    : AppTextStyle().textNormal(menuWatch
+                        .productAddModel!.responseObj!.roundingBill!
+                        .toStringAsFixed(2)),
               ],
             ),
             Row(
               children: <Widget>[
                 AppTextStyle().textNormal('Pay Amount:'),
                 const Spacer(),
-                AppTextStyle().textNormal('0.00'),
+                menuWatch.productAddModel == null ||
+                        menuWatch.productAddModel!.responseCode!.isNotEmpty ||
+                        menuWatch
+                            .productAddModel!.responseObj!.orderList!.isEmpty
+                    ? AppTextStyle().textNormal('-')
+                    : AppTextStyle().textNormal(menuWatch
+                        .productAddModel!.responseObj!.payAmount!
+                        .toStringAsFixed(2)),
               ],
             ),
             Row(
               children: <Widget>[
                 AppTextStyle().textNormal('Before Tex:'),
                 const Spacer(),
-                AppTextStyle().textNormal('0.00'),
+                AppTextStyle().textNormal('-'),
               ],
             ),
           ],
@@ -373,7 +436,9 @@ Row orderDetail(BuildContext context) {
 
 SizedBox orderList(
     MenuProvider menuWatch, MenuProvider menuRead, BuildContext context) {
-  return menuWatch.productAddModel == null
+  return menuWatch.productAddModel == null ||
+          menuWatch.productAddModel!.responseCode!.isNotEmpty ||
+          menuWatch.productAddModel!.responseObj!.orderList!.isEmpty
       ? SizedBox(
           height: MediaQuery.of(context).size.height * 0.3,
           child: Center(child: AppTextStyle().textNormal('There is no menu.')),
@@ -439,7 +504,7 @@ SizedBox orderList(
                       ],
                     ),
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.055,
+                      height: MediaQuery.of(context).size.height * 0.058,
                       margin: const EdgeInsets.only(bottom: 5, right: 5),
                       child: Row(
                         children: <Widget>[
@@ -500,9 +565,10 @@ Row orderTitle(MenuProvider menuWatch) {
         child: AppTextStyle().textBold('DINE IN', size: 22),
       ),
       Container(
-        child: menuWatch.productAddModel != null
+        child: menuWatch.productAddModel != null &&
+                menuWatch.productAddModel!.responseCode!.isEmpty
             ? AppTextStyle().textBold(
-                menuWatch.productAddModel!.responseObj!.retailAmount.toString(),
+                menuWatch.productAddModel!.responseObj!.dueAmount.toString(),
                 size: 22)
             : AppTextStyle().textBold('0.00', size: 22),
       )

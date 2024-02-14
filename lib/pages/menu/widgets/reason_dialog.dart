@@ -35,12 +35,12 @@ Future<void> reasonDialog(BuildContext context) {
             onPressed: () async {
               if (dataProvider.getReasonText.text.isNotEmpty ||
                   dataProvider.getReasonController.text.isNotEmpty) {
-                LoadingStyle().dialogLoadding(context, false);
+                LoadingStyle().dialogLoadding(context);
                 await dataProvider.cancelTransaction().then((value) {
                   if (dataProvider.apiState == ApiState.ERROR) {
                     Navigator.pop(context);
-                    LoadingStyle()
-                        .dialogError(context, dataProvider.getExceptionText);
+                    LoadingStyle().dialogErrorNormalPop(
+                        context, dataProvider.getExceptionText);
                   } else {
                     Navigator.of(context)
                         .popUntil(ModalRoute.withName('/homePage'));
@@ -179,8 +179,8 @@ SizedBox groupMenu(BuildContext context, MenuProvider dataProvider) {
           onTap: () {
             dataProvider.setReason(index).then((value) {
               if (dataProvider.apiState == ApiState.ERROR) {
-                LoadingStyle()
-                    .dialogError(context, dataProvider.getExceptionText);
+                LoadingStyle().dialogErrorNormalPop(
+                    context, dataProvider.getExceptionText);
               }
             });
           },
