@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/menu/i_menu_repository.dart';
@@ -7,16 +5,39 @@ import 'package:cloud_pos/service/shared_pref.dart';
 
 class MenuRepository implements IMenuRepository {
   @override
-  Future finalizeBill(
-      {String? deviceKey, String? tranData, String? computerId}) async {
+  Future orderSummary({String? deviceKey, String? orderId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
-    int staffId = await SharedPref().getStaffID();
+
     var param = {
       "reqId": uuid,
       "deviceKey": deviceKey,
       "LangID": '1',
-      "CloseComputerID": computerId,
+      "OrderId": orderId,
+      "ViewReceipt": "1",
+      "ViewBillSummary": 'true',
+      "MoreBillInfo": 'true',
+    };
+    var response = await APIService().postParams(
+        url: Endpoints.orderSummary,
+        param: param,
+        token: token,
+        actionBy: 'orderSummary');
+
+    return response;
+  }
+
+  @override
+  Future finalizeBill({String? deviceKey, String? tranData}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    int staffId = await SharedPref().getStaffID();
+    int computerId = await SharedPref().getComputerID();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceKey,
+      "LangID": '1',
+      "CloseComputerID": computerId.toString(),
       "StaffID": staffId.toString()
     };
     var response = await APIService().postAndParams(

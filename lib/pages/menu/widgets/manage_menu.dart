@@ -1,8 +1,13 @@
+import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:cloud_pos/utils/widgets/container_style_2.dart';
+import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 Card manageMenu(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
@@ -24,7 +29,7 @@ Card manageMenu(
               orderDetail(context, menuWatch),
               Divider(thickness: 2, color: Colors.grey.shade300),
               couponList(context),
-              binButton(context),
+              binButton(context, menuWatch, menuRead),
               priceList(context, menuRead)
             ],
           ),
@@ -155,32 +160,43 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
   );
 }
 
-Row binButton(BuildContext context) {
+Row binButton(
+    BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: [
-      Container(
-        width: MediaQuery.of(context).size.width * 0.15,
-        height: MediaQuery.of(context).size.height * 0.08,
-        padding: const EdgeInsets.all(5.0),
-        margin: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Constants.primaryColor),
-          color: Colors.blue.shade800,
-          boxShadow: const [
-            BoxShadow(
-                color: Constants.primaryColor,
-                blurRadius: 8,
-                offset: Offset(0, 6)),
-          ],
-        ),
-        child: const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Icon(Icons.receipt_long, color: Colors.white, size: 45.0),
+      GestureDetector(
+        onTap: () async {
+          LoadingStyle().dialogLoadding(context);
+          await menuRead.orderSummary(context).then((value) {
+            if (menuWatch.apiState == ApiState.COMPLETED) {
+              dialogResultHtml(context, menuWatch.getHtmlOrderSummary);
+            }
+          });
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.15,
+          height: MediaQuery.of(context).size.height * 0.08,
+          padding: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Constants.primaryColor),
+            color: Colors.blue.shade800,
+            boxShadow: const [
+              BoxShadow(
+                  color: Constants.primaryColor,
+                  blurRadius: 8,
+                  offset: Offset(0, 6)),
             ],
+          ),
+          child: const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Icon(Icons.receipt_long, color: Colors.white, size: 45.0),
+              ],
+            ),
           ),
         ),
       ),
@@ -514,17 +530,24 @@ SizedBox orderList(
                             child: const Icon(Icons.remove_circle_outline,
                                 color: Colors.red, size: 35.0),
                           ),
-                          Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width * 0.03,
-                            child: AppTextStyle().textBold(
-                                menuWatch.productAddModel!.responseObj!
-                                    .orderList![index].qty
-                                    .toString()
-                                    .split(
-                                        '.') //Why split ? because int.parse is Invalid radix-10 number. i don't know why
-                                    .first,
-                                size: 16),
+                          GestureDetector(
+                            onTap: () {
+                              menuRead.clearReasonText();
+                              openQtyDialog(
+                                  context, menuWatch, menuRead, index);
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width * 0.03,
+                              child: AppTextStyle().textBold(
+                                  menuWatch.productAddModel!.responseObj!
+                                      .orderList![index].qty
+                                      .toString()
+                                      .split(
+                                          '.') //Why split ? because int.parse is Invalid radix-10 number. i don't know why
+                                      .first,
+                                  size: 16),
+                            ),
                           ),
                           GestureDetector(
                             onTap: () => menuRead.addCountOrder(context, index),
@@ -574,4 +597,107 @@ Row orderTitle(MenuProvider menuWatch) {
       )
     ],
   );
+}
+
+openQtyDialog(BuildContext context, MenuProvider menuWatch,
+    MenuProvider menuRead, int index) {
+  return showDialog<bool>(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.15,
+          child: Column(
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width * 0.2,
+                margin: const EdgeInsets.only(top: 10, bottom: 10),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: menuWatch.getvalueQtyController,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.3),
+                    labelText: 'Enter your Qty.',
+                    border: Constants().myinputborder(), //normal border
+                    enabledBorder: Constants().myinputborder(), //enabled border
+                    focusedBorder: Constants().myfocusborder(), //focused border
+                  ),
+                  style:
+                      const TextStyle(color: Constants.textColor, fontSize: 20),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: AppTextStyle().textNormal('OK', size: 18),
+            onPressed: () {
+              menuRead.dialogCountOrder(context, index);
+            },
+          ),
+          TextButton(
+            child: AppTextStyle()
+                .textNormal('Cancel', size: 18, color: Colors.red),
+            onPressed: () async {
+              Navigator.pop(context, false);
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<dynamic> dialogResultHtml(BuildContext context, String html) {
+  return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.55,
+                  height: MediaQuery.of(context).size.height,
+                  child: Scrollbar(
+                    child: SingleChildScrollView(child: HtmlWidget(html)),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 50),
+                  child: ContainerStyle2(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .popUntil(ModalRoute.withName('/menuPage'));
+                    },
+                    radius: 25,
+                    width: MediaQuery.of(context).size.width * 0.17,
+                    height: MediaQuery.of(context).size.height * 0.18,
+                    title: 'พิมพ์ใบเสร็จ',
+                    size: 20,
+                    onlyText: false,
+                    icon: Icons.add_chart_rounded,
+                    shadowColor: Colors.green.shade400,
+                    gradient1: Colors.green.shade200,
+                    gradient2: Colors.green.shade300,
+                    gradient3: Colors.green.shade500,
+                    gradient4: Colors.green.shade500,
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      });
 }

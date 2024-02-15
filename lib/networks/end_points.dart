@@ -16,5 +16,7 @@ class Endpoints {
   static const String productAdd = "$baseUrl/api/POSModule/OrderMenu_AddUpdate";
   static const String paymenySubmit = "$baseUrl/api/POSModule/Payment_Submit";
   static const String endDay = "$baseUrl/api/POSModule/POS_EndDay";
-  static const String finalizeBill = "$baseUrl/api/POSModule/Order_FinalizeBill";
+  static const String finalizeBill =
+      "$baseUrl/api/POSModule/Order_FinalizeBill";
+  static const String orderSummary = "$baseUrl/api/POSModule/POS_OrderSummary";
 }

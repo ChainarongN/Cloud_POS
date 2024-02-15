@@ -65,7 +65,7 @@ class _UtilityPageState extends State<UtilityPage> {
                               Future.delayed(const Duration(milliseconds: 500),
                                   () {
                                 dialogResultHtml(
-                                    context, utilityWatch, utilityRead);
+                                    context, utilityWatch, utilityRead, true);
                               });
                             }
                           }
@@ -100,16 +100,16 @@ class _UtilityPageState extends State<UtilityPage> {
                             if (utilityWatch.apiState == ApiState.COMPLETED) {
                               Future.delayed(const Duration(milliseconds: 500),
                                   () async {
-                                dialogResultHtml(
-                                        context, utilityWatch, utilityRead)
+                                dialogResultHtml(context, utilityWatch,
+                                        utilityRead, false)
                                     .then((value) async {
                                   LoadingStyle().dialogLoadding(context);
                                   utilityRead.endDay().then((value) async {
                                     if (utilityWatch.apiState ==
                                         ApiState.COMPLETED) {
                                       Navigator.pop(context);
-                                      await dialogResultHtml(
-                                          context, utilityWatch, utilityRead);
+                                      await dialogResultHtml(context,
+                                          utilityWatch, utilityRead, false);
                                       exit(0);
                                     }
                                   });
@@ -201,8 +201,11 @@ class _UtilityPageState extends State<UtilityPage> {
     );
   }
 
-  Future<dynamic> dialogResultHtml(BuildContext context,
-      UtilityProvider utilityWatch, UtilityProvider utilityRead) {
+  Future<dynamic> dialogResultHtml(
+      BuildContext context,
+      UtilityProvider utilityWatch,
+      UtilityProvider utilityRead,
+      bool isSession) {
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -226,7 +229,12 @@ class _UtilityPageState extends State<UtilityPage> {
                     margin: const EdgeInsets.only(left: 50),
                     child: ContainerStyle2(
                       onPressed: () {
-                        Navigator.pop(context);
+                        if (isSession) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/loginPage', (route) => false);
+                        } else {
+                          Navigator.pop(context);
+                        }
                       },
                       radius: 25,
                       width: MediaQuery.of(context).size.width * 0.17,

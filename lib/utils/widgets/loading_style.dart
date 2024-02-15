@@ -3,6 +3,9 @@ import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/custom_error_widget.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:material_dialogs/material_dialogs.dart';
+import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 
 class LoadingStyle {
   LoadingStyle._internal();
@@ -55,6 +58,38 @@ class LoadingStyle {
             ],
           );
         });
+  }
+
+  Future<void> dialogPayment2(BuildContext context, String text, bool popUntil,
+      {String? popToPage}) {
+    return Dialogs.materialDialog(
+      color: Colors.white,
+      titleStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      msgStyle: const TextStyle(fontSize: 18),
+      msg: 'Change $text  THB.',
+      title: 'Payment Success',
+      lottieBuilder: Lottie.asset(
+        'assets/payment_success.json',
+        fit: BoxFit.contain,
+      ),
+      dialogWidth: 0.3,
+      context: context,
+      actions: [
+        IconsButton(
+          onPressed: () {
+            popUntil
+                ? Navigator.of(context)
+                    .popUntil(ModalRoute.withName(popToPage!))
+                : Navigator.pop(context);
+          },
+          text: 'OK',
+          iconData: Icons.done,
+          color: Colors.blue,
+          textStyle: const TextStyle(color: Colors.white),
+          iconColor: Colors.white,
+        ),
+      ],
+    );
   }
 
   Future<dynamic> confirmDialog(BuildContext context,
