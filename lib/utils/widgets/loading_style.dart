@@ -1,68 +1,19 @@
-import 'package:cloud_pos/utils/constants.dart';
-import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
-import 'package:cloud_pos/utils/widgets/custom_error_widget.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 
 class LoadingStyle {
   LoadingStyle._internal();
   static final LoadingStyle _instance = LoadingStyle._internal();
   factory LoadingStyle() => _instance;
 
-  Future<void> dialogPayment(BuildContext context, String text, bool popUntil,
-      {String? popToPage}) {
-    return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.3,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  AppTextStyle().textBold('Payment Success',
-                      size: 22, color: Colors.greenAccent.shade700),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        const TextSpan(
-                            text: 'Change  ', style: TextStyle(fontSize: 20)),
-                        TextSpan(
-                          text: text,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              color: Colors.blue.shade900),
-                        ),
-                        const TextSpan(
-                            text: '  THB.', style: TextStyle(fontSize: 20)),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => popUntil
-                    ? Navigator.of(context)
-                        .popUntil(ModalRoute.withName(popToPage!))
-                    : Navigator.pop(context),
-                child: AppTextStyle().textNormal('OK', size: 16),
-              ),
-            ],
-          );
-        });
-  }
-
   Future<void> dialogPayment2(BuildContext context,
       {String? text, bool? popUntil, String? popToPage}) {
     return Dialogs.materialDialog(
+      barrierDismissible: false,
       color: Colors.white,
       titleStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       msgStyle: const TextStyle(fontSize: 18),
@@ -92,39 +43,36 @@ class LoadingStyle {
     );
   }
 
-  Future<dynamic> confirmDialog(BuildContext context,
-      {String? title, VoidCallback? onPressed}) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        content: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 15),
-                child: AppTextStyle()
-                    .textBold(title!, color: Colors.red.shade400, size: 20),
-              ),
-            ],
+  Future confirmDialog2(BuildContext context,
+      {String? title, String? detail, VoidCallback? onPressed}) async {
+    Dialogs.materialDialog(
+        barrierDismissible: false,
+        title: title,
+        msg: detail,
+        color: Colors.white,
+        context: context,
+        dialogWidth: 0.38,
+        titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        msgStyle: const TextStyle(fontSize: 18),
+        actions: [
+          IconsButton(
+            onPressed: onPressed!,
+            text: 'OK',
+            iconData: Icons.done,
+            color: Colors.red,
+            textStyle: const TextStyle(color: Colors.white),
+            iconColor: Colors.white,
           ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: onPressed,
-            child: AppTextStyle().textNormal('OK', size: 16),
-          ),
-          TextButton(
-            child: AppTextStyle()
-                .textNormal('Cancel', size: 16, color: Colors.red),
-            onPressed: () async {
+          IconsOutlineButton(
+            onPressed: () {
               Navigator.pop(context);
             },
-          ),
-        ],
-      ),
-    );
+            text: 'Cancel',
+            iconData: Icons.cancel_outlined,
+            textStyle: const TextStyle(color: Colors.grey),
+            iconColor: Colors.grey,
+          )
+        ]);
   }
 
   Future<void> dialogLoadding(BuildContext context) {
@@ -137,45 +85,36 @@ class LoadingStyle {
     );
   }
 
-  Future<void> dialogError(
-      BuildContext context, String errorString, String popToPage) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: SingleChildScrollView(
-              child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.33,
-                  child: CustomErrorWidget(errorMessage: errorString)),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context)
-                    .popUntil(ModalRoute.withName(popToPage)),
-                child: AppTextStyle().textNormal('OK', size: 16),
-              ),
-            ],
-          );
-        });
-  }
-
-  Future<void> dialogErrorNormalPop(BuildContext context, String errorString) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: SingleChildScrollView(
-              child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.33,
-                  child: CustomErrorWidget(errorMessage: errorString)),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: AppTextStyle().textNormal('OK', size: 16),
-              ),
-            ],
-          );
-        });
+  Future<void> dialogError(BuildContext context,
+      {String? error, bool? isPopUntil, String? popToPage}) {
+    return Dialogs.materialDialog(
+      barrierDismissible: false,
+      color: Colors.white,
+      titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      msgStyle: const TextStyle(fontSize: 16),
+      msg: error,
+      title: 'Something went wrong',
+      lottieBuilder: Lottie.asset(
+        'assets/error_lottie.json',
+        fit: BoxFit.contain,
+      ),
+      dialogWidth: 0.3,
+      context: context,
+      actions: [
+        IconsButton(
+          onPressed: () {
+            isPopUntil!
+                ? Navigator.of(context)
+                    .popUntil(ModalRoute.withName(popToPage!))
+                : Navigator.pop(context);
+          },
+          text: 'OK',
+          iconData: Icons.done,
+          color: Colors.blue,
+          textStyle: const TextStyle(color: Colors.white),
+          iconColor: Colors.white,
+        ),
+      ],
+    );
   }
 }

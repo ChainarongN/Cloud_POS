@@ -52,8 +52,9 @@ class _UtilityPageState extends State<UtilityPage> {
                     onlyText: false,
                     size: 20,
                     onPressed: () {
-                      LoadingStyle().confirmDialog(context,
-                          title: 'You need to close session. ? ',
+                      LoadingStyle().confirmDialog2(context,
+                          title: 'Close Session',
+                          detail: 'You need to close session. ? ',
                           onPressed: () {
                         utilityRead.setCloseAmountController('');
                         Navigator.maybePop(context).then((value) async {
@@ -87,8 +88,9 @@ class _UtilityPageState extends State<UtilityPage> {
                     onlyText: false,
                     size: 20,
                     onPressed: () {
-                      LoadingStyle().confirmDialog(context,
-                          title:
+                      LoadingStyle().confirmDialog2(context,
+                          title: 'End day',
+                          detail:
                               'You need to end day. ? If it ends, you will not be able to open another session today.',
                           onPressed: () {
                         utilityRead.setCloseAmountController('');
@@ -177,8 +179,10 @@ class _UtilityPageState extends State<UtilityPage> {
                   utilityRead.closeSession().then((value) {
                     if (utilityWatch.apiState == ApiState.ERROR) {
                       Future.delayed(const Duration(milliseconds: 500), () {
-                        LoadingStyle().dialogError(
-                            context, utilityWatch.getErrorText, '/utilityPage');
+                        LoadingStyle().dialogError(context,
+                            error: utilityWatch.getErrorText,
+                            isPopUntil: true,
+                            popToPage: '/utilityPage');
                       });
                     } else {
                       Navigator.of(context)

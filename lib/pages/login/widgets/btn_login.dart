@@ -17,8 +17,10 @@ GestureDetector btnLogin(
         loginRead.flowOpen().then((value) {
           if (loginWatch.apisState == ApiState.ERROR) {
             Future.delayed(const Duration(milliseconds: 500), () {
-              LoadingStyle()
-                  .dialogError(context, loginWatch.getErrorText, '/loginPage');
+              LoadingStyle().dialogError(context,
+                  error: loginWatch.getErrorText,
+                  isPopUntil: true,
+                  popToPage: '/loginPage');
             });
           } else {
             Navigator.maybePop(context);
@@ -97,8 +99,10 @@ Future<void> openAmountDialog(
                         context, '/homePage', (route) => false);
                   } else {
                     Future.delayed(const Duration(milliseconds: 500), () {
-                      LoadingStyle().dialogError(
-                          context, loginWatch.getErrorText, '/loginPage');
+                      LoadingStyle().dialogError(context,
+                          error: loginWatch.getErrorText,
+                          isPopUntil: true,
+                          popToPage: '/loginPage');
                     });
                   }
                 });

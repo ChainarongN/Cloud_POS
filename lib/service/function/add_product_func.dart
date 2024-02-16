@@ -21,7 +21,6 @@ class AddProductFunc {
       isSuccess = true;
       Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
     }
-
     return isSuccess;
   }
 }

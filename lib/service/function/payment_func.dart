@@ -14,9 +14,10 @@ class PaymentFunc {
   Future<bool> payment({BuildContext? context, String? payAmount}) async {
     var menuProvider = Provider.of<MenuProvider>(context!, listen: false);
     bool isSuccess = false;
-    await LoadingStyle().confirmDialog(
+    await LoadingStyle().confirmDialog2(
       context,
-      title: 'You need to pay $payAmount THB.  ?',
+      title: 'Payment',
+      detail: 'You need to pay $payAmount THB. ?',
       onPressed: () async {
         LoadingStyle().dialogLoadding(context);
         await menuProvider.paymentSubmit(context, payAmount: payAmount);

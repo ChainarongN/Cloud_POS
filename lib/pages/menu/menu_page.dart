@@ -39,8 +39,9 @@ class _MenuPageState extends State<MenuPage> {
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
-              LoadingStyle().confirmDialog(context,
-                  title: 'You need cancel transaction. ?', onPressed: () {
+              LoadingStyle().confirmDialog2(context,
+                  title: 'Cancel Transaction',
+                  detail: 'You need cancel transaction. ?', onPressed: () {
                 Navigator.maybePop(context).then((value) {
                   menuRead.clearReasonText();
                   menuRead.setExceptionText('');

@@ -38,13 +38,12 @@ class MenuProvider extends ChangeNotifier {
   PaymentSubmitModel? paymentSubmitModel;
   OrderSummaryModel? orderSummaryModel;
   FinalizeBillModel? finalizeBillModel;
-  String? _tranDataFromOpenTran;
-
   int? _valueMenuSelect;
-  String? _valueReasonGroupSelect;
-  String? _orderId = '';
+  String? _valueReasonGroupSelect,
+      _htmlOrderSummary,
+      _orderId,
+      _tranDataFromOpenTran;
   String _exceptionText = '';
-  String? _htmlOrderSummary;
   final TextEditingController _reasonController = TextEditingController();
   final TextEditingController _valueIdReason = TextEditingController();
   final TextEditingController _reasonTextController = TextEditingController();
@@ -79,7 +78,14 @@ class MenuProvider extends ChangeNotifier {
         productAddModel!.responseObj!.orderList!.isEmpty) {
       return;
     } else {
-      await PaymentFunc().payment(context: context, payAmount: payAmount);
+      if (int.parse(payAmount!) < productAddModel!.responseObj!.dueAmount!) {
+        await LoadingStyle().dialogError(context!,
+            error:
+                'You pay $payAmount THB.  Pay amount must more than total price.',
+            isPopUntil: false);
+      } else {
+        await PaymentFunc().payment(context: context, payAmount: payAmount);
+      }
     }
     notifyListeners();
   }
@@ -107,7 +113,8 @@ class MenuProvider extends ChangeNotifier {
       if (response is Failure) {
         _exceptionText = response.errorResponse.toString();
         apiState = ApiState.ERROR;
-        LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
+        await LoadingStyle().dialogError(context,
+            error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
       } else {
         orderSummaryModel = OrderSummaryModel.fromJson(jsonDecode(response));
         if (orderSummaryModel!.responseCode!.isEmpty) {
@@ -118,14 +125,16 @@ class MenuProvider extends ChangeNotifier {
         } else {
           _exceptionText = orderSummaryModel!.responseText.toString();
           apiState = ApiState.ERROR;
-          LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
+          await LoadingStyle().dialogError(context,
+              error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
         }
       }
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       _exceptionText = e.toString();
       apiState = ApiState.ERROR;
-      LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
+      await LoadingStyle().dialogError(context,
+          error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
     }
     notifyListeners();
   }
@@ -139,7 +148,8 @@ class MenuProvider extends ChangeNotifier {
       if (response is Failure) {
         _exceptionText = response.errorResponse.toString();
         apiState = ApiState.ERROR;
-        LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
+        await LoadingStyle().dialogError(context,
+            error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
       } else {
         finalizeBillModel = FinalizeBillModel.fromJson(jsonDecode(response));
         if (finalizeBillModel!.responseCode!.isEmpty) {
@@ -148,14 +158,16 @@ class MenuProvider extends ChangeNotifier {
         } else {
           _exceptionText = finalizeBillModel!.responseText.toString();
           apiState = ApiState.ERROR;
-          LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
+          await LoadingStyle().dialogError(context,
+              error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
         }
       }
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       _exceptionText = e.toString();
       apiState = ApiState.ERROR;
-      LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
+      await LoadingStyle().dialogError(context,
+          error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
     }
   }
 
@@ -173,7 +185,8 @@ class MenuProvider extends ChangeNotifier {
       if (response is Failure) {
         _exceptionText = response.errorResponse.toString();
         apiState = ApiState.ERROR;
-        LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
+        await LoadingStyle().dialogError(context,
+            error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
       } else {
         paymentSubmitModel = PaymentSubmitModel.fromJson(jsonDecode(response));
         if (productObjModel!.responseCode!.isEmpty) {
@@ -182,14 +195,16 @@ class MenuProvider extends ChangeNotifier {
         } else {
           _exceptionText = productObjModel!.responseText.toString();
           apiState = ApiState.ERROR;
-          LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
+          await LoadingStyle().dialogError(context,
+              error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
         }
       }
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       _exceptionText = e.toString();
       apiState = ApiState.ERROR;
-      LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
+      await LoadingStyle().dialogError(context,
+          error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
     }
   }
 
@@ -200,25 +215,28 @@ class MenuProvider extends ChangeNotifier {
           deviceKey: '0288-7363-6560-2714',
           prodObj: json.encode(productObjModel!.responseObj));
       if (response is Failure) {
+        _exceptionText = response.errorResponse.toString();
         apiState = ApiState.ERROR;
-        await LoadingStyle().dialogError(
-            context, response.errorResponse.toString(), '/menuPage');
+        await LoadingStyle().dialogError(context,
+            error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
       } else {
         productAddModel = ProductAddModel.fromJson(jsonDecode(response));
         if (productObjModel!.responseCode!.isEmpty) {
           Constants().printCheckFlow(response, 'product add');
           apiState = ApiState.COMPLETED;
         } else {
+          _exceptionText = productObjModel!.responseText.toString();
           apiState = ApiState.ERROR;
-          await LoadingStyle().dialogError(
-              context, productObjModel!.responseText.toString(), '/menuPage');
+          await LoadingStyle().dialogError(context,
+              error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
         }
       }
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       _exceptionText = e.toString();
       apiState = ApiState.ERROR;
-      await LoadingStyle().dialogError(context, e.toString(), '/menuPage');
+      await LoadingStyle().dialogError(context,
+          error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
     }
   }
 
@@ -232,9 +250,9 @@ class MenuProvider extends ChangeNotifier {
           orderDetailId: orderDetailId);
       if (response is Failure) {
         apiState = ApiState.ERROR;
-
-        await LoadingStyle().dialogError(
-            context, response.errorResponse.toString(), '/menuPage');
+        _exceptionText = response.errorResponse.toString();
+        await LoadingStyle().dialogError(context,
+            error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
       } else {
         productObjModel = ProductObjModel.fromJson(jsonDecode(response));
         if (productObjModel!.responseCode!.isEmpty) {
@@ -242,16 +260,18 @@ class MenuProvider extends ChangeNotifier {
           Constants().printWarning('product obj');
           apiState = ApiState.COMPLETED;
         } else {
+          _exceptionText = productObjModel!.responseText.toString();
           apiState = ApiState.ERROR;
-          await LoadingStyle().dialogError(
-              context, productObjModel!.responseText.toString(), '/menuPage');
+          await LoadingStyle().dialogError(context,
+              error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
         }
       }
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       _exceptionText = e.toString();
       apiState = ApiState.ERROR;
-      await LoadingStyle().dialogError(context, e.toString(), '/menuPage');
+      await LoadingStyle().dialogError(context,
+          error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
     }
     notifyListeners();
   }

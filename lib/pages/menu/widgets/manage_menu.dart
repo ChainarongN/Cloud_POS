@@ -200,29 +200,32 @@ Row binButton(
           ),
         ),
       ),
-      Container(
-        width: MediaQuery.of(context).size.width * 0.15,
-        height: MediaQuery.of(context).size.height * 0.085,
-        padding: const EdgeInsets.all(5.0),
-        margin: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Constants.primaryColor),
-          color: Colors.blue.shade800,
-          boxShadow: const [
-            BoxShadow(
-                color: Constants.primaryColor,
-                blurRadius: 8,
-                offset: Offset(0, 6)),
-          ],
-        ),
-        child: const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Icon(Icons.local_printshop_rounded,
-                  color: Colors.white, size: 45.0),
+      GestureDetector(
+        onTap: () {},
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.15,
+          height: MediaQuery.of(context).size.height * 0.085,
+          padding: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Constants.primaryColor),
+            color: Colors.blue.shade800,
+            boxShadow: const [
+              BoxShadow(
+                  color: Constants.primaryColor,
+                  blurRadius: 8,
+                  offset: Offset(0, 6)),
             ],
+          ),
+          child: const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Icon(Icons.local_printshop_rounded,
+                    color: Colors.white, size: 45.0),
+              ],
+            ),
           ),
         ),
       ),

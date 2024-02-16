@@ -48,8 +48,10 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
                     });
                   } else {
                     Future.delayed(const Duration(milliseconds: 500), () {
-                      LoadingStyle().dialogError(
-                          context, homeWatch.getErrorText, '/homePage');
+                      LoadingStyle().dialogError(context,
+                          error: homeWatch.getErrorText,
+                          isPopUntil: true,
+                          popToPage: '/homePage');
                     });
                   }
                 });
