@@ -11,6 +11,8 @@ import 'package:cloud_pos/models/product_add_model.dart';
 import 'package:cloud_pos/models/product_obj_model.dart';
 import 'package:cloud_pos/models/reason_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
+import 'package:cloud_pos/service/function/add_product_func.dart';
+import 'package:cloud_pos/service/function/payment_func.dart';
 import 'package:cloud_pos/service/function/read_file_func.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -77,28 +79,20 @@ class MenuProvider extends ChangeNotifier {
         productAddModel!.responseObj!.orderList!.isEmpty) {
       return;
     } else {
-      await LoadingStyle().confirmDialog(
-        context!,
-        title: 'You need to pay $payAmount THB.  ?',
-        onPressed: () async {
-          LoadingStyle().dialogLoadding(context);
-          await paymentSubmit(payAmount: payAmount);
-          if (apiState == ApiState.ERROR) {
-            LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
-          } else {
-            await finalizeBill();
-            if (apiState == ApiState.ERROR) {
-              LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
-            } else {
-              await LoadingStyle().dialogPayment2(
-                  context,
-                  paymentSubmitModel!.responseObj!.paymentList!.last.cashChange
-                      .toString(),
-                  true,
-                  popToPage: '/homePage');
-            }
-          }
-        },
+      await PaymentFunc().payment(context: context, payAmount: payAmount);
+    }
+    notifyListeners();
+  }
+
+  Future addProduct(BuildContext context, int prodId, double count,
+      String orderDetailId) async {
+    LoadingStyle().dialogLoadding(context);
+    if (apiState == ApiState.COMPLETED) {
+      await AddProductFunc().addProduct(
+        context,
+        orderDetailId: orderDetailId,
+        prodId: prodId,
+        count: count,
       );
     }
     notifyListeners();
@@ -136,7 +130,7 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future finalizeBill() async {
+  Future finalizeBill(BuildContext context) async {
     apiState = ApiState.LOADING;
     try {
       var response = await _menuRepository.finalizeBill(
@@ -145,6 +139,7 @@ class MenuProvider extends ChangeNotifier {
       if (response is Failure) {
         _exceptionText = response.errorResponse.toString();
         apiState = ApiState.ERROR;
+        LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
       } else {
         finalizeBillModel = FinalizeBillModel.fromJson(jsonDecode(response));
         if (finalizeBillModel!.responseCode!.isEmpty) {
@@ -153,16 +148,18 @@ class MenuProvider extends ChangeNotifier {
         } else {
           _exceptionText = finalizeBillModel!.responseText.toString();
           apiState = ApiState.ERROR;
+          LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
         }
       }
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       _exceptionText = e.toString();
       apiState = ApiState.ERROR;
+      LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
     }
   }
 
-  Future paymentSubmit({String? payAmount}) async {
+  Future paymentSubmit(BuildContext context, {String? payAmount}) async {
     apiState = ApiState.LOADING;
     try {
       var response = await _menuRepository.paymentSubmit(
@@ -176,6 +173,7 @@ class MenuProvider extends ChangeNotifier {
       if (response is Failure) {
         _exceptionText = response.errorResponse.toString();
         apiState = ApiState.ERROR;
+        LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
       } else {
         paymentSubmitModel = PaymentSubmitModel.fromJson(jsonDecode(response));
         if (productObjModel!.responseCode!.isEmpty) {
@@ -184,21 +182,15 @@ class MenuProvider extends ChangeNotifier {
         } else {
           _exceptionText = productObjModel!.responseText.toString();
           apiState = ApiState.ERROR;
+          LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
         }
       }
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       _exceptionText = e.toString();
       apiState = ApiState.ERROR;
+      LoadingStyle().dialogError(context, _exceptionText, '/menuPage');
     }
-  }
-
-  Future addProduct(BuildContext context, int prodId, double count,
-      String orderDetailId) async {
-    LoadingStyle().dialogLoadding(context);
-    await callProductObj(context, prodId, orderDetailId);
-    await callProductAdd(context, count);
-    notifyListeners();
   }
 
   Future callProductAdd(BuildContext context, double count) async {
@@ -215,7 +207,7 @@ class MenuProvider extends ChangeNotifier {
         productAddModel = ProductAddModel.fromJson(jsonDecode(response));
         if (productObjModel!.responseCode!.isEmpty) {
           Constants().printCheckFlow(response, 'product add');
-          Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
+          apiState = ApiState.COMPLETED;
         } else {
           apiState = ApiState.ERROR;
           await LoadingStyle().dialogError(
@@ -240,6 +232,7 @@ class MenuProvider extends ChangeNotifier {
           orderDetailId: orderDetailId);
       if (response is Failure) {
         apiState = ApiState.ERROR;
+
         await LoadingStyle().dialogError(
             context, response.errorResponse.toString(), '/menuPage');
       } else {
@@ -247,6 +240,7 @@ class MenuProvider extends ChangeNotifier {
         if (productObjModel!.responseCode!.isEmpty) {
           Constants().printInfo(response);
           Constants().printWarning('product obj');
+          apiState = ApiState.COMPLETED;
         } else {
           apiState = ApiState.ERROR;
           await LoadingStyle().dialogError(

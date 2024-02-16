@@ -60,8 +60,8 @@ class LoadingStyle {
         });
   }
 
-  Future<void> dialogPayment2(BuildContext context, String text, bool popUntil,
-      {String? popToPage}) {
+  Future<void> dialogPayment2(BuildContext context,
+      {String? text, bool? popUntil, String? popToPage}) {
     return Dialogs.materialDialog(
       color: Colors.white,
       titleStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -77,7 +77,7 @@ class LoadingStyle {
       actions: [
         IconsButton(
           onPressed: () {
-            popUntil
+            popUntil!
                 ? Navigator.of(context)
                     .popUntil(ModalRoute.withName(popToPage!))
                 : Navigator.pop(context);

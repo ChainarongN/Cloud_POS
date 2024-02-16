@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var homeRead = context.read<HomeProvider>();
     var homeWatch = context.watch<HomeProvider>();
-    var menuRead = context.watch<MenuProvider>();
+    var menuRead = context.read<MenuProvider>();
     return Scaffold(
       backgroundColor: Constants.secondaryColor,
       appBar: AppBar(
