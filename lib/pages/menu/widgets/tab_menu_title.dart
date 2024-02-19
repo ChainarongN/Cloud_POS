@@ -1,10 +1,12 @@
+import 'package:cloud_pos/providers/menu_provider.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 
-Column tabMenuTitle() {
+Column tabMenuTitle(MenuProvider menuWatch) {
   return Column(
     children: [
       TabBar(
+        controller: menuWatch.getTabController,
         tabs: <Widget>[
           Tab(
             child: Row(

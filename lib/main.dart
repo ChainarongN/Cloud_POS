@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
 
-        debugShowCheckedModeBanner: false,
+        // debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Constants.primaryColor),

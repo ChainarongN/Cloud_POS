@@ -48,7 +48,9 @@ class MenuProvider extends ChangeNotifier {
   final TextEditingController _valueIdReason = TextEditingController();
   final TextEditingController _reasonTextController = TextEditingController();
   final TextEditingController _valueQtyController = TextEditingController();
+  TabController? _tabController;
 
+  TabController get getTabController => _tabController!;
   String get getOrderId => _orderId!;
   String get getExceptionText => _exceptionText;
   int get getvalueMenuSelect => _valueMenuSelect!;
@@ -59,7 +61,8 @@ class MenuProvider extends ChangeNotifier {
   TextEditingController get getReasonText => _reasonTextController;
   TextEditingController get getvalueQtyController => _valueQtyController;
 
-  init() async {
+  init(TickerProvider tabThis) async {
+    _tabController = TabController(length: 6, vsync: tabThis);
     productAddModel = null;
     prodGroupList = [];
     prodList = [];
@@ -70,6 +73,11 @@ class MenuProvider extends ChangeNotifier {
 
     Constants().printWarning("OrderId : $_orderId");
     SharedPref().setOrderId(_orderId!);
+    notifyListeners();
+  }
+
+  setTabToPayment() {
+    _tabController!.animateTo(5);
     notifyListeners();
   }
 

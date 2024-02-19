@@ -21,11 +21,18 @@ class MenuPage extends StatefulWidget {
   State<MenuPage> createState() => _MenuPageState();
 }
 
-class _MenuPageState extends State<MenuPage> {
+class _MenuPageState extends State<MenuPage>
+    with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    context.read<MenuProvider>().init();
+    context.read<MenuProvider>().init(this);
+  }
+
+  @override
+  void dispose() {
+    context.read<MenuProvider>().getTabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -82,32 +89,32 @@ class _MenuPageState extends State<MenuPage> {
   Expanded tabViewAll(
       BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
     return Expanded(
-      child: DefaultTabController(
-        length: 6,
-        child: Column(
-          children: [
-            tabMenuTitle(),
-            Expanded(
-              child: TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                children: <Widget>[
-                  menuTab(context, menuWatch, menuRead),
-                  favoriteTab1(context, menuWatch, menuRead),
-                  Center(
-                    child: Text("Fav#2"),
+      child: Column(
+        children: [
+          tabMenuTitle(menuWatch),
+          Expanded(
+            child: TabBarView(
+              controller: menuWatch.getTabController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                menuTab(context, menuWatch, menuRead),
+                favoriteTab1(context, menuWatch, menuRead),
+                Center(
+                  child: Text("Fav#2"),
+                ),
+                searchTab(context, menuWatch, menuRead),
+                Center(
+                  child: Text("ส่วนลด"),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(5),
                   ),
-                  searchTab(context, menuWatch, menuRead),
-                  Center(
-                    child: Text("ส่วนลด"),
-                  ),
-                  Center(
-                    child: Text("จ่ายเงิน"),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
