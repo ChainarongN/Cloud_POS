@@ -17,6 +17,7 @@ class Constants {
   static const FAV_GROUP_TXT = 'fav_group.txt';
   static const FAV_DATA_TXT = 'fav_data.txt';
   static const REASON_GROUP_TXT = 'rea_group.txt';
+    static const PAYMENT_GROUP_TXT = 'payment_group.txt';
   static const INVALID_LOGIN =
       'This log in information is not registered to system.';
 

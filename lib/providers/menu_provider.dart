@@ -42,7 +42,8 @@ class MenuProvider extends ChangeNotifier {
   String? _valueReasonGroupSelect,
       _htmlOrderSummary,
       _orderId,
-      _tranDataFromOpenTran;
+      _tranDataFromOpenTran,
+      _valueCurrency;
   String _exceptionText = '';
   final TextEditingController _reasonController = TextEditingController();
   final TextEditingController _valueIdReason = TextEditingController();
@@ -56,6 +57,7 @@ class MenuProvider extends ChangeNotifier {
   int get getvalueMenuSelect => _valueMenuSelect!;
   String get getvalueReasonGroupSelect => _valueReasonGroupSelect!;
   String get getHtmlOrderSummary => _htmlOrderSummary!;
+  String get getValueCurrency => _valueCurrency!;
   TextEditingController get getReasonController => _reasonController;
   TextEditingController get getvalueReason => _valueIdReason;
   TextEditingController get getReasonText => _reasonTextController;
@@ -63,6 +65,7 @@ class MenuProvider extends ChangeNotifier {
 
   init(TickerProvider tabThis) async {
     _tabController = TabController(length: 6, vsync: tabThis);
+    _valueCurrency = 'THB';
     productAddModel = null;
     prodGroupList = [];
     prodList = [];
@@ -433,4 +436,6 @@ class MenuProvider extends ChangeNotifier {
     _tranDataFromOpenTran = tranObject;
     _orderId = orderID;
   }
+
+  final List<String> currencyitems = ['THB'];
 }
