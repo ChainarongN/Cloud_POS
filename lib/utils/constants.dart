@@ -17,7 +17,7 @@ class Constants {
   static const FAV_GROUP_TXT = 'fav_group.txt';
   static const FAV_DATA_TXT = 'fav_data.txt';
   static const REASON_GROUP_TXT = 'rea_group.txt';
-    static const PAYMENT_GROUP_TXT = 'payment_group.txt';
+  static const PAYMENT_GROUP_TXT = 'payment_group.txt';
   static const INVALID_LOGIN =
       'This log in information is not registered to system.';
 
@@ -26,6 +26,11 @@ class Constants {
   static const textColor = Color(0xFF222B45);
 
   static const bgLogin = 'assets/bg_1.jpg';
+  static const twentyImg = 'assets/images/twenty.png';
+  static const fiftyImg = 'assets/images/fifty.png';
+  static const one_hundredImg = 'assets/images/one_hundred.png';
+  static const five_hundredImg = 'assets/images/five_hundred.png';
+  static const thousandImg = 'assets/images/thousand.png';
 
   void printInfo(String text) {
     print('\x1B[34m$text\x1B[0m');

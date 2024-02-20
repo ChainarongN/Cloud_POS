@@ -193,7 +193,9 @@ class LoginProvider extends ChangeNotifier {
                 Constants.FAV_DATA_TXT),
             _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.reasonGroup),
                 Constants.REASON_GROUP_TXT),
-            _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.payTypeData),
+            _writeCoreInit(
+                jsonEncode(
+                    coreInitModel!.responseObj!.payTypeData!.payTypeInfo),
                 Constants.PAYMENT_GROUP_TXT)
           ],
         );

@@ -27,75 +27,13 @@ Center paymentTab(
                     child: Column(
                       children: <Widget>[
                         titlePaymentList(),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.33,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: List.generate(
-                                20,
-                                (index) => Slidable(
-                                  endActionPane: ActionPane(
-                                    motion: const BehindMotion(),
-                                    children: [
-                                      SlidableAction(
-                                        flex: 1,
-                                        onPressed: (context) {},
-                                        backgroundColor: Colors.redAccent,
-                                        foregroundColor: Colors.white,
-                                        icon: Icons.save,
-                                        label: 'Delete',
-                                      ),
-                                    ],
-                                  ),
-                                  child: SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.07,
-                                    child: Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 2,
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            child: AppTextStyle().textNormal(
-                                                'ประเภทรายจ่าย test',
-                                                size: 16),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 3,
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            child: AppTextStyle().textNormal(
-                                                'รายละเอียด test',
-                                                size: 16),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            child: AppTextStyle().textNormal(
-                                                '2520.00',
-                                                size: 16),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
+                        paymentList(context, menuWatch, menuRead)
                       ],
                     ),
                   ),
                   totalPayAmount(context),
-                  inputTextField(context),
-                  // Container(
-                  //   height: MediaQuery.of(context).size.height * 0.15,
-                  //   color: Colors.blueGrey.shade100,
-                  // ),
+                  inputTextField(context, menuWatch, menuRead),
+                  bangNotes(context, menuWatch)
                 ],
               ),
             ),
@@ -103,6 +41,124 @@ Center paymentTab(
           listPaymentType(context, menuWatch),
         ],
       ),
+    ),
+  );
+}
+
+Container bangNotes(BuildContext context, MenuProvider menuWatch) {
+  return Container(
+    width: MediaQuery.of(context).size.width,
+    height: MediaQuery.of(context).size.height * 0.225,
+    margin: const EdgeInsets.only(top: 8),
+    child: Wrap(
+      alignment: WrapAlignment.start,
+      runSpacing: 5,
+      spacing: 25,
+      children: <Widget>[
+        GestureDetector(
+          onTap: () => menuWatch.setPayAmountField(20),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.12,
+            child: Image.asset(Constants.twentyImg),
+          ),
+        ),
+        GestureDetector(
+          onTap: () => menuWatch.setPayAmountField(50),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.12,
+            child: Image.asset(Constants.fiftyImg),
+          ),
+        ),
+        GestureDetector(
+          onTap: () => menuWatch.setPayAmountField(100),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.12,
+            child: Image.asset(Constants.one_hundredImg),
+          ),
+        ),
+        GestureDetector(
+          onTap: () => menuWatch.setPayAmountField(500),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.12,
+            child: Image.asset(Constants.five_hundredImg),
+          ),
+        ),
+        GestureDetector(
+          onTap: () => menuWatch.setPayAmountField(1000),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.128,
+            child: Image.asset(Constants.thousandImg),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+SizedBox paymentList(
+    BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
+  return SizedBox(
+    height: MediaQuery.of(context).size.height * 0.33,
+    child: SingleChildScrollView(
+      child: menuWatch.payAmountList!.isEmpty
+          ? Center(
+              child: AppTextStyle().textNormal('There is no pay amount.'),
+            )
+          : Column(
+              children: List.generate(
+                menuWatch.payAmountList!.length,
+                (index) => Slidable(
+                  endActionPane: ActionPane(
+                    motion: const BehindMotion(),
+                    children: [
+                      SlidableAction(
+                        flex: 1,
+                        onPressed: (context) {},
+                        backgroundColor: Colors.redAccent,
+                        foregroundColor: Colors.white,
+                        icon: Icons.save,
+                        label: 'Delete',
+                      ),
+                    ],
+                  ),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: AppTextStyle().textNormal(
+                                menuWatch.payAmountList![index].payType!,
+                                size: 16),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: AppTextStyle().textNormal(
+                                menuWatch.payAmountList![index].payDetail!,
+                                size: 16),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: AppTextStyle().textNormal(
+                                menuWatch.payAmountList![index].price
+                                    .toString(),
+                                size: 16),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
     ),
   );
 }
@@ -138,7 +194,7 @@ Row titlePaymentList() {
 Container totalPayAmount(BuildContext context) {
   return Container(
     margin: const EdgeInsets.only(top: 5),
-    height: MediaQuery.of(context).size.height * 0.08,
+    height: MediaQuery.of(context).size.height * 0.07,
     child: Row(
       children: <Widget>[
         Expanded(
@@ -159,10 +215,10 @@ Container totalPayAmount(BuildContext context) {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.delete, size: 40, color: Colors.white),
+                    const Icon(Icons.delete, size: 30, color: Colors.white),
                     const SizedBox(width: 5),
                     AppTextStyle()
-                        .textBold('Clear', size: 25, color: Colors.white)
+                        .textBold('Clear', size: 20, color: Colors.white)
                   ],
                 ),
               ),
@@ -186,7 +242,7 @@ Container totalPayAmount(BuildContext context) {
             ],
             decoration: InputDecoration(
               filled: true,
-              fillColor: Colors.white.withOpacity(0.3),
+              fillColor: Colors.grey.withOpacity(0.2),
               border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 borderSide: BorderSide(color: Colors.black26),
@@ -204,7 +260,8 @@ Container totalPayAmount(BuildContext context) {
   );
 }
 
-Container inputTextField(BuildContext context) {
+Container inputTextField(
+    BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
   return Container(
     height: MediaQuery.of(context).size.height * 0.08,
     margin: const EdgeInsets.only(top: 10),
@@ -213,6 +270,7 @@ Container inputTextField(BuildContext context) {
         Expanded(
           flex: 3,
           child: TextField(
+            controller: menuWatch.getPayAmountController,
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
@@ -241,7 +299,7 @@ Container inputTextField(BuildContext context) {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                 ),
-                onPressed: () {},
+                onPressed: () => menuRead.clearPayAmount(),
                 child: AppTextStyle()
                     .textBold('C', size: 25, color: Colors.white)),
           ),
@@ -258,7 +316,10 @@ Container inputTextField(BuildContext context) {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
               ),
-              onPressed: () {},
+              onPressed: () {
+                menuRead.setPayAmountList(
+                    payType: 'Cash', payDetail: 'testPay');
+              },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset('assets/enter1.png', color: Colors.white),
@@ -320,17 +381,19 @@ Expanded listPaymentType(BuildContext context, MenuProvider menuWatch) {
               child: SingleChildScrollView(
                 child: Column(
                   children: List.generate(
-                    10,
+                    menuWatch.payTypeInfoList!.length,
                     (index) => Container(
                       margin: const EdgeInsets.only(bottom: 13),
                       child: ContainerStyle(
                         height: MediaQuery.of(context).size.height * 0.1,
                         width: MediaQuery.of(context).size.width * 0.19,
-                        primaryColor: Colors.amber.shade300,
-                        secondaryColor: Colors.amber.shade500,
+                        primaryColor: Colors.amber.shade500,
+                        secondaryColor: Colors.amber.shade600,
                         selected: false,
-                        widget: AppTextStyle().textNormal('test data',
-                            size: 18, color: Colors.white),
+                        widget: AppTextStyle().textNormal(
+                            menuWatch.payTypeInfoList![index].payTypeName!,
+                            size: 18,
+                            color: Colors.white),
                       ),
                     ),
                   ),

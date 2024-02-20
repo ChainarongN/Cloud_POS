@@ -18,8 +18,17 @@ class ReadFileFunc {
         .map((e) => ProductGroup.fromJson(e))
         .toList();
     Constants().printWarning('Read from file "${Constants.PROD_GROUP_TXT}"');
-
     return prodGroupList;
+  }
+
+  Future<List<PayTypeInfo>> readPaymentInfo() async {
+    List<PayTypeInfo> payDataList = [];
+    String? fileResponse = await _readFile(Constants.PAYMENT_GROUP_TXT);
+    payDataList = (jsonDecode(fileResponse) as List)
+        .map((e) => PayTypeInfo.fromJson(e))
+        .toList();
+    Constants().printWarning('Read from file "${Constants.PAYMENT_GROUP_TXT}"');
+    return payDataList;
   }
 
   Future<List<Products>> readProd() async {
@@ -30,7 +39,6 @@ class ReadFileFunc {
         .map((e) => Products.fromJson(e))
         .toList();
     Constants().printWarning('Read from file "${Constants.PROD_TXT}"');
-
     return prodList;
   }
 

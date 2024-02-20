@@ -32,12 +32,6 @@ class _MenuPageState extends State<MenuPage>
   }
 
   @override
-  void dispose() {
-    context.read<MenuProvider>().getTabController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     var menuRead = context.read<MenuProvider>();
     var menuWatch = context.watch<MenuProvider>();

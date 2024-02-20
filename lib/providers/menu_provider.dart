@@ -6,6 +6,7 @@ import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/models/finalize_bill_model.dart';
 import 'package:cloud_pos/models/order_summary_model.dart';
+import 'package:cloud_pos/models/pay_amount_model.dart';
 import 'package:cloud_pos/models/payment_submit_model.dart';
 import 'package:cloud_pos/models/product_add_model.dart';
 import 'package:cloud_pos/models/product_obj_model.dart';
@@ -28,9 +29,11 @@ class MenuProvider extends ChangeNotifier {
   ApiState apiState = ApiState.COMPLETED;
   List<ProductGroup>? prodGroupList;
   List<ReasonGroup>? reasonGroupList;
+  List<PayTypeInfo>? payTypeInfoList;
   List<Products>? prodList;
   List<Products>? prodToShow;
   List<Products>? prodToSearch;
+  List<PayAmountModel>? payAmountList = [];
   ReasonModel? reasonModel;
   CancelTranModel? cancelTranModel;
   ProductObjModel? productObjModel;
@@ -49,6 +52,8 @@ class MenuProvider extends ChangeNotifier {
   final TextEditingController _valueIdReason = TextEditingController();
   final TextEditingController _reasonTextController = TextEditingController();
   final TextEditingController _valueQtyController = TextEditingController();
+  final TextEditingController _payAmountController = TextEditingController();
+  final TextEditingController _totalPayController = TextEditingController();
   TabController? _tabController;
 
   TabController get getTabController => _tabController!;
@@ -62,8 +67,12 @@ class MenuProvider extends ChangeNotifier {
   TextEditingController get getvalueReason => _valueIdReason;
   TextEditingController get getReasonText => _reasonTextController;
   TextEditingController get getvalueQtyController => _valueQtyController;
+  TextEditingController get getPayAmountController => _payAmountController;
+  TextEditingController get getTotalPayController => _totalPayController;
 
   init(TickerProvider tabThis) async {
+    _payAmountController.text = '';
+    _totalPayController.text = '0.00';
     _tabController = TabController(length: 6, vsync: tabThis);
     _valueCurrency = 'THB';
     productAddModel = null;
@@ -357,11 +366,13 @@ class MenuProvider extends ChangeNotifier {
       var value = await Future.wait([
         ReadFileFunc().readProdGroup(),
         ReadFileFunc().readProd(),
-        ReadFileFunc().readReason()
+        ReadFileFunc().readReason(),
+        ReadFileFunc().readPaymentInfo()
       ]);
       prodGroupList = value[0] as List<ProductGroup>;
       prodList = value[1] as List<Products>;
       reasonGroupList = value[2] as List<ReasonGroup>;
+      payTypeInfoList = value[3] as List<PayTypeInfo>;
       apiState = ApiState.COMPLETED;
     } catch (e, strack) {
       _exceptionText = strack.toString();
@@ -425,6 +436,30 @@ class MenuProvider extends ChangeNotifier {
         productAddModel!.responseObj!.orderList![index].qty!,
         productAddModel!.responseObj!.orderList![index].orderDetailID
             .toString());
+  }
+
+  Future setPayAmountList({String? payType, String? payDetail}) async {
+    payAmountList!.add(PayAmountModel(
+        payType: payType,
+        payDetail: payDetail,
+        price: double.parse(_payAmountController.text)));
+    notifyListeners();
+  }
+
+  Future setPayAmountField(int value) async {
+    if (_payAmountController.text.isEmpty) {
+      _payAmountController.text = value.toString();
+    } else {
+      double total = double.parse(_payAmountController.text);
+      double sum = total + value;
+      _payAmountController.text = sum.toString();
+    }
+    notifyListeners();
+  }
+
+  Future clearPayAmount() async {
+    _payAmountController.clear();
+    notifyListeners();
   }
 
   setExceptionText(String value) {
