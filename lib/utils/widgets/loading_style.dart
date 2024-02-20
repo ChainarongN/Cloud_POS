@@ -91,7 +91,7 @@ class LoadingStyle {
       barrierDismissible: false,
       color: Colors.white,
       titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      msgStyle: const TextStyle(fontSize: 16),
+      // msgStyle: const TextStyle(fontSize: 16, overflow: TextOverflow.fade),
       msg: error,
       title: 'Something went wrong',
       lottieBuilder: Lottie.asset(

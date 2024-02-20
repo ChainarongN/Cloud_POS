@@ -57,7 +57,8 @@ class MenuRepository implements IMenuRepository {
       String? payCode,
       String? payName,
       String? currencyCode,
-      int? payId}) async {
+      int? payTypeId,
+      int? currencyID}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int staffId = await SharedPref().getStaffID();
@@ -70,17 +71,17 @@ class MenuRepository implements IMenuRepository {
     };
 
     var data = {
-      "payTypeID": 1,
+      "payTypeID": payTypeId,
       "payTypeCode": payCode,
       "payTypeName": payName,
       "edcType": 0,
       "payRemark": '',
-      "currencyID": 1,
+      "currencyID": currencyID,
       "currencyCode": currencyCode,
       "customerCode": '',
       "edcResponse": '',
       "staffID": staffId,
-      "payAmount": int.parse(payAmount!),
+      "payAmount": double.parse(payAmount!),
       "tranData": tranData,
       "ccInfo": null,
       "voucherInfo": null

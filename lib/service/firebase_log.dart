@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
-import 'package:cloud_pos/utils/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'dart:io' show Platform;
 

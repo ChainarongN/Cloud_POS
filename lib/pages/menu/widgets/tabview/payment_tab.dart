@@ -116,7 +116,8 @@ SizedBox paymentList(
                       SlidableAction(
                         flex: 1,
                         onPressed: (context) {
-                          menuRead.managePayAmountList('remove', index: index);
+                          menuRead.managePayAmountList(context, 'remove',
+                              index: index);
                         },
                         backgroundColor: Colors.redAccent,
                         foregroundColor: Colors.white,
@@ -134,7 +135,7 @@ SizedBox paymentList(
                           child: Container(
                             alignment: Alignment.center,
                             child: AppTextStyle().textNormal(
-                                menuWatch.payAmountList![index].payType!,
+                                menuWatch.payAmountList![index].payName!,
                                 size: 16),
                           ),
                         ),
@@ -215,7 +216,7 @@ Container totalPayAmount(
                     borderRadius: BorderRadius.circular(10)),
               ),
               onPressed: () {
-                menuRead.managePayAmountList('clear');
+                menuRead.managePayAmountList(context, 'clear');
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -327,8 +328,12 @@ Container inputTextField(
               ),
               onPressed: () {
                 if (menuWatch.getPayAmountController.text.isNotEmpty) {
-                  menuRead.managePayAmountList('add',
-                      payType: 'Cash', payDetail: 'testPay');
+                  menuRead.managePayAmountList(context, 'add',
+                      payCode: 'CS',
+                      payTypeId: 1,
+                      payName: 'Cash',
+                      payDetail: 'testPayDetail',
+                      price: menuWatch.getPayAmountController.text);
                 }
               },
               child: Padding(

@@ -11,7 +11,8 @@ class PaymentFunc {
   static final PaymentFunc _instance = PaymentFunc._internal();
   factory PaymentFunc() => _instance;
 
-  Future<bool> payment({BuildContext? context, String? payAmount}) async {
+  Future<bool> paymentCashType(
+      {BuildContext? context, String? payAmount}) async {
     var menuProvider = Provider.of<MenuProvider>(context!, listen: false);
     bool isSuccess = false;
     await LoadingStyle().confirmDialog2(
@@ -20,7 +21,13 @@ class PaymentFunc {
       detail: 'You need to pay $payAmount THB. ?',
       onPressed: () async {
         LoadingStyle().dialogLoadding(context);
-        await menuProvider.paymentSubmit(context, payAmount: payAmount);
+        await menuProvider.paymentSubmit(
+          context,
+          payAmount: payAmount,
+          payCode: 'CS',
+          payName: 'Cash',
+          payTypeId: 1,
+        );
         await menuProvider.finalizeBill(context);
         if (menuProvider.apiState == ApiState.COMPLETED) {
           isSuccess = true;

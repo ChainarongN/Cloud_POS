@@ -41,7 +41,7 @@ class MenuProvider extends ChangeNotifier {
   PaymentSubmitModel? paymentSubmitModel;
   OrderSummaryModel? orderSummaryModel;
   FinalizeBillModel? finalizeBillModel;
-  int? _valueMenuSelect;
+  int? _valueMenuSelect, _valueCurrencyId;
   String? _valueReasonGroupSelect,
       _htmlOrderSummary,
       _orderId,
@@ -64,6 +64,7 @@ class MenuProvider extends ChangeNotifier {
   String get getvalueReasonGroupSelect => _valueReasonGroupSelect!;
   String get getHtmlOrderSummary => _htmlOrderSummary!;
   String get getValueCurrency => _valueCurrency!;
+  int get getValueCurrencyId => _valueCurrencyId!;
   TextEditingController get getReasonController => _reasonController;
   TextEditingController get getvalueReason => _valueIdReason;
   TextEditingController get getReasonText => _reasonTextController;
@@ -71,32 +72,24 @@ class MenuProvider extends ChangeNotifier {
   TextEditingController get getPayAmountController => _payAmountController;
   TextEditingController get getTotalPayController => _totalPayController;
 
-  init(TickerProvider tabThis) async {
+  init(BuildContext context, TickerProvider tabThis) async {
     _payAmountController.text = '';
     _totalPayController.text = '0.00';
     _tabController = TabController(length: 6, vsync: tabThis);
     _valueCurrency = 'THB';
+    _valueCurrencyId = 1;
     productAddModel = null;
     prodGroupList = [];
     prodList = [];
     prodToSearch = [];
+    payAmountList = [];
     await _readData();
     await setReason(0);
     setWhereMenu(prodGroupList![0].productGroupID.toString());
 
     Constants().printWarning("OrderId : $_orderId");
     SharedPref().setOrderId(_orderId!);
-
-    _tabController!.addListener(() {
-      Constants().printError(_tabController!.index.toString());
-      if (_tabController!.index == 5) {
-        if (productAddModel == null ||
-            productAddModel!.responseObj!.dueAmount! < 1) {
-          // LoadingStyle().dialogError();
-          setTabToPayment(0);
-        }
-      }
-    });
+    checkPaymentTab(context);
     notifyListeners();
   }
 
@@ -116,7 +109,8 @@ class MenuProvider extends ChangeNotifier {
                 'You pay $payAmount THB.  Pay amount must more than total price.',
             isPopUntil: false);
       } else {
-        await PaymentFunc().payment(context: context, payAmount: payAmount);
+        await PaymentFunc()
+            .paymentCashType(context: context, payAmount: payAmount);
       }
     }
     notifyListeners();
@@ -201,17 +195,24 @@ class MenuProvider extends ChangeNotifier {
     }
   }
 
-  Future paymentSubmit(BuildContext context, {String? payAmount}) async {
+  Future paymentSubmit(
+    BuildContext context, {
+    String? payAmount,
+    String? payCode,
+    String? payName,
+    int? payTypeId,
+  }) async {
     apiState = ApiState.LOADING;
     try {
       var response = await _menuRepository.paymentSubmit(
           deviceKey: '0288-7363-6560-2714',
           payAmount: payAmount,
           tranData: productAddModel!.responseObj!.tranData!.toJson(),
-          payCode: "CS",
-          payName: "Cash",
-          currencyCode: "THB",
-          payId: 1);
+          payCode: payCode, //CS
+          payName: payName, //Cash
+          currencyCode: _valueCurrency, //THB
+          payTypeId: payTypeId, //1
+          currencyID: _valueCurrencyId); //1
       if (response is Failure) {
         _exceptionText = response.errorResponse.toString();
         apiState = ApiState.ERROR;
@@ -411,6 +412,21 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  checkPaymentTab(BuildContext context) {
+    _tabController!.addListener(() async {
+      if (_tabController!.index == 5) {
+        if (productAddModel == null ||
+            productAddModel!.responseObj!.orderList!.isEmpty) {
+          await LoadingStyle().dialogError(context,
+              error: 'Must have at least 1 order.',
+              isPopUntil: true,
+              popToPage: '/menuPage');
+          setTabToPayment(0);
+        }
+      }
+    });
+  }
+
   Future clearReasonText() async {
     _reasonController.text = '';
     _valueIdReason.text = '';
@@ -448,15 +464,23 @@ class MenuProvider extends ChangeNotifier {
             .toString());
   }
 
-  Future managePayAmountList(String frag,
-      {String? payType, String? payDetail, int? index}) async {
+  Future managePayAmountList(BuildContext context, String frag,
+      {String? payName,
+      String? payCode,
+      int? payTypeId,
+      String? payDetail,
+      String? price,
+      int? index}) async {
     if (frag == 'add') {
       payAmountList!.add(
         PayAmountModel(
-            payType: payType,
+            payTypeId: payTypeId,
+            payCode: payCode,
+            payName: payName,
             payDetail: payDetail,
-            price: double.parse(_payAmountController.text)),
+            price: double.parse(price!)),
       );
+      _payAmountController.text = '';
     } else if (frag == 'remove') {
       payAmountList!.removeAt(index!);
     } else if (frag == 'clear') {
@@ -467,6 +491,27 @@ class MenuProvider extends ChangeNotifier {
       sum += element.price!;
     }
     _totalPayController.text = sum.toString();
+
+    if (sum >= productAddModel!.responseObj!.dueAmount!) {
+      LoadingStyle().dialogLoadding(context);
+      for (var i = 0; i < payAmountList!.length; i++) {
+        await paymentSubmit(
+          context,
+          payAmount: payAmountList![i].price.toString(),
+          payCode: payAmountList![i].payCode,
+          payName: payAmountList![i].payName,
+          payTypeId: payAmountList![i].payTypeId,
+        );
+      }
+      await finalizeBill(context);
+      if (apiState == ApiState.COMPLETED) {
+        await LoadingStyle().dialogPayment2(context,
+            text: paymentSubmitModel!.responseObj!.paymentList!.last.cashChange
+                .toString(),
+            popUntil: true,
+            popToPage: '/homePage');
+      }
+    }
     notifyListeners();
   }
 

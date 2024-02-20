@@ -27,7 +27,7 @@ class _MenuPageState extends State<MenuPage>
   @override
   void initState() {
     super.initState();
-    context.read<MenuProvider>().init(this);
+    context.read<MenuProvider>().init(context, this);
   }
 
   @override
