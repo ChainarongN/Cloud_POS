@@ -48,6 +48,7 @@ class MenuProvider extends ChangeNotifier {
       _tranDataFromOpenTran,
       _valueCurrency;
   String _exceptionText = '';
+
   final TextEditingController _reasonController = TextEditingController();
   final TextEditingController _valueIdReason = TextEditingController();
   final TextEditingController _reasonTextController = TextEditingController();
@@ -85,11 +86,22 @@ class MenuProvider extends ChangeNotifier {
 
     Constants().printWarning("OrderId : $_orderId");
     SharedPref().setOrderId(_orderId!);
+
+    _tabController!.addListener(() {
+      Constants().printError(_tabController!.index.toString());
+      if (_tabController!.index == 5) {
+        if (productAddModel == null ||
+            productAddModel!.responseObj!.dueAmount! < 1) {
+          // LoadingStyle().dialogError();
+          setTabToPayment(0);
+        }
+      }
+    });
     notifyListeners();
   }
 
-  setTabToPayment() {
-    _tabController!.animateTo(5);
+  setTabToPayment(int page) {
+    _tabController!.animateTo(page);
     notifyListeners();
   }
 
@@ -113,14 +125,12 @@ class MenuProvider extends ChangeNotifier {
   Future addProduct(BuildContext context, int prodId, double count,
       String orderDetailId) async {
     LoadingStyle().dialogLoadding(context);
-    if (apiState == ApiState.COMPLETED) {
-      await AddProductFunc().addProduct(
-        context,
-        orderDetailId: orderDetailId,
-        prodId: prodId,
-        count: count,
-      );
-    }
+    await AddProductFunc().addProduct(
+      context,
+      orderDetailId: orderDetailId,
+      prodId: prodId,
+      count: count,
+    );
     notifyListeners();
   }
 
@@ -438,11 +448,25 @@ class MenuProvider extends ChangeNotifier {
             .toString());
   }
 
-  Future setPayAmountList({String? payType, String? payDetail}) async {
-    payAmountList!.add(PayAmountModel(
-        payType: payType,
-        payDetail: payDetail,
-        price: double.parse(_payAmountController.text)));
+  Future managePayAmountList(String frag,
+      {String? payType, String? payDetail, int? index}) async {
+    if (frag == 'add') {
+      payAmountList!.add(
+        PayAmountModel(
+            payType: payType,
+            payDetail: payDetail,
+            price: double.parse(_payAmountController.text)),
+      );
+    } else if (frag == 'remove') {
+      payAmountList!.removeAt(index!);
+    } else if (frag == 'clear') {
+      payAmountList = [];
+    }
+    num sum = 0;
+    for (var element in payAmountList!) {
+      sum += element.price!;
+    }
+    _totalPayController.text = sum.toString();
     notifyListeners();
   }
 

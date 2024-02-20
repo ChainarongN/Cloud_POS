@@ -31,7 +31,7 @@ Center paymentTab(
                       ],
                     ),
                   ),
-                  totalPayAmount(context),
+                  totalPayAmount(context, menuRead, menuWatch),
                   inputTextField(context, menuWatch, menuRead),
                   bangNotes(context, menuWatch)
                 ],
@@ -101,10 +101,12 @@ SizedBox paymentList(
     height: MediaQuery.of(context).size.height * 0.33,
     child: SingleChildScrollView(
       child: menuWatch.payAmountList!.isEmpty
-          ? Center(
+          ? Container(
+              margin: const EdgeInsets.only(top: 50),
               child: AppTextStyle().textNormal('There is no pay amount.'),
             )
           : Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: List.generate(
                 menuWatch.payAmountList!.length,
                 (index) => Slidable(
@@ -113,7 +115,9 @@ SizedBox paymentList(
                     children: [
                       SlidableAction(
                         flex: 1,
-                        onPressed: (context) {},
+                        onPressed: (context) {
+                          menuRead.managePayAmountList('remove', index: index);
+                        },
                         backgroundColor: Colors.redAccent,
                         foregroundColor: Colors.white,
                         icon: Icons.save,
@@ -191,10 +195,11 @@ Row titlePaymentList() {
   );
 }
 
-Container totalPayAmount(BuildContext context) {
+Container totalPayAmount(
+    BuildContext context, MenuProvider menuRead, MenuProvider menuWatch) {
   return Container(
     margin: const EdgeInsets.only(top: 5),
-    height: MediaQuery.of(context).size.height * 0.07,
+    height: MediaQuery.of(context).size.height * 0.08,
     child: Row(
       children: <Widget>[
         Expanded(
@@ -209,7 +214,9 @@ Container totalPayAmount(BuildContext context) {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
               ),
-              onPressed: () {},
+              onPressed: () {
+                menuRead.managePayAmountList('clear');
+              },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -235,7 +242,9 @@ Container totalPayAmount(BuildContext context) {
         Expanded(
           flex: 1,
           child: TextField(
+            controller: menuWatch.getTotalPayController,
             readOnly: true,
+            textAlign: TextAlign.end,
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
@@ -317,8 +326,10 @@ Container inputTextField(
                     borderRadius: BorderRadius.circular(10)),
               ),
               onPressed: () {
-                menuRead.setPayAmountList(
-                    payType: 'Cash', payDetail: 'testPay');
+                if (menuWatch.getPayAmountController.text.isNotEmpty) {
+                  menuRead.managePayAmountList('add',
+                      payType: 'Cash', payDetail: 'testPay');
+                }
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

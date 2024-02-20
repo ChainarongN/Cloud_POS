@@ -10,7 +10,6 @@ import 'package:cloud_pos/pages/menu/widgets/tabview/search_tab.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
-import 'package:cloud_pos/utils/widgets/container_style.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';

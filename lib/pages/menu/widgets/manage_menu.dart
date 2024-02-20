@@ -202,7 +202,7 @@ Row binButton(
       ),
       GestureDetector(
         onTap: () {
-          menuRead.setTabToPayment();
+          menuRead.setTabToPayment(5);
         },
         child: Container(
           width: MediaQuery.of(context).size.width * 0.15,
