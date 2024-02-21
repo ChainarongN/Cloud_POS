@@ -2,6 +2,7 @@ import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/menu/i_menu_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
+import 'package:cloud_pos/utils/constants.dart';
 
 class MenuRepository implements IMenuRepository {
   @override
@@ -58,7 +59,8 @@ class MenuRepository implements IMenuRepository {
       String? payName,
       String? currencyCode,
       int? payTypeId,
-      int? currencyID}) async {
+      int? currencyID,
+      String? payRemark}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int staffId = await SharedPref().getStaffID();
@@ -75,7 +77,7 @@ class MenuRepository implements IMenuRepository {
       "payTypeCode": payCode,
       "payTypeName": payName,
       "edcType": 0,
-      "payRemark": '',
+      "payRemark": payRemark,
       "currencyID": currencyID,
       "currencyCode": currencyCode,
       "customerCode": '',

@@ -20,7 +20,8 @@ abstract class IMenuRepository {
       String? payName,
       String? currencyCode,
       int? payTypeId,
-      int? currencyID});
+      int? currencyID,
+      String? payRemark});
   Future finalizeBill({String? deviceKey, String? tranData});
   Future orderSummary({String? deviceKey, String? orderId});
 }

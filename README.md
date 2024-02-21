@@ -20,3 +20,4 @@ how to setLocale :
 
 - flutter pub get
 - flutter run
+- flutter run --release

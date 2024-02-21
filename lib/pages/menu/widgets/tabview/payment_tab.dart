@@ -38,10 +38,187 @@ Center paymentTab(
               ),
             ),
           ),
-          listPaymentType(context, menuWatch),
+          listPaymentType(context, menuWatch, menuRead),
         ],
       ),
     ),
+  );
+}
+
+Future dialogPayment(BuildContext context,
+    {int? payTypeId,
+    String? payTypeName,
+    String? payTypeCode,
+    MenuProvider? menuRead,
+    MenuProvider? menuWatch}) async {
+  menuRead!.clearPaymentField();
+  switch (payTypeId) {
+    case 2:
+      dialogCredit(context,
+          payTypeId: payTypeId,
+          payTypeName: payTypeName,
+          payTypeCode: payTypeCode,
+          menuRead: menuRead,
+          menuWatch: menuWatch);
+      break;
+  }
+}
+
+Future<void> dialogCredit(BuildContext context,
+    {int? payTypeId,
+    String? payTypeName,
+    String? payTypeCode,
+    MenuProvider? menuRead,
+    MenuProvider? menuWatch}) {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        child: Padding(
+          padding:
+              const EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 20),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const Icon(Icons.android, size: 35),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                    AppTextStyle().textBold('Payment - Credit Card.', size: 20)
+                  ],
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.11,
+                      child:
+                          AppTextStyle().textNormal('Total price : ', size: 16),
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.008),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.15,
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      child: TextField(
+                        controller: menuWatch!.getDueAmountController,
+                        readOnly: true,
+                        textAlign: TextAlign.end,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          contentPadding: const EdgeInsets.all(8),
+                          suffixText: ' THB.',
+                          filled: true,
+                          fillColor: Colors.grey.withOpacity(0.2),
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            borderSide: BorderSide(color: Colors.black26),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            borderSide: BorderSide(color: Colors.black26),
+                          ),
+                        ),
+                        style: const TextStyle(
+                            color: Constants.textColor, fontSize: 20),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.11,
+                      child:
+                          AppTextStyle().textNormal('Pay amount : ', size: 16),
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.008),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.15,
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      alignment: Alignment.center,
+                      child: TextField(
+                        controller: menuWatch.getPayAmountCredit,
+                        textAlign: TextAlign.end,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
+                        ],
+                        decoration: const InputDecoration(
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(8),
+                          suffixText: ' THB.',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            borderSide: BorderSide(color: Colors.black26),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            borderSide: BorderSide(color: Colors.black26),
+                          ),
+                        ),
+                        style: const TextStyle(
+                            color: Constants.textColor, fontSize: 20),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.26,
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  child: TextField(
+                    controller: menuWatch.getPaymentRemark,
+                    maxLines: 4,
+                    keyboardType: TextInputType.multiline,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Remark',
+                    ),
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.1,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          menuRead!.managePayAmountList(context, 'add',
+                              payTypeId: payTypeId,
+                              payCode: payTypeCode,
+                              payName: payTypeName,
+                              payRemark: menuWatch.getPaymentRemark.text,
+                              price: menuWatch.getPayAmountCredit.text);
+                        },
+                        child: AppTextStyle()
+                            .textNormal('OK', color: Colors.green, size: 16),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.1,
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: AppTextStyle()
+                            .textNormal('Cancel', color: Colors.red, size: 16),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    },
   );
 }
 
@@ -117,7 +294,7 @@ SizedBox paymentList(
                         flex: 1,
                         onPressed: (context) {
                           menuRead.managePayAmountList(context, 'remove',
-                              index: index);
+                              indexForRemove: index);
                         },
                         backgroundColor: Colors.redAccent,
                         foregroundColor: Colors.white,
@@ -144,7 +321,7 @@ SizedBox paymentList(
                           child: Container(
                             alignment: Alignment.center,
                             child: AppTextStyle().textNormal(
-                                menuWatch.payAmountList![index].payDetail!,
+                                menuWatch.payAmountList![index].payRemark!,
                                 size: 16),
                           ),
                         ),
@@ -247,9 +424,6 @@ Container totalPayAmount(
             readOnly: true,
             textAlign: TextAlign.end,
             keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
-            ],
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.grey.withOpacity(0.2),
@@ -332,7 +506,6 @@ Container inputTextField(
                       payCode: 'CS',
                       payTypeId: 1,
                       payName: 'Cash',
-                      payDetail: 'testPayDetail',
                       price: menuWatch.getPayAmountController.text);
                 }
               },
@@ -348,7 +521,8 @@ Container inputTextField(
   );
 }
 
-Expanded listPaymentType(BuildContext context, MenuProvider menuWatch) {
+Expanded listPaymentType(
+    BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
   return Expanded(
     flex: 1,
     child: SizedBox(
@@ -398,18 +572,31 @@ Expanded listPaymentType(BuildContext context, MenuProvider menuWatch) {
                 child: Column(
                   children: List.generate(
                     menuWatch.payTypeInfoList!.length,
-                    (index) => Container(
-                      margin: const EdgeInsets.only(bottom: 13),
-                      child: ContainerStyle(
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        width: MediaQuery.of(context).size.width * 0.19,
-                        primaryColor: Colors.amber.shade500,
-                        secondaryColor: Colors.amber.shade600,
-                        selected: false,
-                        widget: AppTextStyle().textNormal(
-                            menuWatch.payTypeInfoList![index].payTypeName!,
-                            size: 18,
-                            color: Colors.white),
+                    (index) => GestureDetector(
+                      onTap: () {
+                        dialogPayment(context,
+                            payTypeId:
+                                menuWatch.payTypeInfoList![index].payTypeID,
+                            payTypeName:
+                                menuWatch.payTypeInfoList![index].payTypeName,
+                            payTypeCode:
+                                menuWatch.payTypeInfoList![index].payTypeCode,
+                            menuRead: menuRead,
+                            menuWatch: menuWatch);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 13),
+                        child: ContainerStyle(
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          width: MediaQuery.of(context).size.width * 0.19,
+                          primaryColor: Colors.amber.shade500,
+                          secondaryColor: Colors.amber.shade600,
+                          selected: false,
+                          widget: AppTextStyle().textNormal(
+                              menuWatch.payTypeInfoList![index].payTypeName!,
+                              size: 18,
+                              color: Colors.white),
+                        ),
                       ),
                     ),
                   ),

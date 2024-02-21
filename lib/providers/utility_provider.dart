@@ -53,6 +53,7 @@ class UtilityProvider extends ChangeNotifier {
     String key = await SharedPref().getSessionKey();
     int idx = key.indexOf(":");
     String sessionId = key.substring(0, idx).trim();
+
     try {
       var response = await _utilityRepository.closeSession(
           deviceKey: '0288-7363-6560-2714',

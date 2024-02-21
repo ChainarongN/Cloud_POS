@@ -52,9 +52,13 @@ class MenuProvider extends ChangeNotifier {
   final TextEditingController _reasonController = TextEditingController();
   final TextEditingController _valueIdReason = TextEditingController();
   final TextEditingController _reasonTextController = TextEditingController();
-  final TextEditingController _valueQtyController = TextEditingController();
+  final TextEditingController _valueQtyOrderController =
+      TextEditingController();
   final TextEditingController _payAmountController = TextEditingController();
-  final TextEditingController _totalPayController = TextEditingController();
+  final TextEditingController _totalPayListController = TextEditingController();
+  final TextEditingController _dueAmountController = TextEditingController();
+  final TextEditingController _payAmountCredit = TextEditingController();
+  final TextEditingController _paymentRemark = TextEditingController();
   TabController? _tabController;
 
   TabController get getTabController => _tabController!;
@@ -68,13 +72,17 @@ class MenuProvider extends ChangeNotifier {
   TextEditingController get getReasonController => _reasonController;
   TextEditingController get getvalueReason => _valueIdReason;
   TextEditingController get getReasonText => _reasonTextController;
-  TextEditingController get getvalueQtyController => _valueQtyController;
+  TextEditingController get getvalueQtyOrderController =>
+      _valueQtyOrderController;
   TextEditingController get getPayAmountController => _payAmountController;
-  TextEditingController get getTotalPayController => _totalPayController;
+  TextEditingController get getTotalPayController => _totalPayListController;
+  TextEditingController get getDueAmountController => _dueAmountController;
+  TextEditingController get getPayAmountCredit => _payAmountCredit;
+  TextEditingController get getPaymentRemark => _paymentRemark;
 
   init(BuildContext context, TickerProvider tabThis) async {
     _payAmountController.text = '';
-    _totalPayController.text = '0.00';
+    _totalPayListController.text = '0.00';
     _tabController = TabController(length: 6, vsync: tabThis);
     _valueCurrency = 'THB';
     _valueCurrencyId = 1;
@@ -90,11 +98,6 @@ class MenuProvider extends ChangeNotifier {
     Constants().printWarning("OrderId : $_orderId");
     SharedPref().setOrderId(_orderId!);
     checkPaymentTab(context);
-    notifyListeners();
-  }
-
-  setTabToPayment(int page) {
-    _tabController!.animateTo(page);
     notifyListeners();
   }
 
@@ -116,6 +119,59 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future managePayAmountList(BuildContext context, String frag,
+      {String? payName,
+      String? payCode,
+      int? payTypeId,
+      String? price,
+      int? indexForRemove,
+      String? payRemark}) async {
+    if (frag == 'add') {
+      payAmountList!.add(
+        PayAmountModel(
+            payTypeId: payTypeId,
+            payCode: payCode,
+            payName: payName,
+            price: double.parse(price!),
+            payRemark: payRemark ?? ''),
+      );
+      _payAmountController.text = '';
+    } else if (frag == 'remove') {
+      payAmountList!.removeAt(indexForRemove!);
+    } else if (frag == 'clear') {
+      payAmountList = [];
+    }
+    num sum = 0;
+    for (var element in payAmountList!) {
+      sum += element.price!;
+    }
+    _totalPayListController.text = sum.toString();
+
+    if (sum >= double.parse(_dueAmountController.text)) {
+      LoadingStyle().dialogLoadding(context);
+      for (var i = 0; i < payAmountList!.length; i++) {
+        await paymentSubmit(context,
+            payAmount: payAmountList![i].price.toString(),
+            payCode: payAmountList![i].payCode,
+            payName: payAmountList![i].payName,
+            payTypeId: payAmountList![i].payTypeId,
+            payRemark: payAmountList![i].payRemark);
+      }
+      if (apiState == ApiState.COMPLETED) {
+        await finalizeBill(context);
+        if (apiState == ApiState.COMPLETED) {
+          await LoadingStyle().dialogPayment2(context,
+              text: paymentSubmitModel!
+                  .responseObj!.paymentList!.last.cashChange
+                  .toString(),
+              popUntil: true,
+              popToPage: '/homePage');
+        }
+      }
+    }
+    notifyListeners();
+  }
+
   Future addProduct(BuildContext context, int prodId, double count,
       String orderDetailId) async {
     LoadingStyle().dialogLoadding(context);
@@ -125,6 +181,8 @@ class MenuProvider extends ChangeNotifier {
       prodId: prodId,
       count: count,
     );
+    _dueAmountController.text =
+        productAddModel!.responseObj!.dueAmount.toString();
     notifyListeners();
   }
 
@@ -195,13 +253,12 @@ class MenuProvider extends ChangeNotifier {
     }
   }
 
-  Future paymentSubmit(
-    BuildContext context, {
-    String? payAmount,
-    String? payCode,
-    String? payName,
-    int? payTypeId,
-  }) async {
+  Future paymentSubmit(BuildContext context,
+      {String? payAmount,
+      String? payCode,
+      String? payName,
+      int? payTypeId,
+      String? payRemark}) async {
     apiState = ApiState.LOADING;
     try {
       var response = await _menuRepository.paymentSubmit(
@@ -212,7 +269,8 @@ class MenuProvider extends ChangeNotifier {
           payName: payName, //Cash
           currencyCode: _valueCurrency, //THB
           payTypeId: payTypeId, //1
-          currencyID: _valueCurrencyId); //1
+          currencyID: _valueCurrencyId,
+          payRemark: payRemark ?? '');
       if (response is Failure) {
         _exceptionText = response.errorResponse.toString();
         apiState = ApiState.ERROR;
@@ -220,11 +278,13 @@ class MenuProvider extends ChangeNotifier {
             error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
       } else {
         paymentSubmitModel = PaymentSubmitModel.fromJson(jsonDecode(response));
-        if (productObjModel!.responseCode!.isEmpty) {
+        if (paymentSubmitModel!.responseCode!.isEmpty) {
           Constants().printCheckFlow(response, 'payment submit');
+          _dueAmountController.text =
+              paymentSubmitModel!.responseObj!.dueAmount.toString();
           apiState = ApiState.COMPLETED;
         } else {
-          _exceptionText = productObjModel!.responseText.toString();
+          _exceptionText = paymentSubmitModel!.responseText.toString();
           apiState = ApiState.ERROR;
           await LoadingStyle().dialogError(context,
               error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
@@ -427,11 +487,22 @@ class MenuProvider extends ChangeNotifier {
     });
   }
 
+  setTabToPayment(int page) {
+    _tabController!.animateTo(page);
+    notifyListeners();
+  }
+
   Future clearReasonText() async {
     _reasonController.text = '';
     _valueIdReason.text = '';
     _reasonTextController.text = '';
-    _valueQtyController.text = '';
+    _valueQtyOrderController.text = '';
+    notifyListeners();
+  }
+
+  Future clearPaymentField() async {
+    _paymentRemark.text = '';
+    _payAmountCredit.text = '';
     notifyListeners();
   }
 
@@ -455,64 +526,13 @@ class MenuProvider extends ChangeNotifier {
 
   Future dialogCountOrder(BuildContext context, int index) async {
     productAddModel!.responseObj!.orderList![index].qty =
-        double.parse(_valueQtyController.text);
+        double.parse(_valueQtyOrderController.text);
     await addProduct(
         context,
         productAddModel!.responseObj!.orderList![index].productID!,
         productAddModel!.responseObj!.orderList![index].qty!,
         productAddModel!.responseObj!.orderList![index].orderDetailID
             .toString());
-  }
-
-  Future managePayAmountList(BuildContext context, String frag,
-      {String? payName,
-      String? payCode,
-      int? payTypeId,
-      String? payDetail,
-      String? price,
-      int? index}) async {
-    if (frag == 'add') {
-      payAmountList!.add(
-        PayAmountModel(
-            payTypeId: payTypeId,
-            payCode: payCode,
-            payName: payName,
-            payDetail: payDetail,
-            price: double.parse(price!)),
-      );
-      _payAmountController.text = '';
-    } else if (frag == 'remove') {
-      payAmountList!.removeAt(index!);
-    } else if (frag == 'clear') {
-      payAmountList = [];
-    }
-    num sum = 0;
-    for (var element in payAmountList!) {
-      sum += element.price!;
-    }
-    _totalPayController.text = sum.toString();
-
-    if (sum >= productAddModel!.responseObj!.dueAmount!) {
-      LoadingStyle().dialogLoadding(context);
-      for (var i = 0; i < payAmountList!.length; i++) {
-        await paymentSubmit(
-          context,
-          payAmount: payAmountList![i].price.toString(),
-          payCode: payAmountList![i].payCode,
-          payName: payAmountList![i].payName,
-          payTypeId: payAmountList![i].payTypeId,
-        );
-      }
-      await finalizeBill(context);
-      if (apiState == ApiState.COMPLETED) {
-        await LoadingStyle().dialogPayment2(context,
-            text: paymentSubmitModel!.responseObj!.paymentList!.last.cashChange
-                .toString(),
-            popUntil: true,
-            popToPage: '/homePage');
-      }
-    }
-    notifyListeners();
   }
 
   Future setPayAmountField(int value) async {

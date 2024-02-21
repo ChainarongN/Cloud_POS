@@ -595,9 +595,8 @@ Row orderTitle(MenuProvider menuWatch) {
       Container(
         child: menuWatch.productAddModel != null &&
                 menuWatch.productAddModel!.responseCode!.isEmpty
-            ? AppTextStyle().textBold(
-                menuWatch.productAddModel!.responseObj!.dueAmount.toString(),
-                size: 22)
+            ? AppTextStyle()
+                .textBold(menuWatch.getDueAmountController.text, size: 22)
             : AppTextStyle().textBold('0.00', size: 22),
       )
     ],
@@ -620,7 +619,7 @@ openQtyDialog(BuildContext context, MenuProvider menuWatch,
                 margin: const EdgeInsets.only(top: 10, bottom: 10),
                 child: TextField(
                   keyboardType: TextInputType.number,
-                  controller: menuWatch.getvalueQtyController,
+                  controller: menuWatch.getvalueQtyOrderController,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                     FilteringTextInputFormatter.digitsOnly

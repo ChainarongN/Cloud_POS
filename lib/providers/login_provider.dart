@@ -64,7 +64,6 @@ class LoginProvider extends ChangeNotifier {
           .setComputerID(startProcessModel!.responseObj!.computerID!);
       await SharedPref().setShopID(startProcessModel!.responseObj!.shopID!);
       await SharedPref().setSaleDate(startProcessModel!.responseObj!.saleDate!);
-
       Constants().printCheckFlow(response, 'startProcess');
       if (startProcessModel!.responseObj!.actionInfo!.actionCode != null) {
         _openSession = true;

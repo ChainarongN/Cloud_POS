@@ -4,6 +4,7 @@ import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/models/open_tran_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/home/i_home_repository.dart';
+import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -47,6 +48,8 @@ class HomeProvider extends ChangeNotifier {
     _customerCount.text = "1";
     saleModeDataList = [];
     await readSaleModeFile();
+    String key = await SharedPref().getSessionKey();
+    Constants().printWarning("session_key : $key");
   }
 
   Future openTransaction(BuildContext context, int index) async {
