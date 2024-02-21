@@ -190,13 +190,15 @@ Future<void> dialogCredit(BuildContext context,
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.1,
                       child: ElevatedButton(
-                        onPressed: () {
-                          menuRead!.managePayAmountList(context, 'add',
-                              payTypeId: payTypeId,
-                              payCode: payTypeCode,
-                              payName: payTypeName,
-                              payRemark: menuWatch.getPaymentRemark.text,
-                              price: menuWatch.getPayAmountCredit.text);
+                        onPressed: () async {
+                          await menuRead!
+                              .managePayAmountList(context, 'add',
+                                  payTypeId: payTypeId,
+                                  payCode: payTypeCode,
+                                  payName: payTypeName,
+                                  payRemark: menuWatch.getPaymentRemark.text,
+                                  price: menuWatch.getPayAmountCredit.text)
+                              .then((value) => Navigator.maybePop(context));
                         },
                         child: AppTextStyle()
                             .textNormal('OK', color: Colors.green, size: 16),
