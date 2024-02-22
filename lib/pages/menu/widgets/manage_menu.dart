@@ -45,7 +45,7 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
     children: <Widget>[
       GestureDetector(
         onTap: () {
-          menuRead.payment(context: context, payAmount: '50');
+          menuRead.paymentCash(context: context, payAmount: '50');
         },
         child: Container(
           width: MediaQuery.of(context).size.width * 0.065,
@@ -75,7 +75,7 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
       ),
       GestureDetector(
         onTap: () {
-          menuRead.payment(context: context, payAmount: '100');
+          menuRead.paymentCash(context: context, payAmount: '100');
         },
         child: Container(
           width: MediaQuery.of(context).size.width * 0.065,
@@ -102,7 +102,7 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
       ),
       GestureDetector(
         onTap: () {
-          menuRead.payment(context: context, payAmount: '500');
+          menuRead.paymentCash(context: context, payAmount: '500');
         },
         child: Container(
           width: MediaQuery.of(context).size.width * 0.065,
@@ -130,7 +130,7 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
       ),
       GestureDetector(
         onTap: () {
-          menuRead.payment(context: context, payAmount: '1000');
+          menuRead.paymentCash(context: context, payAmount: '1000');
         },
         child: Container(
           width: MediaQuery.of(context).size.width * 0.065,

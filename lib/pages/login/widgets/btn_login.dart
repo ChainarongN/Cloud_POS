@@ -13,29 +13,22 @@ GestureDetector btnLogin(
     BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
   return GestureDetector(
       onTap: () {
-        LoadingStyle().dialogLoadding(context);
-        loginRead.flowOpen().then((value) {
-          if (loginWatch.apisState == ApiState.ERROR) {
-            Future.delayed(const Duration(milliseconds: 500), () {
-              LoadingStyle().dialogError(context,
-                  error: loginWatch.getErrorText,
-                  isPopUntil: true,
-                  popToPage: '/loginPage');
-            });
-          } else {
-            Navigator.maybePop(context);
-            Future.delayed(const Duration(milliseconds: 500), () {
-              if (loginWatch.getOpenSession) {
-                loginRead.getOpenAmountController.text = '';
-                openAmountDialog(context, loginWatch, loginRead);
-              } else {
-                if (loginWatch.apisState == ApiState.COMPLETED) {
+        if (loginWatch.apisState != ApiState.LOADING) {
+          LoadingStyle().dialogLoadding(context);
+          loginRead.flowOpen(context).then((value) {
+            if (loginWatch.apisState == ApiState.COMPLETED) {
+              Navigator.maybePop(context);
+              Future.delayed(const Duration(milliseconds: 500), () {
+                if (loginWatch.getOpenSession) {
+                  loginRead.getOpenAmountController.text = '';
+                  openAmountDialog(context, loginWatch, loginRead);
+                } else {
                   Navigator.pushReplacementNamed(context, '/homePage');
                 }
-              }
-            });
-          }
-        });
+              });
+            }
+          });
+        }
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 20),
@@ -93,17 +86,10 @@ Future<void> openAmountDialog(
             onPressed: () async {
               if (loginWatch.getOpenAmountController.text.isNotEmpty) {
                 LoadingStyle().dialogLoadding(context);
-                await loginRead.openSession().then((value) {
+                await loginRead.openSession(context).then((value) {
                   if (loginWatch.apisState == ApiState.COMPLETED) {
                     Navigator.pushNamedAndRemoveUntil(
                         context, '/homePage', (route) => false);
-                  } else {
-                    Future.delayed(const Duration(milliseconds: 500), () {
-                      LoadingStyle().dialogError(context,
-                          error: loginWatch.getErrorText,
-                          isPopUntil: true,
-                          popToPage: '/loginPage');
-                    });
                   }
                 });
               }

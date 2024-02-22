@@ -57,20 +57,34 @@ class _UtilityPageState extends State<UtilityPage> {
                           detail: 'You need to close session. ? ',
                           onPressed: () {
                         utilityRead.setCloseAmountController('');
-                        Navigator.maybePop(context).then((value) async {
-                          bool val = await openAmountDialog(
-                                  context, utilityWatch, utilityRead) ??
-                              true;
-                          if (val != false) {
-                            if (utilityWatch.apiState == ApiState.COMPLETED) {
-                              Future.delayed(const Duration(milliseconds: 500),
-                                  () {
-                                dialogResultHtml(
-                                    context, utilityWatch, utilityRead, true);
-                              });
-                            }
-                          }
-                        });
+                        openAmountDialog(
+                            context, utilityWatch, utilityRead, true);
+
+                        // utilityRead.setCloseAmountController('');
+                        // openAmountDialog(
+                        //         context, utilityWatch, utilityRead, true)
+                        //     .then((value) {
+                        //   if (utilityWatch.apiState == ApiState.COMPLETED) {
+                        //     dialogResultHtml(
+                        //         context, utilityWatch, utilityRead, true);
+                        //   }
+                        // });
+
+                        // utilityRead.setCloseAmountController('');
+                        // Navigator.maybePop(context).then((value) async {
+                        //   bool val = await openAmountDialog(
+                        //           context, utilityWatch, utilityRead) ??
+                        //       true;
+                        //   if (val != false) {
+                        //     if (utilityWatch.apiState == ApiState.COMPLETED) {
+                        //       Future.delayed(const Duration(milliseconds: 500),
+                        //           () {
+                        //         dialogResultHtml(
+                        //             context, utilityWatch, utilityRead, true);
+                        //       });
+                        //     }
+                        //   }
+                        // });
                       });
                     },
                   ),
@@ -94,32 +108,65 @@ class _UtilityPageState extends State<UtilityPage> {
                               'You need to end day. ? If it ends, you will not be able to open another session today.',
                           onPressed: () {
                         utilityRead.setCloseAmountController('');
-                        Navigator.maybePop(context).then((value) async {
-                          bool val = await openAmountDialog(
-                                  context, utilityWatch, utilityRead) ??
-                              true;
-                          if (val != false) {
-                            if (utilityWatch.apiState == ApiState.COMPLETED) {
-                              Future.delayed(const Duration(milliseconds: 500),
-                                  () async {
-                                dialogResultHtml(context, utilityWatch,
-                                        utilityRead, false)
-                                    .then((value) async {
-                                  LoadingStyle().dialogLoadding(context);
-                                  utilityRead.endDay().then((value) async {
-                                    if (utilityWatch.apiState ==
-                                        ApiState.COMPLETED) {
-                                      Navigator.pop(context);
-                                      await dialogResultHtml(context,
-                                          utilityWatch, utilityRead, false);
-                                      exit(0);
-                                    }
-                                  });
-                                });
-                              });
-                            }
-                          }
-                        });
+                        openAmountDialog(
+                            context, utilityWatch, utilityRead, false);
+
+                        // utilityRead.setCloseAmountController('');
+                        // openAmountDialog(
+                        //         context, utilityWatch, utilityRead, false)
+                        //     .then((value) async {
+                        //   if (utilityWatch.apiState == ApiState.COMPLETED) {
+                        //     await dialogResultHtml(
+                        //             context, utilityWatch, utilityRead, false)
+                        //         .then((value) {
+                        //       if (utilityWatch.apiState != ApiState.LOADING) {
+                        //         LoadingStyle().dialogLoadding(context);
+                        //         utilityRead.endDay(context).then((value) async {
+                        //           if (utilityWatch.apiState ==
+                        //               ApiState.COMPLETED) {
+                        //             Navigator.pop(context);
+                        //             await dialogResultHtml(context,
+                        //                 utilityWatch, utilityRead, false);
+                        //             exit(0);
+                        //           }
+                        //         });
+                        //       }
+                        //     });
+                        //   }
+                        // });
+
+                        // utilityRead.setCloseAmountController('');
+                        // Navigator.maybePop(context).then((value) async {
+                        //   bool val = await openAmountDialog(
+                        //           context, utilityWatch, utilityRead) ??
+                        //       true;
+                        //   if (val != false) {
+                        //     if (utilityWatch.apiState == ApiState.COMPLETED) {
+                        //       Future.delayed(const Duration(milliseconds: 500),
+                        //           () async {
+                        //         dialogResultHtml(context, utilityWatch,
+                        //                 utilityRead, false)
+                        //             .then((value) async {
+                        //           if (utilityWatch.apiState !=
+                        //               ApiState.LOADING) {
+                        //             LoadingStyle().dialogLoadding(context);
+                        //             utilityRead
+                        //                 .endDay(context)
+                        //                 .then((value) async {
+                        //               if (utilityWatch.apiState ==
+                        //                   ApiState.COMPLETED) {
+                        //                 Navigator.pop(context);
+                        //                 await dialogResultHtml(context,
+                        //                     utilityWatch, utilityRead, false);
+                        //                 exit(0);
+                        //               }
+                        //             });
+                        //           }
+                        //         });
+                        //       });
+                        //     }
+                        //   }
+                        // });
                       });
                     },
                   ),
@@ -132,8 +179,8 @@ class _UtilityPageState extends State<UtilityPage> {
     );
   }
 
-  openAmountDialog(BuildContext context, UtilityProvider utilityWatch,
-      UtilityProvider utilityRead) {
+  Future openAmountDialog(BuildContext context, UtilityProvider utilityWatch,
+      UtilityProvider utilityRead, bool isSession) {
     return showDialog<bool>(
       context: context,
       barrierDismissible: false,
@@ -174,19 +221,29 @@ class _UtilityPageState extends State<UtilityPage> {
             TextButton(
               child: AppTextStyle().textNormal('OK', size: 18),
               onPressed: () async {
-                if (utilityWatch.getCloseAmountController.text.isNotEmpty) {
+                if (utilityWatch.getCloseAmountController.text.isNotEmpty &&
+                    utilityWatch.apiState != ApiState.LOADING) {
                   LoadingStyle().dialogLoadding(context);
-                  utilityRead.closeSession().then((value) {
-                    if (utilityWatch.apiState == ApiState.ERROR) {
-                      Future.delayed(const Duration(milliseconds: 500), () {
-                        LoadingStyle().dialogError(context,
-                            error: utilityWatch.getErrorText,
-                            isPopUntil: true,
-                            popToPage: '/utilityPage');
-                      });
-                    } else {
-                      Navigator.of(context)
-                          .popUntil(ModalRoute.withName("/utilityPage"));
+                  utilityRead.closeSession(context).then((value) {
+                    if (utilityWatch.apiState == ApiState.COMPLETED) {
+                      if (isSession) {
+                        dialogResultHtml(
+                            context, utilityWatch, utilityRead, isSession);
+                      } else {
+                        dialogResultHtml(
+                                context, utilityWatch, utilityRead, isSession)
+                            .then((value) {
+                          LoadingStyle().dialogLoadding(context);
+                          utilityRead.endDay(context).then((value) async {
+                            if (utilityWatch.apiState == ApiState.COMPLETED) {
+                              await dialogResultHtml(context, utilityWatch,
+                                  utilityRead, isSession);
+                              Future.delayed(const Duration(milliseconds: 500),
+                                  () => exit(0));
+                            }
+                          });
+                        });
+                      }
                     }
                   });
                 }
@@ -237,7 +294,8 @@ class _UtilityPageState extends State<UtilityPage> {
                           Navigator.pushNamedAndRemoveUntil(
                               context, '/loginPage', (route) => false);
                         } else {
-                          Navigator.pop(context);
+                          Navigator.popUntil(
+                              context, ModalRoute.withName('/utilityPage'));
                         }
                       },
                       radius: 25,
