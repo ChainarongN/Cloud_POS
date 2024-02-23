@@ -13,8 +13,8 @@ class LoaddingData extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
         ),
-        height: MediaQuery.of(context).size.height * 0.3,
-        width: MediaQuery.of(context).size.width * 0.3,
+        height: Constants().screenheight(context) * 0.3,
+        width: Constants().screenWidth(context) * 0.3,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.min,

@@ -33,7 +33,7 @@ class _UtilityPageState extends State<UtilityPage> {
         child: Column(
           children: <Widget>[
             SizedBox(
-              width: MediaQuery.of(context).size.width,
+              width: Constants().screenWidth(context),
               child: Wrap(
                 runSpacing: 10,
                 spacing: 20,
@@ -41,8 +41,8 @@ class _UtilityPageState extends State<UtilityPage> {
                   ContainerStyle2(
                     title: 'Session Close',
                     icon: Icons.android,
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    height: MediaQuery.of(context).size.height * 0.27,
+                    width: Constants().screenWidth(context) * 0.15,
+                    height: Constants().screenheight(context) * 0.27,
                     shadowColor: Colors.deepOrange.shade300,
                     gradient1: Colors.deepOrange.shade100,
                     gradient2: Colors.deepOrange.shade200,
@@ -91,8 +91,8 @@ class _UtilityPageState extends State<UtilityPage> {
                   ContainerStyle2(
                     title: 'End Day',
                     icon: Icons.android,
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    height: MediaQuery.of(context).size.height * 0.27,
+                    width: Constants().screenWidth(context) * 0.15,
+                    height: Constants().screenheight(context) * 0.27,
                     shadowColor: Colors.red.shade600,
                     gradient1: Colors.red.shade400,
                     gradient2: Colors.red.shade500,
@@ -187,11 +187,11 @@ class _UtilityPageState extends State<UtilityPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           content: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.15,
+            height: Constants().screenheight(context) * 0.15,
             child: Column(
               children: <Widget>[
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
+                  width: Constants().screenWidth(context) * 0.2,
                   margin: const EdgeInsets.only(top: 10, bottom: 10),
                   child: TextField(
                     keyboardType: TextInputType.number,
@@ -279,8 +279,8 @@ class _UtilityPageState extends State<UtilityPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.55,
-                    height: MediaQuery.of(context).size.height,
+                    width: Constants().screenWidth(context) * 0.55,
+                    height: Constants().screenheight(context),
                     child: Scrollbar(
                       child: SingleChildScrollView(
                           child: HtmlWidget(utilityWatch.getHtml)),
@@ -299,8 +299,8 @@ class _UtilityPageState extends State<UtilityPage> {
                         }
                       },
                       radius: 25,
-                      width: MediaQuery.of(context).size.width * 0.17,
-                      height: MediaQuery.of(context).size.height * 0.18,
+                      width: Constants().screenWidth(context) * 0.17,
+                      height: Constants().screenheight(context) * 0.18,
                       title: 'พิมพ์ใบเสร็จ',
                       size: 20,
                       onlyText: false,

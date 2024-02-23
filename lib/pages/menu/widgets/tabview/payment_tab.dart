@@ -24,7 +24,7 @@ Center paymentTab(
                 children: <Widget>[
                   Container(
                     color: Colors.white,
-                    height: MediaQuery.of(context).size.height * 0.37,
+                    height: Constants().screenheight(context) * 0.37,
                     child: Column(
                       children: <Widget>[
                         titlePaymentList(),
@@ -87,23 +87,23 @@ Future<void> dialogCredit(BuildContext context,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     const Icon(Icons.android, size: 35),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                    SizedBox(width: Constants().screenWidth(context) * 0.02),
                     AppTextStyle().textBold('Payment - Credit Card.', size: 20)
                   ],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                SizedBox(height: Constants().screenheight(context) * 0.02),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.11,
+                      width: Constants().screenWidth(context) * 0.11,
                       child:
                           AppTextStyle().textNormal('Total price : ', size: 16),
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.008),
+                    SizedBox(width: Constants().screenWidth(context) * 0.008),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      height: MediaQuery.of(context).size.height * 0.05,
+                      width: Constants().screenWidth(context) * 0.15,
+                      height: Constants().screenheight(context) * 0.05,
                       child: TextField(
                         controller: menuWatch!.getDueAmountController,
                         readOnly: true,
@@ -130,19 +130,19 @@ Future<void> dialogCredit(BuildContext context,
                     ),
                   ],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                SizedBox(height: Constants().screenheight(context) * 0.02),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.11,
+                      width: Constants().screenWidth(context) * 0.11,
                       child:
                           AppTextStyle().textNormal('Pay amount : ', size: 16),
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.008),
+                    SizedBox(width: Constants().screenWidth(context) * 0.008),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      height: MediaQuery.of(context).size.height * 0.05,
+                      width: Constants().screenWidth(context) * 0.15,
+                      height: Constants().screenheight(context) * 0.05,
                       alignment: Alignment.center,
                       child: TextField(
                         controller: menuWatch.getPayAmountCredit,
@@ -170,10 +170,10 @@ Future<void> dialogCredit(BuildContext context,
                     ),
                   ],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+                SizedBox(height: Constants().screenheight(context) * 0.025),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.26,
-                  height: MediaQuery.of(context).size.height * 0.1,
+                  width: Constants().screenWidth(context) * 0.26,
+                  height: Constants().screenheight(context) * 0.1,
                   child: TextField(
                     controller: menuWatch.getPaymentRemark,
                     maxLines: 4,
@@ -184,12 +184,12 @@ Future<void> dialogCredit(BuildContext context,
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                SizedBox(height: Constants().screenheight(context) * 0.02),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.1,
+                      width: Constants().screenWidth(context) * 0.1,
                       child: ElevatedButton(
                         onPressed: () async {
                           double price =
@@ -218,7 +218,7 @@ Future<void> dialogCredit(BuildContext context,
                     ),
                     const SizedBox(width: 10),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.1,
+                      width: Constants().screenWidth(context) * 0.1,
                       child: ElevatedButton(
                         onPressed: () => Navigator.pop(context),
                         child: AppTextStyle()
@@ -238,8 +238,8 @@ Future<void> dialogCredit(BuildContext context,
 
 Container bangNotes(BuildContext context, MenuProvider menuWatch) {
   return Container(
-    width: MediaQuery.of(context).size.width,
-    height: MediaQuery.of(context).size.height * 0.225,
+    width: Constants().screenWidth(context),
+    height: Constants().screenheight(context) * 0.225,
     margin: const EdgeInsets.only(top: 8),
     child: Wrap(
       alignment: WrapAlignment.start,
@@ -249,35 +249,35 @@ Container bangNotes(BuildContext context, MenuProvider menuWatch) {
         GestureDetector(
           onTap: () => menuWatch.setPayAmountField(20),
           child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.12,
+            width: Constants().screenWidth(context) * 0.12,
             child: Image.asset(Constants.twentyImg),
           ),
         ),
         GestureDetector(
           onTap: () => menuWatch.setPayAmountField(50),
           child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.12,
+            width: Constants().screenWidth(context) * 0.12,
             child: Image.asset(Constants.fiftyImg),
           ),
         ),
         GestureDetector(
           onTap: () => menuWatch.setPayAmountField(100),
           child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.12,
+            width: Constants().screenWidth(context) * 0.12,
             child: Image.asset(Constants.one_hundredImg),
           ),
         ),
         GestureDetector(
           onTap: () => menuWatch.setPayAmountField(500),
           child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.12,
+            width: Constants().screenWidth(context) * 0.12,
             child: Image.asset(Constants.five_hundredImg),
           ),
         ),
         GestureDetector(
           onTap: () => menuWatch.setPayAmountField(1000),
           child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.128,
+            width: Constants().screenWidth(context) * 0.128,
             child: Image.asset(Constants.thousandImg),
           ),
         ),
@@ -289,7 +289,7 @@ Container bangNotes(BuildContext context, MenuProvider menuWatch) {
 SizedBox paymentList(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
   return SizedBox(
-    height: MediaQuery.of(context).size.height * 0.33,
+    height: Constants().screenheight(context) * 0.33,
     child: SingleChildScrollView(
       child: menuWatch.payAmountList!.isEmpty
           ? Container(
@@ -318,7 +318,7 @@ SizedBox paymentList(
                     ],
                   ),
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.07,
+                    height: Constants().screenheight(context) * 0.07,
                     child: Row(
                       children: <Widget>[
                         Expanded(
@@ -391,13 +391,13 @@ Container totalPayAmount(
     BuildContext context, MenuProvider menuRead, MenuProvider menuWatch) {
   return Container(
     margin: const EdgeInsets.only(top: 5),
-    height: MediaQuery.of(context).size.height * 0.08,
+    height: Constants().screenheight(context) * 0.08,
     child: Row(
       children: <Widget>[
         Expanded(
           flex: 1,
           child: SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: Constants().screenheight(context),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.redAccent.shade100,
@@ -461,7 +461,7 @@ Container totalPayAmount(
 Container inputTextField(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
   return Container(
-    height: MediaQuery.of(context).size.height * 0.08,
+    height: Constants().screenheight(context) * 0.08,
     margin: const EdgeInsets.only(top: 10),
     child: Row(
       children: [
@@ -488,7 +488,7 @@ Container inputTextField(
         Expanded(
           flex: 1,
           child: SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: Constants().screenheight(context),
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.grey.shade400,
@@ -505,7 +505,7 @@ Container inputTextField(
         Expanded(
           flex: 2,
           child: SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: Constants().screenheight(context),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.greenAccent.shade400,
@@ -540,7 +540,7 @@ Expanded listPaymentType(
   return Expanded(
     flex: 1,
     child: SizedBox(
-      height: MediaQuery.of(context).size.height,
+      height: Constants().screenheight(context),
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -557,8 +557,8 @@ Expanded listPaymentType(
                   value: menuWatch.getValueCurrency,
                   onChanged: (value) {},
                   buttonStyleData: ButtonStyleData(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    width: MediaQuery.of(context).size.width * 0.19,
+                    height: Constants().screenheight(context) * 0.07,
+                    width: Constants().screenWidth(context) * 0.19,
                     padding: const EdgeInsets.only(left: 14, right: 20),
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -574,14 +574,14 @@ Expanded listPaymentType(
                     iconEnabledColor: Colors.black,
                   ),
                   menuItemStyleData: MenuItemStyleData(
-                    height: MediaQuery.of(context).size.height * 0.07,
+                    height: Constants().screenheight(context) * 0.07,
                     padding: const EdgeInsets.only(left: 14, right: 14),
                   ),
                 ),
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.69,
+              height: Constants().screenheight(context) * 0.69,
               child: SingleChildScrollView(
                 child: Column(
                   children: List.generate(
@@ -601,8 +601,8 @@ Expanded listPaymentType(
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 13),
                         child: ContainerStyle(
-                          height: MediaQuery.of(context).size.height * 0.1,
-                          width: MediaQuery.of(context).size.width * 0.19,
+                          height: Constants().screenheight(context) * 0.1,
+                          width: Constants().screenWidth(context) * 0.19,
                           primaryColor: Colors.amber.shade500,
                           secondaryColor: Colors.amber.shade600,
                           selected: false,

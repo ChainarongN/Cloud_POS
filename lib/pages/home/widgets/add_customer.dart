@@ -11,7 +11,7 @@ Row addCustomer(
       const Icon(Icons.person_4, color: Colors.black, size: 40.0),
       Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
-        width: MediaQuery.of(context).size.width * 0.11,
+        width: Constants().screenWidth(context) * 0.11,
         child: TextField(
           controller: homeWatch.getCustomerValue,
           onChanged: (value) {

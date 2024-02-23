@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.30,
+                    width: Constants().screenWidth(context) * 0.30,
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                       children: <Widget>[
                         groupList(context, homeWatch, homeRead),
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
+                          width: Constants().screenWidth(context) * 0.5,
                           margin: const EdgeInsets.only(top: 5, bottom: 5),
                           child: const Divider(thickness: 1.5),
                         ),

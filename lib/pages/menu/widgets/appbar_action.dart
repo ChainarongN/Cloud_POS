@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 Container clonebin(BuildContext context) {
   return Container(
     alignment: Alignment.center,
-    height: MediaQuery.of(context).size.height * 0.06,
-    width: MediaQuery.of(context).size.width * 0.09,
+    height: Constants().screenheight(context) * 0.06,
+    width: Constants().screenWidth(context) * 0.09,
     margin: const EdgeInsets.only(right: 30),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
@@ -33,8 +33,8 @@ Container clonebin(BuildContext context) {
 Container employee(BuildContext context) {
   return Container(
     alignment: Alignment.center,
-    height: MediaQuery.of(context).size.height * 0.06,
-    width: MediaQuery.of(context).size.width * 0.09,
+    height: Constants().screenheight(context) * 0.06,
+    width: Constants().screenWidth(context) * 0.09,
     margin: const EdgeInsets.only(right: 10),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
@@ -61,8 +61,8 @@ Container employee(BuildContext context) {
 Container member(BuildContext context) {
   return Container(
     alignment: Alignment.center,
-    height: MediaQuery.of(context).size.height * 0.06,
-    width: MediaQuery.of(context).size.width * 0.09,
+    height: Constants().screenheight(context) * 0.06,
+    width: Constants().screenWidth(context) * 0.09,
     margin: const EdgeInsets.only(right: 10),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),

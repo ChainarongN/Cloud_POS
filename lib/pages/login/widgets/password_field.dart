@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 SizedBox password(
     BuildContext context, LoginProvider loginWatch, LoginProvider loginRead) {
   return SizedBox(
-    width: MediaQuery.of(context).size.width * 0.3,
+    width: Constants().screenWidth(context) * 0.3,
     child: TextField(
       decoration: InputDecoration(
         filled: true,
@@ -31,7 +31,9 @@ SizedBox password(
         ),
       ),
       obscureText: loginWatch.passwordVisible,
-      style: const TextStyle(color: Constants.textColor, fontSize: 20),
+      style: TextStyle(
+          color: Constants.textColor,
+          fontSize: Constants().screenheight(context) * 0.024),
     ),
   );
 }

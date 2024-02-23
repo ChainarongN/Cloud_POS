@@ -31,15 +31,17 @@ GestureDetector btnLogin(
         }
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 20),
+        margin:
+            EdgeInsets.only(bottom: Constants().screenheight(context) * 0.02),
         child: ContainerStyle(
-          height: MediaQuery.of(context).size.height * 0.07,
-          width: MediaQuery.of(context).size.width * 0.3,
+          height: Constants().screenheight(context) * 0.07,
+          width: Constants().screenWidth(context) * 0.3,
           primaryColor: Colors.blue.shade400,
           secondaryColor: Colors.blue.shade400,
           selected: false,
-          widget: AppTextStyle()
-              .textNormal(LocaleKeys.login.tr(), size: 16, color: Colors.white),
+          widget: AppTextStyle().textNormal(LocaleKeys.login.tr(),
+              size: Constants().screenheight(context) * 0.024,
+              color: Colors.white),
         ),
       ));
 }
@@ -52,11 +54,11 @@ Future<void> openAmountDialog(
     builder: (context) {
       return AlertDialog(
         content: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.15,
+          height: Constants().screenheight(context) * 0.15,
           child: Column(
             children: <Widget>[
               Container(
-                width: MediaQuery.of(context).size.width * 0.2,
+                width: Constants().screenWidth(context) * 0.2,
                 margin: const EdgeInsets.only(top: 10, bottom: 10),
                 child: TextField(
                   keyboardType: TextInputType.number,
@@ -73,8 +75,9 @@ Future<void> openAmountDialog(
                     enabledBorder: Constants().myinputborder(), //enabled border
                     focusedBorder: Constants().myfocusborder(), //focused border
                   ),
-                  style:
-                      const TextStyle(color: Constants.textColor, fontSize: 20),
+                  style: TextStyle(
+                      color: Constants.textColor,
+                      fontSize: Constants().screenheight(context) * 0.025),
                 ),
               ),
             ],

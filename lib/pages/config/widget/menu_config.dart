@@ -1,5 +1,6 @@
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,8 @@ SingleChildScrollView menuConfig(BuildContext context,
           },
           child: Container(
             alignment: Alignment.center,
-            height: MediaQuery.of(context).size.height * 0.09,
-            width: MediaQuery.of(context).size.width * 0.25,
+            height: Constants().screenheight(context) * 0.09,
+            width: Constants().screenWidth(context) * 0.25,
             margin: const EdgeInsets.only(bottom: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -48,8 +49,8 @@ SingleChildScrollView menuConfig(BuildContext context,
           },
           child: Container(
             alignment: Alignment.center,
-            height: MediaQuery.of(context).size.height * 0.09,
-            width: MediaQuery.of(context).size.width * 0.25,
+            height: Constants().screenheight(context) * 0.09,
+            width: Constants().screenWidth(context) * 0.25,
             margin: const EdgeInsets.only(bottom: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -77,8 +78,8 @@ SingleChildScrollView menuConfig(BuildContext context,
         ),
         Container(
           alignment: Alignment.center,
-          height: MediaQuery.of(context).size.height * 0.09,
-          width: MediaQuery.of(context).size.width * 0.25,
+          height: Constants().screenheight(context) * 0.09,
+          width: Constants().screenWidth(context) * 0.25,
           margin: const EdgeInsets.only(bottom: 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -109,8 +110,8 @@ SingleChildScrollView menuConfig(BuildContext context,
           },
           child: Container(
             alignment: Alignment.center,
-            height: MediaQuery.of(context).size.height * 0.09,
-            width: MediaQuery.of(context).size.width * 0.25,
+            height: Constants().screenheight(context) * 0.09,
+            width: Constants().screenWidth(context) * 0.25,
             margin: const EdgeInsets.only(bottom: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),

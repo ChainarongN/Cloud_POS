@@ -32,6 +32,10 @@ class Constants {
   static const five_hundredImg = 'assets/images/five_hundred.png';
   static const thousandImg = 'assets/images/thousand.png';
 
+  double screenWidth(BuildContext context) => MediaQuery.of(context).size.width;
+  double screenheight(BuildContext context) =>
+      MediaQuery.of(context).size.height;
+
   void printInfo(String text) {
     print('\x1B[34m$text\x1B[0m');
   }

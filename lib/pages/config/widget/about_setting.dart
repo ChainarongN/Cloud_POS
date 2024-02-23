@@ -21,8 +21,8 @@ Container loadDataSetting(BuildContext context, ConfigProvider configRead,
     ConfigProvider configWatch) {
   return Container(
     alignment: Alignment.center,
-    height: MediaQuery.of(context).size.height * 0.1,
-    width: MediaQuery.of(context).size.width * 0.66,
+    height: Constants().screenheight(context) * 0.1,
+    width: Constants().screenWidth(context) * 0.66,
     margin: const EdgeInsets.only(top: 15),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
@@ -62,8 +62,8 @@ Container loadDataSetting(BuildContext context, ConfigProvider configRead,
           ),
           const Spacer(),
           Container(
-            width: MediaQuery.of(context).size.width * 0.15,
-            height: MediaQuery.of(context).size.height * 0.065,
+            width: Constants().screenWidth(context) * 0.15,
+            height:Constants().screenheight(context) * 0.065,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               color: Constants.secondaryColor,

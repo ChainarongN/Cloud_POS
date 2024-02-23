@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 Container username(BuildContext context) {
   return Container(
-    margin: const EdgeInsets.only(top: 20),
-    width: MediaQuery.of(context).size.width * 0.3,
+    margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.024),
+    width: Constants().screenWidth(context) * 0.3,
     child: TextField(
       decoration: InputDecoration(
         filled: true,
@@ -20,7 +20,9 @@ Container username(BuildContext context) {
           child: Icon(Icons.people),
         ),
       ),
-      style: const TextStyle(color: Constants.textColor, fontSize: 20),
+      style: TextStyle(
+          color: Constants.textColor,
+          fontSize: Constants().screenheight(context) * 0.024),
     ),
   );
 }

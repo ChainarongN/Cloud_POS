@@ -105,8 +105,8 @@ Column detailBrand(BuildContext context) {
 
 Widget cardDetail(BuildContext context, Widget widget) {
   return SizedBox(
-    width: MediaQuery.of(context).size.width * 0.6,
-    height: MediaQuery.of(context).size.height * 0.15,
+    width: Constants().screenWidth(context) * 0.6,
+    height: Constants().screenheight(context) * 0.15,
     child: Card(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -124,8 +124,8 @@ Widget cardDetail(BuildContext context, Widget widget) {
 Container saveConfigBtn(BuildContext context) {
   return Container(
     alignment: Alignment.center,
-    height: MediaQuery.of(context).size.height * 0.09,
-    width: MediaQuery.of(context).size.width * 0.45,
+    height: Constants().screenheight(context) * 0.09,
+    width: Constants().screenWidth(context) * 0.45,
     margin: const EdgeInsets.only(top: 15),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
@@ -169,7 +169,7 @@ Column baseUrlConfig(BuildContext context) {
     children: [
       Container(
         margin: const EdgeInsets.only(top: 20),
-        width: MediaQuery.of(context).size.width * 0.6,
+        width: Constants().screenWidth(context) * 0.6,
         child: TextField(
           decoration: InputDecoration(
               filled: true,
@@ -192,8 +192,8 @@ Column baseUrlConfig(BuildContext context) {
       ),
       Container(
         alignment: Alignment.center,
-        height: MediaQuery.of(context).size.height * 0.09,
-        width: MediaQuery.of(context).size.width * 0.45,
+        height: Constants().screenheight(context) * 0.09,
+        width: Constants().screenWidth(context) * 0.45,
         margin: const EdgeInsets.only(top: 15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),

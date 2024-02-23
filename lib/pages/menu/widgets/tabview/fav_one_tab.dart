@@ -1,5 +1,6 @@
 import 'package:cloud_pos/pages/menu/widgets/recipe_item.dart';
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 
@@ -28,8 +29,8 @@ Center favoriteTab1(
                       },
                       child: Container(
                         alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        width: MediaQuery.of(context).size.width * 0.126,
+                        height: Constants().screenheight(context) * 0.07,
+                        width: Constants().screenWidth(context) * 0.126,
                         margin: const EdgeInsets.only(right: 5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
@@ -74,8 +75,8 @@ Center favoriteTab1(
             ),
             Container(
               margin: const EdgeInsets.only(top: 5),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.7,
+              width: Constants().screenWidth(context),
+              height: Constants().screenheight(context) * 0.7,
               child: GridView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,

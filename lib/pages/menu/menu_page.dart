@@ -62,8 +62,8 @@ class _MenuPageState extends State<MenuPage>
           : Padding(
               padding: const EdgeInsets.all(8),
               child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
+                width: Constants().screenWidth(context),
+                height: Constants().screenheight(context),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: Constants.primaryColor),

@@ -17,8 +17,8 @@ Future<void> reasonDialog(BuildContext context) {
             'Close Transaction : Please select your reason.',
             size: 20),
         content: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          width: Constants().screenWidth(context),
+          height: Constants().screenheight(context),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -63,8 +63,8 @@ SingleChildScrollView resultData(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.3,
-          height: MediaQuery.of(context).size.height * 0.24,
+          width: Constants().screenWidth(context) * 0.3,
+          height: Constants().screenheight(context) * 0.24,
           child: Card(
             color: Colors.grey.shade400,
             child: Padding(
@@ -84,8 +84,8 @@ SingleChildScrollView resultData(
           child: GestureDetector(
             onTap: () => dataProvider.clearReasonText(),
             child: ContainerStyle(
-              height: MediaQuery.of(context).size.height * 0.08,
-              width: MediaQuery.of(context).size.width * 0.115,
+              height: Constants().screenheight(context) * 0.08,
+              width: Constants().screenWidth(context) * 0.115,
               primaryColor: Constants.primaryColor,
               secondaryColor: Colors.blue.shade800,
               selected: false,
@@ -96,7 +96,7 @@ SingleChildScrollView resultData(
         ),
         Container(
           margin: const EdgeInsets.only(top: 20),
-          width: MediaQuery.of(context).size.width * 0.27,
+          width: Constants().screenWidth(context) * 0.27,
           child: TextField(
             controller: dataProvider.getReasonText,
             decoration: InputDecoration(
@@ -127,8 +127,8 @@ SingleChildScrollView resultData(
 
 SizedBox detailReason(BuildContext context, MenuProvider dataProvider) {
   return SizedBox(
-    height: MediaQuery.of(context).size.height,
-    width: MediaQuery.of(context).size.width * 0.44,
+    height: Constants().screenheight(context),
+    width: Constants().screenWidth(context) * 0.44,
     child: dataProvider.reasonModel == null ||
             dataProvider.reasonModel!.responseCode!.isNotEmpty
         ? Center(
@@ -145,8 +145,8 @@ SizedBox detailReason(BuildContext context, MenuProvider dataProvider) {
                   child: Container(
                     margin: const EdgeInsets.only(right: 10),
                     child: ContainerStyle(
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        width: MediaQuery.of(context).size.width * 0.135,
+                        height: Constants().screenheight(context) * 0.1,
+                        width: Constants().screenWidth(context) * 0.135,
                         primaryColor: const Color.fromARGB(255, 255, 104, 190),
                         secondaryColor:
                             const Color.fromARGB(255, 254, 144, 190),
@@ -165,7 +165,7 @@ SizedBox detailReason(BuildContext context, MenuProvider dataProvider) {
 
 SizedBox groupMenu(BuildContext context, MenuProvider dataProvider) {
   return SizedBox(
-    height: MediaQuery.of(context).size.height,
+    height: Constants().screenheight(context),
     child: SingleChildScrollView(
         child: Column(
       children: List.generate(
@@ -178,8 +178,8 @@ SizedBox groupMenu(BuildContext context, MenuProvider dataProvider) {
             alignment: Alignment.center,
             margin: const EdgeInsets.only(bottom: 10),
             child: ContainerStyle(
-              height: MediaQuery.of(context).size.height * 0.1,
-              width: MediaQuery.of(context).size.width * 0.135,
+              height: Constants().screenheight(context) * 0.1,
+              width: Constants().screenWidth(context) * 0.135,
               primaryColor: const Color(0xffDA0C81),
               secondaryColor: const Color(0xffE95793),
               selected: dataProvider.getvalueReasonGroupSelect ==

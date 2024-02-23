@@ -38,8 +38,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          width: Constants().screenWidth(context),
+          height: Constants().screenheight(context),
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(Constants.bgLogin),
@@ -55,20 +55,25 @@ class _LoginPageState extends State<LoginPage> {
                     color: const Color.fromRGBO(114, 179, 248, 0.2),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  height: MediaQuery.of(context).size.height * 0.8,
+                  width: Constants().screenWidth(context) * 0.4,
+                  height: Constants().screenheight(context) * 0.8,
                   child: Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: EdgeInsets.all(
+                        Constants().screenheight(context) * 0.04),
                     child: Column(
                       children: [
-                        AppTextStyle().textNormal('vTec - Cloud POS', size: 18),
+                        AppTextStyle().textNormal('vTec - Cloud POS',
+                            size: Constants().screenheight(context) * 0.024),
                         username(context),
-                        const SizedBox(height: 20),
+                        SizedBox(
+                            height: Constants().screenheight(context) * 0.02),
                         password(context, loginWatch, loginRead),
-                        const SizedBox(height: 10),
+                        SizedBox(
+                            height: Constants().screenheight(context) * 0.01),
                         AppTextStyle().textNormal(loginWatch.getErrorText,
                             color: Colors.red),
-                        const SizedBox(height: 15),
+                        SizedBox(
+                            height: Constants().screenheight(context) * 0.01),
                         btnLogin(context, loginRead, loginWatch),
                         merchantDetail(context),
                         const Spacer(),
@@ -88,14 +93,15 @@ class _LoginPageState extends State<LoginPage> {
   Container setLanguage(
       BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
     return Container(
-      margin: const EdgeInsets.only(top: 25),
+      margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.03),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Container(
-            margin: const EdgeInsets.only(right: 30),
-            width: MediaQuery.of(context).size.width * 0.09,
-            height: MediaQuery.of(context).size.height * 0.08,
+            margin: EdgeInsets.only(
+                right: Constants().screenheight(context) * 0.06),
+            width: Constants().screenWidth(context) * 0.09,
+            height: Constants().screenheight(context) * 0.08,
             child: dropdownButton(
                 loginRead: loginRead,
                 loginWatch: loginWatch,
@@ -118,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
       Function(String?)? onChanged}) {
     return DropdownButtonFormField2<String>(
       decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
       value: value,
       items: itemMap!.map((item) {
@@ -126,19 +132,19 @@ class _LoginPageState extends State<LoginPage> {
           value: item,
           child: Text(
             item,
-            style: const TextStyle(
-              fontSize: 15,
+            style: TextStyle(
+              fontSize: Constants().screenheight(context) * 0.018,
             ),
           ),
         );
       }).toList(),
       onChanged: onChanged,
-      iconStyleData: const IconStyleData(
-        icon: Icon(
+      iconStyleData: IconStyleData(
+        icon: const Icon(
           Icons.arrow_drop_down,
           color: Colors.black45,
         ),
-        iconSize: 24,
+        iconSize: Constants().screenheight(context) * 0.033,
       ),
     );
   }

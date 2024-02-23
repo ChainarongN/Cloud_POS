@@ -14,8 +14,8 @@ Wrap nationality(
         onTap: () =>
             homeRead.setNationality(homeWatch.getNationalityItem[index]),
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.09,
-          height: MediaQuery.of(context).size.height * 0.08,
+          width: Constants().screenWidth(context) * 0.09,
+          height: Constants().screenheight(context) * 0.08,
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(15)),
             border: homeWatch.getNationalityItem[index] ==

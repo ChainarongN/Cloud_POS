@@ -14,8 +14,8 @@ Card manageMenu(
   return Card(
     child: Container(
       color: Colors.white,
-      width: MediaQuery.of(context).size.width * 0.33,
-      height: MediaQuery.of(context).size.height,
+      width: Constants().screenWidth(context) * 0.33,
+      height: Constants().screenheight(context),
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
@@ -48,8 +48,8 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
           menuRead.paymentCash(context: context, payAmount: '50');
         },
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.065,
-          height: MediaQuery.of(context).size.height * 0.1,
+          width: Constants().screenWidth(context) * 0.065,
+          height: Constants().screenheight(context) * 0.1,
           padding: const EdgeInsets.all(5.0),
           margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(
@@ -78,8 +78,8 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
           menuRead.paymentCash(context: context, payAmount: '100');
         },
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.065,
-          height: MediaQuery.of(context).size.height * 0.1,
+          width: Constants().screenWidth(context) * 0.065,
+          height: Constants().screenheight(context) * 0.1,
           padding: const EdgeInsets.all(5.0),
           margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(
@@ -105,8 +105,8 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
           menuRead.paymentCash(context: context, payAmount: '500');
         },
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.065,
-          height: MediaQuery.of(context).size.height * 0.1,
+          width: Constants().screenWidth(context) * 0.065,
+          height: Constants().screenheight(context) * 0.1,
           padding: const EdgeInsets.all(5.0),
           margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(
@@ -133,8 +133,8 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
           menuRead.paymentCash(context: context, payAmount: '1000');
         },
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.065,
-          height: MediaQuery.of(context).size.height * 0.1,
+          width: Constants().screenWidth(context) * 0.065,
+          height: Constants().screenheight(context) * 0.1,
           padding: const EdgeInsets.all(5.0),
           margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(
@@ -175,8 +175,8 @@ Row binButton(
           });
         },
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.15,
-          height: MediaQuery.of(context).size.height * 0.08,
+          width: Constants().screenWidth(context) * 0.15,
+          height: Constants().screenheight(context) * 0.08,
           padding: const EdgeInsets.all(5.0),
           margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(
@@ -205,8 +205,8 @@ Row binButton(
           menuRead.setTabToPayment(5);
         },
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.15,
-          height: MediaQuery.of(context).size.height * 0.085,
+          width: Constants().screenWidth(context) * 0.15,
+          height: Constants().screenheight(context) * 0.085,
           padding: const EdgeInsets.all(5.0),
           margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(
@@ -240,8 +240,8 @@ Row couponList(BuildContext context) {
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: <Widget>[
       Container(
-        width: MediaQuery.of(context).size.width * 0.09,
-        height: MediaQuery.of(context).size.height * 0.08,
+        width: Constants().screenWidth(context) * 0.09,
+        height: Constants().screenheight(context) * 0.08,
         padding: const EdgeInsets.all(5.0),
         margin: const EdgeInsets.all(2),
         decoration: BoxDecoration(
@@ -266,8 +266,8 @@ Row couponList(BuildContext context) {
         ),
       ),
       Container(
-        width: MediaQuery.of(context).size.width * 0.09,
-        height: MediaQuery.of(context).size.height * 0.08,
+        width: Constants().screenWidth(context) * 0.09,
+        height: Constants().screenheight(context) * 0.08,
         padding: const EdgeInsets.all(5.0),
         margin: const EdgeInsets.all(2),
         decoration: BoxDecoration(
@@ -292,8 +292,8 @@ Row couponList(BuildContext context) {
         ),
       ),
       Container(
-        width: MediaQuery.of(context).size.width * 0.09,
-        height: MediaQuery.of(context).size.height * 0.08,
+        width: Constants().screenWidth(context) * 0.09,
+        height: Constants().screenheight(context) * 0.08,
         padding: const EdgeInsets.all(5.0),
         margin: const EdgeInsets.all(2),
         decoration: BoxDecoration(
@@ -325,7 +325,7 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
   return Row(
     children: <Widget>[
       SizedBox(
-        width: MediaQuery.of(context).size.width * 0.15,
+        width: Constants().screenWidth(context) * 0.15,
         child: Column(
           children: <Widget>[
             Row(
@@ -396,7 +396,7 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
       ),
       Container(
         margin: const EdgeInsets.only(left: 10),
-        width: MediaQuery.of(context).size.width * 0.15,
+        width: Constants().screenWidth(context) * 0.15,
         child: Column(
           children: <Widget>[
             Row(
@@ -461,11 +461,11 @@ SizedBox orderList(
           menuWatch.productAddModel!.responseCode!.isNotEmpty ||
           menuWatch.productAddModel!.responseObj!.orderList!.isEmpty
       ? SizedBox(
-          height: MediaQuery.of(context).size.height * 0.3,
+          height: Constants().screenheight(context) * 0.3,
           child: Center(child: AppTextStyle().textNormal('There is no menu.')),
         )
       : SizedBox(
-          height: MediaQuery.of(context).size.height * 0.3,
+          height: Constants().screenheight(context) * 0.3,
           child: ListView(
             children: [
               Column(
@@ -525,7 +525,7 @@ SizedBox orderList(
                       ],
                     ),
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.058,
+                      height: Constants().screenheight(context) * 0.058,
                       margin: const EdgeInsets.only(bottom: 5, right: 5),
                       child: Row(
                         children: <Widget>[
@@ -543,7 +543,7 @@ SizedBox orderList(
                             },
                             child: Container(
                               alignment: Alignment.center,
-                              width: MediaQuery.of(context).size.width * 0.03,
+                              width: Constants().screenWidth(context) * 0.03,
                               child: AppTextStyle().textBold(
                                   menuWatch.productAddModel!.responseObj!
                                       .orderList![index].qty
@@ -560,7 +560,7 @@ SizedBox orderList(
                                 color: Constants.primaryColor, size: 35.0),
                           ),
                           SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.16,
+                              width: Constants().screenWidth(context) * 0.16,
                               child: AppTextStyle().textBold(
                                   menuWatch.productAddModel!.responseObj!
                                       .orderList![index].itemName!,
@@ -568,7 +568,7 @@ SizedBox orderList(
                           const Spacer(),
                           Container(
                               alignment: Alignment.centerRight,
-                              width: MediaQuery.of(context).size.width * 0.06,
+                              width: Constants().screenWidth(context) * 0.06,
                               child: AppTextStyle().textBold(
                                   menuWatch.productAddModel!.responseObj!
                                       .orderList![index].retailPrice!
@@ -611,11 +611,11 @@ openQtyDialog(BuildContext context, MenuProvider menuWatch,
     builder: (BuildContext context) {
       return AlertDialog(
         content: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.15,
+          height: Constants().screenheight(context) * 0.15,
           child: Column(
             children: <Widget>[
               Container(
-                width: MediaQuery.of(context).size.width * 0.2,
+                width: Constants().screenWidth(context) * 0.2,
                 margin: const EdgeInsets.only(top: 10, bottom: 10),
                 child: TextField(
                   keyboardType: TextInputType.number,
@@ -672,8 +672,8 @@ Future<dynamic> dialogResultHtml(BuildContext context, String html) {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.55,
-                  height: MediaQuery.of(context).size.height,
+                  width: Constants().screenWidth(context) * 0.55,
+                  height: Constants().screenheight(context),
                   child: Scrollbar(
                     child: SingleChildScrollView(child: HtmlWidget(html)),
                   ),
@@ -686,8 +686,8 @@ Future<dynamic> dialogResultHtml(BuildContext context, String html) {
                           .popUntil(ModalRoute.withName('/menuPage'));
                     },
                     radius: 25,
-                    width: MediaQuery.of(context).size.width * 0.17,
-                    height: MediaQuery.of(context).size.height * 0.18,
+                    width: Constants().screenWidth(context) * 0.17,
+                    height: Constants().screenheight(context) * 0.18,
                     title: 'พิมพ์ใบเสร็จ',
                     size: 20,
                     onlyText: false,

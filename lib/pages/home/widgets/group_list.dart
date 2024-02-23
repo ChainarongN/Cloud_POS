@@ -1,11 +1,12 @@
 import 'package:cloud_pos/providers/home_provider.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/container_style_2.dart';
 import 'package:flutter/material.dart';
 
 SizedBox groupList(
     BuildContext context, HomeProvider homeWatch, HomeProvider homeRead) {
   return SizedBox(
-    width: MediaQuery.of(context).size.width * 0.65,
+    width: Constants().screenWidth(context) * 0.65,
     child: SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -20,8 +21,8 @@ SizedBox groupList(
                     icon: Icons.android,
                     size: 18,
                     radius: 8,
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: MediaQuery.of(context).size.height * 0.15,
+                    width: Constants().screenWidth(context) * 0.1,
+                    height: Constants().screenheight(context) * 0.15,
                     shadowColor: Colors.blue.shade500,
                     gradient1: Colors.blue.shade400,
                     gradient2: Colors.blue.shade400,
@@ -37,8 +38,8 @@ SizedBox groupList(
                     icon: Icons.android,
                     size: 18,
                     radius: 8,
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: MediaQuery.of(context).size.height * 0.15,
+                    width: Constants().screenWidth(context) * 0.1,
+                    height: Constants().screenheight(context) * 0.15,
                     shadowColor: Colors.blueAccent.shade200,
                     gradient1: Colors.blue.shade100,
                     gradient2: Colors.blue.shade100,

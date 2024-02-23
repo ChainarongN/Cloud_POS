@@ -12,8 +12,8 @@ Wrap sex(HomeProvider homeWatch, HomeProvider homeRead, BuildContext context) {
       (index) => GestureDetector(
         onTap: () => homeRead.setSex(homeWatch.getSexItem[index]),
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.1,
-          height: MediaQuery.of(context).size.height * 0.08,
+          width: Constants().screenWidth(context) * 0.1,
+          height: Constants().screenheight(context) * 0.08,
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(15)),
             border: homeWatch.getSexValue == homeWatch.getSexItem[index]

@@ -1,4 +1,5 @@
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +13,8 @@ Center menuTab(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width * 0.155,
+            height: Constants().screenheight(context),
+            width: Constants().screenWidth(context) * 0.155,
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 8),
@@ -29,8 +30,8 @@ Center menuTab(
                       },
                       child: Container(
                         alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        width: MediaQuery.of(context).size.width * 0.135,
+                        height: Constants().screenheight(context) * 0.1,
+                        width: Constants().screenWidth(context) * 0.135,
                         margin: const EdgeInsets.only(right: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
@@ -76,8 +77,8 @@ Center menuTab(
           ),
           VerticalDivider(thickness: 2, color: Colors.grey.shade300),
           SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width * 0.45,
+            height: Constants().screenheight(context),
+            width: Constants().screenWidth(context) * 0.45,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: GridView.builder(

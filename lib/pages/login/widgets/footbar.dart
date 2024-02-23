@@ -10,7 +10,7 @@ Row footbar(BuildContext context) {
     children: <Widget>[
       AppTextStyle().textNormal(
           '${LocaleKeys.device_key.tr()} : 6102-3452-2456-1234',
-          size: 16),
+          size: Constants().screenheight(context) * 0.023),
       const Spacer(),
       Column(
         children: [
@@ -20,7 +20,8 @@ Row footbar(BuildContext context) {
             },
             child: Container(
               alignment: Alignment.center,
-              margin: const EdgeInsets.only(bottom: 20),
+              margin: EdgeInsets.only(
+                  bottom: Constants().screenheight(context) * 0.023),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 gradient: const LinearGradient(
@@ -39,14 +40,15 @@ Row footbar(BuildContext context) {
                 ],
               ),
               child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: AppTextStyle()
-                    .textNormal(LocaleKeys.configuration.tr(), size: 16),
+                padding:
+                    EdgeInsets.all(Constants().screenheight(context) * 0.015),
+                child: AppTextStyle().textNormal(LocaleKeys.configuration.tr(),
+                    size: Constants().screenheight(context) * 0.023),
               ),
             ),
           ),
-          AppTextStyle()
-              .textNormal('${LocaleKeys.version.tr()} : 0.0.19', size: 16),
+          AppTextStyle().textNormal('${LocaleKeys.version.tr()} : 0.0.19',
+              size: Constants().screenheight(context) * 0.023),
         ],
       ),
     ],

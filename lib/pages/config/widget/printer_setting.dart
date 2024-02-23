@@ -26,8 +26,8 @@ SingleChildScrollView printerSetting(BuildContext context,
 Container btnSave(BuildContext context) {
   return Container(
     alignment: Alignment.center,
-    height: MediaQuery.of(context).size.height * 0.09,
-    width: MediaQuery.of(context).size.width * 0.66,
+    height: Constants().screenheight(context) * 0.09,
+    width: Constants().screenWidth(context) * 0.66,
     margin: const EdgeInsets.only(top: 20),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
@@ -69,8 +69,8 @@ Container btnSave(BuildContext context) {
 Container testPrintBtn(BuildContext context) {
   return Container(
     alignment: Alignment.center,
-    height: MediaQuery.of(context).size.height * 0.09,
-    width: MediaQuery.of(context).size.width * 0.32,
+    height: Constants().screenheight(context) * 0.09,
+    width: Constants().screenWidth(context) * 0.32,
     margin: const EdgeInsets.only(top: 15),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
@@ -111,8 +111,8 @@ Container testPrintBtn(BuildContext context) {
 
 SizedBox printerAddress(BuildContext context) {
   return SizedBox(
-    width: MediaQuery.of(context).size.width * 0.66,
-    height: MediaQuery.of(context).size.height * 0.13,
+    width: Constants().screenWidth(context) * 0.66,
+    height: Constants().screenheight(context) * 0.13,
     child: Padding(
       padding: const EdgeInsets.only(left: 40, right: 40),
       child: Row(
@@ -121,7 +121,7 @@ SizedBox printerAddress(BuildContext context) {
               .textNormal('${LocaleKeys.ip_printer.tr()} : ', size: 18),
           const Spacer(),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.44,
+            width: Constants().screenWidth(context) * 0.44,
             child: TextField(
               decoration: InputDecoration(
                   filled: true,
@@ -151,8 +151,8 @@ SizedBox printerAddress(BuildContext context) {
 SizedBox connectionType(BuildContext context, ConfigProvider configRead,
     ConfigProvider configWatch) {
   return SizedBox(
-    width: MediaQuery.of(context).size.width * 0.5,
-    height: MediaQuery.of(context).size.height * 0.13,
+    width: Constants().screenWidth(context) * 0.5,
+    height: Constants().screenheight(context) * 0.13,
     child: Padding(
       padding: const EdgeInsets.only(left: 40, right: 40),
       child: Row(
@@ -161,7 +161,7 @@ SizedBox connectionType(BuildContext context, ConfigProvider configRead,
               .textNormal('${LocaleKeys.connection_type.tr()} : ', size: 18),
           const Spacer(),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.17,
+            width: Constants().screenWidth(context) * 0.17,
             child: dropdownButton(
                 configRead: configRead,
                 configWatch: configWatch,
@@ -182,8 +182,8 @@ Container printerModel(BuildContext context, ConfigProvider configRead,
     ConfigProvider configWatch) {
   return Container(
     margin: const EdgeInsets.only(top: 20),
-    width: MediaQuery.of(context).size.width * 0.5,
-    height: MediaQuery.of(context).size.height * 0.13,
+    width: Constants().screenWidth(context) * 0.5,
+    height: Constants().screenheight(context) * 0.13,
     child: Padding(
       padding: const EdgeInsets.only(left: 40, right: 40),
       child: Row(
@@ -192,7 +192,7 @@ Container printerModel(BuildContext context, ConfigProvider configRead,
               .textNormal('${LocaleKeys.printer_model.tr()} : ', size: 18),
           const Spacer(),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.17,
+            width: Constants().screenWidth(context) * 0.17,
             child: dropdownButton(
                 configRead: configRead,
                 configWatch: configWatch,
@@ -260,8 +260,8 @@ Container receiptPrinter(BuildContext context, ConfigProvider configRead,
     ConfigProvider configWatch) {
   return Container(
     alignment: Alignment.center,
-    height: MediaQuery.of(context).size.height * 0.09,
-    width: MediaQuery.of(context).size.width * 0.66,
+    height: Constants().screenheight(context) * 0.09,
+    width: Constants().screenWidth(context) * 0.66,
     margin: const EdgeInsets.only(top: 15),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
@@ -292,8 +292,8 @@ Container receiptPrinter(BuildContext context, ConfigProvider configRead,
           ),
           const Spacer(),
           Container(
-            width: MediaQuery.of(context).size.width * 0.15,
-            height: MediaQuery.of(context).size.height * 0.065,
+            width: Constants().screenWidth(context) * 0.15,
+            height: Constants().screenheight(context) * 0.065,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               color: Constants.secondaryColor,

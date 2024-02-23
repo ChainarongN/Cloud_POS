@@ -1,5 +1,6 @@
 import 'package:cloud_pos/pages/home/widgets/dropdown.dart';
 import 'package:cloud_pos/providers/home_provider.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ Row selectDropdown(BuildContext context, HomeProvider homeWatch,
   return Row(
     children: [
       SizedBox(
-        width: MediaQuery.of(context).size.width * 0.08,
+        width: Constants().screenWidth(context) * 0.08,
         child: AppTextStyle().textBold('$name : '),
       ),
       Container(

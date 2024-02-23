@@ -15,7 +15,7 @@ Center searchTab(
           children: <Widget>[
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 10),
-              width: MediaQuery.of(context).size.width * 0.25,
+              width: Constants().screenWidth(context) * 0.25,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -42,8 +42,8 @@ Center searchTab(
             ),
             Container(
               margin: const EdgeInsets.only(top: 5),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.7,
+              width: Constants().screenWidth(context),
+              height: Constants().screenheight(context) * 0.7,
               child: GridView.builder(
                 shrinkWrap: true,
                 itemCount: menuWatch.prodToSearch!.length,
