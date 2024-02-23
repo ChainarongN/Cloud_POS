@@ -36,17 +36,7 @@ Future<void> reasonDialog(BuildContext context) {
               if (dataProvider.getReasonText.text.isNotEmpty ||
                   dataProvider.getReasonController.text.isNotEmpty) {
                 LoadingStyle().dialogLoadding(context);
-                await dataProvider.cancelTransaction().then((value) {
-                  if (dataProvider.apiState == ApiState.ERROR) {
-                    Navigator.pop(context);
-                    LoadingStyle().dialogError(context,
-                        error: dataProvider.getExceptionText,
-                        isPopUntil: false);
-                  } else {
-                    Navigator.of(context)
-                        .popUntil(ModalRoute.withName('/homePage'));
-                  }
-                });
+                await dataProvider.cancelTransaction(context);
               } else {
                 dataProvider
                     .setExceptionText('Please select or input your reason');
@@ -139,10 +129,14 @@ SizedBox detailReason(BuildContext context, MenuProvider dataProvider) {
   return SizedBox(
     height: MediaQuery.of(context).size.height,
     width: MediaQuery.of(context).size.width * 0.44,
-    child: SingleChildScrollView(
-      child: dataProvider.reasonModel == null
-          ? const LoaddingData()
-          : Wrap(
+    child: dataProvider.reasonModel == null ||
+            dataProvider.reasonModel!.responseCode!.isNotEmpty
+        ? Center(
+            child:
+                AppTextStyle().textNormal('Something wrong. please try again'),
+          )
+        : SingleChildScrollView(
+            child: Wrap(
               runSpacing: 10,
               children: List.generate(
                 dataProvider.reasonModel!.responseObj!.length,
@@ -165,7 +159,7 @@ SizedBox detailReason(BuildContext context, MenuProvider dataProvider) {
                 ),
               ),
             ),
-    ),
+          ),
   );
 }
 
@@ -178,13 +172,7 @@ SizedBox groupMenu(BuildContext context, MenuProvider dataProvider) {
         dataProvider.reasonGroupList!.length,
         (index) => GestureDetector(
           onTap: () {
-            dataProvider.setReason(index).then((value) {
-              if (dataProvider.apiState == ApiState.ERROR) {
-                LoadingStyle().dialogError(context,
-                    error: dataProvider.getExceptionText,
-                    isPopUntil: false);
-              }
-            });
+            dataProvider.setReason(context, index);
           },
           child: Container(
             alignment: Alignment.center,

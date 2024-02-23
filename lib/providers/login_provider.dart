@@ -8,11 +8,7 @@ import 'package:cloud_pos/models/login_model.dart';
 import 'package:cloud_pos/models/open_session_model.dart';
 import 'package:cloud_pos/models/start_process_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/pages/login/functions/auth_token_func.dart';
-import 'package:cloud_pos/pages/login/functions/core_data_init_func.dart';
-import 'package:cloud_pos/pages/login/functions/login_func.dart';
-import 'package:cloud_pos/pages/login/functions/open_session_func.dart';
-import 'package:cloud_pos/pages/login/functions/start_process_func.dart';
+import 'package:cloud_pos/pages/login/functions/detect_login_func.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
@@ -64,7 +60,7 @@ class LoginProvider extends ChangeNotifier {
     var response = await _loginRepository.startProcess(
         deviceId: '0288-7363-6560-2714', langID: '1');
     startProcessModel =
-        await StartProcessFunc().detectStartProcess(context, response);
+        await DetectLoginFunc().detectStartProcess(context, response);
     if (apisState == ApiState.COMPLETED) {
       await SharedPref()
           .setComputerID(startProcessModel!.responseObj!.computerID!);
@@ -99,7 +95,7 @@ class LoginProvider extends ChangeNotifier {
         langID: '1',
         openAmount: _openAmountController.text);
     openSessionModel =
-        await OpenSessionFunc().detectOpenSession(context, response);
+        await DetectLoginFunc().detectOpenSession(context, response);
     if (apisState == ApiState.COMPLETED) {
       await SharedPref().setSessionKey(openSessionModel!.responseObj!.key!);
     }
@@ -132,7 +128,8 @@ class LoginProvider extends ChangeNotifier {
           clientID: 'verticaltec.cloudinventory.dev',
           grantType: 'client_credentials',
           clientSecret: 'acf7e10c71296430');
-      authTokenModel = await AuthTokenFunc().detectAuthToken(context, response);
+      authTokenModel =
+          await DetectLoginFunc().detectAuthToken(context, response);
       if (apisState == ApiState.COMPLETED) {
         await SharedPref().setToken(authTokenModel!.accessToken!);
         await SharedPref().setOpenTokenDay(now.day.toString());
@@ -148,7 +145,7 @@ class LoginProvider extends ChangeNotifier {
         password: 'cpos',
         deviceKey: '0288-7363-6560-2714',
         langId: '1');
-    loginModel = await LoginFunc().detectLogin(context, response);
+    loginModel = await DetectLoginFunc().detectLogin(context, response);
     if (apisState == ApiState.COMPLETED) {
       if (loginModel!.responseCode == '99') {
         if (loginModel!.responseText == Constants.INVALID_LOGIN) {
@@ -211,7 +208,7 @@ class LoginProvider extends ChangeNotifier {
       langID: '1',
     );
     coreInitModel =
-        await CoreDataInitFunc().detectCoreDataInit(context, response);
+        await DetectLoginFunc().detectCoreDataInit(context, response);
     if (apisState == ApiState.COMPLETED) {
       await Future.wait(
         [

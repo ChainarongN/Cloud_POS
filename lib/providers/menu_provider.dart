@@ -13,16 +13,13 @@ import 'package:cloud_pos/models/product_obj_model.dart';
 import 'package:cloud_pos/models/reason_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/pages/menu/functions/add_product_func.dart';
-import 'package:cloud_pos/pages/menu/functions/finalize_bill_func.dart';
-import 'package:cloud_pos/pages/menu/functions/order_summary_func.dart';
+import 'package:cloud_pos/pages/menu/functions/detect_menu_func.dart';
 import 'package:cloud_pos/pages/menu/functions/payment_func.dart';
 import 'package:cloud_pos/pages/menu/functions/read_file_func.dart';
-
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
-
 import '../repositorys/repository.dart';
 
 class MenuProvider extends ChangeNotifier {
@@ -30,6 +27,7 @@ class MenuProvider extends ChangeNotifier {
   MenuProvider(this._menuRepository);
 
   ApiState apiState = ApiState.COMPLETED;
+  bool _isLoading = false;
   List<ProductGroup>? prodGroupList;
   List<ReasonGroup>? reasonGroupList;
   List<PayTypeInfo>? payTypeInfoList;
@@ -65,6 +63,7 @@ class MenuProvider extends ChangeNotifier {
   TabController? _tabController;
 
   // --------------------------- GET ---------------------------
+  bool get getLoading => _isLoading;
   TabController get getTabController => _tabController!;
   String get getOrderId => _orderId!;
   String get getExceptionText => _exceptionText;
@@ -86,6 +85,7 @@ class MenuProvider extends ChangeNotifier {
 
   // ------------------------ Call Data -------------------------
   init(BuildContext context, TickerProvider tabThis) async {
+    _isLoading = true;
     _payAmountController.text = '';
     _totalPayListController.text = '0.00';
     _tabController = TabController(length: 6, vsync: tabThis);
@@ -97,12 +97,16 @@ class MenuProvider extends ChangeNotifier {
     prodToSearch = [];
     payAmountList = [];
     await _readData();
-    await setReason(0);
+    await setReason(context, 0);
     setWhereMenu(prodGroupList![0].productGroupID.toString());
 
     Constants().printWarning("OrderId : $_orderId");
     SharedPref().setOrderId(_orderId!);
     checkPaymentTab(context);
+
+    if (apiState == ApiState.COMPLETED) {
+      _isLoading = false;
+    }
     notifyListeners();
   }
 
@@ -111,7 +115,7 @@ class MenuProvider extends ChangeNotifier {
         productAddModel!.responseObj!.orderList!.isEmpty) {
       return;
     } else {
-      if (int.parse(payAmount!) < productAddModel!.responseObj!.dueAmount!) {
+      if (int.parse(payAmount!) < double.parse(_dueAmountController.text)) {
         await LoadingStyle().dialogError(context!,
             error:
                 'You pay $payAmount THB.  Pay amount must more than total price.',
@@ -160,6 +164,9 @@ class MenuProvider extends ChangeNotifier {
             payName: payAmountList![i].payName,
             payTypeId: payAmountList![i].payTypeId,
             payRemark: payAmountList![i].payRemark);
+        if (apiState == ApiState.COMPLETED) {
+          payAmountList!.removeAt(0);
+        }
       }
       if (apiState == ApiState.COMPLETED) {
         await finalizeBill(context);
@@ -177,8 +184,10 @@ class MenuProvider extends ChangeNotifier {
       prodId: prodId,
       count: count,
     );
-    _dueAmountController.text =
-        productAddModel!.responseObj!.dueAmount.toString();
+    if (apiState == ApiState.COMPLETED) {
+      _dueAmountController.text =
+          productAddModel!.responseObj!.dueAmount.toString();
+    }
     notifyListeners();
   }
 
@@ -187,7 +196,7 @@ class MenuProvider extends ChangeNotifier {
     var response = await _menuRepository.orderSummary(
         deviceKey: '0288-7363-6560-2714', orderId: _orderId);
     orderSummaryModel =
-        await OrderSummaryFunc().detectOrderSummary(context, response);
+        await DetectMenuFunc().detectOrderSummary(context, response);
     if (apiState == ApiState.COMPLETED) {
       _htmlOrderSummary =
           orderSummaryModel!.responseObj2!.receiptInfo!.receiptHtml;
@@ -201,7 +210,7 @@ class MenuProvider extends ChangeNotifier {
         deviceKey: '0288-7363-6560-2714',
         tranData: json.encode(paymentSubmitModel!.responseObj!.tranData));
     finalizeBillModel =
-        await FinalizeBillFunc().detectOrderSummary(context, response);
+        await DetectMenuFunc().detectFinalizeBill(context, response);
     if (apiState == ApiState.COMPLETED) {
       await LoadingStyle().dialogPayment2(context,
           text: paymentSubmitModel!.responseObj!.paymentList!.last.cashChange
@@ -230,7 +239,7 @@ class MenuProvider extends ChangeNotifier {
         payRemark: payRemark ?? '');
 
     paymentSubmitModel =
-        await PaymentFunc().detectPaymentSubmit(context, response);
+        await DetectMenuFunc().detectPaymentSubmit(context, response);
     if (apiState == ApiState.COMPLETED) {
       _dueAmountController.text =
           paymentSubmitModel!.responseObj!.dueAmount.toString();
@@ -238,98 +247,51 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future productAdd(BuildContext context, double count) async {
+    productObjModel!.responseObj!.productData!.productQty = count;
+    apiState = ApiState.LOADING;
     var response = await _menuRepository.productAdd(
         deviceKey: '0288-7363-6560-2714',
         prodObj: json.encode(productObjModel!.responseObj));
     productAddModel =
-        await AddProductFunc().detectProductAdd(context, response);
+        await DetectMenuFunc().detectProductAdd(context, response);
   }
 
   Future productObj(
       BuildContext context, int prodId, String orderDetailId) async {
-    try {
-      var response = await _menuRepository.productObj(
-          tranData: _tranDataFromOpenTran,
-          productId: prodId.toString(),
-          deviceKey: '0288-7363-6560-2714',
-          orderDetailId: orderDetailId);
-      if (response is Failure) {
-        apiState = ApiState.ERROR;
-        _exceptionText = response.errorResponse.toString();
-        await LoadingStyle().dialogError(context,
-            error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
-      } else {
-        productObjModel = ProductObjModel.fromJson(jsonDecode(response));
-        if (productObjModel!.responseCode!.isEmpty) {
-          Constants().printInfo(response);
-          Constants().printWarning('product obj');
-          apiState = ApiState.COMPLETED;
-        } else {
-          _exceptionText = productObjModel!.responseText.toString();
-          apiState = ApiState.ERROR;
-          await LoadingStyle().dialogError(context,
-              error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
-        }
-      }
-    } catch (e, strack) {
-      Constants().printError('$e - $strack');
-      _exceptionText = e.toString();
-      apiState = ApiState.ERROR;
-      await LoadingStyle().dialogError(context,
-          error: _exceptionText, isPopUntil: true, popToPage: '/menuPage');
-    }
-    notifyListeners();
-  }
-
-  Future cancelTransaction() async {
     apiState = ApiState.LOADING;
-    try {
-      var response = await _menuRepository.cancelTran(
-          deviceKey: '0288-7363-6560-2714',
-          langId: '1',
-          orderId: _orderId,
-          reasonIDList: _valueIdReason.text,
-          reasonText: _reasonTextController.text);
-      if (response is Failure) {
-        _exceptionText = response.errorResponse.toString();
-        apiState = ApiState.ERROR;
-        Constants().printError('${response.code} - ${response.errorResponse}}');
-      } else {
-        // cancelTranModel = CancelTranModel.fromJson(jsonDecode(response));
-        apiState = ApiState.COMPLETED;
-        Constants().printCheckFlow(response, 'Cancel Transaction');
-      }
-    } catch (e, strack) {
-      _exceptionText = strack.toString();
-      Constants().printError('$e - $strack');
-      apiState = ApiState.ERROR;
+    var response = await _menuRepository.productObj(
+        tranData: _tranDataFromOpenTran,
+        productId: prodId.toString(),
+        deviceKey: '0288-7363-6560-2714',
+        orderDetailId: orderDetailId);
+    productObjModel =
+        await DetectMenuFunc().detectProductObj(context, response);
+  }
+
+  Future cancelTransaction(BuildContext context) async {
+    apiState = ApiState.LOADING;
+    var response = await _menuRepository.cancelTran(
+        deviceKey: '0288-7363-6560-2714',
+        langId: '1',
+        orderId: _orderId,
+        reasonIDList: _valueIdReason.text,
+        reasonText: _reasonTextController.text);
+    cancelTranModel =
+        await DetectMenuFunc().detectCancelTran(context, response);
+    if (apiState == ApiState.COMPLETED) {
+      Navigator.of(context).popUntil(ModalRoute.withName('/homePage'));
     }
   }
 
-  Future setReason(int index) async {
+  Future setReason(BuildContext context, int index) async {
     reasonModel = null;
     apiState = ApiState.LOADING;
     _valueReasonGroupSelect = reasonGroupList![index].name;
-    try {
-      var response = await _menuRepository.reason(
-          deviceKey: '0288-7363-6560-2714',
-          langId: '1',
-          reasonId: reasonGroupList![index].iD.toString());
-
-      if (response is Failure) {
-        _exceptionText = response.errorResponse.toString();
-        apiState = ApiState.ERROR;
-        Constants().printCheckFlow(response.code, response.errorResponse);
-      } else {
-        reasonModel = ReasonModel.fromJson(jsonDecode(response));
-        apiState = ApiState.COMPLETED;
-      }
-    } catch (e, strack) {
-      _exceptionText = strack.toString();
-      Constants().printError('$e - $strack');
-      apiState = ApiState.ERROR;
-    }
-
+    var response = await _menuRepository.reason(
+        deviceKey: '0288-7363-6560-2714',
+        langId: '1',
+        reasonId: reasonGroupList![index].iD.toString());
+    reasonModel = await DetectMenuFunc().detectReason(context, response);
     notifyListeners();
   }
 

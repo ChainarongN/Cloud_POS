@@ -2,8 +2,7 @@
 import 'package:cloud_pos/models/close_session_model.dart';
 import 'package:cloud_pos/models/end_day_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/pages/utility/functions/close_session_func.dart';
-import 'package:cloud_pos/pages/utility/functions/end_day_func.dart';
+import 'package:cloud_pos/pages/utility/functions/detect_utility_func.dart';
 import 'package:cloud_pos/repositorys/utility/i_utility_repositoty.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,7 @@ class UtilityProvider extends ChangeNotifier {
   Future endDay(BuildContext context) async {
     apiState = ApiState.LOADING;
     var res = await _utilityRepository.endDay(deviceKey: '0288-7363-6560-2714');
-    endDayModel = await EndDayFunc().detectEndDay(context, res);
+    endDayModel = await DetectUtilityFunc().detectEndDay(context, res);
     if (apiState == ApiState.COMPLETED) {
       _htmlResult = endDayModel!.responseObj!.printDataHtml!;
     }
@@ -68,7 +67,7 @@ class UtilityProvider extends ChangeNotifier {
         sessionId: sessionId,
         closeSSAmount: _closeAmountController.text);
     closeSessionModel =
-        await CloseSessionFunc().detectCloseSession(context, response);
+        await DetectUtilityFunc().detectCloseSession(context, response);
     if (apiState == ApiState.COMPLETED) {
       _htmlResult = closeSessionModel!.responseObj!.printDataHtml!;
     }

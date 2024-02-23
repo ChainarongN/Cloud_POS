@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-import 'package:cloud_pos/pages/home/functions/open_tran_func.dart';
+import 'package:cloud_pos/pages/home/functions/detect_home_func.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/models/open_tran_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
@@ -60,7 +60,7 @@ class HomeProvider extends ChangeNotifier {
         langID: '1',
         noCustomer: int.parse(_customerCount.text),
         saleModeId: saleModeDataList![index].saleModeID!);
-    openTranModel = await OpenTranFunc().detectOpenTran(context, response);
+    openTranModel = await DetectHomeFunc().detectOpenTran(context, response);
 
     // try {
     //   var response = await _homeRepository.openTransaction(

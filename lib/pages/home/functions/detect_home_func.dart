@@ -8,10 +8,10 @@ import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class OpenTranFunc {
-  OpenTranFunc._internal();
-  static final OpenTranFunc _instance = OpenTranFunc._internal();
-  factory OpenTranFunc() => _instance;
+class DetectHomeFunc {
+  DetectHomeFunc._internal();
+  static final DetectHomeFunc _instance = DetectHomeFunc._internal();
+  factory DetectHomeFunc() => _instance;
 
   Future<OpenTranModel> detectOpenTran(
       BuildContext context, var response) async {

@@ -57,7 +57,7 @@ class _MenuPageState extends State<MenuPage>
           clonebin(context),
         ],
       ),
-      body: menuWatch.apiState == ApiState.LOADING
+      body: menuWatch.getLoading
           ? const LoaddingData()
           : Padding(
               padding: const EdgeInsets.all(8),
