@@ -2,6 +2,7 @@ import 'package:cloud_pos/providers/menu_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style.dart';
+import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -191,14 +192,25 @@ Future<void> dialogCredit(BuildContext context,
                       width: MediaQuery.of(context).size.width * 0.1,
                       child: ElevatedButton(
                         onPressed: () async {
-                          await menuRead!
-                              .managePayAmountList(context, 'add',
-                                  payTypeId: payTypeId,
-                                  payCode: payTypeCode,
-                                  payName: payTypeName,
-                                  payRemark: menuWatch.getPaymentRemark.text,
-                                  price: menuWatch.getPayAmountCredit.text)
-                              .then((value) => Navigator.maybePop(context));
+                          double price =
+                              double.parse(menuWatch.getPayAmountCredit.text);
+                          double dueAmount = double.parse(
+                              menuWatch.getDueAmountController.text);
+                          if (price > dueAmount) {
+                            LoadingStyle().dialogError(context,
+                                error:
+                                    "Cannot do payment for amount more than due amount.",
+                                isPopUntil: false);
+                          } else {
+                            await menuRead!
+                                .managePayAmountList(context, 'add',
+                                    payTypeId: payTypeId,
+                                    payCode: payTypeCode,
+                                    payName: payTypeName,
+                                    payRemark: menuWatch.getPaymentRemark.text,
+                                    price: menuWatch.getPayAmountCredit.text)
+                                .then((value) => Navigator.maybePop(context));
+                          }
                         },
                         child: AppTextStyle()
                             .textNormal('OK', color: Colors.green, size: 16),

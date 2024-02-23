@@ -135,20 +135,24 @@ class MenuProvider extends ChangeNotifier {
       String? price,
       int? indexForRemove,
       String? payRemark}) async {
-    if (frag == 'add') {
-      payAmountList!.add(
-        PayAmountModel(
-            payTypeId: payTypeId,
-            payCode: payCode,
-            payName: payName,
-            price: double.parse(price!),
-            payRemark: payRemark ?? ''),
-      );
-      _payAmountController.text = '';
-    } else if (frag == 'remove') {
-      payAmountList!.removeAt(indexForRemove!);
-    } else if (frag == 'clear') {
-      payAmountList = [];
+    switch (frag) {
+      case 'add':
+        payAmountList!.add(
+          PayAmountModel(
+              payTypeId: payTypeId,
+              payCode: payCode,
+              payName: payName,
+              price: double.parse(price!),
+              payRemark: payRemark ?? ''),
+        );
+        _payAmountController.text = '';
+        break;
+      case 'remove':
+        payAmountList!.removeAt(indexForRemove!);
+        break;
+      case 'clear':
+        payAmountList = [];
+        break;
     }
     num sum = 0;
     for (var element in payAmountList!) {
