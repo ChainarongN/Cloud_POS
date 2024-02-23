@@ -61,32 +61,6 @@ class HomeProvider extends ChangeNotifier {
         noCustomer: int.parse(_customerCount.text),
         saleModeId: saleModeDataList![index].saleModeID!);
     openTranModel = await DetectHomeFunc().detectOpenTran(context, response);
-
-    // try {
-    //   var response = await _homeRepository.openTransaction(
-    //     deviceKey: '0288-7363-6560-2714',
-    //     langID: '1',
-    //     noCustomer: int.parse(_customerCount.text),
-    //     saleModeId: saleModeDataList![index].saleModeID!,
-    //   );
-    //   if (response is Failure) {
-    //     Constants().printCheckFlow(response.code, response.errorResponse);
-    //     _errorText = response.errorResponse.toString();
-    //     apisState = ApiState.ERROR;
-    //   } else {
-    //     openTranModel = OpenTranModel.fromJson(jsonDecode(response));
-    //     if (openTranModel!.responseCode == "") {
-    //       apisState = ApiState.COMPLETED;
-    //     } else {
-    //       _errorText = openTranModel!.responseText;
-    //       apisState = ApiState.ERROR;
-    //     }
-    //   }
-    // } catch (e, strack) {
-    //   _errorText = strack.toString();
-    //   apisState = ApiState.ERROR;
-    //   Constants().printError('$e - $strack');
-    // }
   }
 
   Future readSaleModeFile() async {

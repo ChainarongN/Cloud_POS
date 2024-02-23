@@ -70,22 +70,6 @@ class LoginProvider extends ChangeNotifier {
         _openSession = true;
       }
     }
-
-    // if (response is Failure) {
-    //   Constants().printError(response.code.toString());
-    //   _errorText = response.errorResponse.toString();
-    //   apisState = ApiState.ERROR;
-    // } else {
-    //   startProcessModel = StartProcessModel.fromJson(jsonDecode(response));
-    //   await SharedPref()
-    //       .setComputerID(startProcessModel!.responseObj!.computerID!);
-    //   await SharedPref().setShopID(startProcessModel!.responseObj!.shopID!);
-    //   await SharedPref().setSaleDate(startProcessModel!.responseObj!.saleDate!);
-    //   Constants().printCheckFlow(response, 'startProcess');
-    //   if (startProcessModel!.responseObj!.actionInfo!.actionCode != null) {
-    //     _openSession = true;
-    //   }
-    // }
   }
 
   Future openSession(BuildContext context) async {
@@ -99,24 +83,6 @@ class LoginProvider extends ChangeNotifier {
     if (apisState == ApiState.COMPLETED) {
       await SharedPref().setSessionKey(openSessionModel!.responseObj!.key!);
     }
-
-    //  try {
-//       if (response is Failure) {
-//         Constants().printError(response.code.toString());
-//         _errorText = response.errorResponse.toString();
-//         apisState = ApiState.ERROR;
-//       } else {
-//         openSessionModel = OpenSessionModel.fromJson(jsonDecode(response));
-//         await SharedPref().setSessionKey(openSessionModel!.responseObj!.key!);
-//
-//         apisState = ApiState.COMPLETED;
-//         Constants().printCheckFlow(response, 'openSession');
-//       }
-//     } catch (e, strack) {
-//       _errorText = strack.toString();
-//       Constants().printError('$e - $strack');
-//       apisState = ApiState.ERROR;
-//     }
   }
 
   Future authToken(BuildContext context) async {
@@ -162,29 +128,6 @@ class LoginProvider extends ChangeNotifier {
         _errorText = '';
       }
     }
-
-    // if (response is Failure) {
-    //   Constants().printError(response.code.toString());
-    //   Constants().printError(response.errorResponse.toString());
-    //   _errorText = response.errorResponse.toString();
-    //   apisState = ApiState.ERROR;
-    // } else {
-    //   loginModel = LoginModel.fromJson(jsonDecode(response));
-    //   if (loginModel!.responseCode == '99') {
-    //     if (loginModel!.responseText == Constants.INVALID_LOGIN) {
-    //       _errorText = 'Invalid username or password';
-    //     } else {
-    //       await getCoreDataInit(true);
-    //     }
-    //   } else {
-    //     Constants().printCheckFlow(response, 'Success Login');
-    //     await SharedPref()
-    //         .setStaffID(loginModel!.responseObj!.staffInfo!.staffID!);
-    //     await SharedPref().setUsername(username);
-    //     await checkReadCoreData();
-    //     _errorText = '';
-    //   }
-    // }
   }
 
   Future checkReadCoreData(BuildContext context) async {
@@ -235,48 +178,6 @@ class LoginProvider extends ChangeNotifier {
         await login(context);
       }
     }
-
-//     if (response is Failure) {
-//       _errorText = response.errorResponse.toString();
-//       apisState = ApiState.ERROR;
-//     } else {
-//       try {
-//         coreInitModel = CoreInitModel.fromJson(jsonDecode(response));
-//         await Future.wait(
-//           [
-//             _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.saleModeData),
-//                 Constants.SALE_MODE_TXT),
-//             _writeCoreInit(
-//                 jsonEncode(
-//                     coreInitModel!.responseObj!.productData!.productGroup),
-//                 Constants.PROD_GROUP_TXT),
-//             _writeCoreInit(
-//                 jsonEncode(coreInitModel!.responseObj!.productData!.products),
-//                 Constants.PROD_TXT),
-//             _writeCoreInit(
-//                 jsonEncode(coreInitModel!.responseObj!.favoriteGroup),
-//                 Constants.FAV_GROUP_TXT),
-//             _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.favoriteData),
-//                 Constants.FAV_DATA_TXT),
-//             _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.reasonGroup),
-//                 Constants.REASON_GROUP_TXT),
-//             _writeCoreInit(
-//                 jsonEncode(
-//                     coreInitModel!.responseObj!.payTypeData!.payTypeInfo),
-//                 Constants.PAYMENT_GROUP_TXT)
-//           ],
-//         );
-//
-//         Constants().printCheckFlow(response, 'CoreDataInit');
-//         if (loginAgain) {
-//           await login(context);
-//         }
-//       } catch (e, strack) {
-//         _errorText = strack.toString();
-//         Constants().printError('$e - $strack');
-//         apisState = ApiState.ERROR;
-//       }
-//     }
     notifyListeners();
   }
 

@@ -248,13 +248,19 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future productAdd(BuildContext context, double count) async {
-    productObjModel!.responseObj!.productData!.productQty = count;
-    apiState = ApiState.LOADING;
-    var response = await _menuRepository.productAdd(
-        deviceKey: '0288-7363-6560-2714',
-        prodObj: json.encode(productObjModel!.responseObj));
-    productAddModel =
-        await DetectMenuFunc().detectProductAdd(context, response);
+    try {
+      productObjModel!.responseObj!.productData!.productQty = count;
+      apiState = ApiState.LOADING;
+      var response = await _menuRepository.productAdd(
+          deviceKey: '0288-7363-6560-2714',
+          prodObj: json.encode(productObjModel!.responseObj));
+      productAddModel =
+          await DetectMenuFunc().detectProductAdd(context, response);
+    } catch (e, strack) {
+      Constants().printError(strack.toString());
+      LoadingStyle().dialogError(context,
+          error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
+    }
   }
 
   Future productObj(
