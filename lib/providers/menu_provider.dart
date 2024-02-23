@@ -164,9 +164,6 @@ class MenuProvider extends ChangeNotifier {
             payName: payAmountList![i].payName,
             payTypeId: payAmountList![i].payTypeId,
             payRemark: payAmountList![i].payRemark);
-        if (apiState == ApiState.COMPLETED) {
-          payAmountList!.removeAt(0);
-        }
       }
       if (apiState == ApiState.COMPLETED) {
         await finalizeBill(context);
