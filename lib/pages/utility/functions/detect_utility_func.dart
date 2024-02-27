@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_pos/models/close_session_model.dart';
 import 'package:cloud_pos/models/end_day_model.dart';
+import 'package:cloud_pos/models/session_search_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/utility_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -77,5 +78,38 @@ class DetectUtilityFunc {
           error: e.toString(), isPopUntil: true, popToPage: '/utilityPage');
     }
     return endDayModel!;
+  }
+
+  Future<SessionSearch> detectSessionSearch(
+      BuildContext context, var response) async {
+    var utilityProvider = Provider.of<UtilityProvider>(context, listen: false);
+    SessionSearch? sessionSearchModel;
+    try {
+      if (response is Failure) {
+        utilityProvider.apiState = ApiState.ERROR;
+        LoadingStyle().dialogError(context,
+            error: response.errorResponse.toString(),
+            isPopUntil: true,
+            popToPage: '/utilityPage');
+      } else {
+        sessionSearchModel = SessionSearch.fromJson(jsonDecode(response));
+        if (sessionSearchModel.responseCode!.isEmpty) {
+          Constants().printCheckFlow(response, 'SessionSearch');
+          utilityProvider.apiState = ApiState.COMPLETED;
+        } else {
+          utilityProvider.apiState = ApiState.ERROR;
+          LoadingStyle().dialogError(context,
+              error: sessionSearchModel.responseText!,
+              isPopUntil: true,
+              popToPage: '/utilityPage');
+        }
+      }
+    } catch (e, strack) {
+      utilityProvider.apiState = ApiState.ERROR;
+      Constants().printError(strack.toString());
+      await LoadingStyle().dialogError(context,
+          error: e.toString(), isPopUntil: true, popToPage: '/utilityPage');
+    }
+    return sessionSearchModel!;
   }
 }

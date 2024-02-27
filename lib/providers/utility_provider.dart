@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:cloud_pos/models/close_session_model.dart';
 import 'package:cloud_pos/models/end_day_model.dart';
+import 'package:cloud_pos/models/session_search_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/pages/utility/functions/detect_utility_func.dart';
 import 'package:cloud_pos/repositorys/utility/i_utility_repositoty.dart';
@@ -14,6 +15,7 @@ class UtilityProvider extends ChangeNotifier {
   ApiState apiState = ApiState.COMPLETED;
   CloseSessionModel? closeSessionModel;
   EndDayModel? endDayModel;
+  SessionSearch? sessionSearchModel;
   String _errorText = '';
   final TextEditingController _closeAmountController = TextEditingController();
   String _htmlResult = '';
@@ -57,50 +59,38 @@ class UtilityProvider extends ChangeNotifier {
   }
 
   Future closeSession(BuildContext context) async {
-    apiState = ApiState.LOADING;
     String key = await SharedPref().getSessionKey();
-    int idx = key.indexOf(":");
-    String sessionId = key.substring(0, idx).trim();
-    var response = await _utilityRepository.closeSession(
-        deviceKey: '0288-7363-6560-2714',
-        langId: '1',
-        sessionId: sessionId,
-        closeSSAmount: _closeAmountController.text);
-    closeSessionModel =
-        await DetectUtilityFunc().detectCloseSession(context, response);
-    if (apiState == ApiState.COMPLETED) {
-      _htmlResult = closeSessionModel!.responseObj!.printDataHtml!;
+    if (key.isEmpty) {
+      await sessionSearch(context);
+    } else {
+      apiState = ApiState.LOADING;
+      String key = await SharedPref().getSessionKey();
+      int idx = key.indexOf(":");
+      String sessionId = key.substring(0, idx).trim();
+      var response = await _utilityRepository.closeSession(
+          deviceKey: '0288-7363-6560-2714',
+          langId: '1',
+          sessionId: sessionId,
+          closeSSAmount: _closeAmountController.text);
+      closeSessionModel =
+          await DetectUtilityFunc().detectCloseSession(context, response);
+      if (apiState == ApiState.COMPLETED) {
+        _htmlResult = closeSessionModel!.responseObj!.printDataHtml!;
+      }
     }
+  }
 
-//     apiState = ApiState.LOADING;
-//     String key = await SharedPref().getSessionKey();
-//     int idx = key.indexOf(":");
-//     String sessionId = key.substring(0, idx).trim();
-//
-//     try {
-//       var response = await _utilityRepository.closeSession(
-//           deviceKey: '0288-7363-6560-2714',
-//           langId: '1',
-//           sessionId: sessionId,
-//           closeSSAmount: _closeAmountController.text);
-//       if (response is Failure) {
-//         _errorText = response.errorResponse.toString();
-//         apiState = ApiState.ERROR;
-//       } else {
-//         closeSessionModel = CloseSessionModel.fromJson(jsonDecode(response));
-//         if (closeSessionModel!.responseCode!.isEmpty) {
-//           _htmlResult = closeSessionModel!.responseObj!.printDataHtml!;
-//           apiState = ApiState.COMPLETED;
-//           Constants().printCheckFlow(response, 'closeSession');
-//         } else {
-//           _errorText = closeSessionModel!.responseText!;
-//           apiState = ApiState.ERROR;
-//         }
-//       }
-//     } catch (e, strack) {
-//       apiState = ApiState.ERROR;
-//       _errorText = strack.toString();
-//     }
+  Future sessionSearch(BuildContext context) async {
+    apiState = ApiState.LOADING;
+    var response = await _utilityRepository.sessionSearch(
+        langId: '1', deviceKey: '0288-7363-6560-2714');
+    sessionSearchModel =
+        await DetectUtilityFunc().detectSessionSearch(context, response);
+    if (apiState == ApiState.COMPLETED) {
+      await SharedPref()
+          .setSessionKey(sessionSearchModel!.responseObj!.last.sessionKey!);
+      await closeSession(context);
+    }
   }
 
   // --------------------------- SET ---------------------------

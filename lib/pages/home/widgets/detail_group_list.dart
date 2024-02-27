@@ -37,6 +37,9 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
                 LoadingStyle().dialogLoadding(context);
                 await homeRead.openTransaction(context, index).then((value) {
                   if (homeWatch.apisState == ApiState.COMPLETED) {
+                    homeRead.setCountText('1');
+                    homeRead.setSex('');
+                    homeRead.setNationality('');
                     Navigator.maybePop(context);
                     String orderId = homeWatch
                         .openTranModel!.responseObj!.tranData!.orderID!;

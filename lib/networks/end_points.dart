@@ -19,4 +19,6 @@ class Endpoints {
   static const String finalizeBill =
       "$baseUrl/api/POSModule/Order_FinalizeBill";
   static const String orderSummary = "$baseUrl/api/POSModule/POS_OrderSummary";
+  static const String sessionSearch =
+      "$baseUrl/api/POSModule/POS_SessionSearch";
 }

@@ -5,4 +5,5 @@ abstract class IUtilityRepository {
       String? closeSSAmount,
       String? sessionId});
   Future endDay({String? deviceKey});
+  Future sessionSearch({String? langId, String? deviceKey});
 }

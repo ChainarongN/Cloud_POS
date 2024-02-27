@@ -16,8 +16,6 @@ class HomeProvider extends ChangeNotifier {
   HomeProvider(this._homeRepository);
 
   ApiState apisState = ApiState.COMPLETED;
-  String? _categoryValue;
-  String? _serviceValue;
   String? _nationalityValue = '';
   String? _sexValue = '';
   String? _groupItemValue = 'ALL';
@@ -32,8 +30,6 @@ class HomeProvider extends ChangeNotifier {
   // --------------------------- GET ---------------------------
   String get getErrorText => _errorText!;
   TextEditingController get getCustomerValue => _customerCount;
-  String get getCategoryValue => _categoryValue!;
-  String get getServiceValue => _serviceValue!;
   String get getNationalityValue => _nationalityValue!;
   String get getSexValue => _sexValue!;
   String get getGroupItemValue => _groupItemValue!;
@@ -110,16 +106,6 @@ class HomeProvider extends ChangeNotifier {
 
   setNationality(String value) {
     _nationalityValue = value;
-    notifyListeners();
-  }
-
-  setCategoryValue(String value) {
-    _categoryValue = value;
-    notifyListeners();
-  }
-
-  setServiceValue(String value) {
-    _serviceValue = value;
     notifyListeners();
   }
 

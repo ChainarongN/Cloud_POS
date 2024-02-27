@@ -257,6 +257,7 @@ class MenuProvider extends ChangeNotifier {
       productAddModel =
           await DetectMenuFunc().detectProductAdd(context, response);
     } catch (e, strack) {
+      apiState = ApiState.ERROR;
       Constants().printError(strack.toString());
       LoadingStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');

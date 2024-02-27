@@ -2,6 +2,7 @@ import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/utility/i_utility_repositoty.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UtilityRepository implements IUtilityRepository {
   @override
@@ -57,6 +58,37 @@ class UtilityRepository implements IUtilityRepository {
         token: token,
         param: param,
         actionBy: 'closeSession');
+
+    return response;
+  }
+
+  @override
+  Future sessionSearch({String? langId, String? deviceKey}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    int staffId = await SharedPref().getStaffID();
+    int shopId = await SharedPref().getShopID();
+    int computerId = await SharedPref().getComputerID();
+    DateTime now = DateTime.now();
+    var formatterDate = DateFormat('yyyy-MM-dd').format(now);
+
+    var param = {
+      'reqId': uuid,
+      'deviceKey': deviceKey,
+      'LangID': langId,
+      'SessionID': '0',
+      'SSComputerID': computerId.toString(),
+      'StartDate': formatterDate.toString(),
+      'EndDate': formatterDate.toString(),
+      'ShopID': shopId.toString(),
+      'StaffID': staffId.toString()
+    };
+
+    var response = await APIService().postParams(
+        url: Endpoints.sessionSearch,
+        token: token,
+        param: param,
+        actionBy: 'sessionSearch');
 
     return response;
   }
