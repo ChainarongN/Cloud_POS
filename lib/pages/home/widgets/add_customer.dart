@@ -8,9 +8,12 @@ Row addCustomer(
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      const Icon(Icons.person_4, color: Colors.black, size: 40.0),
+      Icon(Icons.person_4,
+          color: Colors.black, size: Constants().screenheight(context) * 0.055),
       Container(
-        margin: const EdgeInsets.only(left: 10, right: 10),
+        margin: EdgeInsets.only(
+            left: Constants().screenheight(context) * 0.015,
+            right: Constants().screenheight(context) * 0.015),
         width: Constants().screenWidth(context) * 0.11,
         child: TextField(
           controller: homeWatch.getCustomerValue,
@@ -30,23 +33,26 @@ Row addCustomer(
             enabledBorder: myinputborder(), //enabled border
             focusedBorder: myfocusborder(), //focused border
           ),
-          style: const TextStyle(color: Constants.textColor, fontSize: 20),
+          style: TextStyle(
+              color: Constants.textColor,
+              fontSize: Constants().screenheight(context) * 0.02),
         ),
       ),
       GestureDetector(
         onTap: () {
           homeRead.removeCount();
         },
-        child: const Icon(Icons.remove_circle_outline,
-            color: Colors.red, size: 45.0),
+        child: Icon(Icons.remove_circle_outline,
+            color: Colors.red, size: Constants().screenheight(context) * 0.055),
       ),
       const SizedBox(width: 18),
       GestureDetector(
         onTap: () {
           homeRead.addCount();
         },
-        child: const Icon(Icons.add_circle_outline,
-            color: Constants.primaryColor, size: 45.0),
+        child: Icon(Icons.add_circle_outline,
+            color: Constants.primaryColor,
+            size: Constants().screenheight(context) * 0.055),
       ),
     ],
   );

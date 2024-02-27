@@ -1,9 +1,7 @@
-import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/menu_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style.dart';
-import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +13,7 @@ Future<void> reasonDialog(BuildContext context) {
       builder: (context, dataProvider, child) => AlertDialog(
         title: AppTextStyle().textNormal(
             'Close Transaction : Please select your reason.',
-            size: 20),
+            size: Constants().screenheight(context) * 0.03),
         content: SizedBox(
           width: Constants().screenWidth(context),
           height: Constants().screenheight(context),
@@ -31,7 +29,8 @@ Future<void> reasonDialog(BuildContext context) {
         ),
         actions: <Widget>[
           TextButton(
-            child: AppTextStyle().textNormal('OK', size: 20),
+            child: AppTextStyle().textNormal('OK',
+                size: Constants().screenheight(context) * 0.03),
             onPressed: () async {
               if (dataProvider.getReasonText.text.isNotEmpty ||
                   dataProvider.getReasonController.text.isNotEmpty) {
@@ -44,8 +43,9 @@ Future<void> reasonDialog(BuildContext context) {
             },
           ),
           TextButton(
-            child: AppTextStyle()
-                .textNormal('Cancel', size: 20, color: Colors.red),
+            child: AppTextStyle().textNormal('Cancel',
+                size: Constants().screenheight(context) * 0.03,
+                color: Colors.red),
             onPressed: () async {
               Navigator.pop(context);
             },
@@ -63,7 +63,7 @@ SingleChildScrollView resultData(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         SizedBox(
-          width: Constants().screenWidth(context) * 0.3,
+          width: Constants().screenWidth(context) * 0.28,
           height: Constants().screenheight(context) * 0.24,
           child: Card(
             color: Colors.grey.shade400,
@@ -80,7 +80,8 @@ SingleChildScrollView resultData(
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 10),
+          margin:
+              EdgeInsets.only(top: Constants().screenheight(context) * 0.015),
           child: GestureDetector(
             onTap: () => dataProvider.clearReasonText(),
             child: ContainerStyle(
@@ -89,13 +90,15 @@ SingleChildScrollView resultData(
               primaryColor: Constants.primaryColor,
               secondaryColor: Colors.blue.shade800,
               selected: false,
-              widget: AppTextStyle()
-                  .textNormal('Clear', size: 16, color: Colors.white),
+              widget: AppTextStyle().textNormal('Clear',
+                  size: Constants().screenheight(context) * 0.02,
+                  color: Colors.white),
             ),
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 20),
+          margin:
+              EdgeInsets.only(top: Constants().screenheight(context) * 0.01),
           width: Constants().screenWidth(context) * 0.27,
           child: TextField(
             controller: dataProvider.getReasonText,
@@ -106,17 +109,22 @@ SingleChildScrollView resultData(
               border: Constants().myColorborder(Constants.textColor),
               enabledBorder: Constants().myColorborder(Constants.textColor),
               focusedBorder: Constants().myColorborder(Constants.textColor),
-              prefixIcon: const Padding(
-                padding: EdgeInsets.only(left: 25, right: 15),
+              prefixIcon: Padding(
+                padding: EdgeInsets.only(
+                    left: Constants().screenheight(context) * 0.025,
+                    right: Constants().screenheight(context) * 0.015),
                 child: Icon(Icons.border_color_outlined),
               ),
             ),
-            style: const TextStyle(color: Constants.textColor, fontSize: 20),
+            style: TextStyle(
+                color: Constants.textColor,
+                fontSize: Constants().screenheight(context) * 0.025),
             maxLines: null,
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 15),
+          margin:
+              EdgeInsets.only(top: Constants().screenheight(context) * 0.015),
           child: AppTextStyle()
               .textNormal(dataProvider.getExceptionText, color: Colors.red),
         ),
@@ -153,7 +161,7 @@ SizedBox detailReason(BuildContext context, MenuProvider dataProvider) {
                         selected: false,
                         widget: AppTextStyle().textNormal(
                             dataProvider.reasonModel!.responseObj![index].text!,
-                            size: 16,
+                            size: Constants().screenheight(context) * 0.02,
                             color: Colors.white)),
                   ),
                 ),
@@ -176,7 +184,8 @@ SizedBox groupMenu(BuildContext context, MenuProvider dataProvider) {
           },
           child: Container(
             alignment: Alignment.center,
-            margin: const EdgeInsets.only(bottom: 10),
+            margin: EdgeInsets.only(
+                bottom: Constants().screenheight(context) * 0.015),
             child: ContainerStyle(
               height: Constants().screenheight(context) * 0.1,
               width: Constants().screenWidth(context) * 0.135,
@@ -188,7 +197,7 @@ SizedBox groupMenu(BuildContext context, MenuProvider dataProvider) {
                   : false,
               widget: AppTextStyle().textNormal(
                   dataProvider.reasonGroupList![index].name!,
-                  size: 16,
+                  size: Constants().screenheight(context) * 0.024,
                   color: Colors.white),
             ),
           ),

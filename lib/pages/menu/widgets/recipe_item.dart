@@ -14,7 +14,9 @@ class RecipeItem extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          margin: const EdgeInsets.only(bottom: 5, left: 3),
+          margin: EdgeInsets.only(
+              bottom: Constants().screenheight(context) * 0.007,
+              left: Constants().screenheight(context) * 0.005),
           height: Constants().screenheight(context) * 0.26,
           width: Constants().screenWidth(context) * 0.124,
           decoration: BoxDecoration(
@@ -37,14 +39,16 @@ class RecipeItem extends StatelessWidget {
               ),
               child: Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.all(3),
-                height: Constants().screenheight(context) * 0.065,
+                padding:
+                    EdgeInsets.all(Constants().screenheight(context) * 0.003),
+                height: Constants().screenheight(context) * 0.07,
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withOpacity(0.4),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: AppTextStyle()
-                    .textNormal(recipeName, color: Colors.white, size: 14),
+                child: AppTextStyle().textNormal(recipeName,
+                    color: Colors.white,
+                    size: Constants().screenheight(context) * 0.02),
               ),
             ),
           ),

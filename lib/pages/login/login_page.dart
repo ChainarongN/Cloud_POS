@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
             margin: EdgeInsets.only(
                 right: Constants().screenheight(context) * 0.06),
             width: Constants().screenWidth(context) * 0.09,
-            height: Constants().screenheight(context) * 0.08,
+            height: Constants().screenheight(context) * 0.084,
             child: dropdownButton(
                 loginRead: loginRead,
                 loginWatch: loginWatch,
@@ -123,6 +123,7 @@ class _LoginPageState extends State<LoginPage> {
       String? value,
       Function(String?)? onChanged}) {
     return DropdownButtonFormField2<String>(
+      isDense: false,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),

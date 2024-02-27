@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 Drawer drawer(BuildContext context) {
   return Drawer(
     child: Padding(
-      padding: const EdgeInsets.all(15),
+      padding: EdgeInsets.all(Constants().screenheight(context) * 0.015),
       child: Container(
-        margin: const EdgeInsets.only(top: 50),
+        margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.05),
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -17,9 +17,11 @@ Drawer drawer(BuildContext context) {
               ),
               child: Text('Drawer Header'),
             ),
-            const Text('Menu',
-                style: TextStyle(fontSize: 16, color: Colors.black26)),
-            const SizedBox(height: 10),
+            Text('Menu',
+                style: TextStyle(
+                    fontSize: Constants().screenheight(context) * 0.01,
+                    color: Colors.black26)),
+            SizedBox(height: Constants().screenheight(context) * 0.01),
             ListTile(
               title: AppTextStyle().textNormal(
                 'Working Time',

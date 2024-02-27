@@ -3,6 +3,7 @@ import 'package:cloud_pos/pages/config/widget/base_url_setting.dart';
 import 'package:cloud_pos/pages/config/widget/menu_config.dart';
 import 'package:cloud_pos/pages/config/widget/printer_setting.dart';
 import 'package:cloud_pos/providers/config_provider.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,7 @@ class _ConfigPageState extends State<ConfigPage> {
         title: AppTextStyle().textNormal('vTec - Cloud POS Configuration'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(Constants().screenheight(context) * 0.04),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -38,7 +39,9 @@ class _ConfigPageState extends State<ConfigPage> {
             children: <Widget>[
               menuConfig(context, configRead, configWatch),
               Container(
-                margin: const EdgeInsets.only(left: 15, right: 15),
+                margin: EdgeInsets.only(
+                    left: Constants().screenheight(context) * 0.024,
+                    right: Constants().screenheight(context) * 0.024),
                 child: const VerticalDivider(thickness: 2),
               ),
               Consumer<ConfigProvider>(builder: (context, data, child) {

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 Container clonebin(BuildContext context) {
   return Container(
     alignment: Alignment.center,
-    height: Constants().screenheight(context) * 0.06,
+    height: Constants().screenheight(context) * 0.07,
     width: Constants().screenWidth(context) * 0.09,
     margin: const EdgeInsets.only(right: 30),
     decoration: BoxDecoration(
@@ -24,8 +24,9 @@ Container clonebin(BuildContext context) {
       ],
     ),
     child: Padding(
-      padding: const EdgeInsets.all(10),
-      child: AppTextStyle().textNormal('โคลนบิล', size: 16),
+      padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
+      child: AppTextStyle().textNormal('โคลนบิล',
+          size: Constants().screenheight(context) * 0.025),
     ),
   );
 }
@@ -33,7 +34,7 @@ Container clonebin(BuildContext context) {
 Container employee(BuildContext context) {
   return Container(
     alignment: Alignment.center,
-    height: Constants().screenheight(context) * 0.06,
+    height: Constants().screenheight(context) * 0.07,
     width: Constants().screenWidth(context) * 0.09,
     margin: const EdgeInsets.only(right: 10),
     decoration: BoxDecoration(
@@ -52,8 +53,9 @@ Container employee(BuildContext context) {
       ],
     ),
     child: Padding(
-      padding: const EdgeInsets.all(10),
-      child: AppTextStyle().textNormal('พนักงาน', size: 16),
+      padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
+      child: AppTextStyle().textNormal('พนักงาน',
+          size: Constants().screenheight(context) * 0.025),
     ),
   );
 }
@@ -61,7 +63,7 @@ Container employee(BuildContext context) {
 Container member(BuildContext context) {
   return Container(
     alignment: Alignment.center,
-    height: Constants().screenheight(context) * 0.06,
+    height: Constants().screenheight(context) * 0.07,
     width: Constants().screenWidth(context) * 0.09,
     margin: const EdgeInsets.only(right: 10),
     decoration: BoxDecoration(
@@ -80,8 +82,9 @@ Container member(BuildContext context) {
       ],
     ),
     child: Padding(
-      padding: const EdgeInsets.all(10),
-      child: AppTextStyle().textNormal('สมาชิก', size: 16),
+      padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
+      child: AppTextStyle().textNormal('สมาชิก',
+          size: Constants().screenheight(context) * 0.025),
     ),
   );
 }

@@ -41,7 +41,8 @@ class _HomePageState extends State<HomePage> {
               homeWatch.saleModeDataList!.isEmpty
           ? const LoaddingData()
           : Padding(
-              padding: const EdgeInsets.all(18.0),
+              padding:
+                  EdgeInsets.all(Constants().screenheight(context) * 0.025),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -51,15 +52,22 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const SizedBox(height: 10),
+                          SizedBox(
+                              height:
+                                  Constants().screenheight(context) * 0.015),
                           addCustomer(context, homeWatch, homeRead),
-                          const SizedBox(height: 30),
+                          SizedBox(
+                              height: Constants().screenheight(context) * 0.03),
                           AppTextStyle().textBold('สัญชาติ'),
-                          const SizedBox(height: 15),
+                          SizedBox(
+                              height:
+                                  Constants().screenheight(context) * 0.024),
                           nationality(homeWatch, homeRead, context),
-                          const SizedBox(height: 10),
+                          SizedBox(
+                              height: Constants().screenheight(context) * 0.02),
                           AppTextStyle().textBold('เพศ'),
-                          const SizedBox(height: 15),
+                          SizedBox(
+                              height: Constants().screenheight(context) * 0.02),
                           sex(homeWatch, homeRead, context),
                         ],
                       ),

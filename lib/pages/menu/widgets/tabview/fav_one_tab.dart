@@ -8,7 +8,7 @@ Center favoriteTab1(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
   return Center(
     child: Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: EdgeInsets.all(Constants().screenheight(context) * 0.006),
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -17,7 +17,9 @@ Center favoriteTab1(
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 8),
+                padding: EdgeInsets.only(
+                    bottom: Constants().screenheight(context) * 0.013,
+                    top: Constants().screenheight(context) * 0.005),
                 child: Row(
                   children: List.generate(
                     menuWatch.prodGroupList!.length,
@@ -31,7 +33,8 @@ Center favoriteTab1(
                         alignment: Alignment.center,
                         height: Constants().screenheight(context) * 0.07,
                         width: Constants().screenWidth(context) * 0.126,
-                        margin: const EdgeInsets.only(right: 5),
+                        margin: EdgeInsets.only(
+                            right: Constants().screenheight(context) * 0.007),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           gradient: LinearGradient(
@@ -61,10 +64,12 @@ Center favoriteTab1(
                           ],
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 5, right: 5),
+                          padding: EdgeInsets.only(
+                              left: Constants().screenheight(context) * 0.007,
+                              right: Constants().screenheight(context) * 0.007),
                           child: AppTextStyle().textNormal(
                               menuWatch.prodGroupList![index].productGroupName!,
-                              size: 16,
+                              size: Constants().screenheight(context) * 0.023,
                               color: Colors.white),
                         ),
                       ),
@@ -74,7 +79,8 @@ Center favoriteTab1(
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 5),
+              margin: EdgeInsets.only(
+                  top: Constants().screenheight(context) * 0.007),
               width: Constants().screenWidth(context),
               height: Constants().screenheight(context) * 0.7,
               child: GridView.builder(

@@ -22,7 +22,7 @@ Card manageMenu(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              orderTitle(menuWatch),
+              orderTitle(context, menuWatch),
               Divider(thickness: 2, color: Colors.grey.shade300),
               orderList(menuWatch, menuRead, context),
               Divider(thickness: 2, color: Colors.grey.shade300),
@@ -50,8 +50,7 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
         child: Container(
           width: Constants().screenWidth(context) * 0.065,
           height: Constants().screenheight(context) * 0.1,
-          padding: const EdgeInsets.all(5.0),
-          margin: const EdgeInsets.all(2),
+          margin: EdgeInsets.all(Constants().screenheight(context) * 0.0015),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.black),
@@ -67,7 +66,8 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                AppTextStyle().textBold('50', size: 25),
+                AppTextStyle().textBold('50',
+                    size: Constants().screenheight(context) * 0.035),
               ],
             ),
           ),
@@ -80,8 +80,7 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
         child: Container(
           width: Constants().screenWidth(context) * 0.065,
           height: Constants().screenheight(context) * 0.1,
-          padding: const EdgeInsets.all(5.0),
-          margin: const EdgeInsets.all(2),
+          margin: EdgeInsets.all(Constants().screenheight(context) * 0.0015),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.black),
@@ -94,7 +93,8 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                AppTextStyle().textBold('100', size: 25),
+                AppTextStyle().textBold('100',
+                    size: Constants().screenheight(context) * 0.035),
               ],
             ),
           ),
@@ -107,8 +107,7 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
         child: Container(
           width: Constants().screenWidth(context) * 0.065,
           height: Constants().screenheight(context) * 0.1,
-          padding: const EdgeInsets.all(5.0),
-          margin: const EdgeInsets.all(2),
+          margin: EdgeInsets.all(Constants().screenheight(context) * 0.0015),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.black),
@@ -122,7 +121,8 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                AppTextStyle().textBold('500', size: 25),
+                AppTextStyle().textBold('500',
+                    size: Constants().screenheight(context) * 0.035),
               ],
             ),
           ),
@@ -135,8 +135,7 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
         child: Container(
           width: Constants().screenWidth(context) * 0.065,
           height: Constants().screenheight(context) * 0.1,
-          padding: const EdgeInsets.all(5.0),
-          margin: const EdgeInsets.all(2),
+          margin: EdgeInsets.all(Constants().screenheight(context) * 0.0015),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.black),
@@ -150,7 +149,8 @@ Row priceList(BuildContext context, MenuProvider menuRead) {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                AppTextStyle().textBold('1000', size: 25),
+                AppTextStyle().textBold('1000',
+                    size: Constants().screenheight(context) * 0.035),
               ],
             ),
           ),
@@ -177,8 +177,7 @@ Row binButton(
         child: Container(
           width: Constants().screenWidth(context) * 0.15,
           height: Constants().screenheight(context) * 0.08,
-          padding: const EdgeInsets.all(5.0),
-          margin: const EdgeInsets.all(2),
+          margin: EdgeInsets.all(Constants().screenheight(context) * 0.0018),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Constants.primaryColor),
@@ -190,11 +189,13 @@ Row binButton(
                   offset: Offset(0, 6)),
             ],
           ),
-          child: const Center(
+          child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Icon(Icons.receipt_long, color: Colors.white, size: 45.0),
+                Icon(Icons.receipt_long,
+                    color: Colors.white,
+                    size: Constants().screenheight(context) * 0.055),
               ],
             ),
           ),
@@ -207,8 +208,7 @@ Row binButton(
         child: Container(
           width: Constants().screenWidth(context) * 0.15,
           height: Constants().screenheight(context) * 0.085,
-          padding: const EdgeInsets.all(5.0),
-          margin: const EdgeInsets.all(2),
+          margin: EdgeInsets.all(Constants().screenheight(context) * 0.0018),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Constants.primaryColor),
@@ -220,12 +220,13 @@ Row binButton(
                   offset: Offset(0, 6)),
             ],
           ),
-          child: const Center(
+          child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Icon(Icons.local_printshop_rounded,
-                    color: Colors.white, size: 45.0),
+                    color: Colors.white,
+                    size: Constants().screenheight(context) * 0.055),
               ],
             ),
           ),
@@ -241,8 +242,8 @@ Row couponList(BuildContext context) {
     children: <Widget>[
       Container(
         width: Constants().screenWidth(context) * 0.09,
-        height: Constants().screenheight(context) * 0.08,
-        padding: const EdgeInsets.all(5.0),
+        height: Constants().screenheight(context) * 0.084,
+        padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
         margin: const EdgeInsets.all(2),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -259,7 +260,9 @@ Row couponList(BuildContext context) {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              const Icon(Icons.adb_rounded, color: Colors.black54, size: 20.0),
+              Icon(Icons.adb_rounded,
+                  color: Colors.black54,
+                  size: Constants().screenheight(context) * 0.028),
               AppTextStyle().textNormal('e-Coupon'),
             ],
           ),
@@ -267,7 +270,7 @@ Row couponList(BuildContext context) {
       ),
       Container(
         width: Constants().screenWidth(context) * 0.09,
-        height: Constants().screenheight(context) * 0.08,
+        height: Constants().screenheight(context) * 0.084,
         padding: const EdgeInsets.all(5.0),
         margin: const EdgeInsets.all(2),
         decoration: BoxDecoration(
@@ -285,7 +288,9 @@ Row couponList(BuildContext context) {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              const Icon(Icons.adb_rounded, color: Colors.black54, size: 20.0),
+              Icon(Icons.adb_rounded,
+                  color: Colors.black54,
+                  size: Constants().screenheight(context) * 0.028),
               AppTextStyle().textNormal('ส่วนลด อื่นๆ'),
             ],
           ),
@@ -293,7 +298,7 @@ Row couponList(BuildContext context) {
       ),
       Container(
         width: Constants().screenWidth(context) * 0.09,
-        height: Constants().screenheight(context) * 0.08,
+        height: Constants().screenheight(context) * 0.084,
         padding: const EdgeInsets.all(5.0),
         margin: const EdgeInsets.all(2),
         decoration: BoxDecoration(
@@ -311,7 +316,9 @@ Row couponList(BuildContext context) {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              const Icon(Icons.adb_rounded, color: Colors.black54, size: 20.0),
+              Icon(Icons.adb_rounded,
+                  color: Colors.black54,
+                  size: Constants().screenheight(context) * 0.028),
               AppTextStyle().textNormal('ส่วนลด'),
             ],
           ),
@@ -395,7 +402,8 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
         ),
       ),
       Container(
-        margin: const EdgeInsets.only(left: 10),
+        margin:
+            EdgeInsets.only(left: Constants().screenheight(context) * 0.017),
         width: Constants().screenWidth(context) * 0.15,
         child: Column(
           children: <Widget>[
@@ -499,7 +507,10 @@ SizedBox orderList(
                                             'Cancel',
                                             color: Colors.red),
                                       ),
-                                      const SizedBox(width: 20),
+                                      SizedBox(
+                                          width: Constants()
+                                                  .screenheight(context) *
+                                              0.025),
                                       GestureDetector(
                                         onTap: () => Navigator.pop(context),
                                         child: AppTextStyle().textBold('OK',
@@ -525,15 +536,19 @@ SizedBox orderList(
                       ],
                     ),
                     child: Container(
-                      height: Constants().screenheight(context) * 0.058,
-                      margin: const EdgeInsets.only(bottom: 5, right: 5),
+                      height: Constants().screenheight(context) * 0.065,
+                      margin: EdgeInsets.only(
+                          bottom: Constants().screenheight(context) * 0.01,
+                          right: Constants().screenheight(context) * 0.01),
                       child: Row(
                         children: <Widget>[
                           GestureDetector(
                             onTap: () =>
                                 menuRead.removeCountOrder(context, index),
-                            child: const Icon(Icons.remove_circle_outline,
-                                color: Colors.red, size: 35.0),
+                            child: Icon(Icons.remove_circle_outline,
+                                color: Colors.red,
+                                size:
+                                    Constants().screenheight(context) * 0.045),
                           ),
                           GestureDetector(
                             onTap: () {
@@ -551,20 +566,27 @@ SizedBox orderList(
                                       .split(
                                           '.') //Why split ? because int.parse is Invalid radix-10 number. i don't know why
                                       .first,
-                                  size: 16),
+                                  size:
+                                      Constants().screenheight(context) * 0.02),
                             ),
                           ),
                           GestureDetector(
                             onTap: () => menuRead.addCountOrder(context, index),
-                            child: const Icon(Icons.add_box_outlined,
-                                color: Constants.primaryColor, size: 35.0),
+                            child: Icon(Icons.add_box_outlined,
+                                color: Constants.primaryColor,
+                                size:
+                                    Constants().screenheight(context) * 0.045),
                           ),
-                          SizedBox(
-                              width: Constants().screenWidth(context) * 0.16,
+                          Container(
+                              margin: EdgeInsets.only(
+                                  left:
+                                      Constants().screenheight(context) * 0.01),
+                              width: Constants().screenWidth(context) * 0.155,
                               child: AppTextStyle().textBold(
                                   menuWatch.productAddModel!.responseObj!
                                       .orderList![index].itemName!,
-                                  size: 16)),
+                                  size: Constants().screenheight(context) *
+                                      0.023)),
                           const Spacer(),
                           Container(
                               alignment: Alignment.centerRight,
@@ -573,7 +595,8 @@ SizedBox orderList(
                                   menuWatch.productAddModel!.responseObj!
                                       .orderList![index].retailPrice!
                                       .toString(),
-                                  size: 16)),
+                                  size: Constants().screenheight(context) *
+                                      0.023)),
                         ],
                       ),
                     ),
@@ -585,19 +608,21 @@ SizedBox orderList(
         );
 }
 
-Row orderTitle(MenuProvider menuWatch) {
+Row orderTitle(BuildContext context, MenuProvider menuWatch) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: <Widget>[
       Container(
-        child: AppTextStyle().textBold('DINE IN', size: 22),
+        child: AppTextStyle().textBold('DINE IN',
+            size: Constants().screenheight(context) * 0.027),
       ),
       Container(
         child: menuWatch.productAddModel != null &&
                 menuWatch.productAddModel!.responseCode!.isEmpty
-            ? AppTextStyle()
-                .textBold(menuWatch.getDueAmountController.text, size: 22)
-            : AppTextStyle().textBold('0.00', size: 22),
+            ? AppTextStyle().textBold(menuWatch.getDueAmountController.text,
+                size: Constants().screenheight(context) * 0.027)
+            : AppTextStyle().textBold('0.00',
+                size: Constants().screenheight(context) * 0.027),
       )
     ],
   );
@@ -632,8 +657,9 @@ openQtyDialog(BuildContext context, MenuProvider menuWatch,
                     enabledBorder: Constants().myinputborder(), //enabled border
                     focusedBorder: Constants().myfocusborder(), //focused border
                   ),
-                  style:
-                      const TextStyle(color: Constants.textColor, fontSize: 20),
+                  style: TextStyle(
+                      color: Constants.textColor,
+                      fontSize: Constants().screenheight(context) * 0.027),
                 ),
               ),
             ],
@@ -641,14 +667,16 @@ openQtyDialog(BuildContext context, MenuProvider menuWatch,
         ),
         actions: <Widget>[
           TextButton(
-            child: AppTextStyle().textNormal('OK', size: 18),
+            child: AppTextStyle().textNormal('OK',
+                size: Constants().screenheight(context) * 0.025),
             onPressed: () {
               menuRead.dialogCountOrder(context, index);
             },
           ),
           TextButton(
-            child: AppTextStyle()
-                .textNormal('Cancel', size: 18, color: Colors.red),
+            child: AppTextStyle().textNormal('Cancel',
+                size: Constants().screenheight(context) * 0.025,
+                color: Colors.red),
             onPressed: () async {
               Navigator.pop(context, false);
             },

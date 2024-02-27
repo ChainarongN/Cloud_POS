@@ -14,8 +14,8 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
     height: Constants().screenheight(context) * 0.65,
     child: SingleChildScrollView(
       child: Wrap(
-        spacing: 3,
-        runSpacing: 5,
+        spacing: Constants().screenheight(context) * 0.01,
+        runSpacing: Constants().screenheight(context) * 0.008,
         children: List.generate(
           homeWatch.saleModeDataList!.length,
           (index) => Container(
@@ -24,7 +24,7 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
               onlyText: true,
               title: homeWatch.saleModeDataList![index].saleModeName!,
               icon: Icons.android,
-              size: 16,
+              size: Constants().screenheight(context) * 0.023,
               radius: 35,
               width: Constants().screenWidth(context) * 0.2,
               height: Constants().screenheight(context) * 0.2,

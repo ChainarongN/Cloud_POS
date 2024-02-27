@@ -28,7 +28,7 @@ Container btnSave(BuildContext context) {
     alignment: Alignment.center,
     height: Constants().screenheight(context) * 0.09,
     width: Constants().screenWidth(context) * 0.66,
-    margin: const EdgeInsets.only(top: 20),
+    margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.025),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
       gradient: const LinearGradient(
@@ -47,19 +47,21 @@ Container btnSave(BuildContext context) {
       ],
     ),
     child: Padding(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-              margin: const EdgeInsets.only(right: 25),
-              child: const Icon(
+              margin: EdgeInsets.only(
+                  right: Constants().screenheight(context) * 0.03),
+              child: Icon(
                 Icons.done,
-                size: 40,
+                size: Constants().screenheight(context) * 0.05,
                 color: Colors.white,
               )),
           AppTextStyle().textNormal(LocaleKeys.save_config.tr(),
-              size: 20, color: Colors.white),
+              size: Constants().screenheight(context) * 0.03,
+              color: Colors.white),
         ],
       ),
     ),
@@ -71,7 +73,7 @@ Container testPrintBtn(BuildContext context) {
     alignment: Alignment.center,
     height: Constants().screenheight(context) * 0.09,
     width: Constants().screenWidth(context) * 0.32,
-    margin: const EdgeInsets.only(top: 15),
+    margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.02),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
       gradient: const LinearGradient(
@@ -90,19 +92,21 @@ Container testPrintBtn(BuildContext context) {
       ],
     ),
     child: Padding(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-              margin: const EdgeInsets.only(right: 25),
-              child: const Icon(
+              margin: EdgeInsets.only(
+                  right: Constants().screenheight(context) * 0.02),
+              child: Icon(
                 Icons.print,
-                size: 40,
+                size: Constants().screenheight(context) * 0.05,
                 color: Colors.white,
               )),
           AppTextStyle().textNormal(LocaleKeys.test_print.tr(),
-              size: 20, color: Colors.white),
+              size: Constants().screenheight(context) * 0.027,
+              color: Colors.white),
         ],
       ),
     ),
@@ -114,11 +118,13 @@ SizedBox printerAddress(BuildContext context) {
     width: Constants().screenWidth(context) * 0.66,
     height: Constants().screenheight(context) * 0.13,
     child: Padding(
-      padding: const EdgeInsets.only(left: 40, right: 40),
+      padding: EdgeInsets.only(
+          left: Constants().screenheight(context) * 0.05,
+          right: Constants().screenheight(context) * 0.05),
       child: Row(
         children: <Widget>[
-          AppTextStyle()
-              .textNormal('${LocaleKeys.ip_printer.tr()} : ', size: 18),
+          AppTextStyle().textNormal('${LocaleKeys.ip_printer.tr()} : ',
+              size: Constants().screenheight(context) * 0.027),
           const Spacer(),
           SizedBox(
             width: Constants().screenWidth(context) * 0.44,
@@ -128,18 +134,23 @@ SizedBox printerAddress(BuildContext context) {
                   fillColor: Colors.grey.shade100.withOpacity(0.1),
                   labelText: LocaleKeys.ip_printer.tr(),
                   border: Constants().myinputborder(),
-                  prefixIcon: const Padding(
-                    padding: EdgeInsets.only(left: 30, right: 25),
+                  prefixIcon: Padding(
+                    padding: EdgeInsets.only(
+                        left: Constants().screenheight(context) * 0.04,
+                        right: Constants().screenheight(context) * 0.02),
                     child: Icon(
                       Icons.wifi_password,
-                      size: 35,
+                      size: Constants().screenheight(context) * 0.045,
                     ),
                   ),
-                  suffixIcon: const Padding(
-                    padding: EdgeInsets.only(right: 15),
-                    child: Icon(Icons.cancel),
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.only(
+                        right: Constants().screenheight(context) * 0.015),
+                    child: const Icon(Icons.cancel),
                   )),
-              style: const TextStyle(color: Constants.textColor, fontSize: 20),
+              style: TextStyle(
+                  color: Constants.textColor,
+                  fontSize: Constants().screenheight(context) * 0.025),
             ),
           ),
         ],
@@ -154,23 +165,24 @@ SizedBox connectionType(BuildContext context, ConfigProvider configRead,
     width: Constants().screenWidth(context) * 0.5,
     height: Constants().screenheight(context) * 0.13,
     child: Padding(
-      padding: const EdgeInsets.only(left: 40, right: 40),
+      padding: EdgeInsets.only(
+          left: Constants().screenheight(context) * 0.05,
+          right: Constants().screenheight(context) * 0.05),
       child: Row(
         children: <Widget>[
-          AppTextStyle()
-              .textNormal('${LocaleKeys.connection_type.tr()} : ', size: 18),
+          AppTextStyle().textNormal('${LocaleKeys.connection_type.tr()} : ',
+              size: Constants().screenheight(context) * 0.027),
           const Spacer(),
           SizedBox(
             width: Constants().screenWidth(context) * 0.17,
-            child: dropdownButton(
+            child: dropdownButton(context,
                 configRead: configRead,
                 configWatch: configWatch,
                 itemMap: configWatch.getConnectList,
-                value: configWatch.getConnectionValue,
-                onChanged: (value) {
-                  configRead.setConnectionValue(value!);
-                  Constants().printWarning(configWatch.getConnectionValue);
-                }),
+                value: configWatch.getConnectionValue, onChanged: (value) {
+              configRead.setConnectionValue(value!);
+              Constants().printWarning(configWatch.getConnectionValue);
+            }),
           ),
         ],
       ),
@@ -185,23 +197,24 @@ Container printerModel(BuildContext context, ConfigProvider configRead,
     width: Constants().screenWidth(context) * 0.5,
     height: Constants().screenheight(context) * 0.13,
     child: Padding(
-      padding: const EdgeInsets.only(left: 40, right: 40),
+      padding: EdgeInsets.only(
+          left: Constants().screenheight(context) * 0.05,
+          right: Constants().screenheight(context) * 0.05),
       child: Row(
         children: <Widget>[
-          AppTextStyle()
-              .textNormal('${LocaleKeys.printer_model.tr()} : ', size: 18),
+          AppTextStyle().textNormal('${LocaleKeys.printer_model.tr()} : ',
+              size: Constants().screenheight(context) * 0.027),
           const Spacer(),
           SizedBox(
             width: Constants().screenWidth(context) * 0.17,
-            child: dropdownButton(
+            child: dropdownButton(context,
                 configRead: configRead,
                 configWatch: configWatch,
                 itemMap: configWatch.getPrinterList,
-                value: configWatch.getPrintValue,
-                onChanged: (value) {
-                  configRead.setPrinterValue(value!);
-                  Constants().printWarning(configWatch.getPrintValue);
-                }),
+                value: configWatch.getPrintValue, onChanged: (value) {
+              configRead.setPrinterValue(value!);
+              Constants().printWarning(configWatch.getPrintValue);
+            }),
           ),
         ],
       ),
@@ -209,7 +222,7 @@ Container printerModel(BuildContext context, ConfigProvider configRead,
   );
 }
 
-DropdownButtonFormField2<String> dropdownButton(
+DropdownButtonFormField2<String> dropdownButton(BuildContext context,
     {ConfigProvider? configWatch,
     ConfigProvider? configRead,
     List<String>? itemMap,
@@ -228,8 +241,8 @@ DropdownButtonFormField2<String> dropdownButton(
               value: item,
               child: Text(
                 item,
-                style: const TextStyle(
-                  fontSize: 18,
+                style: TextStyle(
+                  fontSize: Constants().screenheight(context) * 0.025,
                 ),
               ),
             ))
@@ -262,7 +275,7 @@ Container receiptPrinter(BuildContext context, ConfigProvider configRead,
     alignment: Alignment.center,
     height: Constants().screenheight(context) * 0.09,
     width: Constants().screenWidth(context) * 0.66,
-    margin: const EdgeInsets.only(top: 15),
+    margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.02),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
       gradient: const LinearGradient(
@@ -282,12 +295,14 @@ Container receiptPrinter(BuildContext context, ConfigProvider configRead,
       ],
     ),
     child: Padding(
-      padding: const EdgeInsets.only(left: 40, right: 40),
+      padding: EdgeInsets.only(
+          left: Constants().screenheight(context) * 0.04,
+          right: Constants().screenheight(context) * 0.04),
       child: Row(
         children: <Widget>[
           AppTextStyle().textNormal(
             LocaleKeys.receipt_printer.tr(),
-            size: 20,
+            size: Constants().screenheight(context) * 0.03,
             color: Colors.white,
           ),
           const Spacer(),
@@ -306,7 +321,7 @@ Container receiptPrinter(BuildContext context, ConfigProvider configRead,
                   color: configWatch.getprinterSwitch
                       ? Constants.primaryColor
                       : Colors.grey.shade500,
-                  size: 40,
+                  size: Constants().screenheight(context) * 0.05,
                 ),
                 Switch(
                   value: configWatch.getprinterSwitch,

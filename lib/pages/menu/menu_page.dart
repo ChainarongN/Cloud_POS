@@ -1,4 +1,3 @@
-import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/pages/menu/widgets/appbar_action.dart';
 import 'package:cloud_pos/pages/menu/widgets/manage_menu.dart';
 import 'package:cloud_pos/pages/menu/widgets/reason_dialog.dart';
@@ -60,7 +59,8 @@ class _MenuPageState extends State<MenuPage>
       body: menuWatch.getLoading
           ? const LoaddingData()
           : Padding(
-              padding: const EdgeInsets.all(8),
+              padding:
+                  EdgeInsets.all(Constants().screenheight(context) * 0.013),
               child: Container(
                 width: Constants().screenWidth(context),
                 height: Constants().screenheight(context),
@@ -86,7 +86,7 @@ class _MenuPageState extends State<MenuPage>
     return Expanded(
       child: Column(
         children: [
-          tabMenuTitle(menuWatch),
+          tabMenuTitle(context, menuWatch),
           Expanded(
             child: TabBarView(
               controller: menuWatch.getTabController,

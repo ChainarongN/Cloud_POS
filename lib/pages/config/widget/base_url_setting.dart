@@ -19,7 +19,7 @@ SingleChildScrollView baseUrlSetting(BuildContext context) {
 Column detailBrand(BuildContext context) {
   return Column(
     children: <Widget>[
-      const SizedBox(height: 10),
+      SizedBox(height: Constants().screenheight(context) * 0.015),
       cardDetail(
         context,
         Column(
@@ -27,16 +27,19 @@ Column detailBrand(BuildContext context) {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTextStyle()
-                    .textBold(LocaleKeys.merchant_name.tr(), size: 18),
-                AppTextStyle().textNormal('-', size: 18),
+                AppTextStyle().textBold(LocaleKeys.merchant_name.tr(),
+                    size: Constants().screenheight(context) * 0.025),
+                AppTextStyle().textNormal('-',
+                    size: Constants().screenheight(context) * 0.025),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTextStyle().textBold(LocaleKeys.brand_name.tr(), size: 18),
-                AppTextStyle().textNormal('-', size: 18),
+                AppTextStyle().textBold(LocaleKeys.brand_name.tr(),
+                    size: Constants().screenheight(context) * 0.025),
+                AppTextStyle().textNormal('-',
+                    size: Constants().screenheight(context) * 0.025),
               ],
             ),
           ],
@@ -49,36 +52,19 @@ Column detailBrand(BuildContext context) {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTextStyle().textBold(LocaleKeys.shop_name.tr(), size: 18),
-                AppTextStyle().textNormal('-', size: 18),
+                AppTextStyle().textBold(LocaleKeys.shop_name.tr(),
+                    size: Constants().screenheight(context) * 0.025),
+                AppTextStyle().textNormal('-',
+                    size: Constants().screenheight(context) * 0.025),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTextStyle().textBold(LocaleKeys.shop_key.tr(), size: 18),
-                AppTextStyle().textNormal('-', size: 18),
-              ],
-            ),
-          ],
-        ),
-      ),
-      cardDetail(
-        context,
-        Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppTextStyle().textBold(LocaleKeys.pos_name.tr(), size: 18),
-                AppTextStyle().textNormal('-', size: 18),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppTextStyle().textBold(LocaleKeys.device_key.tr(), size: 18),
-                AppTextStyle().textNormal('6102-1234-5678-1234', size: 18),
+                AppTextStyle().textBold(LocaleKeys.shop_key.tr(),
+                    size: Constants().screenheight(context) * 0.025),
+                AppTextStyle().textNormal('-',
+                    size: Constants().screenheight(context) * 0.025),
               ],
             ),
           ],
@@ -91,9 +77,35 @@ Column detailBrand(BuildContext context) {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppTextStyle()
-                    .textBold(LocaleKeys.store_address.tr(), size: 18),
-                AppTextStyle().textNormal('-', size: 18),
+                AppTextStyle().textBold(LocaleKeys.pos_name.tr(),
+                    size: Constants().screenheight(context) * 0.025),
+                AppTextStyle().textNormal('-',
+                    size: Constants().screenheight(context) * 0.025),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppTextStyle().textBold(LocaleKeys.device_key.tr(),
+                    size: Constants().screenheight(context) * 0.025),
+                AppTextStyle().textNormal('6102-1234-5678-1234',
+                    size: Constants().screenheight(context) * 0.025),
+              ],
+            ),
+          ],
+        ),
+      ),
+      cardDetail(
+        context,
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppTextStyle().textBold(LocaleKeys.store_address.tr(),
+                    size: Constants().screenheight(context) * 0.025),
+                AppTextStyle().textNormal('-',
+                    size: Constants().screenheight(context) * 0.025),
               ],
             ),
           ],
@@ -112,7 +124,9 @@ Widget cardDetail(BuildContext context, Widget widget) {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Container(
-            margin: const EdgeInsets.only(left: 20, right: 25),
+            margin: EdgeInsets.only(
+                left: Constants().screenheight(context) * 0.025,
+                right: Constants().screenheight(context) * 0.025),
             child: widget,
           ),
         ],
@@ -126,7 +140,9 @@ Container saveConfigBtn(BuildContext context) {
     alignment: Alignment.center,
     height: Constants().screenheight(context) * 0.09,
     width: Constants().screenWidth(context) * 0.45,
-    margin: const EdgeInsets.only(top: 15),
+    margin: EdgeInsets.only(
+        top: Constants().screenheight(context) * 0.02,
+        bottom: Constants().screenheight(context) * 0.02),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
       gradient: const LinearGradient(
@@ -145,19 +161,21 @@ Container saveConfigBtn(BuildContext context) {
       ],
     ),
     child: Padding(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-              margin: const EdgeInsets.only(right: 25),
-              child: const Icon(
+              margin: EdgeInsets.only(
+                  right: Constants().screenheight(context) * 0.03),
+              child: Icon(
                 Icons.done,
-                size: 40,
+                size: Constants().screenheight(context) * 0.055,
                 color: Colors.white,
               )),
           AppTextStyle().textNormal(LocaleKeys.save_config.tr(),
-              size: 20, color: Colors.white),
+              size: Constants().screenheight(context) * 0.03,
+              color: Colors.white),
         ],
       ),
     ),
@@ -168,7 +186,7 @@ Column baseUrlConfig(BuildContext context) {
   return Column(
     children: [
       Container(
-        margin: const EdgeInsets.only(top: 20),
+        margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.023),
         width: Constants().screenWidth(context) * 0.6,
         child: TextField(
           decoration: InputDecoration(
@@ -176,25 +194,30 @@ Column baseUrlConfig(BuildContext context) {
               fillColor: Colors.grey.shade100.withOpacity(0.1),
               labelText: "Platform API Base Url",
               border: Constants().myinputborder(),
-              prefixIcon: const Padding(
-                padding: EdgeInsets.only(left: 25, right: 25),
+              prefixIcon: Padding(
+                padding: EdgeInsets.only(
+                    left: Constants().screenheight(context) * 0.04,
+                    right: Constants().screenheight(context) * 0.04),
                 child: Icon(
                   Icons.cloud_outlined,
-                  size: 40,
+                  size: Constants().screenheight(context) * 0.05,
                 ),
               ),
-              suffixIcon: const Padding(
-                padding: EdgeInsets.only(right: 15),
-                child: Icon(Icons.cancel),
+              suffixIcon: Padding(
+                padding: EdgeInsets.only(
+                    right: Constants().screenheight(context) * 0.02),
+                child: const Icon(Icons.cancel),
               )),
-          style: const TextStyle(color: Constants.textColor, fontSize: 20),
+          style: TextStyle(
+              color: Constants.textColor,
+              fontSize: Constants().screenheight(context) * 0.03),
         ),
       ),
       Container(
         alignment: Alignment.center,
         height: Constants().screenheight(context) * 0.09,
         width: Constants().screenWidth(context) * 0.45,
-        margin: const EdgeInsets.only(top: 15),
+        margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.02),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           gradient: const LinearGradient(
@@ -213,19 +236,21 @@ Column baseUrlConfig(BuildContext context) {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                  margin: const EdgeInsets.only(right: 25),
-                  child: const Icon(
+                  margin: EdgeInsets.only(
+                      right: Constants().screenheight(context) * 0.03),
+                  child: Icon(
                     Icons.cloud_done_outlined,
-                    size: 40,
+                    size: Constants().screenheight(context) * 0.055,
                     color: Colors.white,
                   )),
               AppTextStyle().textNormal(LocaleKeys.get_shop_data.tr(),
-                  size: 20, color: Colors.white),
+                  size: Constants().screenheight(context) * 0.03,
+                  color: Colors.white),
             ],
           ),
         ),

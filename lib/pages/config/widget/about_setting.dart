@@ -23,7 +23,7 @@ Container loadDataSetting(BuildContext context, ConfigProvider configRead,
     alignment: Alignment.center,
     height: Constants().screenheight(context) * 0.1,
     width: Constants().screenWidth(context) * 0.66,
-    margin: const EdgeInsets.only(top: 15),
+    margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.015),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
       gradient: const LinearGradient(
@@ -43,7 +43,9 @@ Container loadDataSetting(BuildContext context, ConfigProvider configRead,
       ],
     ),
     child: Padding(
-      padding: const EdgeInsets.only(left: 40, right: 40),
+      padding: EdgeInsets.only(
+          left: Constants().screenheight(context) * 0.05,
+          right: Constants().screenheight(context) * 0.05),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -53,7 +55,7 @@ Container loadDataSetting(BuildContext context, ConfigProvider configRead,
             children: [
               AppTextStyle().textNormal(
                 LocaleKeys.get_new_data.tr(),
-                size: 20,
+                size: Constants().screenheight(context) * 0.03,
                 color: Colors.white,
               ),
               AppTextStyle().textNormal(LocaleKeys.get_new_data_detail.tr(),
@@ -63,7 +65,7 @@ Container loadDataSetting(BuildContext context, ConfigProvider configRead,
           const Spacer(),
           Container(
             width: Constants().screenWidth(context) * 0.15,
-            height:Constants().screenheight(context) * 0.065,
+            height: Constants().screenheight(context) * 0.065,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               color: Constants.secondaryColor,
@@ -76,7 +78,7 @@ Container loadDataSetting(BuildContext context, ConfigProvider configRead,
                   color: configWatch.getNewDataSwitch
                       ? Constants.primaryColor
                       : Colors.grey.shade500,
-                  size: 40,
+                  size: Constants().screenheight(context) * 0.055,
                 ),
                 Switch(
                   value: configWatch.getNewDataSwitch,

@@ -6,14 +6,13 @@ import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 Center paymentTab(
     BuildContext context, MenuProvider menuRead, MenuProvider menuWatch) {
   return Center(
     child: Padding(
-      padding: const EdgeInsets.all(5),
+      padding: EdgeInsets.all(Constants().screenheight(context) * 0.004),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -24,10 +23,10 @@ Center paymentTab(
                 children: <Widget>[
                   Container(
                     color: Colors.white,
-                    height: Constants().screenheight(context) * 0.37,
+                    height: Constants().screenheight(context) * 0.35,
                     child: Column(
                       children: <Widget>[
-                        titlePaymentList(),
+                        titlePaymentList(context),
                         paymentList(context, menuWatch, menuRead)
                       ],
                     ),
@@ -289,11 +288,12 @@ Container bangNotes(BuildContext context, MenuProvider menuWatch) {
 SizedBox paymentList(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
   return SizedBox(
-    height: Constants().screenheight(context) * 0.33,
+    height: Constants().screenheight(context) * 0.3,
     child: SingleChildScrollView(
       child: menuWatch.payAmountList!.isEmpty
           ? Container(
-              margin: const EdgeInsets.only(top: 50),
+              margin: EdgeInsets.only(
+                  top: Constants().screenheight(context) * 0.07),
               child: AppTextStyle().textNormal('There is no pay amount.'),
             )
           : Column(
@@ -327,7 +327,8 @@ SizedBox paymentList(
                             alignment: Alignment.center,
                             child: AppTextStyle().textNormal(
                                 menuWatch.payAmountList![index].payName!,
-                                size: 16),
+                                size:
+                                    Constants().screenheight(context) * 0.025),
                           ),
                         ),
                         Expanded(
@@ -336,7 +337,8 @@ SizedBox paymentList(
                             alignment: Alignment.center,
                             child: AppTextStyle().textNormal(
                                 menuWatch.payAmountList![index].payRemark!,
-                                size: 16),
+                                size:
+                                    Constants().screenheight(context) * 0.025),
                           ),
                         ),
                         Expanded(
@@ -346,7 +348,8 @@ SizedBox paymentList(
                             child: AppTextStyle().textNormal(
                                 menuWatch.payAmountList![index].price
                                     .toString(),
-                                size: 16),
+                                size:
+                                    Constants().screenheight(context) * 0.025),
                           ),
                         )
                       ],
@@ -359,28 +362,31 @@ SizedBox paymentList(
   );
 }
 
-Row titlePaymentList() {
+Row titlePaymentList(BuildContext context) {
   return Row(
     children: <Widget>[
       Expanded(
         flex: 2,
         child: Container(
           alignment: Alignment.center,
-          child: AppTextStyle().textBold('ประเภทรายจ่าย', size: 20),
+          child: AppTextStyle().textBold('ประเภทรายจ่าย',
+              size: Constants().screenheight(context) * 0.03),
         ),
       ),
       Expanded(
         flex: 3,
         child: Container(
           alignment: Alignment.center,
-          child: AppTextStyle().textBold('รายละเอียด', size: 20),
+          child: AppTextStyle().textBold('รายละเอียด',
+              size: Constants().screenheight(context) * 0.03),
         ),
       ),
       Expanded(
         flex: 1,
         child: Container(
           alignment: Alignment.center,
-          child: AppTextStyle().textBold('ราคา', size: 20),
+          child: AppTextStyle()
+              .textBold('ราคา', size: Constants().screenheight(context) * 0.03),
         ),
       )
     ],
@@ -390,7 +396,7 @@ Row titlePaymentList() {
 Container totalPayAmount(
     BuildContext context, MenuProvider menuRead, MenuProvider menuWatch) {
   return Container(
-    margin: const EdgeInsets.only(top: 5),
+    margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.01),
     height: Constants().screenheight(context) * 0.08,
     child: Row(
       children: <Widget>[
@@ -409,17 +415,17 @@ Container totalPayAmount(
               onPressed: () {
                 menuRead.managePayAmountList(context, 'clear');
               },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.delete, size: 30, color: Colors.white),
-                    const SizedBox(width: 5),
-                    AppTextStyle()
-                        .textBold('Clear', size: 20, color: Colors.white)
-                  ],
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.delete,
+                      size: Constants().screenheight(context) * 0.045,
+                      color: Colors.white),
+                  SizedBox(width: Constants().screenheight(context) * 0.015),
+                  AppTextStyle().textBold('Clear',
+                      size: Constants().screenheight(context) * 0.03,
+                      color: Colors.white)
+                ],
               ),
             ),
           ),
@@ -428,7 +434,8 @@ Container totalPayAmount(
           flex: 1,
           child: Container(
             alignment: Alignment.centerRight,
-            child: AppTextStyle().textBold('Total pay amount :  ', size: 16),
+            child: AppTextStyle().textBold('Total pay amount :  ',
+                size: Constants().screenheight(context) * 0.023),
           ),
         ),
         Expanded(
@@ -450,7 +457,9 @@ Container totalPayAmount(
                 borderSide: BorderSide(color: Colors.black26),
               ),
             ),
-            style: const TextStyle(color: Constants.textColor, fontSize: 20),
+            style: TextStyle(
+                color: Constants.textColor,
+                fontSize: Constants().screenheight(context) * 0.03),
           ),
         ),
       ],
@@ -462,7 +471,7 @@ Container inputTextField(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
   return Container(
     height: Constants().screenheight(context) * 0.08,
-    margin: const EdgeInsets.only(top: 10),
+    margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.015),
     child: Row(
       children: [
         Expanded(
@@ -482,7 +491,9 @@ Container inputTextField(
                 borderSide: BorderSide(color: Colors.black26),
               ),
             ),
-            style: const TextStyle(color: Constants.textColor, fontSize: 20),
+            style: TextStyle(
+                color: Constants.textColor,
+                fontSize: Constants().screenheight(context) * 0.025),
           ),
         ),
         Expanded(
@@ -498,8 +509,9 @@ Container inputTextField(
                       borderRadius: BorderRadius.circular(10)),
                 ),
                 onPressed: () => menuRead.clearPayAmount(),
-                child: AppTextStyle()
-                    .textBold('C', size: 25, color: Colors.white)),
+                child: AppTextStyle().textBold('C',
+                    size: Constants().screenheight(context) * 0.034,
+                    color: Colors.white)),
           ),
         ),
         Expanded(
@@ -524,7 +536,8 @@ Container inputTextField(
                 }
               },
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:
+                    EdgeInsets.all(Constants().screenheight(context) * 0.01),
                 child: Image.asset('assets/enter1.png', color: Colors.white),
               ),
             ),
@@ -545,7 +558,9 @@ Expanded listPaymentType(
         child: Column(
           children: <Widget>[
             Container(
-              margin: const EdgeInsets.only(bottom: 10, top: 5),
+              margin: EdgeInsets.only(
+                  bottom: Constants().screenheight(context) * 0.015,
+                  top: Constants().screenheight(context) * 0.008),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton2<String>(
                   isExpanded: true,
@@ -559,23 +574,27 @@ Expanded listPaymentType(
                   buttonStyleData: ButtonStyleData(
                     height: Constants().screenheight(context) * 0.07,
                     width: Constants().screenWidth(context) * 0.19,
-                    padding: const EdgeInsets.only(left: 14, right: 20),
+                    padding: EdgeInsets.only(
+                        left: Constants().screenheight(context) * 0.02,
+                        right: Constants().screenheight(context) * 0.025),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.black26,
                       ),
                     ),
                   ),
-                  iconStyleData: const IconStyleData(
-                    icon: Icon(
+                  iconStyleData: IconStyleData(
+                    icon: const Icon(
                       Icons.arrow_forward_ios_outlined,
                     ),
-                    iconSize: 14,
+                    iconSize: Constants().screenheight(context) * 0.02,
                     iconEnabledColor: Colors.black,
                   ),
                   menuItemStyleData: MenuItemStyleData(
                     height: Constants().screenheight(context) * 0.07,
-                    padding: const EdgeInsets.only(left: 14, right: 14),
+                    padding: EdgeInsets.only(
+                        left: Constants().screenheight(context) * 0.02,
+                        right: Constants().screenheight(context) * 0.025),
                   ),
                 ),
               ),
@@ -599,7 +618,8 @@ Expanded listPaymentType(
                             menuWatch: menuWatch);
                       },
                       child: Container(
-                        margin: const EdgeInsets.only(bottom: 13),
+                        margin: EdgeInsets.only(
+                            bottom: Constants().screenheight(context) * 0.018),
                         child: ContainerStyle(
                           height: Constants().screenheight(context) * 0.1,
                           width: Constants().screenWidth(context) * 0.19,
@@ -608,7 +628,7 @@ Expanded listPaymentType(
                           selected: false,
                           widget: AppTextStyle().textNormal(
                               menuWatch.payTypeInfoList![index].payTypeName!,
-                              size: 18,
+                              size: Constants().screenheight(context) * 0.025,
                               color: Colors.white),
                         ),
                       ),
