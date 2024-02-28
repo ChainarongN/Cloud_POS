@@ -1,9 +1,11 @@
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style_2.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -167,12 +169,21 @@ Row binButton(
     children: [
       GestureDetector(
         onTap: () async {
-          LoadingStyle().dialogLoadding(context);
-          await menuRead.orderSummary(context).then((value) {
-            if (menuWatch.apiState == ApiState.COMPLETED) {
-              dialogResultHtml(context, menuWatch.getHtmlOrderSummary);
-            }
-          });
+          if (menuWatch.productAddModel == null ||
+              menuWatch.productAddModel!.responseCode!.isNotEmpty ||
+              menuWatch.productAddModel!.responseObj!.orderList!.isEmpty) {
+            LoadingStyle().dialogError(context,
+                error: LocaleKeys.must_have_at_least_1_order.tr(),
+                isPopUntil: true,
+                popToPage: '/menuPage');
+          } else {
+            LoadingStyle().dialogLoadding(context);
+            await menuRead.orderSummary(context).then((value) {
+              if (menuWatch.apiState == ApiState.COMPLETED) {
+                dialogResultHtml(context, menuWatch.getHtmlOrderSummary);
+              }
+            });
+          }
         },
         child: Container(
           width: Constants().screenWidth(context) * 0.15,
@@ -291,7 +302,7 @@ Row couponList(BuildContext context) {
               Icon(Icons.adb_rounded,
                   color: Colors.black54,
                   size: Constants().screenheight(context) * 0.028),
-              AppTextStyle().textNormal('ส่วนลด อื่นๆ'),
+              AppTextStyle().textNormal(LocaleKeys.discount_other.tr()),
             ],
           ),
         ),
@@ -319,7 +330,7 @@ Row couponList(BuildContext context) {
               Icon(Icons.adb_rounded,
                   color: Colors.black54,
                   size: Constants().screenheight(context) * 0.028),
-              AppTextStyle().textNormal('ส่วนลด'),
+              AppTextStyle().textNormal(LocaleKeys.discount.tr()),
             ],
           ),
         ),
@@ -470,7 +481,9 @@ SizedBox orderList(
           menuWatch.productAddModel!.responseObj!.orderList!.isEmpty
       ? SizedBox(
           height: Constants().screenheight(context) * 0.3,
-          child: Center(child: AppTextStyle().textNormal('There is no menu.')),
+          child: Center(
+              child:
+                  AppTextStyle().textNormal(LocaleKeys.there_is_no_menu.tr())),
         )
       : SizedBox(
           height: Constants().screenheight(context) * 0.3,
@@ -504,7 +517,7 @@ SizedBox orderList(
                                       GestureDetector(
                                         onTap: () => Navigator.pop(context),
                                         child: AppTextStyle().textNormal(
-                                            'Cancel',
+                                            LocaleKeys.cancel.tr(),
                                             color: Colors.red),
                                       ),
                                       SizedBox(
@@ -513,7 +526,8 @@ SizedBox orderList(
                                               0.025),
                                       GestureDetector(
                                         onTap: () => Navigator.pop(context),
-                                        child: AppTextStyle().textBold('OK',
+                                        child: AppTextStyle().textBold(
+                                            LocaleKeys.ok.tr(),
                                             color: Constants.primaryColor),
                                       ),
                                     ],

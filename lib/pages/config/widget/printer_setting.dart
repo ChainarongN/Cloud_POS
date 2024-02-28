@@ -1,10 +1,16 @@
-import 'package:cloud_pos/providers/provider.dart';
+import 'dart:typed_data';
+
+import 'package:cloud_pos/providers/config_provider.dart';
+import 'package:cloud_pos/service/printer.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+// import 'package:pdf/pdf.dart';
+// import 'package:pdf/widgets.dart' as pdf;
+// import 'package:image/image.dart' as im;
 
 SingleChildScrollView printerSetting(BuildContext context,
     ConfigProvider configRead, ConfigProvider configWatch) {
@@ -31,19 +37,20 @@ Container btnSave(BuildContext context) {
     margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.025),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-      gradient: const LinearGradient(
+      gradient: LinearGradient(
         colors: [
-          Color.fromARGB(255, 113, 134, 255),
-          Color.fromARGB(255, 157, 198, 255),
+          Colors.blue.shade200,
+          Colors.blue.shade400,
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
-      boxShadow: const [
+      boxShadow: [
         BoxShadow(
-            color: Color.fromARGB(255, 157, 198, 255),
-            blurRadius: 8,
-            offset: Offset(0, 6)),
+          color: Colors.blue.shade200,
+          blurRadius: 8,
+          offset: const Offset(0, 6),
+        ),
       ],
     ),
     child: Padding(
@@ -68,46 +75,77 @@ Container btnSave(BuildContext context) {
   );
 }
 
-Container testPrintBtn(BuildContext context) {
-  return Container(
-    alignment: Alignment.center,
-    height: Constants().screenheight(context) * 0.09,
-    width: Constants().screenWidth(context) * 0.32,
-    margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.02),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10),
-      gradient: const LinearGradient(
-        colors: [
-          Color.fromARGB(255, 138, 196, 255),
-          Color.fromARGB(255, 182, 212, 255),
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
-      boxShadow: const [
-        BoxShadow(
-            color: Color.fromARGB(255, 182, 212, 255),
+// Future<dynamic> showCapturedWidget(
+//     BuildContext context, Uint8List capturedImage) {
+//   return showDialog(
+//     useSafeArea: false,
+//     context: context,
+//     builder: (context) => Scaffold(
+//       appBar: AppBar(
+//         title: Text("Captured widget screenshot"),
+//       ),
+//       body: PdfPreview(
+//         build: (_) => _buildDocument(),
+//         allowPrinting: false,
+//         canChangeOrientation: false,
+//         canChangePageFormat: false,
+//         actions: [
+//           PdfPreviewAction(
+//             icon: const Icon(Icons.print),
+//             onPressed: (context, build, pageFormat) => _print(),
+//           )
+//         ],
+//       ),
+//     ),
+//   );
+// }
+
+GestureDetector testPrintBtn(BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      Printer().printer();
+    },
+    child: Container(
+      alignment: Alignment.center,
+      height: Constants().screenheight(context) * 0.09,
+      width: Constants().screenWidth(context) * 0.32,
+      margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.02),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          colors: [
+            Colors.blue.shade200,
+            Colors.blue.shade400,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.blue.shade200,
             blurRadius: 8,
-            offset: Offset(0, 6)),
-      ],
-    ),
-    child: Padding(
-      padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-              margin: EdgeInsets.only(
-                  right: Constants().screenheight(context) * 0.02),
-              child: Icon(
-                Icons.print,
-                size: Constants().screenheight(context) * 0.05,
-                color: Colors.white,
-              )),
-          AppTextStyle().textNormal(LocaleKeys.test_print.tr(),
-              size: Constants().screenheight(context) * 0.027,
-              color: Colors.white),
+            offset: const Offset(0, 6),
+          ),
         ],
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                margin: EdgeInsets.only(
+                    right: Constants().screenheight(context) * 0.02),
+                child: Icon(
+                  Icons.print,
+                  size: Constants().screenheight(context) * 0.05,
+                  color: Colors.white,
+                )),
+            AppTextStyle().textNormal(LocaleKeys.test_print.tr(),
+                size: Constants().screenheight(context) * 0.027,
+                color: Colors.white),
+          ],
+        ),
       ),
     ),
   );
@@ -127,7 +165,7 @@ SizedBox printerAddress(BuildContext context) {
               size: Constants().screenheight(context) * 0.027),
           const Spacer(),
           SizedBox(
-            width: Constants().screenWidth(context) * 0.44,
+            width: Constants().screenWidth(context) * 0.4,
             child: TextField(
               decoration: InputDecoration(
                   filled: true,
@@ -278,19 +316,19 @@ Container receiptPrinter(BuildContext context, ConfigProvider configRead,
     margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.02),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-      gradient: const LinearGradient(
+      gradient: LinearGradient(
         colors: [
-          Color.fromARGB(255, 113, 134, 255),
-          Color.fromARGB(255, 157, 198, 255),
+          Colors.blue.shade200,
+          Colors.blue.shade400,
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
-      boxShadow: const [
+      boxShadow: [
         BoxShadow(
-          color: Color.fromARGB(255, 157, 198, 255),
+          color: Colors.blue.shade200,
           blurRadius: 8,
-          offset: Offset(0, 6),
+          offset: const Offset(0, 6),
         ),
       ],
     ),

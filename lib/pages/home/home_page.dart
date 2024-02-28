@@ -5,9 +5,11 @@ import 'package:cloud_pos/pages/home/widgets/drawer.dart';
 import 'package:cloud_pos/pages/home/widgets/group_list.dart';
 import 'package:cloud_pos/pages/home/widgets/nationality.dart';
 import 'package:cloud_pos/pages/home/widgets/sex.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/provider.dart';
@@ -58,14 +60,14 @@ class _HomePageState extends State<HomePage> {
                           addCustomer(context, homeWatch, homeRead),
                           SizedBox(
                               height: Constants().screenheight(context) * 0.03),
-                          AppTextStyle().textBold('สัญชาติ'),
+                          AppTextStyle().textBold(LocaleKeys.nationality.tr()),
                           SizedBox(
                               height:
                                   Constants().screenheight(context) * 0.024),
                           nationality(homeWatch, homeRead, context),
                           SizedBox(
                               height: Constants().screenheight(context) * 0.02),
-                          AppTextStyle().textBold('เพศ'),
+                          AppTextStyle().textBold(LocaleKeys.sex.tr()),
                           SizedBox(
                               height: Constants().screenheight(context) * 0.02),
                           sex(homeWatch, homeRead, context),

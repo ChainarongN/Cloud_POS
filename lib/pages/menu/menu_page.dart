@@ -7,10 +7,12 @@ import 'package:cloud_pos/pages/menu/widgets/tabview/menu_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/payment_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/search_tab.dart';
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,13 +38,14 @@ class _MenuPageState extends State<MenuPage>
 
     return Scaffold(
       appBar: AppBar(
-        title: AppTextStyle().textNormal('Menu'),
+        title: AppTextStyle().textNormal(LocaleKeys.menu.tr()),
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
               LoadingStyle().confirmDialog2(context,
-                  title: 'Cancel Transaction',
-                  detail: 'You need cancel transaction. ?', onPressed: () {
+                  title: LocaleKeys.cancel_transaction.tr(),
+                  detail: LocaleKeys.You_need_cancel_transaction.tr(),
+                  onPressed: () {
                 Navigator.maybePop(context).then((value) {
                   menuRead.clearReasonText();
                   menuRead.setExceptionText('');

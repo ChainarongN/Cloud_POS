@@ -1,5 +1,7 @@
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -25,7 +27,8 @@ class LoaddingData extends StatelessWidget {
                 size: 110,
               ),
             ),
-            AppTextStyle().textNormal('Loading please wait ...', size: 18),
+            AppTextStyle()
+                .textNormal(LocaleKeys.loading_please_wait.tr(), size: 18),
           ],
         ),
       ),

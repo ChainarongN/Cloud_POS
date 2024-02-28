@@ -1,4 +1,6 @@
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_dialogs/material_dialogs.dart';
@@ -17,8 +19,8 @@ class LoadingStyle {
       color: Colors.white,
       titleStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       msgStyle: const TextStyle(fontSize: 18),
-      msg: 'Change $text  THB.',
-      title: 'Payment Success',
+      msg: '${LocaleKeys.change.tr()} $text  THB.',
+      title: LocaleKeys.payment_Success.tr(),
       lottieBuilder: Lottie.asset(
         'assets/payment_success.json',
         fit: BoxFit.contain,
@@ -33,7 +35,7 @@ class LoadingStyle {
                     .popUntil(ModalRoute.withName(popToPage!))
                 : Navigator.pop(context);
           },
-          text: 'OK',
+          text: LocaleKeys.ok.tr(),
           iconData: Icons.done,
           color: Colors.blue,
           textStyle: const TextStyle(color: Colors.white),
@@ -57,7 +59,7 @@ class LoadingStyle {
         actions: [
           IconsButton(
             onPressed: onPressed!,
-            text: 'OK',
+            text: LocaleKeys.ok.tr(),
             iconData: Icons.done,
             color: Colors.red,
             textStyle: const TextStyle(color: Colors.white),
@@ -67,7 +69,7 @@ class LoadingStyle {
             onPressed: () {
               Navigator.pop(context);
             },
-            text: 'Cancel',
+            text: LocaleKeys.cancel.tr(),
             iconData: Icons.cancel_outlined,
             textStyle: const TextStyle(color: Colors.grey),
             iconColor: Colors.grey,
@@ -93,7 +95,7 @@ class LoadingStyle {
       titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       // msgStyle: const TextStyle(fontSize: 16, overflow: TextOverflow.fade),
       msg: error,
-      title: 'Something went wrong',
+      title: LocaleKeys.something_went_wrong.tr(),
       lottieBuilder: Lottie.asset(
         'assets/error_lottie.json',
         fit: BoxFit.contain,
@@ -108,7 +110,7 @@ class LoadingStyle {
                     .popUntil(ModalRoute.withName(popToPage!))
                 : Navigator.pop(context);
           },
-          text: 'OK',
+          text: LocaleKeys.ok.tr(),
           iconData: Icons.done,
           color: Colors.blue,
           textStyle: const TextStyle(color: Colors.white),

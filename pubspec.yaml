@@ -35,10 +35,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   provider: ^6.1.1
-  http: ^1.2.0
+  # http: ^1.2.0
   dropdown_button2: ^2.3.9
   flutter_slidable: ^3.0.1
-  dio: ^5.4.0
+  dio: ^5.4.1
   shared_preferences: ^2.2.2
   material_dialogs: ^1.1.4
   path_provider: ^2.1.2
@@ -50,6 +50,13 @@ dependencies:
   package_info_plus: ^5.0.1
   firebase_core: ^2.25.4
   lottie: ^2.7.0
+
+  esc_pos_printer:
+  esc_pos_utils:
+  image:
+  # pdf:
+  # html_to_pdf_plus: 
+  # printing:
 
 dev_dependencies:
   flutter_test:

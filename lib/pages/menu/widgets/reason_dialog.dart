@@ -1,8 +1,10 @@
 import 'package:cloud_pos/providers/menu_provider.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,8 +13,7 @@ Future<void> reasonDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) => Consumer<MenuProvider>(
       builder: (context, dataProvider, child) => AlertDialog(
-        title: AppTextStyle().textNormal(
-            'Close Transaction : Please select your reason.',
+        title: AppTextStyle().textNormal(LocaleKeys.close_tran_title.tr(),
             size: Constants().screenheight(context) * 0.03),
         content: SizedBox(
           width: Constants().screenWidth(context),
@@ -29,7 +30,7 @@ Future<void> reasonDialog(BuildContext context) {
         ),
         actions: <Widget>[
           TextButton(
-            child: AppTextStyle().textNormal('OK',
+            child: AppTextStyle().textNormal(LocaleKeys.ok.tr(),
                 size: Constants().screenheight(context) * 0.03),
             onPressed: () async {
               if (dataProvider.getReasonText.text.isNotEmpty ||
@@ -37,13 +38,13 @@ Future<void> reasonDialog(BuildContext context) {
                 LoadingStyle().dialogLoadding(context);
                 await dataProvider.cancelTransaction(context);
               } else {
-                dataProvider
-                    .setExceptionText('Please select or input your reason');
+                dataProvider.setExceptionText(
+                    LocaleKeys.please_select_or_input_your_reason.tr());
               }
             },
           ),
           TextButton(
-            child: AppTextStyle().textNormal('Cancel',
+            child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
                 size: Constants().screenheight(context) * 0.03,
                 color: Colors.red),
             onPressed: () async {
@@ -90,7 +91,7 @@ SingleChildScrollView resultData(
               primaryColor: Constants.primaryColor,
               secondaryColor: Colors.blue.shade800,
               selected: false,
-              widget: AppTextStyle().textNormal('Clear',
+              widget: AppTextStyle().textNormal(LocaleKeys.clear.tr(),
                   size: Constants().screenheight(context) * 0.02,
                   color: Colors.white),
             ),
@@ -105,7 +106,7 @@ SingleChildScrollView resultData(
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white.withOpacity(0.3),
-              labelText: 'Input your other reason text',
+              labelText: LocaleKeys.input_you_other_reason.tr(),
               border: Constants().myColorborder(Constants.textColor),
               enabledBorder: Constants().myColorborder(Constants.textColor),
               focusedBorder: Constants().myColorborder(Constants.textColor),
@@ -113,7 +114,7 @@ SingleChildScrollView resultData(
                 padding: EdgeInsets.only(
                     left: Constants().screenheight(context) * 0.025,
                     right: Constants().screenheight(context) * 0.015),
-                child: Icon(Icons.border_color_outlined),
+                child: const Icon(Icons.border_color_outlined),
               ),
             ),
             style: TextStyle(
@@ -140,8 +141,8 @@ SizedBox detailReason(BuildContext context, MenuProvider dataProvider) {
     child: dataProvider.reasonModel == null ||
             dataProvider.reasonModel!.responseCode!.isNotEmpty
         ? Center(
-            child:
-                AppTextStyle().textNormal('Something wrong. please try again'),
+            child: AppTextStyle()
+                .textNormal(LocaleKeys.Something_wrong_please_try_again.tr()),
           )
         : SingleChildScrollView(
             child: Wrap(

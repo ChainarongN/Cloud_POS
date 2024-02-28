@@ -1,4 +1,6 @@
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CustomErrorWidget extends StatelessWidget {
@@ -19,7 +21,7 @@ class CustomErrorWidget extends StatelessWidget {
           ),
           Column(
             children: [
-              AppTextStyle().textNormal('Something went wrong',
+              AppTextStyle().textNormal(LocaleKeys.something_went_wrong.tr(),
                   size: 20, color: Colors.red),
               AppTextStyle().textNormal(errorMessage)
             ],

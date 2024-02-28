@@ -1,5 +1,7 @@
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 Drawer drawer(BuildContext context) {
@@ -17,53 +19,53 @@ Drawer drawer(BuildContext context) {
               ),
               child: Text('Drawer Header'),
             ),
-            Text('Menu',
+            Text(LocaleKeys.menu.tr(),
                 style: TextStyle(
-                    fontSize: Constants().screenheight(context) * 0.01,
+                    fontSize: Constants().screenheight(context) * 0.02,
                     color: Colors.black26)),
             SizedBox(height: Constants().screenheight(context) * 0.01),
             ListTile(
               title: AppTextStyle().textNormal(
-                'Working Time',
+                LocaleKeys.working_time.tr(),
               ),
               leading: Icon(Icons.access_alarm),
               onTap: () {},
             ),
             ListTile(
-              title: AppTextStyle().textNormal('Out of Stock'),
+              title: AppTextStyle().textNormal(LocaleKeys.out_of_stock.tr()),
               leading: Icon(Icons.access_alarm),
               onTap: () {},
             ),
             ListTile(
-              title: AppTextStyle().textNormal('Reports'),
+              title: AppTextStyle().textNormal(LocaleKeys.reports.tr()),
               leading: Icon(Icons.access_alarm),
               onTap: () {},
             ),
             ListTile(
-              title: AppTextStyle().textNormal('Utility'),
+              title: AppTextStyle().textNormal(LocaleKeys.utility.tr()),
               leading: const Icon(Icons.build),
               onTap: () {
                 Navigator.pushNamed(context, '/utilityPage');
               },
             ),
             ListTile(
-              title: AppTextStyle().textNormal('News'),
+              title: AppTextStyle().textNormal(LocaleKeys.news.tr()),
               leading: Icon(Icons.access_alarm),
               onTap: () {},
             ),
             ListTile(
-              title: AppTextStyle().textNormal('Sync : 7'),
+              title: AppTextStyle().textNormal('${LocaleKeys.sync.tr()} : 7'),
               leading: Icon(Icons.access_alarm),
               onTap: () {},
             ),
             Divider(),
             ListTile(
-              title: AppTextStyle().textNormal('Switch User'),
+              title: AppTextStyle().textNormal(LocaleKeys.switch_user.tr()),
               leading: Icon(Icons.access_alarm),
               onTap: () {},
             ),
             ListTile(
-              title: AppTextStyle().textNormal('Log Off'),
+              title: AppTextStyle().textNormal(LocaleKeys.log_off.tr()),
               leading: Icon(Icons.power_settings_new),
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(
