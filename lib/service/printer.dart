@@ -1,28 +1,27 @@
+import 'dart:io';
+
 import 'package:esc_pos_printer/esc_pos_printer.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:flutter/services.dart';
+
 import 'package:image/image.dart';
 import 'package:path_provider/path_provider.dart';
-// import 'package:pdf/pdf.dart';
-// import 'package:pdf/widgets.dart' as pw;
-// import 'package:printing/printing.dart';
 
 class Printer {
   Printer._internal();
   static final Printer _instance = Printer._internal();
   factory Printer() => _instance;
 
-  // Future printer(BuildContext context) async {
-  // htmlToImage(context);
-
+//   Future printer(BuildContext context) async {
+//     // htmlToImage();
 //     const PaperSize paper = PaperSize.mm80;
 //     final profile = await CapabilityProfile.load();
 //     final printer = NetworkPrinter(paper, profile);
 //
 //     final PosPrintResult res =
 //         await printer.connect('192.168.1.137', port: 9100);
-//     Image image = await getImage();
+//     Image image = await htmlToImage();
 //
 //     if (res == PosPrintResult.success) {
 //       await testReceipt(printer, image);
@@ -30,21 +29,10 @@ class Printer {
 //     }
 //
 //     print('Print result: ${res.msg}');
-  // }
-
-//   Future htmlToImage(BuildContext context) async {
-//     final directory = await getApplicationDocumentsDirectory();
-//     var targetPath = directory.path;
-//     var targetFileName = "example_pdf_file";
-//
-//     final pdf = pw.Document();
-//     final widgets = await HTMLToPdf().convert(htmlTest);
-//     pdf.addPage(pw.MultiPage(build: (context) => widgets));
-//     return await pdf.save();
 //   }
-
-//   Future htmlToImage(BuildContext context) async {
-//     final directory = await getApplicationDocumentsDirectory();
+//
+//   Future<Image> htmlToImage() async {
+//     final Directory directory = await getApplicationDocumentsDirectory();
 //     var targetPath = directory.path;
 //     var targetFileName = "example_pdf_file";
 //
@@ -53,10 +41,19 @@ class Printer {
 //         configuration: PdfConfiguration(
 //           targetDirectory: targetPath,
 //           targetName: targetFileName,
+//           printSize: PrintSize.A4,
+//           printOrientation: PrintOrientation.Landscape,
 //         ));
+//
+//     final File file = File('${directory.path}/example_pdf_file.pdf');
+//
+//     Uint8List bytes = file.readAsBytesSync();
+//     final Image? image = decodeImage(bytes);
+//
+//     return image!;
 //   }
 
-  Future printer() async {
+  Future printer(Uint8List image8List) async {
     const PaperSize paper = PaperSize.mm80;
     final profile = await CapabilityProfile.load();
     final printer = NetworkPrinter(paper, profile);
@@ -64,9 +61,11 @@ class Printer {
     final PosPrintResult res =
         await printer.connect('192.168.1.137', port: 9100);
     Image image = await getImage();
+    // final Image? imageResult = decodeImage(image8List);
 
     if (res == PosPrintResult.success) {
       await testReceipt(printer, image);
+      // await testReceipt(printer, imageResult);
       printer.disconnect();
     }
 
@@ -74,28 +73,27 @@ class Printer {
   }
 
   Future<void> testReceipt(NetworkPrinter printer, Image? image) async {
-    printer.text(
-        'Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
-    printer.text('Special 1: àÀ èÈ éÉ ûÛ üÜ çÇ ôÔ',
-        styles: const PosStyles(codeTable: 'CP1252'));
-    printer.text('Special 2: blåbærgrød',
-        styles: const PosStyles(codeTable: 'CP1252'));
-
-    printer.text('Bold text', styles: const PosStyles(bold: true));
-    printer.text('Reverse text', styles: const PosStyles(reverse: true));
-    printer.text('Underlined text',
-        styles: const PosStyles(underline: true), linesAfter: 1);
-    printer.text('Align left', styles: const PosStyles(align: PosAlign.left));
-    printer.text('Align center',
-        styles: const PosStyles(align: PosAlign.center));
-    printer.text('Align right',
-        styles: const PosStyles(align: PosAlign.right), linesAfter: 1);
-
-    printer.text('Text size 200%',
-        styles: const PosStyles(
-          height: PosTextSize.size2,
-          width: PosTextSize.size2,
-        ));
+//     printer.text(
+//         'Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
+//     printer.text('Special 1: àÀ èÈ éÉ ûÛ üÜ çÇ ôÔ',
+//         styles: const PosStyles(codeTable: 'CP1252'));
+//     printer.text('Special 2: blåbærgrød',
+//         styles: const PosStyles(codeTable: 'CP1252'));
+//
+//     printer.text('Bold text', styles: const PosStyles(bold: true));
+//     printer.text('Reverse text', styles: const PosStyles(reverse: true));
+//     printer.text('Underlined text', styles: const PosStyles(underline: true));
+//     printer.text('Align left', styles: const PosStyles(align: PosAlign.left));
+//     printer.text('Align center',
+//         styles: const PosStyles(align: PosAlign.center));
+//     printer.text('Align right',
+//         styles: const PosStyles(align: PosAlign.right), linesAfter: 1);
+//
+//     printer.text('Text size 200%',
+//         styles: const PosStyles(
+//           height: PosTextSize.size2,
+//           width: PosTextSize.size2,
+//         ));
 
     printer.image(image!);
 
@@ -109,6 +107,15 @@ class Printer {
     final Uint8List bytes = data.buffer.asUint8List();
     final Image? image = decodeImage(bytes);
     return image!;
+  }
+
+  Future<Uint8List> resizeImage(Uint8List data) async {
+    Uint8List? resizedData = data;
+    Image? img = decodeImage(data);
+    Image resized =
+        copyResize(img!, width: img.width * 1, height: img.height * 1);
+    resizedData = encodeJpg(resized) as Uint8List?;
+    return resizedData!;
   }
 
   String htmlTest =

@@ -8,7 +8,8 @@ import 'package:cloud_pos/utils/widgets/container_style_2.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+
 import 'package:provider/provider.dart';
 
 class UtilityPage extends StatefulWidget {

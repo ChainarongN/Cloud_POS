@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:cloud_pos/providers/config_provider.dart';
 import 'package:cloud_pos/service/printer.dart';
@@ -8,6 +10,10 @@ import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+
 // import 'package:pdf/pdf.dart';
 // import 'package:pdf/widgets.dart' as pdf;
 // import 'package:image/image.dart' as im;
@@ -22,88 +28,62 @@ SingleChildScrollView printerSetting(BuildContext context,
         printerModel(context, configRead, configWatch),
         connectionType(context, configRead, configWatch),
         printerAddress(context),
-        testPrintBtn(context),
-        btnSave(context),
+        testPrintBtn(context, configRead, configWatch),
+        btnSave(context, configWatch),
+        // Container(
+        //   margin: EdgeInsets.only(top: 50),
+        //   child: Image.asset('assets/images/rabbit_black.jpg'),
+        // ),
+        // Container(
+        //   margin: EdgeInsets.only(top: 50),
+        //   child: HtmlWidget(Printer().htmlTest),
+        // ),
       ],
     ),
   );
 }
 
-Container btnSave(BuildContext context) {
-  return Container(
-    alignment: Alignment.center,
-    height: Constants().screenheight(context) * 0.09,
-    width: Constants().screenWidth(context) * 0.66,
-    margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.025),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10),
-      gradient: LinearGradient(
-        colors: [
-          Colors.blue.shade200,
-          Colors.blue.shade400,
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
+Future<dynamic> showCapturedWidget(
+    BuildContext context, Uint8List capturedImage) {
+  return showDialog(
+    useSafeArea: false,
+    context: context,
+    builder: (context) => Scaffold(
+      appBar: AppBar(
+        title: Text("Captured widget screenshot"),
       ),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.blue.shade200,
-          blurRadius: 8,
-          offset: const Offset(0, 6),
-        ),
-      ],
-    ),
-    child: Padding(
-      padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-              margin: EdgeInsets.only(
-                  right: Constants().screenheight(context) * 0.03),
-              child: Icon(
-                Icons.done,
-                size: Constants().screenheight(context) * 0.05,
-                color: Colors.white,
-              )),
-          AppTextStyle().textNormal(LocaleKeys.save_config.tr(),
-              size: Constants().screenheight(context) * 0.03,
-              color: Colors.white),
-        ],
-      ),
+      body: Center(child: Image.memory(capturedImage)),
     ),
   );
 }
 
-// Future<dynamic> showCapturedWidget(
-//     BuildContext context, Uint8List capturedImage) {
-//   return showDialog(
-//     useSafeArea: false,
-//     context: context,
-//     builder: (context) => Scaffold(
-//       appBar: AppBar(
-//         title: Text("Captured widget screenshot"),
-//       ),
-//       body: PdfPreview(
-//         build: (_) => _buildDocument(),
-//         allowPrinting: false,
-//         canChangeOrientation: false,
-//         canChangePageFormat: false,
-//         actions: [
-//           PdfPreviewAction(
-//             icon: const Icon(Icons.print),
-//             onPressed: (context, build, pageFormat) => _print(),
-//           )
-//         ],
-//       ),
-//     ),
-//   );
-// }
-
-GestureDetector testPrintBtn(BuildContext context) {
+GestureDetector testPrintBtn(BuildContext context, ConfigProvider configRead,
+    ConfigProvider configWatch) {
   return GestureDetector(
-    onTap: () {
-      Printer().printer();
+    onTap: () async {
+      await configWatch.getScreenShotController
+          .captureFromWidget(
+              InheritedTheme.captureAll(
+                  context,
+                  Material(
+                    child: MediaQuery(
+                      data: const MediaQueryData(),
+                      child: SizedBox(
+                        width: Constants().screenWidth(context) * 0.23,
+                        child: HtmlWidget(
+                          Printer().htmlTest,
+                        ),
+                      ),
+                    ),
+                  )),
+              delay: const Duration(seconds: 1))
+          .then((capturedImage) async {
+        final Directory directory = await getApplicationDocumentsDirectory();
+        var targetPath = directory.path;
+        File file = await File('$targetPath/example_image_file.jpg').create();
+        file.writeAsBytesSync(capturedImage);
+        Printer().printer(capturedImage);
+      });
     },
     child: Container(
       alignment: Alignment.center,
@@ -143,6 +123,55 @@ GestureDetector testPrintBtn(BuildContext context) {
                 )),
             AppTextStyle().textNormal(LocaleKeys.test_print.tr(),
                 size: Constants().screenheight(context) * 0.027,
+                color: Colors.white),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+GestureDetector btnSave(BuildContext context, ConfigProvider configWatch) {
+  return GestureDetector(
+    onTap: () async {},
+    child: Container(
+      alignment: Alignment.center,
+      height: Constants().screenheight(context) * 0.09,
+      width: Constants().screenWidth(context) * 0.66,
+      margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.025),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          colors: [
+            Colors.blue.shade200,
+            Colors.blue.shade400,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.blue.shade200,
+            blurRadius: 8,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                margin: EdgeInsets.only(
+                    right: Constants().screenheight(context) * 0.03),
+                child: Icon(
+                  Icons.done,
+                  size: Constants().screenheight(context) * 0.05,
+                  color: Colors.white,
+                )),
+            AppTextStyle().textNormal(LocaleKeys.save_config.tr(),
+                size: Constants().screenheight(context) * 0.03,
                 color: Colors.white),
           ],
         ),
