@@ -16,7 +16,6 @@ class ConfigProvider extends ChangeNotifier {
   String? _connectionValue = 'Wifi';
   String? imageTest;
   final ScreenshotController _screenshotController = ScreenshotController();
-  // WidgetsToImageController controller = WidgetsToImageController();
 
   String get getWidgetString => _widgetString;
   bool get getprinterSwitch => _printerSwitch;

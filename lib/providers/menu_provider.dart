@@ -20,6 +20,7 @@ import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
+import 'package:screenshot/screenshot.dart';
 import '../repositorys/repository.dart';
 
 class MenuProvider extends ChangeNotifier {
@@ -61,6 +62,7 @@ class MenuProvider extends ChangeNotifier {
   final TextEditingController _payAmountCredit = TextEditingController();
   final TextEditingController _paymentRemark = TextEditingController();
   TabController? _tabController;
+  final ScreenshotController _screenshotController = ScreenshotController();
 
   // --------------------------- GET ---------------------------
   bool get getLoading => _isLoading;
@@ -82,6 +84,7 @@ class MenuProvider extends ChangeNotifier {
   TextEditingController get getDueAmountController => _dueAmountController;
   TextEditingController get getPayAmountCredit => _payAmountCredit;
   TextEditingController get getPaymentRemark => _paymentRemark;
+  ScreenshotController get getScreenshotController => _screenshotController;
 
   // ------------------------ Call Data -------------------------
   init(BuildContext context, TickerProvider tabThis) async {

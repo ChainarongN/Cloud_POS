@@ -7,51 +7,12 @@ import 'package:flutter/services.dart';
 
 import 'package:image/image.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class Printer {
   Printer._internal();
   static final Printer _instance = Printer._internal();
   factory Printer() => _instance;
-
-//   Future printer(BuildContext context) async {
-//     // htmlToImage();
-//     const PaperSize paper = PaperSize.mm80;
-//     final profile = await CapabilityProfile.load();
-//     final printer = NetworkPrinter(paper, profile);
-//
-//     final PosPrintResult res =
-//         await printer.connect('192.168.1.137', port: 9100);
-//     Image image = await htmlToImage();
-//
-//     if (res == PosPrintResult.success) {
-//       await testReceipt(printer, image);
-//       printer.disconnect();
-//     }
-//
-//     print('Print result: ${res.msg}');
-//   }
-//
-//   Future<Image> htmlToImage() async {
-//     final Directory directory = await getApplicationDocumentsDirectory();
-//     var targetPath = directory.path;
-//     var targetFileName = "example_pdf_file";
-//
-//     final generatedPdfFile = await HtmlToPdf.convertFromHtmlContent(
-//         htmlContent: htmlTest,
-//         configuration: PdfConfiguration(
-//           targetDirectory: targetPath,
-//           targetName: targetFileName,
-//           printSize: PrintSize.A4,
-//           printOrientation: PrintOrientation.Landscape,
-//         ));
-//
-//     final File file = File('${directory.path}/example_pdf_file.pdf');
-//
-//     Uint8List bytes = file.readAsBytesSync();
-//     final Image? image = decodeImage(bytes);
-//
-//     return image!;
-//   }
 
   Future printer(Uint8List image8List) async {
     const PaperSize paper = PaperSize.mm80;
@@ -60,12 +21,11 @@ class Printer {
 
     final PosPrintResult res =
         await printer.connect('192.168.1.137', port: 9100);
-    Image image = await getImage();
-    // final Image? imageResult = decodeImage(image8List);
+    // Image image = await getImage();
+    final Image? imageResult = decodeImage(image8List);
 
     if (res == PosPrintResult.success) {
-      await testReceipt(printer, image);
-      // await testReceipt(printer, imageResult);
+      await testReceipt(printer, imageResult);
       printer.disconnect();
     }
 
@@ -95,8 +55,30 @@ class Printer {
 //           width: PosTextSize.size2,
 //         ));
 
-    printer.image(image!);
+//     final List<int> barData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 4];
+//     printer.barcode(Barcode.upcA(barData));
+//     printer.feed(2);
+//
+//     try {
+//       const String qrData = 'example.com';
+//       const double qrSize = 200;
+//       final uiImg = await QrPainter(
+//         data: qrData,
+//         version: QrVersions.auto,
+//         gapless: false,
+//       ).toImageData(qrSize);
+//       final dir = await getTemporaryDirectory();
+//       final pathName = '${dir.path}/qr_tmp.png';
+//       final qrFile = File(pathName);
+//       final imgFile = await qrFile.writeAsBytes(uiImg!.buffer.asUint8List());
+//       final img = decodeImage(imgFile.readAsBytesSync());
+//
+//       printer.image(img!);
+//     } catch (e) {
+//       print(e);
+//     }
 
+    printer.image(image!);
     printer.feed(1);
     printer.cut();
   }
@@ -107,15 +89,6 @@ class Printer {
     final Uint8List bytes = data.buffer.asUint8List();
     final Image? image = decodeImage(bytes);
     return image!;
-  }
-
-  Future<Uint8List> resizeImage(Uint8List data) async {
-    Uint8List? resizedData = data;
-    Image? img = decodeImage(data);
-    Image resized =
-        copyResize(img!, width: img.width * 1, height: img.height * 1);
-    resizedData = encodeJpg(resized) as Uint8List?;
-    return resizedData!;
   }
 
   String htmlTest =

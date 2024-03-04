@@ -1,5 +1,6 @@
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/service/printer.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:screenshot/screenshot.dart';
 
 Card manageMenu(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
@@ -181,7 +183,8 @@ Row binButton(
             LoadingStyle().dialogLoadding(context);
             await menuRead.orderSummary(context).then((value) {
               if (menuWatch.apiState == ApiState.COMPLETED) {
-                dialogResultHtml(context, menuWatch.getHtmlOrderSummary);
+                dialogResultHtml(
+                    context, menuWatch.getHtmlOrderSummary, menuWatch);
               }
             });
           }
@@ -702,7 +705,8 @@ openQtyDialog(BuildContext context, MenuProvider menuWatch,
   );
 }
 
-Future<dynamic> dialogResultHtml(BuildContext context, String html) {
+Future<dynamic> dialogResultHtml(
+    BuildContext context, String html, MenuProvider menuWatch) {
   return showDialog(
       context: context,
       barrierDismissible: false,
@@ -714,34 +718,78 @@ Future<dynamic> dialogResultHtml(BuildContext context, String html) {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SizedBox(
-                  width: Constants().screenWidth(context) * 0.55,
-                  height: Constants().screenheight(context),
+                Container(
+                  margin: EdgeInsets.only(
+                    right: Constants().screenWidth(context) * 0.05,
+                  ),
                   child: Scrollbar(
-                    child: SingleChildScrollView(child: HtmlWidget(html)),
+                    child: SingleChildScrollView(
+                      child: SizedBox(
+                        width: Constants().screenWidth(context) * 0.26,
+                        child: Screenshot(
+                          controller: menuWatch.getScreenshotController,
+                          child: HtmlWidget(html),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(left: 50),
-                  child: ContainerStyle2(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .popUntil(ModalRoute.withName('/menuPage'));
-                    },
-                    radius: 25,
-                    width: Constants().screenWidth(context) * 0.17,
-                    height: Constants().screenheight(context) * 0.18,
-                    title: 'พิมพ์ใบเสร็จ',
-                    size: 20,
-                    onlyText: false,
-                    icon: Icons.add_chart_rounded,
-                    shadowColor: Colors.green.shade400,
-                    gradient1: Colors.green.shade200,
-                    gradient2: Colors.green.shade300,
-                    gradient3: Colors.green.shade500,
-                    gradient4: Colors.green.shade500,
+                  margin: const EdgeInsets.only(left: 10),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        child: ContainerStyle2(
+                          onPressed: () {
+                            menuWatch.getScreenshotController
+                                .capture(
+                                    delay: const Duration(seconds: 1),
+                                    pixelRatio: 1.3)
+                                .then((Uint8List? value) async {
+                              await Printer().printer(value!).then((value) =>
+                                  Navigator.of(context).popUntil(
+                                      ModalRoute.withName('/menuPage')));
+                            });
+                          },
+                          radius: 25,
+                          width: Constants().screenWidth(context) * 0.17,
+                          height: Constants().screenheight(context) * 0.18,
+                          title: 'พิมพ์ใบเสร็จ',
+                          size: 20,
+                          onlyText: false,
+                          icon: Icons.add_chart_rounded,
+                          shadowColor: Colors.green.shade400,
+                          gradient1: Colors.green.shade200,
+                          gradient2: Colors.green.shade300,
+                          gradient3: Colors.green.shade500,
+                          gradient4: Colors.green.shade500,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: ContainerStyle2(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .popUntil(ModalRoute.withName('/menuPage'));
+                          },
+                          radius: 25,
+                          width: Constants().screenWidth(context) * 0.17,
+                          height: Constants().screenheight(context) * 0.18,
+                          title: 'ปิด',
+                          size: 20,
+                          icon: Icons.close_rounded,
+                          onlyText: false,
+                          shadowColor: Colors.red.shade400,
+                          gradient1: Colors.red.shade200,
+                          gradient2: Colors.red.shade300,
+                          gradient3: Colors.red.shade500,
+                          gradient4: Colors.red.shade500,
+                        ),
+                      ),
+                    ],
                   ),
-                )
+                ),
               ],
             ),
           ),

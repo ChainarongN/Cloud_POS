@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:cloud_pos/providers/config_provider.dart';
 import 'package:cloud_pos/service/printer.dart';
@@ -34,10 +33,13 @@ SingleChildScrollView printerSetting(BuildContext context,
         //   margin: EdgeInsets.only(top: 50),
         //   child: Image.asset('assets/images/rabbit_black.jpg'),
         // ),
-        // Container(
-        //   margin: EdgeInsets.only(top: 50),
-        //   child: HtmlWidget(Printer().htmlTest),
-        // ),
+        Container(
+          margin: const EdgeInsets.only(top: 40),
+          child: Screenshot(
+            controller: configWatch.getScreenShotController,
+            child: HtmlWidget(Printer().htmlTest),
+          ),
+        ),
       ],
     ),
   );
@@ -61,28 +63,14 @@ GestureDetector testPrintBtn(BuildContext context, ConfigProvider configRead,
     ConfigProvider configWatch) {
   return GestureDetector(
     onTap: () async {
-      await configWatch.getScreenShotController
-          .captureFromWidget(
-              InheritedTheme.captureAll(
-                  context,
-                  Material(
-                    child: MediaQuery(
-                      data: const MediaQueryData(),
-                      child: SizedBox(
-                        width: Constants().screenWidth(context) * 0.23,
-                        child: HtmlWidget(
-                          Printer().htmlTest,
-                        ),
-                      ),
-                    ),
-                  )),
-              delay: const Duration(seconds: 1))
-          .then((capturedImage) async {
-        final Directory directory = await getApplicationDocumentsDirectory();
-        var targetPath = directory.path;
-        File file = await File('$targetPath/example_image_file.jpg').create();
-        file.writeAsBytesSync(capturedImage);
-        Printer().printer(capturedImage);
+      configWatch.getScreenShotController
+          .capture(delay: const Duration(seconds: 1), pixelRatio: 1.2)
+          .then((Uint8List? value) async {
+        // final Directory directory = await getApplicationDocumentsDirectory();
+        // var targetPath = directory.path;
+        // File file = await File('$targetPath/example_image_file.jpg').create();
+        // file.writeAsBytesSync(value!);
+        Printer().printer(value!);
       });
     },
     child: Container(

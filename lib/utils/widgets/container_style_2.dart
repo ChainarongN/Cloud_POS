@@ -74,7 +74,7 @@ class ContainerStyle2 extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(top: 10),
                       child: AppTextStyle()
-                          .textBold(title!, size: size, color: Colors.white),
+                          .textNormal(title!, size: size, color: Colors.white),
                     )
                   ]
                 : [
