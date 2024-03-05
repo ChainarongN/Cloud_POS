@@ -36,6 +36,7 @@ class MenuProvider extends ChangeNotifier {
   List<Products>? prodToShow;
   List<Products>? prodToSearch;
   List<PayAmountModel>? payAmountList = [];
+  List<int>? _selectPromotionList = [];
   ReasonModel? reasonModel;
   CancelTranModel? cancelTranModel;
   ProductObjModel? productObjModel;
@@ -85,6 +86,7 @@ class MenuProvider extends ChangeNotifier {
   TextEditingController get getPayAmountCredit => _payAmountCredit;
   TextEditingController get getPaymentRemark => _paymentRemark;
   ScreenshotController get getScreenshotController => _screenshotController;
+  List<int> get getSelectPromotionList => _selectPromotionList!;
 
   // ------------------------ Call Data -------------------------
   init(BuildContext context, TickerProvider tabThis) async {
@@ -99,6 +101,7 @@ class MenuProvider extends ChangeNotifier {
     prodList = [];
     prodToSearch = [];
     payAmountList = [];
+    _selectPromotionList = [];
     await _readData();
     await setReason(context, 0);
     setWhereMenu(prodGroupList![0].productGroupID.toString());
@@ -375,6 +378,15 @@ class MenuProvider extends ChangeNotifier {
   }
 
   // --------------------------- SET ---------------------------\
+  Future setSelectPromotion(int prodId) async {
+    if (_selectPromotionList!.contains(prodId)) {
+      _selectPromotionList!.removeWhere((item) => item == prodId);
+    } else {
+      _selectPromotionList!.add(prodId);
+    }
+    notifyListeners();
+  }
+
   setTabToPayment(int page) {
     _tabController!.animateTo(page);
     notifyListeners();

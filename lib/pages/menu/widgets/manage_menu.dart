@@ -303,7 +303,7 @@ Row couponList(BuildContext context) {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Icon(Icons.adb_rounded,
+              Icon(Icons.percent,
                   color: Colors.black54,
                   size: Constants().screenheight(context) * 0.028),
               AppTextStyle().textNormal(LocaleKeys.discount_other.tr()),
@@ -331,7 +331,7 @@ Row couponList(BuildContext context) {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Icon(Icons.adb_rounded,
+              Icon(Icons.discount,
                   color: Colors.black54,
                   size: Constants().screenheight(context) * 0.028),
               AppTextStyle().textNormal(LocaleKeys.discount.tr()),
@@ -725,7 +725,7 @@ Future<dynamic> dialogResultHtml(
                   child: Scrollbar(
                     child: SingleChildScrollView(
                       child: SizedBox(
-                        width: Constants().screenWidth(context) * 0.26,
+                        width: Constants().screenWidth(context) * 0.29,
                         child: Screenshot(
                           controller: menuWatch.getScreenshotController,
                           child: HtmlWidget(html),
@@ -773,7 +773,7 @@ Future<dynamic> dialogResultHtml(
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 10),
+                        margin: const EdgeInsets.only(top: 10),
                         child: ContainerStyle2(
                           onPressed: () {
                             Navigator.of(context)

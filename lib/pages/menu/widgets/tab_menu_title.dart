@@ -15,7 +15,8 @@ Column tabMenuTitle(BuildContext context, MenuProvider menuWatch) {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Icon(Icons.adb_rounded, color: Colors.black, size: 20.0),
+                const Icon(Icons.mediation_outlined,
+                    color: Colors.black, size: 20.0),
                 AppTextStyle().textNormal(LocaleKeys.menu.tr(),
                     size: Constants().screenheight(context) * 0.023),
               ],
@@ -25,7 +26,7 @@ Column tabMenuTitle(BuildContext context, MenuProvider menuWatch) {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Icon(Icons.adb_rounded, color: Colors.black, size: 20.0),
+                const Icon(Icons.star, color: Colors.black, size: 20.0),
                 AppTextStyle().textNormal('Fav#1',
                     size: Constants().screenheight(context) * 0.023),
               ],
@@ -35,7 +36,7 @@ Column tabMenuTitle(BuildContext context, MenuProvider menuWatch) {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Icon(Icons.adb_rounded, color: Colors.black, size: 20.0),
+                const Icon(Icons.star, color: Colors.black, size: 20.0),
                 AppTextStyle().textNormal('Fav#2',
                     size: Constants().screenheight(context) * 0.023),
               ],
@@ -45,7 +46,7 @@ Column tabMenuTitle(BuildContext context, MenuProvider menuWatch) {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Icon(Icons.adb_rounded, color: Colors.black, size: 20.0),
+                const Icon(Icons.search, color: Colors.black, size: 20.0),
                 AppTextStyle().textNormal(LocaleKeys.search.tr(),
                     size: Constants().screenheight(context) * 0.023),
               ],
@@ -55,7 +56,7 @@ Column tabMenuTitle(BuildContext context, MenuProvider menuWatch) {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Icon(Icons.adb_rounded, color: Colors.black, size: 20.0),
+                const Icon(Icons.discount, color: Colors.black, size: 20.0),
                 AppTextStyle().textNormal(LocaleKeys.discount.tr(),
                     size: Constants().screenheight(context) * 0.023),
               ],
@@ -65,7 +66,7 @@ Column tabMenuTitle(BuildContext context, MenuProvider menuWatch) {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Icon(Icons.adb_rounded, color: Colors.black, size: 20.0),
+                const Icon(Icons.payment, color: Colors.black, size: 20.0),
                 AppTextStyle().textNormal(LocaleKeys.payment.tr(),
                     size: Constants().screenheight(context) * 0.023),
               ],

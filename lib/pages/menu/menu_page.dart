@@ -2,6 +2,7 @@ import 'package:cloud_pos/pages/menu/widgets/appbar_action.dart';
 import 'package:cloud_pos/pages/menu/widgets/manage_menu.dart';
 import 'package:cloud_pos/pages/menu/widgets/reason_dialog.dart';
 import 'package:cloud_pos/pages/menu/widgets/tab_menu_title.dart';
+import 'package:cloud_pos/pages/menu/widgets/tabview/discount_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/fav_one_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/menu_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/payment_tab.dart';
@@ -101,9 +102,7 @@ class _MenuPageState extends State<MenuPage>
                   child: Text("Fav#2"),
                 ),
                 searchTab(context, menuWatch, menuRead),
-                Center(
-                  child: Text(LocaleKeys.discount.tr()),
-                ),
+                discount(context, menuWatch, menuRead),
                 paymentTab(context, menuRead, menuWatch),
               ],
             ),
