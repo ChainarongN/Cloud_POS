@@ -1,6 +1,8 @@
 import 'package:cloud_pos/pages/menu/widgets/recipe_item.dart';
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 Center searchTab(
@@ -26,7 +28,7 @@ Center searchTab(
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Constants.primaryColor.withOpacity(0.3),
-                  labelText: "Search",
+                  labelText: LocaleKeys.search.tr(),
                   border: Constants().myinputborder(),
                   enabledBorder: Constants().myinputborder(),
                   focusedBorder: Constants().myfocusborder(),

@@ -64,5 +64,12 @@
   "change": "Change",
   "payment_Success": "Payment Success",
   "please_select_or_input_your_reason": "Please select or input your reason.",
-  "Something_wrong_please_try_again": "Something wrong please try again."
+  "something_wrong_please_try_again": "Something wrong please try again.",
+  "staff_ID": "Staff ID",
+  "gender": "Gender",
+  "role": "Role",
+  "first_name": "First name",
+  "last_name": "Last name",
+  "there_is_no_pay_amount": "There is no pay amount",
+  "delete": "Delete"
 }

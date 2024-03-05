@@ -102,7 +102,7 @@ class _MenuPageState extends State<MenuPage>
                 ),
                 searchTab(context, menuWatch, menuRead),
                 Center(
-                  child: Text("ส่วนลด"),
+                  child: Text(LocaleKeys.discount.tr()),
                 ),
                 paymentTab(context, menuRead, menuWatch),
               ],

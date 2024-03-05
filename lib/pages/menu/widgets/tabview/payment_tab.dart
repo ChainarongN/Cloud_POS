@@ -1,9 +1,11 @@
 import 'package:cloud_pos/providers/menu_provider.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -294,7 +296,8 @@ SizedBox paymentList(
           ? Container(
               margin: EdgeInsets.only(
                   top: Constants().screenheight(context) * 0.07),
-              child: AppTextStyle().textNormal('There is no pay amount.'),
+              child: AppTextStyle()
+                  .textNormal('${LocaleKeys.there_is_no_pay_amount.tr()}.'),
             )
           : Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -313,7 +316,7 @@ SizedBox paymentList(
                         backgroundColor: Colors.redAccent,
                         foregroundColor: Colors.white,
                         icon: Icons.save,
-                        label: 'Delete',
+                        label: LocaleKeys.delete.tr(),
                       ),
                     ],
                   ),
@@ -369,7 +372,7 @@ Row titlePaymentList(BuildContext context) {
         flex: 2,
         child: Container(
           alignment: Alignment.center,
-          child: AppTextStyle().textBold('ประเภทรายจ่าย',
+          child: AppTextStyle().textBold(LocaleKeys.payment_type.tr(),
               size: Constants().screenheight(context) * 0.03),
         ),
       ),
@@ -377,7 +380,7 @@ Row titlePaymentList(BuildContext context) {
         flex: 3,
         child: Container(
           alignment: Alignment.center,
-          child: AppTextStyle().textBold('รายละเอียด',
+          child: AppTextStyle().textBold(LocaleKeys.detail.tr(),
               size: Constants().screenheight(context) * 0.03),
         ),
       ),
@@ -385,8 +388,8 @@ Row titlePaymentList(BuildContext context) {
         flex: 1,
         child: Container(
           alignment: Alignment.center,
-          child: AppTextStyle()
-              .textBold('ราคา', size: Constants().screenheight(context) * 0.03),
+          child: AppTextStyle().textBold(LocaleKeys.price.tr(),
+              size: Constants().screenheight(context) * 0.03),
         ),
       )
     ],
@@ -422,7 +425,7 @@ Container totalPayAmount(
                       size: Constants().screenheight(context) * 0.045,
                       color: Colors.white),
                   SizedBox(width: Constants().screenheight(context) * 0.015),
-                  AppTextStyle().textBold('Clear',
+                  AppTextStyle().textBold(LocaleKeys.clear.tr(),
                       size: Constants().screenheight(context) * 0.03,
                       color: Colors.white)
                 ],
@@ -434,7 +437,8 @@ Container totalPayAmount(
           flex: 1,
           child: Container(
             alignment: Alignment.centerRight,
-            child: AppTextStyle().textBold('Total pay amount :  ',
+            child: AppTextStyle().textBold(
+                '${LocaleKeys.total_pay_amount.tr()} :  ',
                 size: Constants().screenheight(context) * 0.023),
           ),
         ),
@@ -485,7 +489,7 @@ Container inputTextField(
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white.withOpacity(0.3),
-              labelText: 'Enter your pay amount.',
+              labelText: '${LocaleKeys.enter_your_pay_amount.tr()}.',
               border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 borderSide: BorderSide(color: Colors.black26),

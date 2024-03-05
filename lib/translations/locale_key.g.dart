@@ -66,6 +66,13 @@ abstract class  LocaleKeys {
   static const change = 'change';
   static const payment_Success = 'payment_Success';
   static const please_select_or_input_your_reason = 'please_select_or_input_your_reason';
-  static const Something_wrong_please_try_again = 'Something_wrong_please_try_again';
+  static const something_wrong_please_try_again = 'something_wrong_please_try_again';
+  static const staff_ID = 'staff_ID';
+  static const gender = 'gender';
+  static const role = 'role';
+  static const first_name = 'first_name';
+  static const last_name = 'last_name';
+  static const there_is_no_pay_amount = 'there_is_no_pay_amount';
+  static const delete = 'delete';
 
 }

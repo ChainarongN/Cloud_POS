@@ -742,15 +742,21 @@ Future<dynamic> dialogResultHtml(
                         margin: const EdgeInsets.only(top: 5),
                         child: ContainerStyle2(
                           onPressed: () {
-                            menuWatch.getScreenshotController
-                                .capture(
-                                    delay: const Duration(seconds: 1),
-                                    pixelRatio: 1.3)
-                                .then((Uint8List? value) async {
-                              await Printer().printer(value!).then((value) =>
+                            if (menuWatch.apiState != ApiState.LOADING) {
+                              menuWatch.apiState = ApiState.LOADING;
+                              LoadingStyle().dialogLoadding(context);
+                              menuWatch.getScreenshotController
+                                  .capture(
+                                      delay: const Duration(seconds: 1),
+                                      pixelRatio: 1.3)
+                                  .then((Uint8List? value) async {
+                                await Printer().printer(value!).then((value) {
+                                  menuWatch.apiState = ApiState.COMPLETED;
                                   Navigator.of(context).popUntil(
-                                      ModalRoute.withName('/menuPage')));
-                            });
+                                      ModalRoute.withName('/menuPage'));
+                                });
+                              });
+                            }
                           },
                           radius: 25,
                           width: Constants().screenWidth(context) * 0.17,

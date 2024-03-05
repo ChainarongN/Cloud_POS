@@ -80,7 +80,14 @@ class CodegenLoader extends AssetLoader{
   "change": "Change",
   "payment_Success": "Payment Success",
   "please_select_or_input_your_reason": "Please select or input your reason.",
-  "Something_wrong_please_try_again": "Something wrong please try again."
+  "something_wrong_please_try_again": "Something wrong please try again.",
+  "staff_ID": "Staff ID",
+  "gender": "Gender",
+  "role": "Role",
+  "first_name": "First name",
+  "last_name": "Last name",
+  "there_is_no_pay_amount": "There is no pay amount",
+  "delete": "Delete"
 };
 static const Map<String,dynamic> th = {
   "hi_text": "สวัสดี",
@@ -124,7 +131,7 @@ static const Map<String,dynamic> th = {
   "cancel_transaction": "ยกเลิกธุรกรรม",
   "You_need_cancel_transaction": "คุณต้องการยกเลิก ธุรกรรม หรือไม่ ?",
   "close_tran_title": "ยกเลิกธุรกรรม : โปรดเลือกเหตุผลที่ยกเลิก",
-  "clear": "เคลีย",
+  "clear": "ล้าง",
   "input_you_other_reason": "เหตุผล อื่นๆ",
   "ok": "ตกลง",
   "cancel": "ยกเลิก",
@@ -148,7 +155,14 @@ static const Map<String,dynamic> th = {
   "change": "เงินทอน",
   "payment_Success": "จ่ายเงินสำเร็จ",
   "please_select_or_input_your_reason": "โปรดเลือก หรือ กรอกเหตุผล.",
-  "Something_wrong_please_try_again": "พบข้อผิดพลาด. โปรดลองอีกครั้ง"
+  "something_wrong_please_try_again": "พบข้อผิดพลาด. โปรดลองอีกครั้ง",
+  "staff_ID": "รหัสพนักงาน",
+  "gender": "เพศ",
+  "role": "ตำแหน่ง",
+  "first_name": "ชื่อ",
+  "last_name": "นามสกุล",
+  "there_is_no_pay_amount": "ไม่มีจำนวนเงินที่จ่าย",
+  "delete": "ลบ"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "th": th};
 }

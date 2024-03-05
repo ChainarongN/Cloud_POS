@@ -1,5 +1,7 @@
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 Container clonebin(BuildContext context) {
@@ -25,7 +27,7 @@ Container clonebin(BuildContext context) {
     ),
     child: Padding(
       padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
-      child: AppTextStyle().textNormal('โคลนบิล',
+      child: AppTextStyle().textNormal(LocaleKeys.clone_bill.tr(),
           size: Constants().screenheight(context) * 0.025),
     ),
   );
@@ -54,7 +56,7 @@ Container employee(BuildContext context) {
     ),
     child: Padding(
       padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
-      child: AppTextStyle().textNormal('พนักงาน',
+      child: AppTextStyle().textNormal(LocaleKeys.member.tr(),
           size: Constants().screenheight(context) * 0.025),
     ),
   );
@@ -83,7 +85,7 @@ Container member(BuildContext context) {
     ),
     child: Padding(
       padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
-      child: AppTextStyle().textNormal('สมาชิก',
+      child: AppTextStyle().textNormal(LocaleKeys.employee.tr(),
           size: Constants().screenheight(context) * 0.025),
     ),
   );

@@ -142,7 +142,7 @@ SizedBox detailReason(BuildContext context, MenuProvider dataProvider) {
             dataProvider.reasonModel!.responseCode!.isNotEmpty
         ? Center(
             child: AppTextStyle()
-                .textNormal(LocaleKeys.Something_wrong_please_try_again.tr()),
+                .textNormal(LocaleKeys.something_wrong_please_try_again.tr()),
           )
         : SingleChildScrollView(
             child: Wrap(
