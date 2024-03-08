@@ -27,6 +27,7 @@
     </leaf>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/AppData/Local/Google/AndroidStudio2023.1/device-explorer/Pixel Tablet API TiramisuPrivacySandbox/_/data/data/com.vtec.cloud_pos/app_flutter/fav_data.txt" root0="SKIP_INSPECTION" />
     <setting file="file://$USER_HOME$/AppData/Local/Google/AndroidStudio2023.1/device-explorer/Pixel Tablet API TiramisuPrivacySandbox/_/data/data/com.vtec.cloud_pos/app_flutter/res_timestamp-1-1706602309141" root0="SKIP_INSPECTION" />
     <setting file="file://$USER_HOME$/AppData/Local/Google/AndroidStudio2023.1/device-explorer/Pixel Tablet API TiramisuPrivacySandbox/_/data/data/com.vtec.cloud_pos/shared_prefs/FlutterSharedPreferences.xml" root0="SKIP_INSPECTION" />
   </component>
@@ -46,17 +47,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users/InnopiaAsus7/Desktop",
-    "settings.editor.selected.configurable": "device.mirroring"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/InnopiaAsus7/Desktop&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;device.mirroring&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

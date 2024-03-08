@@ -40,7 +40,7 @@ class MenuRepository implements IMenuRepository {
       "CloseComputerID": computerId.toString(),
       "StaffID": staffId.toString()
     };
-    var response = await APIService().postAndParams(
+    var response = await APIService().postAndData(
         url: Endpoints.finalizeBill,
         param: param,
         token: token,
@@ -88,7 +88,7 @@ class MenuRepository implements IMenuRepository {
       "voucherInfo": null
     };
 
-    var response = await APIService().postAndParams(
+    var response = await APIService().postAndData(
         url: Endpoints.paymenySubmit,
         param: param,
         token: token,
@@ -108,7 +108,7 @@ class MenuRepository implements IMenuRepository {
       "LangID": '1',
       "ViewOrderInfo": 'true',
     };
-    var response = await APIService().postAndParams(
+    var response = await APIService().postAndData(
         url: Endpoints.productAdd,
         param: param,
         token: token,
@@ -133,12 +133,79 @@ class MenuRepository implements IMenuRepository {
       "SelProductID": productId,
       "LangID": '1'
     };
-    var response = await APIService().postAndParams(
+    var response = await APIService().postAndData(
         url: Endpoints.productObj,
         token: token,
         param: param,
         data: tranData,
         actionBy: 'productObj');
+
+    return response;
+  }
+
+  @override
+  Future memberData({String? phoneMember, String? deviceKey}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceKey,
+      "LangID": '1',
+      "memberCode": phoneMember
+    };
+    var response = await APIService().postParams(
+        url: Endpoints.memberData,
+        token: token,
+        param: param,
+        actionBy: 'memberData');
+
+    return response;
+  }
+
+  @override
+  Future memberApply({
+    String? tranData,
+    String? memberId,
+    String? deviceKey,
+  }) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceKey,
+      "LangID": '1',
+      "MemberID": memberId,
+      "ViewOrderInfo": true
+    };
+    var response = await APIService().postAndData(
+        url: Endpoints.memberApply,
+        token: token,
+        param: param,
+        data: tranData,
+        actionBy: 'memberApply');
+
+    return response;
+  }
+
+  @override
+  Future memberCancel({
+    String? tranData,
+    String? deviceKey,
+  }) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceKey,
+      "LangID": '1',
+      "ViewOrderInfo": true
+    };
+    var response = await APIService().postAndData(
+        url: Endpoints.memberCancel,
+        token: token,
+        param: param,
+        data: tranData,
+        actionBy: 'memberCancel');
 
     return response;
   }

@@ -5,6 +5,9 @@ import 'dart:convert';
 import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/models/finalize_bill_model.dart';
+import 'package:cloud_pos/models/member_apply_model.dart';
+import 'package:cloud_pos/models/member_cancel_model.dart';
+import 'package:cloud_pos/models/member_data_model.dart';
 import 'package:cloud_pos/models/order_summary_model.dart';
 import 'package:cloud_pos/models/pay_amount_model.dart';
 import 'package:cloud_pos/models/payment_submit_model.dart';
@@ -31,6 +34,7 @@ class MenuProvider extends ChangeNotifier {
   bool _isLoading = false;
   List<ProductGroup>? prodGroupList;
   List<ReasonGroup>? reasonGroupList;
+  List<FavoriteGroup>? favoriteGroupList;
   List<PayTypeInfo>? payTypeInfoList;
   List<Products>? prodList;
   List<Products>? prodToShow;
@@ -43,6 +47,9 @@ class MenuProvider extends ChangeNotifier {
   ProductAddModel? productAddModel;
   PaymentSubmitModel? paymentSubmitModel;
   OrderSummaryModel? orderSummaryModel;
+  MemberDataModel? memberDataModel;
+  MemberApplyModel? memberApplyModel;
+  MemberCancelModel? memberCancelModel;
   FinalizeBillModel? finalizeBillModel;
   int? _valueMenuSelect, _valueCurrencyId;
   String? _valueReasonGroupSelect,
@@ -50,7 +57,7 @@ class MenuProvider extends ChangeNotifier {
       _orderId,
       _tranDataFromOpenTran,
       _valueCurrency;
-  String _exceptionText = '';
+  String _exceptionText = '', _saleModeName = '';
 
   final TextEditingController _reasonController = TextEditingController();
   final TextEditingController _valueIdReason = TextEditingController();
@@ -62,6 +69,7 @@ class MenuProvider extends ChangeNotifier {
   final TextEditingController _dueAmountController = TextEditingController();
   final TextEditingController _payAmountCredit = TextEditingController();
   final TextEditingController _paymentRemark = TextEditingController();
+  final TextEditingController _phoneMemberController = TextEditingController();
   TabController? _tabController;
   final ScreenshotController _screenshotController = ScreenshotController();
 
@@ -70,6 +78,7 @@ class MenuProvider extends ChangeNotifier {
   TabController get getTabController => _tabController!;
   String get getOrderId => _orderId!;
   String get getExceptionText => _exceptionText;
+  String get getSaleModeName => _saleModeName;
   int get getvalueMenuSelect => _valueMenuSelect!;
   String get getvalueReasonGroupSelect => _valueReasonGroupSelect!;
   String get getHtmlOrderSummary => _htmlOrderSummary!;
@@ -85,6 +94,7 @@ class MenuProvider extends ChangeNotifier {
   TextEditingController get getDueAmountController => _dueAmountController;
   TextEditingController get getPayAmountCredit => _payAmountCredit;
   TextEditingController get getPaymentRemark => _paymentRemark;
+  TextEditingController get getPhoneMemberController => _phoneMemberController;
   ScreenshotController get getScreenshotController => _screenshotController;
   List<int> get getSelectPromotionList => _selectPromotionList!;
 
@@ -167,17 +177,7 @@ class MenuProvider extends ChangeNotifier {
     _totalPayListController.text = sum.toString();
     if (sum >= double.parse(_dueAmountController.text)) {
       LoadingStyle().dialogLoadding(context);
-      for (var i = 0; i < payAmountList!.length; i++) {
-        await paymentSubmit(context,
-            payAmount: payAmountList![i].price.toString(),
-            payCode: payAmountList![i].payCode,
-            payName: payAmountList![i].payName,
-            payTypeId: payAmountList![i].payTypeId,
-            payRemark: payAmountList![i].payRemark);
-      }
-      if (apiState == ApiState.COMPLETED) {
-        await finalizeBill(context);
-      }
+      await PaymentFunc().paymentMulti(context);
     }
     notifyListeners();
   }
@@ -309,6 +309,35 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future memberData(BuildContext context, String phone) async {
+    apiState = ApiState.LOADING;
+    var response = await _menuRepository.memberData(
+        deviceKey: '0288-7363-6560-2714', phoneMember: phone);
+    memberDataModel =
+        await DetectMenuFunc().detectMemberData(context, response);
+  }
+
+  Future memberApply(BuildContext context) async {
+    apiState = ApiState.LOADING;
+    var response = await _menuRepository.memberApply(
+      deviceKey: '0288-7363-6560-2714',
+      memberId: memberDataModel!.responseObj!.memberInfo!.memberID.toString(),
+      tranData: json.encode(orderSummaryModel!.responseObj!.tranData),
+    );
+    memberApplyModel =
+        await DetectMenuFunc().detectMemberApply(context, response);
+  }
+
+  Future memberCancel(BuildContext context) async {
+    apiState = ApiState.LOADING;
+    var response = await _menuRepository.memberCancel(
+      deviceKey: '0288-7363-6560-2714',
+      tranData: json.encode(orderSummaryModel!.responseObj!.tranData),
+    );
+    memberCancelModel =
+        await DetectMenuFunc().detectMemberCancel(context, response);
+  }
+
   Future addReasonText(int index) async {
     if (_reasonController.text == '' && _valueIdReason.text == '') {
       _reasonController.text = reasonModel!.responseObj![index].text!;
@@ -328,12 +357,14 @@ class MenuProvider extends ChangeNotifier {
         ReadFileFunc().readProdGroup(),
         ReadFileFunc().readProd(),
         ReadFileFunc().readReason(),
-        ReadFileFunc().readPaymentInfo()
+        ReadFileFunc().readPaymentInfo(),
+        ReadFileFunc().readFavoriteGroup(),
       ]);
       prodGroupList = value[0] as List<ProductGroup>;
       prodList = value[1] as List<Products>;
       reasonGroupList = value[2] as List<ReasonGroup>;
       payTypeInfoList = value[3] as List<PayTypeInfo>;
+      favoriteGroupList = value[4] as List<FavoriteGroup>;
       apiState = ApiState.COMPLETED;
     } catch (e, strack) {
       _exceptionText = strack.toString();
@@ -406,6 +437,11 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future clearField() async {
+    _phoneMemberController.text = '';
+    notifyListeners();
+  }
+
   addCountOrder(BuildContext context, int index) {
     addProductToList(
         context,
@@ -456,9 +492,11 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future setTranData({String? tranObject, String? orderID}) async {
+  Future setTranData(
+      {String? tranObject, String? orderID, String? saleModeName}) async {
     _tranDataFromOpenTran = tranObject;
     _orderId = orderID;
+    _saleModeName = saleModeName!;
   }
 
   final List<String> currencyitems = ['THB'];

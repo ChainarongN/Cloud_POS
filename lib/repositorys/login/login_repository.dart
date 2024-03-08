@@ -29,7 +29,7 @@ class LoginRepository implements ILoginRepository {
       "saleDate": saleDate,
       "openAmount": int.parse(openAmount!)
     });
-    var response = await APIService().postAndParams(
+    var response = await APIService().postAndData(
         url: Endpoints.openSession,
         param: param,
         token: token,

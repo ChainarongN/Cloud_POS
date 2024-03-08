@@ -9,7 +9,6 @@ import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:screenshot/screenshot.dart';
@@ -631,7 +630,7 @@ Row orderTitle(BuildContext context, MenuProvider menuWatch) {
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: <Widget>[
       Container(
-        child: AppTextStyle().textBold('DINE IN',
+        child: AppTextStyle().textBold(menuWatch.getSaleModeName,
             size: Constants().screenheight(context) * 0.027),
       ),
       Container(

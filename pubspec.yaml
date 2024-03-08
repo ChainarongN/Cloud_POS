@@ -54,6 +54,7 @@ dependencies:
   flutter_widget_from_html_core: ^0.14.11
   # widgets_to_image: ^0.0.2
   qr_flutter: ^4.1.0
+  flutter_multi_formatter: ^2.12.4
 
   esc_pos_printer:
   esc_pos_utils:

@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/finalize_bill_model.dart';
+import 'package:cloud_pos/models/member_apply_model.dart';
+import 'package:cloud_pos/models/member_cancel_model.dart';
+import 'package:cloud_pos/models/member_data_model.dart';
 import 'package:cloud_pos/models/order_summary_model.dart';
 import 'package:cloud_pos/models/payment_submit_model.dart';
 import 'package:cloud_pos/models/product_add_model.dart';
@@ -262,5 +265,122 @@ class DetectMenuFunc {
       });
     }
     return reasonModel!;
+  }
+
+  Future<MemberDataModel> detectMemberData(
+      BuildContext context, var response) async {
+    var menuProvider = Provider.of<MenuProvider>(context, listen: false);
+    MemberDataModel? memberDataModel;
+    try {
+      if (response is Failure) {
+        menuProvider.apiState = ApiState.ERROR;
+        Future.delayed(const Duration(milliseconds: 500), () {
+          LoadingStyle().dialogError(context,
+              error: response.errorResponse.toString(),
+              isPopUntil: true,
+              popToPage: '/menuPage');
+        });
+      } else {
+        memberDataModel = MemberDataModel.fromJson(jsonDecode(response));
+        if (memberDataModel.responseCode!.isEmpty) {
+          menuProvider.apiState = ApiState.COMPLETED;
+          Constants().printCheckFlow(response, 'MemberData');
+        } else {
+          menuProvider.apiState = ApiState.ERROR;
+          Future.delayed(const Duration(milliseconds: 500), () {
+            LoadingStyle().dialogError(context,
+                error: memberDataModel!.responseText,
+                isPopUntil: true,
+                popToPage: '/menuPage');
+          });
+        }
+      }
+    } catch (e, strack) {
+      Constants().printError('$e - $strack');
+      menuProvider.apiState = ApiState.ERROR;
+      Future.delayed(const Duration(milliseconds: 500), () {
+        LoadingStyle().dialogError(context,
+            error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
+      });
+    }
+    return memberDataModel!;
+  }
+
+  Future<MemberApplyModel> detectMemberApply(
+      BuildContext context, var response) async {
+    var menuProvider = Provider.of<MenuProvider>(context, listen: false);
+    MemberApplyModel? memberApplyModel;
+    try {
+      if (response is Failure) {
+        menuProvider.apiState = ApiState.ERROR;
+        Future.delayed(const Duration(milliseconds: 500), () {
+          LoadingStyle().dialogError(context,
+              error: response.errorResponse.toString(),
+              isPopUntil: true,
+              popToPage: '/menuPage');
+        });
+      } else {
+        memberApplyModel = MemberApplyModel.fromJson(jsonDecode(response));
+        if (memberApplyModel.responseCode!.isEmpty) {
+          menuProvider.apiState = ApiState.COMPLETED;
+          Constants().printCheckFlow(response, 'MemberApply');
+        } else {
+          menuProvider.apiState = ApiState.ERROR;
+          Future.delayed(const Duration(milliseconds: 500), () {
+            LoadingStyle().dialogError(context,
+                error: memberApplyModel!.responseText,
+                isPopUntil: true,
+                popToPage: '/menuPage');
+          });
+        }
+      }
+    } catch (e, strack) {
+      Constants().printError('$e - $strack');
+      menuProvider.apiState = ApiState.ERROR;
+      Future.delayed(const Duration(milliseconds: 500), () {
+        LoadingStyle().dialogError(context,
+            error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
+      });
+    }
+    return memberApplyModel!;
+  }
+
+  Future<MemberCancelModel> detectMemberCancel(
+      BuildContext context, var response) async {
+    var menuProvider = Provider.of<MenuProvider>(context, listen: false);
+    MemberCancelModel? memberCancelModel;
+    try {
+      if (response is Failure) {
+        menuProvider.apiState = ApiState.ERROR;
+        Future.delayed(const Duration(milliseconds: 500), () {
+          LoadingStyle().dialogError(context,
+              error: response.errorResponse.toString(),
+              isPopUntil: true,
+              popToPage: '/menuPage');
+        });
+      } else {
+        memberCancelModel = MemberCancelModel.fromJson(jsonDecode(response));
+        if (memberCancelModel.responseCode!.isEmpty) {
+          menuProvider.apiState = ApiState.COMPLETED;
+          Constants().printCheckFlow(response, 'MemberCancel');
+        } else {
+          menuProvider.apiState = ApiState.ERROR;
+          Future.delayed(const Duration(milliseconds: 500), () {
+            LoadingStyle().dialogError(context,
+                error: memberCancelModel!.responseText,
+                isPopUntil: true,
+                popToPage: '/menuPage');
+          });
+        }
+      }
+    } catch (e, strack) {
+      Constants().printError('$e - $strack');
+      menuProvider.apiState = ApiState.ERROR;
+      Future.delayed(const Duration(milliseconds: 500), () {
+        LoadingStyle().dialogError(context,
+            error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
+      });
+    }
+    return memberCancelModel!;
   }
 }

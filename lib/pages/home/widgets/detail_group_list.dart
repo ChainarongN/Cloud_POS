@@ -46,7 +46,11 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
                     String tranData = json.encode(
                         homeWatch.openTranModel!.responseObj!.tranData!);
                     menuRead
-                        .setTranData(orderID: orderId, tranObject: tranData)
+                        .setTranData(
+                            orderID: orderId,
+                            tranObject: tranData,
+                            saleModeName: homeWatch
+                                .openTranModel!.responseObj!.saleModeName)
                         .then((value) {
                       Navigator.pushNamed(context, '/menuPage');
                     });

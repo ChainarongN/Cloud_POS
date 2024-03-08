@@ -31,9 +31,18 @@ class ReadFileFunc {
     return payDataList;
   }
 
+  Future<List<FavoriteGroup>> readFavoriteGroup() async {
+    List<FavoriteGroup> favoriteGroup = [];
+    String? fileResponse = await _readFile(Constants.FAV_GROUP_TXT);
+    favoriteGroup = (jsonDecode(fileResponse) as List)
+        .map((e) => FavoriteGroup.fromJson(e))
+        .toList();
+    Constants().printWarning('Read from file "${Constants.FAV_GROUP_TXT}"');
+    return favoriteGroup;
+  }
+
   Future<List<Products>> readProd() async {
     List<Products> prodList = [];
-
     String? fileResponse = await _readFile(Constants.PROD_TXT);
     prodList = (jsonDecode(fileResponse) as List)
         .map((e) => Products.fromJson(e))
@@ -44,13 +53,11 @@ class ReadFileFunc {
 
   Future<List<ReasonGroup>> readReason() async {
     List<ReasonGroup> reasonList = [];
-
     String? fileResponse = await _readFile(Constants.REASON_GROUP_TXT);
     reasonList = (jsonDecode(fileResponse) as List)
         .map((e) => ReasonGroup.fromJson(e))
         .toList();
     Constants().printWarning('Read from file "${Constants.REASON_GROUP_TXT}"');
-
     return reasonList;
   }
 

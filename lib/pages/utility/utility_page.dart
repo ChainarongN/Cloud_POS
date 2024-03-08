@@ -222,8 +222,7 @@ class _UtilityPageState extends State<UtilityPage> {
             TextButton(
               child: AppTextStyle().textNormal('OK', size: 18),
               onPressed: () async {
-                if (utilityWatch.getCloseAmountController.text.isNotEmpty &&
-                    utilityWatch.apiState != ApiState.LOADING) {
+                if (utilityWatch.getCloseAmountController.text.isNotEmpty) {
                   LoadingStyle().dialogLoadding(context);
                   utilityRead.closeSession(context).then((value) {
                     if (utilityWatch.apiState == ApiState.COMPLETED) {
@@ -234,7 +233,6 @@ class _UtilityPageState extends State<UtilityPage> {
                         dialogResultHtml(
                                 context, utilityWatch, utilityRead, isSession)
                             .then((value) {
-                          LoadingStyle().dialogLoadding(context);
                           utilityRead.endDay(context).then((value) async {
                             if (utilityWatch.apiState == ApiState.COMPLETED) {
                               await dialogResultHtml(context, utilityWatch,
@@ -295,8 +293,7 @@ class _UtilityPageState extends State<UtilityPage> {
                           Navigator.pushNamedAndRemoveUntil(
                               context, '/loginPage', (route) => false);
                         } else {
-                          Navigator.popUntil(
-                              context, ModalRoute.withName('/utilityPage'));
+                          Navigator.maybePop(context);
                         }
                       },
                       radius: 25,

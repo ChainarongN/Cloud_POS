@@ -13,7 +13,7 @@ class APIService {
   static final APIService _instance = APIService._internal();
   factory APIService() => _instance;
 
-  Future postAndParams(
+  Future postAndData(
       {String? url,
       String? token,
       var param,

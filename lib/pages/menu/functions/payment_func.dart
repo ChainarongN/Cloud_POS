@@ -1,4 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
+import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
@@ -28,5 +29,20 @@ class PaymentFunc {
         await menuProvider.finalizeBill(context);
       },
     );
+  }
+
+  Future paymentMulti(BuildContext context) async {
+    var menuProvider = Provider.of<MenuProvider>(context, listen: false);
+    for (var i = 0; i < menuProvider.payAmountList!.length; i++) {
+      await menuProvider.paymentSubmit(context,
+          payAmount: menuProvider.payAmountList![i].price.toString(),
+          payCode: menuProvider.payAmountList![i].payCode,
+          payName: menuProvider.payAmountList![i].payName,
+          payTypeId: menuProvider.payAmountList![i].payTypeId,
+          payRemark: menuProvider.payAmountList![i].payRemark);
+    }
+    if (menuProvider.apiState == ApiState.COMPLETED) {
+      await menuProvider.finalizeBill(context);
+    }
   }
 }

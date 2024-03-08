@@ -35,7 +35,7 @@ class HomeRepository implements IHomeRepository {
       "noCustomer": noCustomer,
       "customerName": ""
     });
-    var response = await APIService().postAndParams(
+    var response = await APIService().postAndData(
         param: param,
         token: token,
         url: Endpoints.openTran,

@@ -55,8 +55,8 @@ class _MenuPageState extends State<MenuPage>
               });
             }),
         actions: <Widget>[
+          member(context, menuRead, menuWatch),
           employee(context),
-          member(context),
           clonebin(context),
         ],
       ),

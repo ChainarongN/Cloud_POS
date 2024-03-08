@@ -1,4 +1,5 @@
 import 'package:cloud_pos/translations/locale_key.g.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +94,9 @@ class LoadingStyle {
       barrierDismissible: false,
       color: Colors.white,
       titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      // msgStyle: const TextStyle(fontSize: 16, overflow: TextOverflow.fade),
+      msgStyle: TextStyle(
+          fontSize: Constants().screenheight(context) * 0.019,
+          overflow: TextOverflow.fade),
       msg: error,
       title: LocaleKeys.something_went_wrong.tr(),
       lottieBuilder: Lottie.asset(

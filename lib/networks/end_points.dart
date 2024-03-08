@@ -21,4 +21,7 @@ class Endpoints {
   static const String orderSummary = "$baseUrl/api/POSModule/POS_OrderSummary";
   static const String sessionSearch =
       "$baseUrl/api/POSModule/POS_SessionSearch";
+  static const String memberData = "$baseUrl/api/POSModule/Member_Data";
+  static const String memberApply = "$baseUrl/api/POSModule/Member_Apply";
+  static const String memberCancel = "$baseUrl/api/POSModule/Member_Cancel";
 }

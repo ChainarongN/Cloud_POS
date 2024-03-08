@@ -24,4 +24,7 @@ abstract class IMenuRepository {
       String? payRemark});
   Future finalizeBill({String? deviceKey, String? tranData});
   Future orderSummary({String? deviceKey, String? orderId});
+  Future memberData({String? phoneMember, String? deviceKey});
+  Future memberApply({String? tranData, String? memberId, String? deviceKey});
+  Future memberCancel({String? tranData, String? deviceKey});
 }
