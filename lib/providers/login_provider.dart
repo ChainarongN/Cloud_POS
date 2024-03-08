@@ -38,8 +38,9 @@ class LoginProvider extends ChangeNotifier {
   TextEditingController get getOpenAmountController => _openAmountController;
 
   // ------------------------ Call Data -------------------------
-  init() {
+  init() async {
     _errorText = '';
+    await SharedPref().setDeviceId('0288-7363-6560-2714');
   }
 
   Future flowOpen(BuildContext context) async {
@@ -57,8 +58,7 @@ class LoginProvider extends ChangeNotifier {
 
   Future startProcess(BuildContext context) async {
     apisState = ApiState.LOADING;
-    var response = await _loginRepository.startProcess(
-        deviceId: '0288-7363-6560-2714', langID: '1');
+    var response = await _loginRepository.startProcess(langID: '1');
     startProcessModel =
         await DetectLoginFunc().detectStartProcess(context, response);
     if (apisState == ApiState.COMPLETED) {
@@ -75,9 +75,7 @@ class LoginProvider extends ChangeNotifier {
   Future openSession(BuildContext context) async {
     apisState = ApiState.LOADING;
     var response = await _loginRepository.openSession(
-        deviceId: '0288-7363-6560-2714',
-        langID: '1',
-        openAmount: _openAmountController.text);
+        langID: '1', openAmount: _openAmountController.text);
     openSessionModel =
         await DetectLoginFunc().detectOpenSession(context, response);
     if (apisState == ApiState.COMPLETED) {
@@ -107,10 +105,10 @@ class LoginProvider extends ChangeNotifier {
     apisState = ApiState.LOADING;
     String username = 'cpos';
     var response = await _loginRepository.login(
-        username: username,
-        password: 'cpos',
-        deviceKey: '0288-7363-6560-2714',
-        langId: '1');
+      username: username,
+      password: 'cpos',
+      langId: '1',
+    );
     loginModel = await DetectLoginFunc().detectLogin(context, response);
     if (apisState == ApiState.COMPLETED) {
       if (loginModel!.responseCode == '99') {
@@ -147,7 +145,6 @@ class LoginProvider extends ChangeNotifier {
   Future getCoreDataInit(BuildContext context, bool loginAgain) async {
     apisState = ApiState.LOADING;
     var response = await _loginRepository.getCoreDataDetail(
-      deviceKey: '0288-7363-6560-2714',
       langID: '1',
     );
     coreInitModel =

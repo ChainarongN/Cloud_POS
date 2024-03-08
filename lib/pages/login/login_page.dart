@@ -29,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft
     ]);
+    Provider.of<LoginProvider>(context, listen: false).init();
   }
 
   @override

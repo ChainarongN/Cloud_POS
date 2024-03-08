@@ -20,8 +20,10 @@ import 'package:cloud_pos/pages/menu/functions/detect_menu_func.dart';
 import 'package:cloud_pos/pages/menu/functions/payment_func.dart';
 import 'package:cloud_pos/pages/menu/functions/read_file_func.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 import '../repositorys/repository.dart';
@@ -134,7 +136,7 @@ class MenuProvider extends ChangeNotifier {
       if (int.parse(payAmount!) < double.parse(_dueAmountController.text)) {
         await LoadingStyle().dialogError(context!,
             error:
-                'You pay $payAmount THB.  Pay amount must more than total price.',
+                'You pay $payAmount THB.  ${LocaleKeys.pay_amount_must_more_than_total_price.tr()}',
             isPopUntil: false);
       } else {
         await PaymentFunc()
@@ -200,8 +202,7 @@ class MenuProvider extends ChangeNotifier {
 
   Future orderSummary(BuildContext context) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.orderSummary(
-        deviceKey: '0288-7363-6560-2714', orderId: _orderId);
+    var response = await _menuRepository.orderSummary(orderId: _orderId);
     orderSummaryModel =
         await DetectMenuFunc().detectOrderSummary(context, response);
     if (apiState == ApiState.COMPLETED) {
@@ -214,7 +215,6 @@ class MenuProvider extends ChangeNotifier {
   Future finalizeBill(BuildContext context) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.finalizeBill(
-        deviceKey: '0288-7363-6560-2714',
         tranData: json.encode(paymentSubmitModel!.responseObj!.tranData));
     finalizeBillModel =
         await DetectMenuFunc().detectFinalizeBill(context, response);
@@ -235,7 +235,6 @@ class MenuProvider extends ChangeNotifier {
       String? payRemark}) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.paymentSubmit(
-        deviceKey: '0288-7363-6560-2714',
         payAmount: payAmount,
         tranData: productAddModel!.responseObj!.tranData!.toJson(),
         payCode: payCode, //CS
@@ -258,7 +257,6 @@ class MenuProvider extends ChangeNotifier {
       productObjModel!.responseObj!.productData!.productQty = count;
       apiState = ApiState.LOADING;
       var response = await _menuRepository.productAdd(
-          deviceKey: '0288-7363-6560-2714',
           prodObj: json.encode(productObjModel!.responseObj));
       productAddModel =
           await DetectMenuFunc().detectProductAdd(context, response);
@@ -276,7 +274,6 @@ class MenuProvider extends ChangeNotifier {
     var response = await _menuRepository.productObj(
         tranData: _tranDataFromOpenTran,
         productId: prodId.toString(),
-        deviceKey: '0288-7363-6560-2714',
         orderDetailId: orderDetailId);
     productObjModel =
         await DetectMenuFunc().detectProductObj(context, response);
@@ -285,7 +282,6 @@ class MenuProvider extends ChangeNotifier {
   Future cancelTransaction(BuildContext context) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.cancelTran(
-        deviceKey: '0288-7363-6560-2714',
         langId: '1',
         orderId: _orderId,
         reasonIDList: _valueIdReason.text,
@@ -302,17 +298,14 @@ class MenuProvider extends ChangeNotifier {
     apiState = ApiState.LOADING;
     _valueReasonGroupSelect = reasonGroupList![index].name;
     var response = await _menuRepository.reason(
-        deviceKey: '0288-7363-6560-2714',
-        langId: '1',
-        reasonId: reasonGroupList![index].iD.toString());
+        langId: '1', reasonId: reasonGroupList![index].iD.toString());
     reasonModel = await DetectMenuFunc().detectReason(context, response);
     notifyListeners();
   }
 
   Future memberData(BuildContext context, String phone) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.memberData(
-        deviceKey: '0288-7363-6560-2714', phoneMember: phone);
+    var response = await _menuRepository.memberData(phoneMember: phone);
     memberDataModel =
         await DetectMenuFunc().detectMemberData(context, response);
   }
@@ -320,7 +313,6 @@ class MenuProvider extends ChangeNotifier {
   Future memberApply(BuildContext context) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.memberApply(
-      deviceKey: '0288-7363-6560-2714',
       memberId: memberDataModel!.responseObj!.memberInfo!.memberID.toString(),
       tranData: json.encode(orderSummaryModel!.responseObj!.tranData),
     );
@@ -331,7 +323,6 @@ class MenuProvider extends ChangeNotifier {
   Future memberCancel(BuildContext context) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.memberCancel(
-      deviceKey: '0288-7363-6560-2714',
       tranData: json.encode(orderSummaryModel!.responseObj!.tranData),
     );
     memberCancelModel =
@@ -399,7 +390,7 @@ class MenuProvider extends ChangeNotifier {
         if (productAddModel == null ||
             productAddModel!.responseObj!.orderList!.isEmpty) {
           await LoadingStyle().dialogError(context,
-              error: 'Must have at least 1 order.',
+              error: LocaleKeys.must_have_at_least_1_order.tr(),
               isPopUntil: true,
               popToPage: '/menuPage');
           setTabToPayment(0);

@@ -9,19 +9,16 @@ class AddProductFunc {
   static final AddProductFunc _instance = AddProductFunc._internal();
   factory AddProductFunc() => _instance;
 
-  Future<bool> addProductToList(BuildContext context,
+  Future addProductToList(BuildContext context,
       {int? prodId, double? count, String? orderDetailId}) async {
     var menuProvider = Provider.of<MenuProvider>(context, listen: false);
-    bool isSuccess = false;
 
     await menuProvider.productObj(context, prodId!, orderDetailId!);
     if (menuProvider.apiState == ApiState.COMPLETED) {
       await menuProvider.productAdd(context, count!);
       if (menuProvider.apiState == ApiState.COMPLETED) {
-        isSuccess = true;
         Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
       }
     }
-    return isSuccess;
   }
 }

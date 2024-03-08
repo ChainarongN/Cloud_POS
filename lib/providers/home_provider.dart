@@ -52,7 +52,6 @@ class HomeProvider extends ChangeNotifier {
   Future openTransaction(BuildContext context, int index) async {
     apisState = ApiState.LOADING;
     var response = await _homeRepository.openTransaction(
-        deviceKey: '0288-7363-6560-2714',
         langID: '1',
         noCustomer: int.parse(_customerCount.text),
         saleModeId: saleModeDataList![index].saleModeID!);

@@ -87,7 +87,21 @@ class CodegenLoader extends AssetLoader{
   "first_name": "First name",
   "last_name": "Last name",
   "there_is_no_pay_amount": "There is no pay amount",
-  "delete": "Delete"
+  "delete": "Delete",
+  "close": "Close",
+  "you_pay": "You pay",
+  "total_qty": "Total Qty",
+  "total_discount": "Total Discount",
+  "service_charge": "Service Charge",
+  "other_income": "Other income",
+  "tax": "Tax",
+  "sub_total": "Sub Total",
+  "grand_total": "Grand Total",
+  "pay_amount": "Pay Amount",
+  "input_your_remark": "Input your remark",
+  "remark": "Remark",
+  "enter_your_qty": "Enter your qty",
+  "print_bill": "Print bill"
 };
 static const Map<String,dynamic> th = {
   "hi_text": "สวัสดี",
@@ -162,7 +176,21 @@ static const Map<String,dynamic> th = {
   "first_name": "ชื่อ",
   "last_name": "นามสกุล",
   "there_is_no_pay_amount": "ไม่มีจำนวนเงินที่จ่าย",
-  "delete": "ลบ"
+  "delete": "ลบ",
+  "close": "ปิด",
+  "you_pay": "คุณจ่าย",
+  "total_qty": "จำนวนทั้งหมด",
+  "total_discount": "ส่วนลดทั้งหมด",
+  "service_charge": "ค่าบริการ",
+  "other_income": "รายได้อื่นๆ",
+  "tax": "ภาษี",
+  "sub_total": "ผลรวมย่อย",
+  "grand_total": "ผลรวมทั้งสิ้น",
+  "pay_amount": "จำนวนที่จ่าย",
+  "input_your_remark": "ใส่หมายเหตุ",
+  "remark": "หมายเหตุ",
+  "enter_your_qty": "กรอกจำนวนของคุณ",
+  "print_bill": "พิมพ์ใบเสร็จ"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "th": th};
 }

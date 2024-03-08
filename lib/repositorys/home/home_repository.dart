@@ -8,19 +8,17 @@ import 'package:cloud_pos/service/shared_pref.dart';
 class HomeRepository implements IHomeRepository {
   @override
   Future openTransaction(
-      {String? deviceKey,
-      String? langID,
-      int? saleModeId,
-      int? noCustomer}) async {
+      {String? langID, int? saleModeId, int? noCustomer}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int staffId = await SharedPref().getStaffID();
     int shopId = await SharedPref().getShopID();
     int computerId = await SharedPref().getComputerID();
     String saleDate = await SharedPref().getSaleDate();
+    String deviceId = await SharedPref().getDeviceId();
     var param = {
       "reqId": uuid,
-      "deviceKey": deviceKey,
+      "deviceKey": deviceId,
       "LangID": langID,
     };
     var data = json.encode({

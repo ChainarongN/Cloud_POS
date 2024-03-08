@@ -6,17 +6,18 @@ import 'package:easy_localization/easy_localization.dart';
 
 class UtilityRepository implements IUtilityRepository {
   @override
-  Future endDay({String? deviceKey}) async {
+  Future endDay() async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int staffId = await SharedPref().getStaffID();
     int shopId = await SharedPref().getShopID();
     int computerId = await SharedPref().getComputerID();
     String saleDate = await SharedPref().getSaleDate();
+    String deviceId = await SharedPref().getDeviceId();
 
     var param = {
       'reqId': uuid,
-      'deviceKey': deviceKey,
+      'deviceKey': deviceId,
       'LangID': '1',
       'SaleDate': saleDate,
       'ShopID': shopId.toString(),
@@ -31,19 +32,17 @@ class UtilityRepository implements IUtilityRepository {
 
   @override
   Future closeSession(
-      {String? langId,
-      String? deviceKey,
-      String? closeSSAmount,
-      String? sessionId}) async {
+      {String? langId, String? closeSSAmount, String? sessionId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int staffId = await SharedPref().getStaffID();
     int shopId = await SharedPref().getShopID();
     int computerId = await SharedPref().getComputerID();
+    String deviceId = await SharedPref().getDeviceId();
 
     var param = {
       'reqId': uuid,
-      'deviceKey': deviceKey,
+      'deviceKey': deviceId,
       'LangID': langId,
       'SessionID': sessionId,
       'SSComputerID': computerId.toString(),
@@ -63,18 +62,19 @@ class UtilityRepository implements IUtilityRepository {
   }
 
   @override
-  Future sessionSearch({String? langId, String? deviceKey}) async {
+  Future sessionSearch({String? langId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int staffId = await SharedPref().getStaffID();
     int shopId = await SharedPref().getShopID();
+    String deviceId = await SharedPref().getDeviceId();
     int computerId = await SharedPref().getComputerID();
     DateTime now = DateTime.now();
     var formatterDate = DateFormat('yyyy-MM-dd').format(now);
 
     var param = {
       'reqId': uuid,
-      'deviceKey': deviceKey,
+      'deviceKey': deviceId,
       'LangID': langId,
       'SessionID': '0',
       'SSComputerID': computerId.toString(),

@@ -28,7 +28,7 @@ class UtilityProvider extends ChangeNotifier {
   // ------------------------ Call Data -------------------------
   Future endDay(BuildContext context) async {
     apiState = ApiState.LOADING;
-    var res = await _utilityRepository.endDay(deviceKey: '0288-7363-6560-2714');
+    var res = await _utilityRepository.endDay();
     endDayModel = await DetectUtilityFunc().detectEndDay(context, res);
     if (apiState == ApiState.COMPLETED) {
       _htmlResult = endDayModel!.responseObj!.printDataHtml!;
@@ -68,7 +68,6 @@ class UtilityProvider extends ChangeNotifier {
       int idx = key.indexOf(":");
       String sessionId = key.substring(0, idx).trim();
       var response = await _utilityRepository.closeSession(
-          deviceKey: '0288-7363-6560-2714',
           langId: '1',
           sessionId: sessionId,
           closeSSAmount: _closeAmountController.text);
@@ -82,8 +81,7 @@ class UtilityProvider extends ChangeNotifier {
 
   Future sessionSearch(BuildContext context) async {
     apiState = ApiState.LOADING;
-    var response = await _utilityRepository.sessionSearch(
-        langId: '1', deviceKey: '0288-7363-6560-2714');
+    var response = await _utilityRepository.sessionSearch(langId: '1');
     sessionSearchModel =
         await DetectUtilityFunc().detectSessionSearch(context, response);
     if (apiState == ApiState.COMPLETED) {

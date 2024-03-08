@@ -1,20 +1,15 @@
 abstract class IMenuRepository {
-  Future reason({String? deviceKey, String? langId, String? reasonId});
+  Future reason({String? langId, String? reasonId});
   Future cancelTran(
       {String? orderId,
       String? reasonIDList,
       String? langId,
-      String? deviceKey,
       String? reasonText});
   Future productObj(
-      {String? tranData,
-      String? productId,
-      String? deviceKey,
-      String? orderDetailId});
-  Future productAdd({String? deviceKey, String? prodObj});
+      {String? tranData, String? productId, String? orderDetailId});
+  Future productAdd({String? prodObj});
   Future paymentSubmit(
-      {String? deviceKey,
-      String? payAmount,
+      {String? payAmount,
       var tranData,
       String? payCode,
       String? payName,
@@ -22,9 +17,9 @@ abstract class IMenuRepository {
       int? payTypeId,
       int? currencyID,
       String? payRemark});
-  Future finalizeBill({String? deviceKey, String? tranData});
-  Future orderSummary({String? deviceKey, String? orderId});
-  Future memberData({String? phoneMember, String? deviceKey});
-  Future memberApply({String? tranData, String? memberId, String? deviceKey});
-  Future memberCancel({String? tranData, String? deviceKey});
+  Future finalizeBill({String? tranData});
+  Future orderSummary({String? orderId});
+  Future memberData({String? phoneMember});
+  Future memberApply({String? tranData, String? memberId});
+  Future memberCancel({String? tranData});
 }

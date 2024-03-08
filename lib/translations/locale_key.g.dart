@@ -74,5 +74,19 @@ abstract class  LocaleKeys {
   static const last_name = 'last_name';
   static const there_is_no_pay_amount = 'there_is_no_pay_amount';
   static const delete = 'delete';
+  static const close = 'close';
+  static const you_pay = 'you_pay';
+  static const total_qty = 'total_qty';
+  static const total_discount = 'total_discount';
+  static const service_charge = 'service_charge';
+  static const other_income = 'other_income';
+  static const tax = 'tax';
+  static const sub_total = 'sub_total';
+  static const grand_total = 'grand_total';
+  static const pay_amount = 'pay_amount';
+  static const input_your_remark = 'input_your_remark';
+  static const remark = 'remark';
+  static const enter_your_qty = 'enter_your_qty';
+  static const print_bill = 'print_bill';
 
 }

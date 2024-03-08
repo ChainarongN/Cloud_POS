@@ -2,16 +2,18 @@ import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/menu/i_menu_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
+import 'package:cloud_pos/utils/constants.dart';
 
 class MenuRepository implements IMenuRepository {
   @override
-  Future orderSummary({String? deviceKey, String? orderId}) async {
+  Future orderSummary({String? orderId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
 
     var param = {
       "reqId": uuid,
-      "deviceKey": deviceKey,
+      "deviceKey": deviceId,
       "LangID": '1',
       "OrderId": orderId,
       "ViewReceipt": "1",
@@ -28,14 +30,15 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future finalizeBill({String? deviceKey, String? tranData}) async {
+  Future finalizeBill({String? tranData}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int staffId = await SharedPref().getStaffID();
     int computerId = await SharedPref().getComputerID();
+    String deviceId = await SharedPref().getDeviceId();
     var param = {
       "reqId": uuid,
-      "deviceKey": deviceKey,
+      "deviceKey": deviceId,
       "LangID": '1',
       "CloseComputerID": computerId.toString(),
       "StaffID": staffId.toString()
@@ -51,8 +54,7 @@ class MenuRepository implements IMenuRepository {
 
   @override
   Future paymentSubmit(
-      {String? deviceKey,
-      String? payAmount,
+      {String? payAmount,
       var tranData,
       String? payCode,
       String? payName,
@@ -63,10 +65,11 @@ class MenuRepository implements IMenuRepository {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int staffId = await SharedPref().getStaffID();
+    String deviceId = await SharedPref().getDeviceId();
 
     var param = {
       "reqId": uuid,
-      "deviceKey": deviceKey,
+      "deviceKey": deviceId,
       "LangID": '1',
       "ViewOrderInfo": 'true',
     };
@@ -99,12 +102,14 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future productAdd({String? deviceKey, String? prodObj}) async {
+  Future productAdd({String? prodObj}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
+
     var param = {
       "reqId": uuid,
-      "deviceKey": deviceKey,
+      "deviceKey": deviceId,
       "LangID": '1',
       "ViewOrderInfo": 'true',
     };
@@ -120,15 +125,13 @@ class MenuRepository implements IMenuRepository {
 
   @override
   Future productObj(
-      {String? tranData,
-      String? productId,
-      String? deviceKey,
-      String? orderDetailId}) async {
+      {String? tranData, String? productId, String? orderDetailId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
     var param = {
       "reqId": uuid,
-      "deviceKey": deviceKey,
+      "deviceKey": deviceId,
       "OrderDetailID": orderDetailId,
       "SelProductID": productId,
       "LangID": '1'
@@ -144,12 +147,14 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future memberData({String? phoneMember, String? deviceKey}) async {
+  Future memberData({String? phoneMember}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
+
     var param = {
       "reqId": uuid,
-      "deviceKey": deviceKey,
+      "deviceKey": deviceId,
       "LangID": '1',
       "memberCode": phoneMember
     };
@@ -166,13 +171,13 @@ class MenuRepository implements IMenuRepository {
   Future memberApply({
     String? tranData,
     String? memberId,
-    String? deviceKey,
   }) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
     var param = {
       "reqId": uuid,
-      "deviceKey": deviceKey,
+      "deviceKey": deviceId,
       "LangID": '1',
       "MemberID": memberId,
       "ViewOrderInfo": true
@@ -188,15 +193,13 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future memberCancel({
-    String? tranData,
-    String? deviceKey,
-  }) async {
+  Future memberCancel({String? tranData}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
     var param = {
       "reqId": uuid,
-      "deviceKey": deviceKey,
+      "deviceKey": deviceId,
       "LangID": '1',
       "ViewOrderInfo": true
     };
@@ -211,14 +214,15 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future reason({String? deviceKey, String? langId, String? reasonId}) async {
+  Future reason({String? langId, String? reasonId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int shopId = await SharedPref().getShopID();
     int staffId = await SharedPref().getStaffID();
+    String deviceId = await SharedPref().getDeviceId();
     var data = {
       "reqId": uuid,
-      "deviceKey": deviceKey,
+      "deviceKey": deviceId,
       "LangID": langId,
       "ReasonGroupID": reasonId,
       "ShopID": shopId.toString(),
@@ -234,15 +238,15 @@ class MenuRepository implements IMenuRepository {
       {String? orderId,
       String? reasonIDList,
       String? langId,
-      String? deviceKey,
       String? reasonText}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String saleDate = await SharedPref().getSaleDate();
     int staffId = await SharedPref().getStaffID();
+    String deviceId = await SharedPref().getDeviceId();
     var data = {
       "reqId": uuid,
-      "deviceKey": deviceKey,
+      "deviceKey": deviceId,
       "LangID": langId,
       "OrderId": orderId,
       "ReasonIDList": reasonIDList,

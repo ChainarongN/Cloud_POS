@@ -4,18 +4,19 @@ import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:uuid/uuid.dart';
 
 class LoginRepository implements ILoginRepository {
   @override
-  Future openSession(
-      {String? langID, String? deviceId, String? openAmount}) async {
+  Future openSession({String? langID, String? openAmount}) async {
     String token = await SharedPref().getToken();
     String uuid = await SharedPref().getUuid();
     int staffId = await SharedPref().getStaffID();
     int shopId = await SharedPref().getShopID();
     int computerId = await SharedPref().getComputerID();
     String saleDate = await SharedPref().getSaleDate();
+    String deviceId = await SharedPref().getDeviceId();
     var param = {
       "reqId": uuid,
       "deviceKey": deviceId,
@@ -39,10 +40,14 @@ class LoginRepository implements ILoginRepository {
   }
 
   @override
-  Future startProcess({String? langID, String? deviceId}) async {
+  Future startProcess({String? langID}) async {
     String uuid = await SharedPref().getUuid();
     int staffId = await SharedPref().getStaffID();
     String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
+
+    
+
     var data = {
       'reqId': uuid,
       'deviceKey': deviceId,
@@ -58,12 +63,13 @@ class LoginRepository implements ILoginRepository {
   }
 
   @override
-  Future getCoreDataDetail({String? deviceKey, String? langID}) async {
+  Future getCoreDataDetail({String? langID}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
     var data = {
       "reqId": uuid,
-      "deviceKey": deviceKey,
+      "deviceKey": deviceId,
       "LangID": langID,
     };
     var response = await APIService().postParams(
@@ -89,13 +95,12 @@ class LoginRepository implements ILoginRepository {
   }
 
   @override
-  Future login(
-      {String? deviceKey,
-      String? langId,
-      String? username,
-      String? password}) async {
+  Future login({String? langId, String? username, String? password}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
+
+ 
     if (uuid.isEmpty) {
       uuid = const Uuid().v4();
       await SharedPref().setUuid(uuid);
@@ -103,7 +108,7 @@ class LoginRepository implements ILoginRepository {
 
     var data = {
       'reqId': uuid,
-      'deviceKey': deviceKey,
+      'deviceKey': deviceId,
       'LangID': langId,
       'username': username,
       'password': password

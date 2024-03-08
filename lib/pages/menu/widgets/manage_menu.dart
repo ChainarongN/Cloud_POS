@@ -351,7 +351,7 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
           children: <Widget>[
             Row(
               children: <Widget>[
-                AppTextStyle().textNormal('Total Qty:'),
+                AppTextStyle().textNormal('${LocaleKeys.total_qty.tr()}:'),
                 const Spacer(),
                 menuWatch.productAddModel == null ||
                         menuWatch.productAddModel!.responseCode!.isNotEmpty ||
@@ -365,7 +365,7 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
             ),
             Row(
               children: <Widget>[
-                AppTextStyle().textNormal('Total Discount:'),
+                AppTextStyle().textNormal('${LocaleKeys.total_discount.tr()}:'),
                 const Spacer(),
                 menuWatch.productAddModel == null ||
                         menuWatch.productAddModel!.responseCode!.isNotEmpty ||
@@ -379,7 +379,7 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
             ),
             Row(
               children: <Widget>[
-                AppTextStyle().textNormal('Service Charge:'),
+                AppTextStyle().textNormal('${LocaleKeys.service_charge.tr()}:'),
                 const Spacer(),
                 menuWatch.productAddModel == null ||
                         menuWatch.productAddModel!.responseCode!.isNotEmpty ||
@@ -393,14 +393,14 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
             ),
             Row(
               children: <Widget>[
-                AppTextStyle().textNormal('Other Income:'),
+                AppTextStyle().textNormal('${LocaleKeys.other_income.tr()}:'),
                 const Spacer(),
                 AppTextStyle().textNormal('-'),
               ],
             ),
             Row(
               children: <Widget>[
-                AppTextStyle().textNormal('Tax 7.00%:'),
+                AppTextStyle().textNormal('${LocaleKeys.tax.tr()} 7.00%:'),
                 const Spacer(),
                 menuWatch.productAddModel == null ||
                         menuWatch.productAddModel!.responseCode!.isNotEmpty ||
@@ -423,14 +423,14 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
           children: <Widget>[
             Row(
               children: <Widget>[
-                AppTextStyle().textNormal('Sub Total:'),
+                AppTextStyle().textNormal('${LocaleKeys.sub_total.tr()}:'),
                 const Spacer(),
                 AppTextStyle().textNormal('-'),
               ],
             ),
             Row(
               children: <Widget>[
-                AppTextStyle().textNormal('Grand Total:'),
+                AppTextStyle().textNormal('${LocaleKeys.grand_total.tr()}:'),
                 const Spacer(),
                 AppTextStyle().textNormal('-'),
               ],
@@ -451,7 +451,7 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
             ),
             Row(
               children: <Widget>[
-                AppTextStyle().textNormal('Pay Amount:'),
+                AppTextStyle().textNormal('${LocaleKeys.pay_amount.tr()}:'),
                 const Spacer(),
                 menuWatch.productAddModel == null ||
                         menuWatch.productAddModel!.responseCode!.isNotEmpty ||
@@ -513,8 +513,9 @@ SizedBox orderList(
                                         .itemName!),
                                     content: TextField(
                                       onChanged: (value) {},
-                                      decoration: const InputDecoration(
-                                          hintText: "Input your remark"),
+                                      decoration: InputDecoration(
+                                          hintText: LocaleKeys.input_your_remark
+                                              .tr()),
                                     ),
                                     actions: [
                                       GestureDetector(
@@ -540,7 +541,7 @@ SizedBox orderList(
                           backgroundColor: Colors.grey,
                           foregroundColor: Colors.white,
                           icon: Icons.archive,
-                          label: 'Remark',
+                          label: LocaleKeys.remark.tr(),
                         ),
                         SlidableAction(
                           flex: 2,
@@ -548,7 +549,7 @@ SizedBox orderList(
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
                           icon: Icons.save,
-                          label: 'Delete',
+                          label: LocaleKeys.delete.tr(),
                         ),
                       ],
                     ),
@@ -669,7 +670,7 @@ openQtyDialog(BuildContext context, MenuProvider menuWatch,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white.withOpacity(0.3),
-                    labelText: 'Enter your Qty.',
+                    labelText: '${LocaleKeys.enter_your_qty.tr()}.',
                     border: Constants().myinputborder(), //normal border
                     enabledBorder: Constants().myinputborder(), //enabled border
                     focusedBorder: Constants().myfocusborder(), //focused border
@@ -684,14 +685,14 @@ openQtyDialog(BuildContext context, MenuProvider menuWatch,
         ),
         actions: <Widget>[
           TextButton(
-            child: AppTextStyle().textNormal('OK',
+            child: AppTextStyle().textNormal(LocaleKeys.ok.tr(),
                 size: Constants().screenheight(context) * 0.025),
             onPressed: () {
               menuRead.dialogCountOrder(context, index);
             },
           ),
           TextButton(
-            child: AppTextStyle().textNormal('Cancel',
+            child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
                 size: Constants().screenheight(context) * 0.025,
                 color: Colors.red),
             onPressed: () async {
@@ -760,7 +761,7 @@ Future<dynamic> dialogResultHtml(
                           radius: 25,
                           width: Constants().screenWidth(context) * 0.17,
                           height: Constants().screenheight(context) * 0.18,
-                          title: 'พิมพ์ใบเสร็จ',
+                          title: LocaleKeys.print_bill.tr(),
                           size: 20,
                           onlyText: false,
                           icon: Icons.add_chart_rounded,
@@ -781,7 +782,7 @@ Future<dynamic> dialogResultHtml(
                           radius: 25,
                           width: Constants().screenWidth(context) * 0.17,
                           height: Constants().screenheight(context) * 0.18,
-                          title: 'ปิด',
+                          title: LocaleKeys.close.tr(),
                           size: 20,
                           icon: Icons.close_rounded,
                           onlyText: false,
