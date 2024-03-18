@@ -54,8 +54,8 @@ class ResponseObj {
   int? shopID;
   String? shopCode;
   String? shopName;
-  Null? storeKey;
-  Null? storeName;
+  var storeKey;
+  var storeName;
   String? saleDate;
   int? saleModeID;
   String? saleModeName;
@@ -97,10 +97,10 @@ class ResponseObj {
   String? riderStatusName;
   String? agentOrderId;
   String? agentOrderRef;
-  Null? deliveryAddress;
-  Null? pickupStoreInfo;
+  var deliveryAddress;
+  var pickupStoreInfo;
   TranData? tranData;
-  Null? paymentStatus;
+  var paymentStatus;
 
   ResponseObj(
       {this.orderID,
@@ -385,8 +385,8 @@ class PaymentList {
   String? remark;
   double? payAmount;
   double? cashChange;
-  Null? payTypeImage;
-  Null? payTypeDesp;
+  var payTypeImage;
+  var payTypeDesp;
 
   PaymentList(
       {this.payDetailID,

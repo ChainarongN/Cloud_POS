@@ -55,6 +55,7 @@ dependencies:
   # widgets_to_image: ^0.0.2
   qr_flutter: ^4.1.0
   flutter_multi_formatter: ^2.12.4
+  cached_network_image: ^3.3.1
 
   esc_pos_printer:
   esc_pos_utils:

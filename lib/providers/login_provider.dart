@@ -122,6 +122,11 @@ class LoginProvider extends ChangeNotifier {
         await SharedPref()
             .setStaffID(loginModel!.responseObj!.staffInfo!.staffID!);
         await SharedPref().setUsername(username);
+        await SharedPref()
+            .setStaffCode(loginModel!.responseObj!.staffInfo!.staffCode!);
+        await SharedPref().setStaffRoleName(
+            loginModel!.responseObj!.staffInfo!.staffRoleName!);
+
         await checkReadCoreData(context);
         _errorText = '';
       }
@@ -168,7 +173,11 @@ class LoginProvider extends ChangeNotifier {
               Constants.REASON_GROUP_TXT),
           _writeCoreInit(
               jsonEncode(coreInitModel!.responseObj!.payTypeData!.payTypeInfo),
-              Constants.PAYMENT_GROUP_TXT)
+              Constants.PAYMENT_GROUP_TXT),
+          _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.shopData),
+              Constants.SHOP_DATA_TXT),
+          _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.computerName),
+              Constants.COMPUTER_NAME_TXT)
         ],
       );
       if (loginAgain) {

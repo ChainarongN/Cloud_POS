@@ -6,10 +6,14 @@ abstract class IMenuRepository {
       String? langId,
       String? reasonText});
   Future productObj(
-      {String? tranData, String? productId, String? orderDetailId});
-  Future productAdd({String? prodObj});
+      {String? langID,
+      String? tranData,
+      String? productId,
+      String? orderDetailId});
+  Future productAdd({String? langID, String? prodObj});
   Future paymentSubmit(
-      {String? payAmount,
+      {String? langID,
+      String? payAmount,
       var tranData,
       String? payCode,
       String? payName,
@@ -17,9 +21,23 @@ abstract class IMenuRepository {
       int? payTypeId,
       int? currencyID,
       String? payRemark});
-  Future finalizeBill({String? tranData});
-  Future orderSummary({String? orderId});
-  Future memberData({String? phoneMember});
-  Future memberApply({String? tranData, String? memberId});
-  Future memberCancel({String? tranData});
+  Future finalizeBill({String? langID, String? tranData});
+  Future orderSummary({String? langID, String? orderId});
+  Future memberData({String? langID, String? phoneMember});
+  Future memberApply({String? langID, String? tranData, String? memberId});
+  Future memberCancel({String? langID, String? tranData});
+  Future eCouponInquiry(
+      {String? langID,
+      String? voucherSN,
+      int? transactionID,
+      String? computerCode,
+      String? computerName,
+      String? tranKey,
+      String? shopCode,
+      String? shopName,
+      String? shopKey,
+      String? staffCode,
+      String? staffName});
+  Future eCouponApply({String? langID, String? couponSN, String? tranData});
+  Future promotionCancel({String? langID, String? promoUUID, String? tranData});
 }

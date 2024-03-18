@@ -4,7 +4,6 @@ import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
-import 'package:cloud_pos/utils/constants.dart';
 import 'package:uuid/uuid.dart';
 
 class LoginRepository implements ILoginRepository {
@@ -45,8 +44,6 @@ class LoginRepository implements ILoginRepository {
     int staffId = await SharedPref().getStaffID();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
-
-    
 
     var data = {
       'reqId': uuid,
@@ -100,7 +97,6 @@ class LoginRepository implements ILoginRepository {
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
 
- 
     if (uuid.isEmpty) {
       uuid = const Uuid().v4();
       await SharedPref().setUuid(uuid);

@@ -75,6 +75,7 @@ Future<void> dialogCredit(BuildContext context,
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
+      menuWatch!.getDueAmountController.text = menuWatch.getDueAmountCurrent;
       return Dialog(
         child: Padding(
           padding:
@@ -106,7 +107,7 @@ Future<void> dialogCredit(BuildContext context,
                       width: Constants().screenWidth(context) * 0.15,
                       height: Constants().screenheight(context) * 0.05,
                       child: TextField(
-                        controller: menuWatch!.getDueAmountController,
+                        controller: menuWatch.getDueAmountController,
                         readOnly: true,
                         textAlign: TextAlign.end,
                         keyboardType: TextInputType.number,
@@ -195,8 +196,8 @@ Future<void> dialogCredit(BuildContext context,
                         onPressed: () async {
                           double price =
                               double.parse(menuWatch.getPayAmountCredit.text);
-                          double dueAmount = double.parse(
-                              menuWatch.getDueAmountController.text);
+                          double dueAmount =
+                              double.parse(menuWatch.getDueAmountCurrent);
                           if (price > dueAmount) {
                             LoadingStyle().dialogError(context,
                                 error:

@@ -24,4 +24,8 @@ class Endpoints {
   static const String memberData = "$baseUrl/api/POSModule/Member_Data";
   static const String memberApply = "$baseUrl/api/POSModule/Member_Apply";
   static const String memberCancel = "$baseUrl/api/POSModule/Member_Cancel";
+  static const String eCouponInquiry = "$baseUrl/api/POSModule/eCoupon_Inquiry";
+  static const String eCouponApply = "$baseUrl/api/POSModule/eCoupon_Apply";
+  static const String promotionCancel =
+      "$baseUrl/api/POSModule/Promotion_Cancel";
 }

@@ -1,12 +1,13 @@
+import 'dart:convert';
+
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/menu/i_menu_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
-import 'package:cloud_pos/utils/constants.dart';
 
 class MenuRepository implements IMenuRepository {
   @override
-  Future orderSummary({String? orderId}) async {
+  Future orderSummary({String? langID, String? orderId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
@@ -30,7 +31,7 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future finalizeBill({String? tranData}) async {
+  Future finalizeBill({String? langID, String? tranData}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int staffId = await SharedPref().getStaffID();
@@ -54,7 +55,8 @@ class MenuRepository implements IMenuRepository {
 
   @override
   Future paymentSubmit(
-      {String? payAmount,
+      {String? langID,
+      String? payAmount,
       var tranData,
       String? payCode,
       String? payName,
@@ -86,7 +88,7 @@ class MenuRepository implements IMenuRepository {
       "edcResponse": '',
       "staffID": staffId,
       "payAmount": double.parse(payAmount!),
-      "tranData": tranData,
+      "tranData": jsonDecode(tranData),
       "ccInfo": null,
       "voucherInfo": null
     };
@@ -102,7 +104,7 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future productAdd({String? prodObj}) async {
+  Future productAdd({String? langID, String? prodObj}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
@@ -125,7 +127,10 @@ class MenuRepository implements IMenuRepository {
 
   @override
   Future productObj(
-      {String? tranData, String? productId, String? orderDetailId}) async {
+      {String? langID,
+      String? tranData,
+      String? productId,
+      String? orderDetailId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
@@ -147,7 +152,7 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future memberData({String? phoneMember}) async {
+  Future memberData({String? langID, String? phoneMember}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
@@ -168,10 +173,8 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future memberApply({
-    String? tranData,
-    String? memberId,
-  }) async {
+  Future memberApply(
+      {String? langID, String? tranData, String? memberId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
@@ -193,7 +196,7 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future memberCancel({String? tranData}) async {
+  Future memberCancel({String? langID, String? tranData}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
@@ -259,6 +262,118 @@ class MenuRepository implements IMenuRepository {
         token: token,
         url: Endpoints.cancelTran,
         actionBy: 'cancelTran');
+
+    return response;
+  }
+
+  @override
+  Future eCouponInquiry({
+    String? langID,
+    String? voucherSN,
+    int? transactionID,
+    String? computerCode,
+    String? computerName,
+    String? tranKey,
+    String? shopCode,
+    String? shopName,
+    String? shopKey,
+    String? staffCode,
+    String? staffName,
+  }) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
+    int shopId = await SharedPref().getShopID();
+    int computerId = await SharedPref().getComputerID();
+    int staffId = await SharedPref().getStaffID();
+    String saleDate = await SharedPref().getSaleDate();
+    String staffCode = await SharedPref().getStaffCode();
+    String staffRoleName = await SharedPref().getStaffRoleName();
+
+    var param = {"reqId": uuid, "deviceKey": deviceId, "LangID": langID};
+    var data = {
+      "requestID": uuid,
+      "voucherID": 0,
+      "vShopID": 0,
+      "voucherSN": voucherSN,
+      "transactionID": transactionID,
+      "computerID": computerId,
+      "computerCode": computerCode,
+      "computerName": computerName,
+      "tranKey": tranKey,
+      "shopCode": shopCode,
+      "shopID": shopId,
+      "shopName": shopName,
+      "shopKey": shopKey,
+      "saleDate": saleDate,
+      "receiptNumber": "",
+      "receiptPayPrice": 0,
+      "staffID": staffId,
+      "staffCode": staffCode,
+      "staffName": staffRoleName,
+      "memberID": 0,
+      "cardID": 0,
+      "memberCode": "",
+      "memberName": "",
+      "couponRedeem": ""
+    };
+
+    var response = await APIService().postAndData(
+        url: Endpoints.eCouponInquiry,
+        token: token,
+        param: param,
+        data: data,
+        actionBy: 'eCoupon_Inquiry');
+
+    return response;
+  }
+
+  @override
+  Future eCouponApply(
+      {String? langID, String? couponSN, String? tranData}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
+
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceId,
+      "LangID": langID,
+      "CouponSN": couponSN,
+      "ViewOrderInfo": "true"
+    };
+
+    var response = await APIService().postAndData(
+        url: Endpoints.eCouponApply,
+        token: token,
+        param: param,
+        data: tranData,
+        actionBy: 'eCoupon_Apply');
+
+    return response;
+  }
+
+  @override
+  Future promotionCancel(
+      {String? langID, String? promoUUID, String? tranData}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
+
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceId,
+      "LangID": langID,
+      "PromoUUID": promoUUID,
+      "ViewOrderInfo": "true"
+    };
+
+    var response = await APIService().postAndData(
+        url: Endpoints.promotionCancel,
+        token: token,
+        param: param,
+        data: tranData,
+        actionBy: 'Promotion_Cancel');
 
     return response;
   }

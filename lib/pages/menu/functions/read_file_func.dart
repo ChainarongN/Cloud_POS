@@ -51,6 +51,22 @@ class ReadFileFunc {
     return prodList;
   }
 
+  Future<ShopData> readShopData() async {
+    ShopData shopData;
+    String? fileResponse = await _readFile(Constants.SHOP_DATA_TXT);
+    shopData = ShopData.fromJson(jsonDecode(fileResponse));
+    Constants().printWarning('Read from file "${Constants.SHOP_DATA_TXT}"');
+    return shopData;
+  }
+
+  Future<ComputerName> readComputerName() async {
+    ComputerName computerName;
+    String? fileResponse = await _readFile(Constants.COMPUTER_NAME_TXT);
+    computerName = ComputerName.fromJson(jsonDecode(fileResponse));
+    Constants().printWarning('Read from file "${Constants.COMPUTER_NAME_TXT}"');
+    return computerName;
+  }
+
   Future<List<ReasonGroup>> readReason() async {
     List<ReasonGroup> reasonList = [];
     String? fileResponse = await _readFile(Constants.REASON_GROUP_TXT);

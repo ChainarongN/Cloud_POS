@@ -10,6 +10,8 @@ class SharedPref {
   static const String keyNewDataSwitch = 'newDataSwitch';
   static const String keyUuid = 'uuid';
   static const String keyStaffID = 'staffId';
+  static const String keyStaffCode = 'staffCode';
+  static const String keyStaffRoleName = 'StaffRoleName';
   static const String keyShopID = 'shopId';
   static const String keyComId = 'comId';
   static const String keySaleDate = 'saleDate';
@@ -86,7 +88,29 @@ class SharedPref {
     await prefs.setString(deviceId, value);
   }
 
+  Future setStaffCode(String value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setString(keyStaffCode, value);
+  }
+
+  Future setStaffRoleName(String value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setString(keyStaffRoleName, value);
+  }
+
   // ----------------------------- get ------------------------------- //
+  Future<String> getStaffRoleName() async {
+    SharedPreferences prefs = await _prefs;
+    String? result = prefs.getString(keyStaffRoleName) ?? '';
+    return result;
+  }
+
+  Future<String> getStaffCode() async {
+    SharedPreferences prefs = await _prefs;
+    String? result = prefs.getString(keyStaffCode) ?? '';
+    return result;
+  }
+
   Future<String> getDeviceId() async {
     SharedPreferences prefs = await _prefs;
     String? result = prefs.getString(deviceId) ?? '';

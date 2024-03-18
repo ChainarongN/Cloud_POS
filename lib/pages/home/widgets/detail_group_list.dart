@@ -49,6 +49,10 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
                         .setTranData(
                             orderID: orderId,
                             tranObject: tranData,
+                            tranId: homeWatch.openTranModel!.responseObj!
+                                .tranData!.transactionID,
+                            tranKey: homeWatch
+                                .openTranModel!.responseObj!.tranData!.tranKey,
                             saleModeName: homeWatch
                                 .openTranModel!.responseObj!.saleModeName)
                         .then((value) {
