@@ -215,7 +215,7 @@ class MenuProvider extends ChangeNotifier {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.eCouponInquiry(
         langID: '1',
-        voucherSN: '12C4E8E811132E72E163',
+        voucherSN: 'D71111498CF82E72E155',
         computerCode: '',
         computerName: computerName!.computerName,
         shopCode: shopData!.shopCode,
@@ -236,28 +236,27 @@ class MenuProvider extends ChangeNotifier {
     couponApplyModel =
         await DetectMenuFunc().detectCouponApply(context, response);
     if (apiState == ApiState.COMPLETED) {
-      orderSummaryModel = OrderSummaryModel.fromJson(jsonDecode(response));
       _tranDataCurrent = json.encode(couponApplyModel!.responseObj!.tranData);
     }
     notifyListeners();
   }
 
-  Future promotionCancel(BuildContext context, int index) async {
+  Future promotionCancel(
+      BuildContext context, int indexOutside, int indexInside) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.promotionCancel(
       langID: '1',
-      promoUUID: orderSummaryModel!
-          .responseObj!.promoList![index].couponList!.first.promoUUID,
+      promoUUID: couponApplyModel!.responseObj!.promoList![indexOutside]
+          .couponList![indexInside].promoUUID,
       tranData: _tranDataCurrent,
     );
     promotionCancelModel =
         await DetectMenuFunc().detectPromotionCancel(context, response);
     if (apiState == ApiState.COMPLETED) {
-      orderSummaryModel = OrderSummaryModel.fromJson(jsonDecode(response));
+      couponApplyModel = CouponApplyModel.fromJson(jsonDecode(response));
       _tranDataCurrent =
           json.encode(promotionCancelModel!.responseObj!.tranData);
     }
-
     notifyListeners();
   }
 
@@ -270,9 +269,6 @@ class MenuProvider extends ChangeNotifier {
       _tranDataCurrent = json.encode(orderSummaryModel!.responseObj!.tranData);
       _htmlOrderSummary =
           orderSummaryModel!.responseObj2!.receiptInfo!.receiptHtml;
-      final Directory directory = await getApplicationDocumentsDirectory();
-      final File file = File('${directory.path}/testData');
-      await file.writeAsString(json.encode(orderSummaryModel!.responseObj!));
     }
     notifyListeners();
   }
@@ -327,6 +323,7 @@ class MenuProvider extends ChangeNotifier {
           await DetectMenuFunc().detectProductAdd(context, response);
       if (apiState == ApiState.COMPLETED) {
         _tranDataCurrent = json.encode(productAddModel!.responseObj!.tranData);
+        couponApplyModel = CouponApplyModel.fromJson(jsonDecode(response));
       }
     } catch (e, strack) {
       apiState = ApiState.ERROR;
@@ -386,6 +383,9 @@ class MenuProvider extends ChangeNotifier {
     );
     memberApplyModel =
         await DetectMenuFunc().detectMemberApply(context, response);
+    if (apiState == ApiState.COMPLETED) {
+      _tranDataCurrent = json.encode(memberApplyModel!.responseObj!.tranData);
+    }
   }
 
   Future memberCancel(BuildContext context) async {
@@ -395,6 +395,9 @@ class MenuProvider extends ChangeNotifier {
     );
     memberCancelModel =
         await DetectMenuFunc().detectMemberCancel(context, response);
+    if (apiState == ApiState.COMPLETED) {
+      _tranDataCurrent = json.encode(memberCancelModel!.responseObj!.tranData);
+    }
   }
 
   Future addReasonText(int index) async {
@@ -472,8 +475,23 @@ class MenuProvider extends ChangeNotifier {
     });
   }
 
+  String sumTotalDiscountCoupon(int index, String frag) {
+    double result = 0;
+    int indexCount =
+        couponApplyModel!.responseObj!.orderList![index].promoItemList!.length;
+    for (var i = 0; i < indexCount; i++) {
+      result += couponApplyModel!
+          .responseObj!.orderList![index].promoItemList![i].totalDiscount!;
+    }
+    if (frag == 'salesPrice') {
+      result = couponApplyModel!.responseObj!.orderList![index].retailPrice! -
+          result;
+    }
+    return result.toString();
+  }
+
   String getWhereCouponId(int promotionId) {
-    var data = orderSummaryModel!.responseObj!.promoList!
+    var data = couponApplyModel!.responseObj!.promoList!
         .where((element) => element.promotionID == promotionId);
     return data.first.couponList!.first.couponNumber!;
   }
@@ -574,6 +592,7 @@ class MenuProvider extends ChangeNotifier {
     _saleModeName = saleModeName!;
     _tranId = tranId;
     _tranKey = tranKey;
+    couponApplyModel = null;
   }
 
   final List<String> currencyitems = ['THB'];
