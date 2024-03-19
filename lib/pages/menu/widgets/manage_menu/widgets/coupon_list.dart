@@ -204,7 +204,8 @@ Future<dynamic> eCouponInquiryDialog(
                           right: Constants().screenheight(context) * 0.035),
                       child: Column(
                         children: <Widget>[
-                          AppTextStyle().textBold('Voucher Status',
+                          AppTextStyle().textBold(
+                              'Voucher Status (${menuPvd.couponInquiryModel!.responseObj!.voucherStatus})',
                               size: Constants().screenheight(context) * 0.024),
                           AppTextStyle().textNormal(
                               menuPvd
@@ -421,7 +422,7 @@ Future<void> eCouponDialog(BuildContext context) {
                   margin: const EdgeInsets.only(right: 10),
                   width: Constants().screenWidth(context) * 0.3,
                   child: TextField(
-                    controller: dataProvider.getcouponCodeController,
+                    controller: dataProvider.getCouponCodeController,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white.withOpacity(0.5),
@@ -451,7 +452,7 @@ Future<void> eCouponDialog(BuildContext context) {
                       ),
                       onPressed: () {
                         if (dataProvider
-                            .getcouponCodeController.text.isNotEmpty) {
+                            .getCouponCodeController.text.isNotEmpty) {
                           LoadingStyle().dialogLoadding(context);
                           dataProvider.eCouponInquiry(context).then((value) {
                             if (dataProvider.apiState == ApiState.COMPLETED) {

@@ -81,6 +81,7 @@ class MenuProvider extends ChangeNotifier {
   final TextEditingController _payAmountCredit = TextEditingController();
   final TextEditingController _paymentRemark = TextEditingController();
   final TextEditingController _phoneMemberController = TextEditingController();
+  final TextEditingController _dueCreditController = TextEditingController();
   TabController? _tabController;
   final ScreenshotController _screenshotController = ScreenshotController();
   final TextEditingController _couponCodeController = TextEditingController();
@@ -102,12 +103,14 @@ class MenuProvider extends ChangeNotifier {
   TextEditingController get getvalueQtyOrderController =>
       _valueQtyOrderController;
   TextEditingController get getPayAmountController => _payAmountController;
-  TextEditingController get getTotalPayController => _totalPayListController;
+  TextEditingController get getTotalPayListController =>
+      _totalPayListController;
   TextEditingController get getDueAmountController => _dueAmountController;
   TextEditingController get getPayAmountCredit => _payAmountCredit;
   TextEditingController get getPaymentRemark => _paymentRemark;
   TextEditingController get getPhoneMemberController => _phoneMemberController;
-  TextEditingController get getcouponCodeController => _couponCodeController;
+  TextEditingController get getCouponCodeController => _couponCodeController;
+  TextEditingController get getDueCreditController => _dueCreditController;
   ScreenshotController get getScreenshotController => _screenshotController;
   List<int> get getSelectDiscountList => _selectDiscountList!;
   String get getDueAmountCurrent =>
@@ -189,6 +192,8 @@ class MenuProvider extends ChangeNotifier {
     for (var element in payAmountList!) {
       sum += element.price!;
     }
+    _dueCreditController.text =
+        (double.parse(getDueAmountCurrent) - sum).toString();
     _totalPayListController.text = sum.toString();
     if (sum >= double.parse(getDueAmountCurrent)) {
       LoadingStyle().dialogLoadding(context);
@@ -213,7 +218,7 @@ class MenuProvider extends ChangeNotifier {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.eCouponInquiry(
         langID: '1',
-        voucherSN: getcouponCodeController.text,
+        voucherSN: getCouponCodeController.text,
         computerCode: '',
         computerName: computerName!.computerName,
         shopCode: shopData!.shopCode,

@@ -139,6 +139,45 @@ Future<void> dialogCredit(BuildContext context,
                     SizedBox(
                       width: Constants().screenWidth(context) * 0.11,
                       child:
+                          AppTextStyle().textNormal('Due Amount : ', size: 16),
+                    ),
+                    SizedBox(width: Constants().screenWidth(context) * 0.008),
+                    SizedBox(
+                      width: Constants().screenWidth(context) * 0.15,
+                      height: Constants().screenheight(context) * 0.05,
+                      child: TextField(
+                        controller: menuWatch.getDueCreditController,
+                        readOnly: true,
+                        textAlign: TextAlign.end,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          contentPadding: const EdgeInsets.all(8),
+                          suffixText: ' THB.',
+                          filled: true,
+                          fillColor: Colors.grey.withOpacity(0.2),
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            borderSide: BorderSide(color: Colors.black26),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            borderSide: BorderSide(color: Colors.black26),
+                          ),
+                        ),
+                        style: const TextStyle(
+                            color: Constants.textColor, fontSize: 20),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: Constants().screenheight(context) * 0.02),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    SizedBox(
+                      width: Constants().screenWidth(context) * 0.11,
+                      child:
                           AppTextStyle().textNormal('Pay amount : ', size: 16),
                     ),
                     SizedBox(width: Constants().screenWidth(context) * 0.008),
@@ -196,8 +235,8 @@ Future<void> dialogCredit(BuildContext context,
                         onPressed: () async {
                           double price =
                               double.parse(menuWatch.getPayAmountCredit.text);
-                          double dueAmount =
-                              double.parse(menuWatch.getDueAmountCurrent);
+                          double dueAmount = double.parse(
+                              menuWatch.getDueCreditController.text);
                           if (price > dueAmount) {
                             LoadingStyle().dialogError(context,
                                 error:
@@ -446,7 +485,7 @@ Container totalPayAmount(
         Expanded(
           flex: 1,
           child: TextField(
-            controller: menuWatch.getTotalPayController,
+            controller: menuWatch.getTotalPayListController,
             readOnly: true,
             textAlign: TextAlign.end,
             keyboardType: TextInputType.number,
