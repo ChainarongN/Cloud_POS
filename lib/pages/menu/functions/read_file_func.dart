@@ -41,6 +41,26 @@ class ReadFileFunc {
     return favoriteGroup;
   }
 
+  Future<List<FavoriteData>> readFavoriteData() async {
+    List<FavoriteData> favoriteData = [];
+    String? fileResponse = await _readFile(Constants.FAV_DATA_TXT);
+    favoriteData = (jsonDecode(fileResponse) as List)
+        .map((e) => FavoriteData.fromJson(e))
+        .toList();
+    Constants().printWarning('Read from file "${Constants.FAV_DATA_TXT}"');
+    return favoriteData;
+  }
+
+  Future<List<CurrencyInfo>> readCurrencyInfo() async {
+    List<CurrencyInfo> currencyInfo = [];
+    String? fileResponse = await _readFile(Constants.CURRENCY_INFO_TXT);
+    currencyInfo = (jsonDecode(fileResponse) as List)
+        .map((e) => CurrencyInfo.fromJson(e))
+        .toList();
+    Constants().printWarning('Read from file "${Constants.CURRENCY_INFO_TXT}"');
+    return currencyInfo;
+  }
+
   Future<List<Products>> readProd() async {
     List<Products> prodList = [];
     String? fileResponse = await _readFile(Constants.PROD_TXT);

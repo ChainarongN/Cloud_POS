@@ -177,7 +177,10 @@ class LoginProvider extends ChangeNotifier {
           _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.shopData),
               Constants.SHOP_DATA_TXT),
           _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.computerName),
-              Constants.COMPUTER_NAME_TXT)
+              Constants.COMPUTER_NAME_TXT),
+          _writeCoreInit(
+              jsonEncode(coreInitModel!.responseObj!.payTypeData!.currencyInfo),
+              Constants.CURRENCY_INFO_TXT)
         ],
       );
       if (loginAgain) {

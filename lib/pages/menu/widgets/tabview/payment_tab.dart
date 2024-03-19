@@ -608,11 +608,18 @@ Expanded listPaymentType(
               child: DropdownButtonHideUnderline(
                 child: DropdownButton2<String>(
                   isExpanded: true,
-                  items: menuWatch.currencyitems
-                      .map((String item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: AppTextStyle().textBold(item, size: 16)))
+                  items: menuWatch.currencyInfo!
+                      .map((e) => DropdownMenuItem<String>(
+                            value: e.currencyCode,
+                            child: AppTextStyle()
+                                .textBold(e.currencyCode!, size: 16),
+                          ))
                       .toList(),
+                  // menuWatch.currencyitems
+                  //     .map((String item) => DropdownMenuItem<String>(
+                  //         value: item,
+                  //         child: AppTextStyle().textBold(item, size: 16)))
+                  //     .toList(),
                   value: menuWatch.getValueCurrency,
                   onChanged: (value) {},
                   buttonStyleData: ButtonStyleData(

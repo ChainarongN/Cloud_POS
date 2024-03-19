@@ -40,6 +40,8 @@ class MenuProvider extends ChangeNotifier {
   List<ProductGroup>? prodGroupList;
   List<ReasonGroup>? reasonGroupList;
   List<FavoriteGroup>? favoriteGroupList;
+  List<FavoriteData>? favoriteData;
+  List<CurrencyInfo>? currencyInfo;
   List<PayTypeInfo>? payTypeInfoList;
   List<Products>? prodList;
   List<Products>? prodToShow;
@@ -424,16 +426,20 @@ class MenuProvider extends ChangeNotifier {
         ReadFileFunc().readReason(),
         ReadFileFunc().readPaymentInfo(),
         ReadFileFunc().readFavoriteGroup(),
+        ReadFileFunc().readFavoriteData(),
         ReadFileFunc().readShopData(),
-        ReadFileFunc().readComputerName()
+        ReadFileFunc().readComputerName(),
+        ReadFileFunc().readCurrencyInfo()
       ]);
       prodGroupList = value[0] as List<ProductGroup>;
       prodList = value[1] as List<Products>;
       reasonGroupList = value[2] as List<ReasonGroup>;
       payTypeInfoList = value[3] as List<PayTypeInfo>;
       favoriteGroupList = value[4] as List<FavoriteGroup>;
-      shopData = value[5] as ShopData;
-      computerName = value[6] as ComputerName;
+      favoriteData = value[5] as List<FavoriteData>;
+      shopData = value[6] as ShopData;
+      computerName = value[7] as ComputerName;
+      currencyInfo = value[8] as List<CurrencyInfo>;
 
       apiState = ApiState.COMPLETED;
     } catch (e, strack) {
