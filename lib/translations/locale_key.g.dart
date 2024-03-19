@@ -88,5 +88,35 @@ abstract class  LocaleKeys {
   static const remark = 'remark';
   static const enter_your_qty = 'enter_your_qty';
   static const print_bill = 'print_bill';
+  static const phone_number = 'phone_number';
+  static const member_points = 'member_points';
+  static const member_cash_balance = 'member_cash_balance';
+  static const group_name = 'group_name';
+  static const apply = 'apply';
+  static const manage_promotion = 'manage_promotion';
+  static const current_promotion = 'current_promotion';
+  static const credit_card = 'credit_card';
+  static const total_price = 'total_price';
+  static const due_amount = 'due_amount';
+  static const cannot_do_payment_for_amount_more_than_due_amount = 'cannot_do_payment_for_amount_more_than_due_amount';
+  static const e_coupon = 'e_coupon';
+  static const voucher_information = 'voucher_information';
+  static const voucher_id = 'voucher_id';
+  static const coupon_system = 'coupon_system';
+  static const voucher_status = 'voucher_status';
+  static const voucher_name = 'voucher_name';
+  static const voucher = 'voucher';
+  static const promotion_code = 'promotion_code';
+  static const promotion_name = 'promotion_name';
+  static const voucher_amount = 'voucher_amount';
+  static const voucher_value = 'voucher_value';
+  static const expire_date = 'expire_date';
+  static const coupon = 'coupon';
+  static const promotion = 'promotion';
+  static const product_name = 'product_name';
+  static const qty = 'qty';
+  static const disc_qty = 'disc_qty';
+  static const promo_disc = 'promo_disc';
+  static const sales_prices = 'sales_prices';
 
 }

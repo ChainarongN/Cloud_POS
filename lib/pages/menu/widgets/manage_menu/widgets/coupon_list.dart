@@ -136,7 +136,8 @@ Future<dynamic> eCouponInquiryDialog(
                         child: Icon(Icons.local_attraction,
                             size: Constants().screenheight(context) * 0.06),
                       ),
-                      AppTextStyle().textNormal('Voucher Information',
+                      AppTextStyle().textNormal(
+                          LocaleKeys.voucher_information.tr(),
                           size: Constants().screenheight(context) * 0.03),
                     ],
                   ),
@@ -153,7 +154,8 @@ Future<dynamic> eCouponInquiryDialog(
                                 Constants().screenheight(context) * 0.018),
                             child: Column(
                               children: <Widget>[
-                                AppTextStyle().textBold('Voucher ID',
+                                AppTextStyle().textBold(
+                                    LocaleKeys.voucher_id.tr(),
                                     size: Constants().screenheight(context) *
                                         0.024),
                                 AppTextStyle().textNormal(
@@ -172,7 +174,8 @@ Future<dynamic> eCouponInquiryDialog(
                                 Constants().screenheight(context) * 0.018),
                             child: Column(
                               children: <Widget>[
-                                AppTextStyle().textBold('Coupon System',
+                                AppTextStyle().textBold(
+                                    LocaleKeys.coupon_system.tr(),
                                     size: Constants().screenheight(context) *
                                         0.024),
                                 AppTextStyle().textNormal(
@@ -205,7 +208,7 @@ Future<dynamic> eCouponInquiryDialog(
                       child: Column(
                         children: <Widget>[
                           AppTextStyle().textBold(
-                              'Voucher Status (${menuPvd.couponInquiryModel!.responseObj!.voucherStatus})',
+                              '${LocaleKeys.voucher_status.tr()} (${menuPvd.couponInquiryModel!.responseObj!.voucherStatus})',
                               size: Constants().screenheight(context) * 0.024),
                           AppTextStyle().textNormal(
                               menuPvd
@@ -227,7 +230,8 @@ Future<dynamic> eCouponInquiryDialog(
                       children: <Widget>[
                         SizedBox(
                           width: Constants().screenWidth(context) * 0.12,
-                          child: AppTextStyle().textBold('Voucher S/N : ',
+                          child: AppTextStyle().textBold(
+                              '${LocaleKeys.voucher.tr()} S/N : ',
                               size: Constants().screenheight(context) * 0.023),
                         ),
                         AppTextStyle().textNormal(
@@ -247,7 +251,8 @@ Future<dynamic> eCouponInquiryDialog(
                       children: <Widget>[
                         SizedBox(
                           width: Constants().screenWidth(context) * 0.12,
-                          child: AppTextStyle().textBold('Voucher Name : ',
+                          child: AppTextStyle().textBold(
+                              '${LocaleKeys.voucher_name.tr()} : ',
                               size: Constants().screenheight(context) * 0.023),
                         ),
                         AppTextStyle().textNormal(
@@ -267,7 +272,8 @@ Future<dynamic> eCouponInquiryDialog(
                       children: <Widget>[
                         SizedBox(
                           width: Constants().screenWidth(context) * 0.12,
-                          child: AppTextStyle().textBold('Promotion Code : ',
+                          child: AppTextStyle().textBold(
+                              '${LocaleKeys.promotion_code.tr()} : ',
                               size: Constants().screenheight(context) * 0.023),
                         ),
                         AppTextStyle().textNormal(
@@ -287,7 +293,8 @@ Future<dynamic> eCouponInquiryDialog(
                       children: <Widget>[
                         SizedBox(
                           width: Constants().screenWidth(context) * 0.12,
-                          child: AppTextStyle().textBold('Promotion Name : ',
+                          child: AppTextStyle().textBold(
+                              '${LocaleKeys.promotion_name.tr()} : ',
                               size: Constants().screenheight(context) * 0.023),
                         ),
                         AppTextStyle().textNormal(
@@ -307,7 +314,8 @@ Future<dynamic> eCouponInquiryDialog(
                       children: <Widget>[
                         SizedBox(
                           width: Constants().screenWidth(context) * 0.12,
-                          child: AppTextStyle().textBold('Voucher Amount : ',
+                          child: AppTextStyle().textBold(
+                              '${LocaleKeys.voucher_amount.tr()} : ',
                               size: Constants().screenheight(context) * 0.023),
                         ),
                         AppTextStyle().textNormal(
@@ -327,7 +335,8 @@ Future<dynamic> eCouponInquiryDialog(
                       children: <Widget>[
                         SizedBox(
                           width: Constants().screenWidth(context) * 0.12,
-                          child: AppTextStyle().textBold('Voucher Value : ',
+                          child: AppTextStyle().textBold(
+                              '${LocaleKeys.voucher_value.tr()} : ',
                               size: Constants().screenheight(context) * 0.023),
                         ),
                         AppTextStyle().textNormal(
@@ -347,7 +356,8 @@ Future<dynamic> eCouponInquiryDialog(
                       children: <Widget>[
                         SizedBox(
                           width: Constants().screenWidth(context) * 0.12,
-                          child: AppTextStyle().textBold('Expire Date : ',
+                          child: AppTextStyle().textBold(
+                              '${LocaleKeys.expire_date.tr()} : ',
                               size: Constants().screenheight(context) * 0.023),
                         ),
                         AppTextStyle().textNormal(
@@ -366,7 +376,7 @@ Future<dynamic> eCouponInquiryDialog(
           ),
           actions: [
             TextButton(
-              child: AppTextStyle().textNormal('Apply',
+              child: AppTextStyle().textNormal(LocaleKeys.apply.tr(),
                   size: Constants().screenheight(context) * 0.03,
                   color:
                       menuPvd.couponInquiryModel!.responseObj!.voucherStatus !=
@@ -413,7 +423,8 @@ Future<void> eCouponDialog(BuildContext context) {
               child: Icon(Icons.local_attraction,
                   size: Constants().screenheight(context) * 0.065),
             ),
-            AppTextStyle().textNormal('Coupon / Promotion',
+            AppTextStyle().textNormal(
+                '${LocaleKeys.coupon.tr()} / ${LocaleKeys.promotion.tr()}',
                 size: Constants().screenheight(context) * 0.03),
             const Spacer(),
             Row(
@@ -426,7 +437,7 @@ Future<void> eCouponDialog(BuildContext context) {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white.withOpacity(0.5),
-                      labelText: 'รหัสบัตร',
+                      labelText: LocaleKeys.promotion_code.tr(),
                       border: Constants().myinputborder(), //normal border
                       enabledBorder:
                           Constants().myinputborder(), //enabled border
@@ -466,7 +477,7 @@ Future<void> eCouponDialog(BuildContext context) {
                       onLongPress: () {
                         dataProvider.setCouponCodeControllerForTest();
                       },
-                      child: AppTextStyle().textBold('OK',
+                      child: AppTextStyle().textBold(LocaleKeys.ok.tr(),
                           size: Constants().screenheight(context) * 0.034,
                           color: Colors.white)),
                 ),
@@ -491,7 +502,7 @@ Future<void> eCouponDialog(BuildContext context) {
                                 flex: 2,
                                 child: Center(
                                   child: AppTextStyle().textBold(
-                                      'หมายเลขบัตรกำนัล',
+                                      LocaleKeys.promotion_code.tr(),
                                       size: Constants().screenheight(context) *
                                           0.024),
                                 ),
@@ -500,7 +511,7 @@ Future<void> eCouponDialog(BuildContext context) {
                                 flex: 2,
                                 child: Center(
                                   child: AppTextStyle().textBold(
-                                      'ชื่อโปรโมชั่น',
+                                      LocaleKeys.promotion_name.tr(),
                                       size: Constants().screenheight(context) *
                                           0.024),
                                 ),
@@ -508,7 +519,8 @@ Future<void> eCouponDialog(BuildContext context) {
                               Expanded(
                                 flex: 1,
                                 child: Center(
-                                  child: AppTextStyle().textBold('ลบ',
+                                  child: AppTextStyle().textBold(
+                                      LocaleKeys.delete.tr(),
                                       size: Constants().screenheight(context) *
                                           0.024),
                                 ),
@@ -620,7 +632,8 @@ Future<void> eCouponDialog(BuildContext context) {
                               Expanded(
                                 flex: 3,
                                 child: Center(
-                                  child: AppTextStyle().textBold('Product Name',
+                                  child: AppTextStyle().textBold(
+                                      LocaleKeys.product_name.tr(),
                                       size: Constants().screenheight(context) *
                                           0.024),
                                 ),
@@ -628,7 +641,8 @@ Future<void> eCouponDialog(BuildContext context) {
                               Expanded(
                                 flex: 1,
                                 child: Center(
-                                  child: AppTextStyle().textBold('Qty',
+                                  child: AppTextStyle().textBold(
+                                      LocaleKeys.qty.tr(),
                                       size: Constants().screenheight(context) *
                                           0.024),
                                 ),
@@ -636,7 +650,8 @@ Future<void> eCouponDialog(BuildContext context) {
                               Expanded(
                                 flex: 2,
                                 child: Center(
-                                  child: AppTextStyle().textBold('Price',
+                                  child: AppTextStyle().textBold(
+                                      LocaleKeys.price.tr(),
                                       size: Constants().screenheight(context) *
                                           0.024),
                                 ),
@@ -644,7 +659,8 @@ Future<void> eCouponDialog(BuildContext context) {
                               Expanded(
                                 flex: 2,
                                 child: Center(
-                                  child: AppTextStyle().textBold('Total Price',
+                                  child: AppTextStyle().textBold(
+                                      LocaleKeys.total_price.tr(),
                                       size: Constants().screenheight(context) *
                                           0.024),
                                 ),
@@ -652,7 +668,8 @@ Future<void> eCouponDialog(BuildContext context) {
                               Expanded(
                                 flex: 1,
                                 child: Center(
-                                  child: AppTextStyle().textBold('Disc Qty',
+                                  child: AppTextStyle().textBold(
+                                      LocaleKeys.disc_qty.tr(),
                                       size: Constants().screenheight(context) *
                                           0.024),
                                 ),
@@ -660,7 +677,8 @@ Future<void> eCouponDialog(BuildContext context) {
                               Expanded(
                                 flex: 2,
                                 child: Center(
-                                  child: AppTextStyle().textBold('Promo Disc',
+                                  child: AppTextStyle().textBold(
+                                      LocaleKeys.promo_disc.tr(),
                                       size: Constants().screenheight(context) *
                                           0.024),
                                 ),
@@ -668,7 +686,8 @@ Future<void> eCouponDialog(BuildContext context) {
                               Expanded(
                                 flex: 2,
                                 child: Center(
-                                  child: AppTextStyle().textBold('Sales Price',
+                                  child: AppTextStyle().textBold(
+                                      LocaleKeys.sales_prices.tr(),
                                       size: Constants().screenheight(context) *
                                           0.024),
                                 ),
@@ -677,7 +696,7 @@ Future<void> eCouponDialog(BuildContext context) {
                                 flex: 3,
                                 child: Center(
                                   child: AppTextStyle().textBold(
-                                      'Promotion Name',
+                                      LocaleKeys.promotion_name.tr(),
                                       size: Constants().screenheight(context) *
                                           0.024),
                                 ),

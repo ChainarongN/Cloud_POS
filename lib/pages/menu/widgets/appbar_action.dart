@@ -147,7 +147,7 @@ Future<void> openNumberDialog(
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white.withOpacity(0.3),
-                    labelText: 'phone number',
+                    labelText: LocaleKeys.phone_number.tr(),
                     border: Constants().myinputborder(), //normal border
                     enabledBorder: Constants().myinputborder(), //enabled border
                     focusedBorder: Constants().myfocusborder(), //focused border
@@ -179,8 +179,8 @@ Future<void> openNumberDialog(
             },
           ),
           TextButton(
-            child: AppTextStyle()
-                .textNormal('Cancel', size: 18, color: Colors.red),
+            child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
+                size: 18, color: Colors.red),
             onPressed: () async {
               Navigator.pop(context);
             },
@@ -212,7 +212,8 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                             Constants().screenheight(context) * 0.018),
                         child: Column(
                           children: <Widget>[
-                            AppTextStyle().textBold('Member points',
+                            AppTextStyle().textBold(
+                                LocaleKeys.member_points.tr(),
                                 size:
                                     Constants().screenheight(context) * 0.024),
                             AppTextStyle().textNormal(
@@ -230,7 +231,8 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                             Constants().screenheight(context) * 0.018),
                         child: Column(
                           children: <Widget>[
-                            AppTextStyle().textBold('Member cash balance',
+                            AppTextStyle().textBold(
+                                LocaleKeys.member_cash_balance.tr(),
                                 size:
                                     Constants().screenheight(context) * 0.024),
                             AppTextStyle().textNormal(
@@ -249,7 +251,8 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                       top: Constants().screenheight(context) * 0.018),
                   child: Row(
                     children: <Widget>[
-                      AppTextStyle().textBold('First name : ',
+                      AppTextStyle().textBold(
+                          '${LocaleKeys.first_name.tr()} : ',
                           size: Constants().screenheight(context) * 0.023),
                       AppTextStyle().textNormal(
                           menuWatch.memberDataModel!.responseObj!.memberInfo!
@@ -263,7 +266,8 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                       top: Constants().screenheight(context) * 0.01),
                   child: Row(
                     children: <Widget>[
-                      AppTextStyle().textBold('Group name : ',
+                      AppTextStyle().textBold(
+                          '${LocaleKeys.group_name.tr()} : ',
                           size: Constants().screenheight(context) * 0.023),
                       AppTextStyle().textNormal(
                           menuWatch.memberDataModel!.responseObj!.memberInfo!
@@ -279,8 +283,8 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
         actions: <Widget>[
           isApply
               ? TextButton(
-                  child: AppTextStyle()
-                      .textNormal('Cancel', size: 18, color: Colors.red),
+                  child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
+                      size: 18, color: Colors.red),
                   onPressed: () async {
                     LoadingStyle().dialogLoadding(context);
                     menuRead.memberCancel(context).then((value) {
@@ -292,7 +296,8 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                   },
                 )
               : TextButton(
-                  child: AppTextStyle().textNormal('Apply', size: 18),
+                  child: AppTextStyle()
+                      .textNormal(LocaleKeys.apply.tr(), size: 18),
                   onPressed: () async {
                     LoadingStyle().dialogLoadding(context);
                     menuRead.memberApply(context).then((value) {
@@ -304,8 +309,8 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                   },
                 ),
           TextButton(
-            child: AppTextStyle()
-                .textNormal('Close', size: 18, color: Colors.grey),
+            child: AppTextStyle().textNormal(LocaleKeys.close.tr(),
+                size: 18, color: Colors.grey),
             onPressed: () async {
               Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
             },

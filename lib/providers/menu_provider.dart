@@ -607,7 +607,7 @@ class MenuProvider extends ChangeNotifier {
 
   final List<String> currencyitems = ['THB'];
   setCouponCodeControllerForTest() {
-    _couponCodeController.text = '81F0FBC1111C2E72E153';
+    _couponCodeController.text = '111E2F4F09122E72E123';
     notifyListeners();
   }
 }

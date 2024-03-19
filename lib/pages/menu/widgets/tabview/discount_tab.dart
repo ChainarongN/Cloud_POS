@@ -1,6 +1,8 @@
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 Center discount(
@@ -94,7 +96,8 @@ Center discount(
                             color: Colors.white),
                         SizedBox(
                             width: Constants().screenheight(context) * 0.015),
-                        AppTextStyle().textBold('Manage promotion',
+                        AppTextStyle().textBold(
+                            LocaleKeys.manage_promotion.tr(),
                             size: Constants().screenheight(context) * 0.025,
                             color: Colors.white)
                       ],
@@ -117,7 +120,8 @@ Center discount(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AppTextStyle().textBold('Current promotion',
+                        AppTextStyle().textBold(
+                            LocaleKeys.current_promotion.tr(),
                             size: Constants().screenheight(context) * 0.025,
                             color: Colors.white)
                       ],

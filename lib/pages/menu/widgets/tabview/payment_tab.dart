@@ -90,7 +90,9 @@ Future<void> dialogCredit(BuildContext context,
                   children: <Widget>[
                     const Icon(Icons.android, size: 35),
                     SizedBox(width: Constants().screenWidth(context) * 0.02),
-                    AppTextStyle().textBold('Payment - Credit Card.', size: 20)
+                    AppTextStyle().textBold(
+                        '${LocaleKeys.payment.tr()} - ${LocaleKeys.credit_card.tr()}.',
+                        size: 20)
                   ],
                 ),
                 SizedBox(height: Constants().screenheight(context) * 0.02),
@@ -99,8 +101,9 @@ Future<void> dialogCredit(BuildContext context,
                   children: <Widget>[
                     SizedBox(
                       width: Constants().screenWidth(context) * 0.11,
-                      child:
-                          AppTextStyle().textNormal('Total price : ', size: 16),
+                      child: AppTextStyle().textNormal(
+                          '${LocaleKeys.total_price.tr()} : ',
+                          size: 16),
                     ),
                     SizedBox(width: Constants().screenWidth(context) * 0.008),
                     SizedBox(
@@ -138,8 +141,9 @@ Future<void> dialogCredit(BuildContext context,
                   children: <Widget>[
                     SizedBox(
                       width: Constants().screenWidth(context) * 0.11,
-                      child:
-                          AppTextStyle().textNormal('Due Amount : ', size: 16),
+                      child: AppTextStyle().textNormal(
+                          '${LocaleKeys.due_amount.tr()} : ',
+                          size: 16),
                     ),
                     SizedBox(width: Constants().screenWidth(context) * 0.008),
                     SizedBox(
@@ -177,8 +181,9 @@ Future<void> dialogCredit(BuildContext context,
                   children: <Widget>[
                     SizedBox(
                       width: Constants().screenWidth(context) * 0.11,
-                      child:
-                          AppTextStyle().textNormal('Pay amount : ', size: 16),
+                      child: AppTextStyle().textNormal(
+                          '${LocaleKeys.pay_amount.tr()} : ',
+                          size: 16),
                     ),
                     SizedBox(width: Constants().screenWidth(context) * 0.008),
                     Container(
@@ -219,9 +224,9 @@ Future<void> dialogCredit(BuildContext context,
                     controller: menuWatch.getPaymentRemark,
                     maxLines: 4,
                     keyboardType: TextInputType.multiline,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Remark',
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: LocaleKeys.remark.tr(),
                     ),
                   ),
                 ),
@@ -239,8 +244,9 @@ Future<void> dialogCredit(BuildContext context,
                               menuWatch.getDueCreditController.text);
                           if (price > dueAmount) {
                             LoadingStyle().dialogError(context,
-                                error:
-                                    "Cannot do payment for amount more than due amount.",
+                                error: LocaleKeys
+                                    .cannot_do_payment_for_amount_more_than_due_amount
+                                    .tr(),
                                 isPopUntil: false);
                           } else {
                             await menuRead!
@@ -253,8 +259,8 @@ Future<void> dialogCredit(BuildContext context,
                                 .then((value) => Navigator.maybePop(context));
                           }
                         },
-                        child: AppTextStyle()
-                            .textNormal('OK', color: Colors.green, size: 16),
+                        child: AppTextStyle().textNormal(LocaleKeys.ok.tr(),
+                            color: Colors.green, size: 16),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -262,8 +268,8 @@ Future<void> dialogCredit(BuildContext context,
                       width: Constants().screenWidth(context) * 0.1,
                       child: ElevatedButton(
                         onPressed: () => Navigator.pop(context),
-                        child: AppTextStyle()
-                            .textNormal('Cancel', color: Colors.red, size: 16),
+                        child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
+                            color: Colors.red, size: 16),
                       ),
                     ),
                   ],
