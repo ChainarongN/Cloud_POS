@@ -440,15 +440,15 @@ class DetectMenuFunc {
               popToPage: '/menuPage');
         });
       } else {
-        couponApplyModel = CouponApplyModel.fromJson(jsonDecode(response));
-        if (couponApplyModel.responseCode!.isEmpty) {
+        if (jsonDecode(response)['ResponseCode'] == "") {
+          couponApplyModel = CouponApplyModel.fromJson(jsonDecode(response));
           menuProvider.apiState = ApiState.COMPLETED;
           Constants().printCheckFlow(response, 'eCouponApply');
         } else {
           menuProvider.apiState = ApiState.ERROR;
           Future.delayed(const Duration(milliseconds: 500), () {
             LoadingStyle().dialogError(context,
-                error: couponApplyModel!.responseText,
+                error: jsonDecode(response)['ResponseText'],
                 isPopUntil: true,
                 popToPage: '/menuPage');
           });

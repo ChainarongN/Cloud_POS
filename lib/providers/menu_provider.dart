@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
@@ -29,7 +28,6 @@ import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import '../repositorys/repository.dart';
 
@@ -215,7 +213,7 @@ class MenuProvider extends ChangeNotifier {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.eCouponInquiry(
         langID: '1',
-        voucherSN: 'D71111498CF82E72E155',
+        voucherSN: getcouponCodeController.text,
         computerCode: '',
         computerName: computerName!.computerName,
         shopCode: shopData!.shopCode,
@@ -527,6 +525,7 @@ class MenuProvider extends ChangeNotifier {
 
   Future clearField() async {
     _phoneMemberController.text = '';
+    _couponCodeController.text = '';
     notifyListeners();
   }
 
@@ -596,4 +595,8 @@ class MenuProvider extends ChangeNotifier {
   }
 
   final List<String> currencyitems = ['THB'];
+  setCouponCodeControllerForTest() {
+    _couponCodeController.text = '81F0FBC1111C2E72E153';
+    notifyListeners();
+  }
 }

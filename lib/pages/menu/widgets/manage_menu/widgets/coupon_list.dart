@@ -19,6 +19,7 @@ Row couponList(
           // menuRead.orderSummary(context).then((value) {
           //   if (menuWatch.apiState == ApiState.COMPLETED) {
           // Navigator.maybePop(context).then((value) {
+          menuRead.clearField();
           eCouponDialog(context);
           //     });
           //   }
@@ -449,14 +450,20 @@ Future<void> eCouponDialog(BuildContext context) {
                             borderRadius: BorderRadius.circular(10)),
                       ),
                       onPressed: () {
-                        LoadingStyle().dialogLoadding(context);
-                        dataProvider.eCouponInquiry(context).then((value) {
-                          if (dataProvider.apiState == ApiState.COMPLETED) {
-                            Navigator.maybePop(context).then((value) {
-                              eCouponInquiryDialog(context, dataProvider);
-                            });
-                          }
-                        });
+                        if (dataProvider
+                            .getcouponCodeController.text.isNotEmpty) {
+                          LoadingStyle().dialogLoadding(context);
+                          dataProvider.eCouponInquiry(context).then((value) {
+                            if (dataProvider.apiState == ApiState.COMPLETED) {
+                              Navigator.maybePop(context).then((value) {
+                                eCouponInquiryDialog(context, dataProvider);
+                              });
+                            }
+                          });
+                        }
+                      },
+                      onLongPress: () {
+                        dataProvider.setCouponCodeControllerForTest();
                       },
                       child: AppTextStyle().textBold('OK',
                           size: Constants().screenheight(context) * 0.034,
