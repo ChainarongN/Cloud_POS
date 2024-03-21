@@ -56,6 +56,9 @@ Future dialogPayment(BuildContext context,
   menuRead!.clearPaymentField();
   switch (payTypeId) {
     case 2:
+      if (menuWatch!.payAmountList!.isEmpty) {
+        menuWatch.getDueCreditController.text = menuWatch.getDueAmountCurrent;
+      }
       dialogCredit(context,
           payTypeId: payTypeId,
           payTypeName: payTypeName,

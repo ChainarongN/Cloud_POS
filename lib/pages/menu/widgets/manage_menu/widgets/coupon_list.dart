@@ -208,7 +208,7 @@ Future<dynamic> eCouponInquiryDialog(
                       child: Column(
                         children: <Widget>[
                           AppTextStyle().textBold(
-                              '${LocaleKeys.voucher_status.tr()} (${menuPvd.couponInquiryModel!.responseObj!.voucherStatus})',
+                              LocaleKeys.voucher_status.tr(),
                               size: Constants().screenheight(context) * 0.024),
                           AppTextStyle().textNormal(
                               menuPvd
@@ -419,7 +419,8 @@ Future<void> eCouponDialog(BuildContext context) {
           children: [
             Container(
               margin: EdgeInsets.only(
-                  right: Constants().screenheight(context) * 0.02),
+                  right: Constants().screenheight(context) * 0.02,
+                  left: Constants().screenheight(context) * 0.03),
               child: Icon(Icons.local_attraction,
                   size: Constants().screenheight(context) * 0.065),
             ),
@@ -430,7 +431,8 @@ Future<void> eCouponDialog(BuildContext context) {
             Row(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(right: 10),
+                  margin: EdgeInsets.only(
+                      right: Constants().screenheight(context) * 0.02),
                   width: Constants().screenWidth(context) * 0.3,
                   child: TextField(
                     controller: dataProvider.getCouponCodeController,
@@ -449,7 +451,9 @@ Future<void> eCouponDialog(BuildContext context) {
                         fontSize: Constants().screenheight(context) * 0.024),
                   ),
                 ),
-                SizedBox(
+                Container(
+                  margin: EdgeInsets.only(
+                      right: Constants().screenheight(context) * 0.05),
                   width: Constants().screenWidth(context) * 0.1,
                   height: Constants().screenheight(context) * 0.09,
                   child: ElevatedButton(
@@ -467,6 +471,7 @@ Future<void> eCouponDialog(BuildContext context) {
                           LoadingStyle().dialogLoadding(context);
                           dataProvider.eCouponInquiry(context).then((value) {
                             if (dataProvider.apiState == ApiState.COMPLETED) {
+                              dataProvider.clearField();
                               Navigator.maybePop(context).then((value) {
                                 eCouponInquiryDialog(context, dataProvider);
                               });
@@ -488,377 +493,297 @@ Future<void> eCouponDialog(BuildContext context) {
         content: SizedBox(
             width: Constants().screenWidth(context),
             height: Constants().screenheight(context),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 2,
-                                child: Center(
-                                  child: AppTextStyle().textBold(
-                                      LocaleKeys.promotion_code.tr(),
-                                      size: Constants().screenheight(context) *
-                                          0.024),
+            child: dataProvider.couponApplyModel == null ||
+                    dataProvider.couponApplyModel!.responseCode!.isNotEmpty ||
+                    dataProvider
+                        .couponApplyModel!.responseObj!.promoList!.isEmpty
+                ? Container()
+                : SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 2,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            LocaleKeys.promotion_code.tr(),
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            LocaleKeys.promotion_name.tr(),
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            LocaleKeys.delete.tr(),
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Center(
-                                  child: AppTextStyle().textBold(
-                                      LocaleKeys.promotion_name.tr(),
-                                      size: Constants().screenheight(context) *
-                                          0.024),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Center(
-                                  child: AppTextStyle().textBold(
-                                      LocaleKeys.delete.tr(),
-                                      size: Constants().screenheight(context) *
-                                          0.024),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: Constants().screenheight(context) * 0.16,
-                            child:
-                                dataProvider.couponApplyModel == null ||
-                                        dataProvider.couponApplyModel!
-                                            .responseCode!.isNotEmpty
-                                    ? const SizedBox.shrink()
-                                    : SingleChildScrollView(
-                                        child: Column(
-                                          children: List.generate(
+                                SizedBox(
+                                  height:
+                                      Constants().screenheight(context) * 0.16,
+                                  child: dataProvider.couponApplyModel ==
+                                              null ||
+                                          dataProvider.couponApplyModel!
+                                              .responseCode!.isNotEmpty
+                                      ? const SizedBox.shrink()
+                                      : SingleChildScrollView(
+                                          child: Column(
+                                            children: List.generate(
                                               dataProvider
                                                   .couponApplyModel!
                                                   .responseObj!
                                                   .promoList!
                                                   .length,
-                                              (indexOutside) =>
+                                              (indexOutside) => dataProvider
+                                                      .couponApplyModel!
+                                                      .responseObj!
+                                                      .promoList![indexOutside]
+                                                      .couponList!
+                                                      .isEmpty
+                                                  ? const SizedBox.shrink()
+                                                  : showCouponData(dataProvider,
+                                                      indexOutside, context),
+                                            ),
+                                          ),
+                                        ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 3,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            LocaleKeys.product_name.tr(),
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            LocaleKeys.qty.tr(),
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            LocaleKeys.price.tr(),
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            LocaleKeys.total_price.tr(),
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            LocaleKeys.disc_qty.tr(),
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            LocaleKeys.promo_disc.tr(),
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            LocaleKeys.sales_prices.tr(),
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            LocaleKeys.promotion_name.tr(),
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height:
+                                      Constants().screenheight(context) * 0.25,
+                                  child:
+                                      dataProvider.couponApplyModel == null ||
+                                              dataProvider.couponApplyModel!
+                                                  .responseCode!.isNotEmpty
+                                          ? const SizedBox.shrink()
+                                          : SingleChildScrollView(
+                                              child: Column(
+                                                children: List.generate(
                                                   dataProvider
+                                                      .couponApplyModel!
+                                                      .responseObj!
+                                                      .orderList!
+                                                      .length,
+                                                  (index) => dataProvider
                                                           .couponApplyModel!
                                                           .responseObj!
-                                                          .promoList![
-                                                              indexOutside]
+                                                          .orderList![index]
+                                                          .promoItemList!
+                                                          .isEmpty
+                                                      ? const SizedBox.shrink()
+                                                      : showOrderFromCoupon(
+                                                          dataProvider,
+                                                          index,
+                                                          context),
+                                                ),
+                                              ),
+                                            ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      bottom:
+                                          Constants().screenheight(context) *
+                                              0.025),
+                                  child: AppTextStyle().textBold(
+                                      'Promotion Summary',
+                                      size: Constants().screenheight(context) *
+                                          0.025),
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 2,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            LocaleKeys.promotion_name.tr(),
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            'Coupon/Voucher No.',
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Center(
+                                        child: AppTextStyle().textBold(
+                                            'Discount Amount',
+                                            size: Constants()
+                                                    .screenheight(context) *
+                                                0.024),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height:
+                                      Constants().screenheight(context) * 0.16,
+                                  child:
+                                      dataProvider.couponApplyModel == null ||
+                                              dataProvider.couponApplyModel!
+                                                  .responseCode!.isNotEmpty
+                                          ? const SizedBox.shrink()
+                                          : SingleChildScrollView(
+                                              child: Column(
+                                                children: List.generate(
+                                                  dataProvider
+                                                      .couponApplyModel!
+                                                      .responseObj!
+                                                      .promoList!
+                                                      .length,
+                                                  (index) => dataProvider
+                                                          .couponApplyModel!
+                                                          .responseObj!
+                                                          .promoList![index]
                                                           .couponList!
                                                           .isEmpty
                                                       ? const SizedBox.shrink()
-                                                      : Column(
-                                                          children:
-                                                              List.generate(
-                                                            dataProvider
-                                                                .couponApplyModel!
-                                                                .responseObj!
-                                                                .promoList![
-                                                                    indexOutside]
-                                                                .couponList!
-                                                                .length,
-                                                            (indexInside) =>
-                                                                Column(
-                                                              children: [
-                                                                const Divider(
-                                                                    thickness:
-                                                                        0.3),
-                                                                Row(
-                                                                  children: <Widget>[
-                                                                    Expanded(
-                                                                      flex: 2,
-                                                                      child:
-                                                                          Center(
-                                                                        child: AppTextStyle().textNormal(
-                                                                            dataProvider.couponApplyModel!.responseObj!.promoList![indexOutside].couponList![indexInside].couponNumber!,
-                                                                            size: Constants().screenheight(context) * 0.024),
-                                                                      ),
-                                                                    ),
-                                                                    Expanded(
-                                                                      flex: 2,
-                                                                      child:
-                                                                          Center(
-                                                                        child: AppTextStyle().textNormal(
-                                                                            dataProvider.couponApplyModel!.responseObj!.promoList![indexOutside].promotionName!,
-                                                                            size: Constants().screenheight(context) * 0.024),
-                                                                      ),
-                                                                    ),
-                                                                    Expanded(
-                                                                      flex: 1,
-                                                                      child:
-                                                                          Center(
-                                                                        child:
-                                                                            GestureDetector(
-                                                                          onTap:
-                                                                              () {
-                                                                            LoadingStyle().dialogLoadding(context);
-                                                                            dataProvider.promotionCancel(context, indexOutside, indexInside).then((value) {
-                                                                              if (dataProvider.apiState == ApiState.COMPLETED) {
-                                                                                Navigator.maybePop(context);
-                                                                              }
-                                                                            });
-                                                                          },
-                                                                          child: Icon(
-                                                                              Icons.delete,
-                                                                              color: Colors.red,
-                                                                              size: Constants().screenheight(context) * 0.045),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        )),
-                                        ),
-                                      ),
+                                                      : showPromotionSum(
+                                                          dataProvider,
+                                                          index,
+                                                          context),
+                                                ),
+                                              ),
+                                            ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ),
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 3,
-                                child: Center(
-                                  child: AppTextStyle().textBold(
-                                      LocaleKeys.product_name.tr(),
-                                      size: Constants().screenheight(context) *
-                                          0.024),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Center(
-                                  child: AppTextStyle().textBold(
-                                      LocaleKeys.qty.tr(),
-                                      size: Constants().screenheight(context) *
-                                          0.024),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Center(
-                                  child: AppTextStyle().textBold(
-                                      LocaleKeys.price.tr(),
-                                      size: Constants().screenheight(context) *
-                                          0.024),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Center(
-                                  child: AppTextStyle().textBold(
-                                      LocaleKeys.total_price.tr(),
-                                      size: Constants().screenheight(context) *
-                                          0.024),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Center(
-                                  child: AppTextStyle().textBold(
-                                      LocaleKeys.disc_qty.tr(),
-                                      size: Constants().screenheight(context) *
-                                          0.024),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Center(
-                                  child: AppTextStyle().textBold(
-                                      LocaleKeys.promo_disc.tr(),
-                                      size: Constants().screenheight(context) *
-                                          0.024),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Center(
-                                  child: AppTextStyle().textBold(
-                                      LocaleKeys.sales_prices.tr(),
-                                      size: Constants().screenheight(context) *
-                                          0.024),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Center(
-                                  child: AppTextStyle().textBold(
-                                      LocaleKeys.promotion_name.tr(),
-                                      size: Constants().screenheight(context) *
-                                          0.024),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: Constants().screenheight(context) * 0.3,
-                            child:
-                                dataProvider.couponApplyModel == null ||
-                                        dataProvider.couponApplyModel!
-                                            .responseCode!.isNotEmpty
-                                    ? const SizedBox.shrink()
-                                    : SingleChildScrollView(
-                                        child: Column(
-                                          children: List.generate(
-                                            dataProvider.couponApplyModel!
-                                                .responseObj!.orderList!.length,
-                                            (index) =>
-                                                dataProvider
-                                                        .couponApplyModel!
-                                                        .responseObj!
-                                                        .orderList![index]
-                                                        .promoItemList!
-                                                        .isEmpty
-                                                    ? const SizedBox.shrink()
-                                                    : Column(
-                                                        children: [
-                                                          const Divider(
-                                                              thickness: 0.3),
-                                                          Row(
-                                                            children: <Widget>[
-                                                              Expanded(
-                                                                flex: 3,
-                                                                child: Center(
-                                                                  child: AppTextStyle().textNormal(
-                                                                      dataProvider
-                                                                          .couponApplyModel!
-                                                                          .responseObj!
-                                                                          .orderList![
-                                                                              index]
-                                                                          .itemName!,
-                                                                      size: Constants()
-                                                                              .screenheight(context) *
-                                                                          0.024),
-                                                                ),
-                                                              ),
-                                                              Expanded(
-                                                                flex: 1,
-                                                                child: Center(
-                                                                  child: AppTextStyle().textNormal(
-                                                                      dataProvider
-                                                                          .couponApplyModel!
-                                                                          .responseObj!
-                                                                          .orderList![
-                                                                              index]
-                                                                          .qty!
-                                                                          .toInt()
-                                                                          .toString(),
-                                                                      size: Constants()
-                                                                              .screenheight(context) *
-                                                                          0.024),
-                                                                ),
-                                                              ),
-                                                              Expanded(
-                                                                flex: 2,
-                                                                child: Center(
-                                                                  child: AppTextStyle().textNormal(
-                                                                      dataProvider
-                                                                          .couponApplyModel!
-                                                                          .responseObj!
-                                                                          .orderList![
-                                                                              index]
-                                                                          .unitPrice
-                                                                          .toString(),
-                                                                      size: Constants()
-                                                                              .screenheight(context) *
-                                                                          0.024),
-                                                                ),
-                                                              ),
-                                                              Expanded(
-                                                                flex: 2,
-                                                                child: Center(
-                                                                  child: AppTextStyle().textNormal(
-                                                                      dataProvider
-                                                                          .couponApplyModel!
-                                                                          .responseObj!
-                                                                          .orderList![
-                                                                              index]
-                                                                          .retailPrice
-                                                                          .toString(),
-                                                                      size: Constants()
-                                                                              .screenheight(context) *
-                                                                          0.024),
-                                                                ),
-                                                              ),
-                                                              Expanded(
-                                                                flex: 1,
-                                                                child: Center(
-                                                                  child: AppTextStyle().textNormal(
-                                                                      dataProvider
-                                                                          .couponApplyModel!
-                                                                          .responseObj!
-                                                                          .orderList![
-                                                                              index]
-                                                                          .promoItemList!
-                                                                          .length
-                                                                          .toString(),
-                                                                      size: Constants()
-                                                                              .screenheight(context) *
-                                                                          0.024),
-                                                                ),
-                                                              ),
-                                                              Expanded(
-                                                                flex: 2,
-                                                                child: Center(
-                                                                  child: AppTextStyle().textNormal(
-                                                                      dataProvider.sumTotalDiscountCoupon(
-                                                                          index,
-                                                                          'totalDis'),
-                                                                      size: Constants()
-                                                                              .screenheight(context) *
-                                                                          0.024),
-                                                                ),
-                                                              ),
-                                                              Expanded(
-                                                                flex: 2,
-                                                                child: Center(
-                                                                  child: AppTextStyle().textNormal(
-                                                                      dataProvider.sumTotalDiscountCoupon(
-                                                                          index,
-                                                                          'salesPrice'),
-                                                                      size: Constants()
-                                                                              .screenheight(context) *
-                                                                          0.024),
-                                                                ),
-                                                              ),
-                                                              Expanded(
-                                                                flex: 3,
-                                                                child: Center(
-                                                                  child: AppTextStyle().textNormal(
-                                                                      '${dataProvider.couponApplyModel!.responseObj!.orderList![index].promoItemList!.first.promotionName} (${dataProvider.getWhereCouponId(dataProvider.couponApplyModel!.responseObj!.orderList![index].promoItemList!.first.promotionID!)})',
-                                                                      size: Constants()
-                                                                              .screenheight(context) *
-                                                                          0.024),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                          ),
-                                        ),
-                                      ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )),
+                  )),
         actions: <Widget>[
           TextButton(
             child: AppTextStyle().textNormal(
@@ -872,5 +797,204 @@ Future<void> eCouponDialog(BuildContext context) {
         ],
       ),
     ),
+  );
+}
+
+Column showPromotionSum(
+    MenuProvider dataProvider, int index, BuildContext context) {
+  return Column(
+    children: [
+      const Divider(thickness: 0.3),
+      Row(
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Center(
+              child: AppTextStyle().textNormal(
+                  dataProvider.couponApplyModel!.responseObj!.promoList![index]
+                      .promotionName!,
+                  size: Constants().screenheight(context) * 0.024),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Center(
+              child: Text(
+                dataProvider.couponApplyModel!.responseObj!.promoList![index]
+                    .couponList!
+                    .map((item) => item.couponNumber!)
+                    .toList()
+                    .join(", "),
+                style: TextStyle(
+                    fontSize: Constants().screenheight(context) * 0.024),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: AppTextStyle().textNormal(
+                  dataProvider.couponApplyModel!.responseObj!.promoList![index]
+                      .totalDiscount
+                      .toString(),
+                  size: Constants().screenheight(context) * 0.024),
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+Column showCouponData(
+    MenuProvider dataProvider, int indexOutside, BuildContext context) {
+  return Column(
+    children: List.generate(
+      dataProvider.couponApplyModel!.responseObj!.promoList![indexOutside]
+          .couponList!.length,
+      (indexInside) => Column(
+        children: [
+          const Divider(thickness: 0.3),
+          Row(
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: Center(
+                  child: AppTextStyle().textNormal(
+                      dataProvider
+                          .couponApplyModel!
+                          .responseObj!
+                          .promoList![indexOutside]
+                          .couponList![indexInside]
+                          .couponNumber!,
+                      size: Constants().screenheight(context) * 0.024),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Center(
+                  child: AppTextStyle().textNormal(
+                      dataProvider.couponApplyModel!.responseObj!
+                          .promoList![indexOutside].promotionName!,
+                      size: Constants().screenheight(context) * 0.024),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      LoadingStyle().dialogLoadding(context);
+                      dataProvider
+                          .promotionCancel(context, indexOutside, indexInside)
+                          .then((value) {
+                        if (dataProvider.apiState == ApiState.COMPLETED) {
+                          Navigator.maybePop(context);
+                        }
+                      });
+                    },
+                    child: Icon(Icons.delete,
+                        color: Colors.red,
+                        size: Constants().screenheight(context) * 0.045),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Column showOrderFromCoupon(
+    MenuProvider dataProvider, int index, BuildContext context) {
+  return Column(
+    children: [
+      const Divider(thickness: 0.3),
+      Row(
+        children: <Widget>[
+          Expanded(
+            flex: 3,
+            child: Center(
+              child: AppTextStyle().textNormal(
+                  dataProvider.couponApplyModel!.responseObj!.orderList![index]
+                      .itemName!,
+                  size: Constants().screenheight(context) * 0.024),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: AppTextStyle().textNormal(
+                  dataProvider
+                      .couponApplyModel!.responseObj!.orderList![index].qty!
+                      .toInt()
+                      .toString(),
+                  size: Constants().screenheight(context) * 0.024),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Center(
+              child: AppTextStyle().textNormal(
+                  dataProvider.couponApplyModel!.responseObj!.orderList![index]
+                      .unitPrice
+                      .toString(),
+                  size: Constants().screenheight(context) * 0.024),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Center(
+              child: AppTextStyle().textNormal(
+                  dataProvider.couponApplyModel!.responseObj!.orderList![index]
+                      .retailPrice
+                      .toString(),
+                  size: Constants().screenheight(context) * 0.024),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: AppTextStyle().textNormal(
+                  dataProvider.couponApplyModel!.responseObj!.orderList![index]
+                      .promoItemList!.length
+                      .toString(),
+                  size: Constants().screenheight(context) * 0.024),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Center(
+              child: AppTextStyle().textNormal(
+                  dataProvider.sumTotalDiscountCoupon(index, 'totalDis'),
+                  size: Constants().screenheight(context) * 0.024),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Center(
+              child: AppTextStyle().textNormal(
+                  dataProvider.sumTotalDiscountCoupon(index, 'salesPrice'),
+                  size: Constants().screenheight(context) * 0.024),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Center(
+                child: Text(
+              dataProvider.couponApplyModel!.responseObj!.orderList![index]
+                  .promoItemList!
+                  .map((item) => item.promotionName)
+                  .toList()
+                  .join(", "),
+              style: TextStyle(
+                  fontSize: Constants().screenheight(context) * 0.024),
+            )),
+          ),
+        ],
+      )
+    ],
   );
 }

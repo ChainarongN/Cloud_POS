@@ -67,7 +67,7 @@ class CodegenLoader extends AssetLoader{
   "search": "Search",
   "discount": "Discount",
   "payment": "Payment",
-  "discount_other": "Discount other",
+  "discount_other": "Disc other",
   "something_went_wrong": "Something went wrong.",
   "must_have_at_least_1_order": "Must have at least 1 order.",
   "pay_amount_must_more_than_total_price": "Pay amount must more than total price.",

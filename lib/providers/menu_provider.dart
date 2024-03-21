@@ -350,6 +350,7 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future cancelTransaction(BuildContext context) async {
+    await clearApplyCoupon(context);
     apiState = ApiState.LOADING;
     var response = await _menuRepository.cancelTran(
         langId: '1',
@@ -503,6 +504,20 @@ class MenuProvider extends ChangeNotifier {
     var data = couponApplyModel!.responseObj!.promoList!
         .where((element) => element.promotionID == promotionId);
     return data.first.couponList!.first.couponNumber!;
+  }
+
+  Future clearApplyCoupon(BuildContext context) async {
+    if (couponApplyModel != null &&
+        couponApplyModel!.responseObj!.promoList!.isNotEmpty) {
+      var promoList = couponApplyModel!.responseObj!.promoList;
+      for (var i = 0; i < promoList!.length; i++) {
+        if (promoList[i].couponList!.isNotEmpty) {
+          for (var j = 0; j < promoList[i].couponList!.length; j++) {
+            await promotionCancel(context, i, j);
+          }
+        }
+      }
+    }
   }
 
   // --------------------------- SET ---------------------------\

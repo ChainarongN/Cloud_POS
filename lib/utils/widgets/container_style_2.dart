@@ -66,7 +66,7 @@ class ContainerStyle2 extends StatelessWidget {
                   1.0
                 ])),
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: onlyText!
