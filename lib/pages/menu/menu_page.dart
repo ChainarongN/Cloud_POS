@@ -4,6 +4,7 @@ import 'package:cloud_pos/pages/menu/widgets/reason_dialog.dart';
 import 'package:cloud_pos/pages/menu/widgets/tab_menu_title.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/discount_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/fav_one_tab.dart';
+import 'package:cloud_pos/pages/menu/widgets/tabview/fav_two_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/menu_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/payment_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/search_tab.dart';
@@ -98,9 +99,7 @@ class _MenuPageState extends State<MenuPage>
               children: <Widget>[
                 menuTab(context, menuWatch, menuRead),
                 favoriteTab1(context, menuWatch, menuRead),
-                Center(
-                  child: Text("Fav#2"),
-                ),
+                favoriteTab2(context, menuWatch, menuRead),
                 searchTab(context, menuWatch, menuRead),
                 discount(context, menuWatch, menuRead),
                 paymentTab(context, menuRead, menuWatch),

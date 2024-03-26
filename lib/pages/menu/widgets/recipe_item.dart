@@ -17,7 +17,7 @@ class RecipeItem extends StatelessWidget {
           margin: EdgeInsets.only(
               bottom: Constants().screenheight(context) * 0.007,
               left: Constants().screenheight(context) * 0.005),
-          height: Constants().screenheight(context) * 0.26,
+          height: Constants().screenheight(context) * 0.28,
           width: Constants().screenWidth(context) * 0.124,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),

@@ -1,6 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
@@ -28,6 +31,7 @@ import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import '../repositorys/repository.dart';
 
@@ -46,6 +50,7 @@ class MenuProvider extends ChangeNotifier {
   List<Products>? prodList;
   List<Products>? prodToShow;
   List<Products>? prodToSearch;
+  List<FavoriteData>? favResultList;
   ShopData? shopData;
   ComputerName? computerName;
   List<PayAmountModel>? payAmountList = [];
@@ -63,7 +68,7 @@ class MenuProvider extends ChangeNotifier {
   MemberApplyModel? memberApplyModel;
   MemberCancelModel? memberCancelModel;
   FinalizeBillModel? finalizeBillModel;
-  int? _valueMenuSelect, _valueCurrencyId, _tranId;
+  int? _valueMenuSelect, _valueCurrencyId, _tranId, _valueFavGroup1;
   String? _valueReasonGroupSelect,
       _htmlOrderSummary,
       _orderId,
@@ -93,6 +98,7 @@ class MenuProvider extends ChangeNotifier {
   TabController get getTabController => _tabController!;
   String get getOrderId => _orderId!;
   String get getExceptionText => _exceptionText;
+  int get getValueFavGroup1 => _valueFavGroup1!;
   String get getSaleModeName => _saleModeName;
   int get getvalueMenuSelect => _valueMenuSelect!;
   String get getvalueReasonGroupSelect => _valueReasonGroupSelect!;
@@ -132,9 +138,11 @@ class MenuProvider extends ChangeNotifier {
     prodToSearch = [];
     payAmountList = [];
     _selectDiscountList = [];
+
     await _readData();
     await setReason(context, 0);
     setWhereMenu(prodGroupList![0].productGroupID.toString());
+    manageFavList(favoriteGroupList!.first.pageIndex!);
 
     Constants().printWarning("OrderId : $_orderId");
     SharedPref().setOrderId(_orderId!);
@@ -500,12 +508,6 @@ class MenuProvider extends ChangeNotifier {
     return result.toString();
   }
 
-  String getWhereCouponId(int promotionId) {
-    var data = couponApplyModel!.responseObj!.promoList!
-        .where((element) => element.promotionID == promotionId);
-    return data.first.couponList!.first.couponNumber!;
-  }
-
   Future clearApplyCoupon(BuildContext context) async {
     if (couponApplyModel != null &&
         couponApplyModel!.responseObj!.promoList!.isNotEmpty) {
@@ -518,6 +520,66 @@ class MenuProvider extends ChangeNotifier {
         }
       }
     }
+  }
+
+  String getProdObject(int prodId) {
+    var result = prodList!.where((element) => element.productID == prodId);
+    return result.first.productName!;
+  }
+
+  reOrderableDataFav1(int oldIndex, int newIndex) async {
+    final item = favResultList!.removeAt(oldIndex);
+    favResultList!.insert(newIndex, item);
+    for (var i = 0; i < favResultList!.length; i++) {
+      favResultList![i].buttonOrder = i + 1;
+    }
+    favoriteData!
+        .removeWhere((element) => element.pageIndex == _valueFavGroup1);
+    List<FavoriteData> result = favResultList!
+        .where((element) => element.pageIndex == _valueFavGroup1)
+        .toList();
+    favoriteData!.addAll(result);
+
+    notifyListeners();
+  }
+
+  Future manageFavList(int pageGroup) async {
+    _valueFavGroup1 = pageGroup;
+    favResultList = [];
+    int findMaxLength = 0;
+    List<FavoriteData>? data = favoriteData!
+        .where((element) => element.pageIndex == pageGroup)
+        .toList();
+    if (data.isNotEmpty) {
+      for (var element in data) {
+        if (element.buttonOrder! > findMaxLength) {
+          findMaxLength = element.buttonOrder!;
+        }
+      }
+      for (var i = 1; i < findMaxLength + 5; i++) {
+        if (data.any((element) => element.buttonOrder == i)) {
+          var result = data.where((element) => element.buttonOrder == i);
+          favResultList!.add(FavoriteData(
+            templateID: result.first.templateID,
+            pageIndex: result.first.pageIndex,
+            productCode: result.first.productCode,
+            productID: result.first.productID,
+            hexColor: result.first.hexColor,
+            buttonOrder: result.first.buttonOrder,
+          ));
+        } else {
+          favResultList!.add(FavoriteData(
+            templateID: 0,
+            pageIndex: 0,
+            productCode: '',
+            productID: 0,
+            hexColor: '',
+            buttonOrder: 0,
+          ));
+        }
+      }
+    }
+    notifyListeners();
   }
 
   // --------------------------- SET ---------------------------\
