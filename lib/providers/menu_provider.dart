@@ -3,7 +3,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
@@ -23,6 +22,7 @@ import 'package:cloud_pos/models/reason_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/pages/menu/functions/add_product_func.dart';
 import 'package:cloud_pos/pages/menu/functions/detect_menu_func.dart';
+import 'package:cloud_pos/pages/menu/functions/manage_fav_func.dart';
 import 'package:cloud_pos/pages/menu/functions/payment_func.dart';
 import 'package:cloud_pos/pages/menu/functions/read_file_func.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
@@ -68,7 +68,7 @@ class MenuProvider extends ChangeNotifier {
   MemberApplyModel? memberApplyModel;
   MemberCancelModel? memberCancelModel;
   FinalizeBillModel? finalizeBillModel;
-  int? _valueMenuSelect, _valueCurrencyId, _tranId, _valueFavGroup1;
+  int? _valueMenuSelect, _valueCurrencyId, _tranId, _valueFavGroup;
   String? _valueReasonGroupSelect,
       _htmlOrderSummary,
       _orderId,
@@ -76,50 +76,33 @@ class MenuProvider extends ChangeNotifier {
       _tranDataCurrent,
       _valueCurrency;
   String _exceptionText = '', _saleModeName = '';
-
-  final TextEditingController _reasonController = TextEditingController();
-  final TextEditingController _valueIdReason = TextEditingController();
-  final TextEditingController _reasonTextController = TextEditingController();
-  final TextEditingController _valueQtyOrderController =
-      TextEditingController();
-  final TextEditingController _payAmountController = TextEditingController();
-  final TextEditingController _totalPayListController = TextEditingController();
-  final TextEditingController _dueAmountController = TextEditingController();
-  final TextEditingController _payAmountCredit = TextEditingController();
-  final TextEditingController _paymentRemark = TextEditingController();
-  final TextEditingController _phoneMemberController = TextEditingController();
-  final TextEditingController _dueCreditController = TextEditingController();
+  final TextEditingController reasonController = TextEditingController();
+  final TextEditingController valueIdReason = TextEditingController();
+  final TextEditingController reasonTextController = TextEditingController();
+  final TextEditingController valueQtyOrderController = TextEditingController();
+  final TextEditingController payAmountController = TextEditingController();
+  final TextEditingController totalPayListController = TextEditingController();
+  final TextEditingController dueAmountController = TextEditingController();
+  final TextEditingController payAmountCredit = TextEditingController();
+  final TextEditingController paymentRemark = TextEditingController();
+  final TextEditingController phoneMemberController = TextEditingController();
+  final TextEditingController dueCreditController = TextEditingController();
   TabController? _tabController;
-  final ScreenshotController _screenshotController = ScreenshotController();
-  final TextEditingController _couponCodeController = TextEditingController();
+  final ScreenshotController screenshotController = ScreenshotController();
+  final TextEditingController couponCodeController = TextEditingController();
 
   // --------------------------- GET ---------------------------
   bool get getLoading => _isLoading;
   TabController get getTabController => _tabController!;
   String get getOrderId => _orderId!;
   String get getExceptionText => _exceptionText;
-  int get getValueFavGroup1 => _valueFavGroup1!;
+  int get getValueFavGroup => _valueFavGroup!;
   String get getSaleModeName => _saleModeName;
   int get getvalueMenuSelect => _valueMenuSelect!;
   String get getvalueReasonGroupSelect => _valueReasonGroupSelect!;
   String get getHtmlOrderSummary => _htmlOrderSummary!;
   String get getValueCurrency => _valueCurrency!;
   int get getValueCurrencyId => _valueCurrencyId!;
-  TextEditingController get getReasonController => _reasonController;
-  TextEditingController get getvalueReason => _valueIdReason;
-  TextEditingController get getReasonText => _reasonTextController;
-  TextEditingController get getvalueQtyOrderController =>
-      _valueQtyOrderController;
-  TextEditingController get getPayAmountController => _payAmountController;
-  TextEditingController get getTotalPayListController =>
-      _totalPayListController;
-  TextEditingController get getDueAmountController => _dueAmountController;
-  TextEditingController get getPayAmountCredit => _payAmountCredit;
-  TextEditingController get getPaymentRemark => _paymentRemark;
-  TextEditingController get getPhoneMemberController => _phoneMemberController;
-  TextEditingController get getCouponCodeController => _couponCodeController;
-  TextEditingController get getDueCreditController => _dueCreditController;
-  ScreenshotController get getScreenshotController => _screenshotController;
   List<int> get getSelectDiscountList => _selectDiscountList!;
   String get getDueAmountCurrent =>
       jsonDecode(_tranDataCurrent!)['DueAmount'].toString();
@@ -127,8 +110,8 @@ class MenuProvider extends ChangeNotifier {
   // ------------------------ Call Data -------------------------
   init(BuildContext context, TickerProvider tabThis) async {
     _isLoading = true;
-    _payAmountController.text = '';
-    _totalPayListController.text = '0.00';
+    payAmountController.text = '';
+    totalPayListController.text = '0.00';
     _tabController = TabController(length: 6, vsync: tabThis);
     _valueCurrency = 'THB';
     _valueCurrencyId = 1;
@@ -142,12 +125,11 @@ class MenuProvider extends ChangeNotifier {
     await _readData();
     await setReason(context, 0);
     setWhereMenu(prodGroupList![0].productGroupID.toString());
-    manageFavList(favoriteGroupList!.first.pageIndex!);
+    showFav1List(context, favoriteData!.first.pageIndex!);
 
     Constants().printWarning("OrderId : $_orderId");
     SharedPref().setOrderId(_orderId!);
     checkPaymentTab(context);
-
     if (apiState == ApiState.COMPLETED) {
       _isLoading = false;
     }
@@ -189,7 +171,7 @@ class MenuProvider extends ChangeNotifier {
               price: double.parse(price!),
               payRemark: payRemark ?? ''),
         );
-        _payAmountController.text = '';
+        payAmountController.text = '';
         break;
       case 'remove':
         payAmountList!.removeAt(indexForRemove!);
@@ -199,12 +181,12 @@ class MenuProvider extends ChangeNotifier {
         break;
     }
     num sum = 0;
-    for (var element in payAmountList!) {
-      sum += element.price!;
-    }
-    _dueCreditController.text =
+    sum = payAmountList!
+        .map((e) => e.price)
+        .reduce((value, element) => value! + element!)!;
+    dueCreditController.text =
         (double.parse(getDueAmountCurrent) - sum).toString();
-    _totalPayListController.text = sum.toString();
+    totalPayListController.text = sum.toString();
     if (sum >= double.parse(getDueAmountCurrent)) {
       LoadingStyle().dialogLoadding(context);
       await PaymentFunc().paymentMulti(context);
@@ -228,7 +210,7 @@ class MenuProvider extends ChangeNotifier {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.eCouponInquiry(
         langID: '1',
-        voucherSN: getCouponCodeController.text,
+        voucherSN: couponCodeController.text,
         computerCode: '',
         computerName: computerName!.computerName,
         shopCode: shopData!.shopCode,
@@ -363,8 +345,8 @@ class MenuProvider extends ChangeNotifier {
     var response = await _menuRepository.cancelTran(
         langId: '1',
         orderId: _orderId,
-        reasonIDList: _valueIdReason.text,
-        reasonText: _reasonTextController.text);
+        reasonIDList: valueIdReason.text,
+        reasonText: reasonTextController.text);
     cancelTranModel =
         await DetectMenuFunc().detectCancelTran(context, response);
     if (apiState == ApiState.COMPLETED) {
@@ -415,12 +397,12 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future addReasonText(int index) async {
-    if (_reasonController.text == '' && _valueIdReason.text == '') {
-      _reasonController.text = reasonModel!.responseObj![index].text!;
-      _valueIdReason.text = reasonModel!.responseObj![index].iD!.toString();
+    if (reasonController.text == '' && valueIdReason.text == '') {
+      reasonController.text = reasonModel!.responseObj![index].text!;
+      valueIdReason.text = reasonModel!.responseObj![index].iD!.toString();
     } else {
-      _reasonController.text += ', ${reasonModel!.responseObj![index].text!}';
-      _valueIdReason.text +=
+      reasonController.text += ', ${reasonModel!.responseObj![index].text!}';
+      valueIdReason.text +=
           ',${reasonModel!.responseObj![index].iD!.toString()}';
     }
     notifyListeners();
@@ -480,27 +462,36 @@ class MenuProvider extends ChangeNotifier {
 
   checkPaymentTab(BuildContext context) {
     _tabController!.addListener(() async {
-      if (_tabController!.index == 5) {
-        if (productAddModel == null ||
-            productAddModel!.responseObj!.orderList!.isEmpty) {
-          await LoadingStyle().dialogError(context,
-              error: LocaleKeys.must_have_at_least_1_order.tr(),
-              isPopUntil: true,
-              popToPage: '/menuPage');
-          setTabToPayment(0);
-        }
+      switch (_tabController!.index) {
+        case 5:
+          if (productAddModel == null ||
+              productAddModel!.responseObj!.orderList!.isEmpty) {
+            await LoadingStyle().dialogError(context,
+                error: LocaleKeys.must_have_at_least_1_order.tr(),
+                isPopUntil: true,
+                popToPage: '/menuPage');
+            setTabToPayment(0);
+          }
+          break;
+        case 1:
+          var result =
+              favoriteGroupList!.where((element) => element.pageType == 0);
+          showFav1List(context, result.first.pageIndex!);
+          break;
+        case 2:
+          var result =
+              favoriteGroupList!.where((element) => element.pageType == 1);
+          showFav1List(context, result.first.pageIndex!);
+          break;
       }
     });
   }
 
   String sumTotalDiscountCoupon(int index, String frag) {
     double result = 0;
-    int indexCount =
-        couponApplyModel!.responseObj!.orderList![index].promoItemList!.length;
-    for (var i = 0; i < indexCount; i++) {
-      result += couponApplyModel!
-          .responseObj!.orderList![index].promoItemList![i].totalDiscount!;
-    }
+    result = couponApplyModel!.responseObj!.orderList![index].promoItemList!
+        .map((item) => item.totalDiscount)
+        .reduce((a, b) => a! + b!)!;
     if (frag == 'salesPrice') {
       result = couponApplyModel!.responseObj!.orderList![index].retailPrice! -
           result;
@@ -522,63 +513,26 @@ class MenuProvider extends ChangeNotifier {
     }
   }
 
-  String getProdObject(int prodId) {
+  String getProdName(int prodId) {
     var result = prodList!.where((element) => element.productID == prodId);
     return result.first.productName!;
   }
 
-  reOrderableDataFav1(int oldIndex, int newIndex) async {
-    final item = favResultList!.removeAt(oldIndex);
-    favResultList!.insert(newIndex, item);
-    for (var i = 0; i < favResultList!.length; i++) {
-      favResultList![i].buttonOrder = i + 1;
-    }
-    favoriteData!
-        .removeWhere((element) => element.pageIndex == _valueFavGroup1);
-    List<FavoriteData> result = favResultList!
-        .where((element) => element.pageIndex == _valueFavGroup1)
-        .toList();
-    favoriteData!.addAll(result);
-
+  Future reOrderableDataFav(
+      BuildContext context, int oldIndex, int newIndex) async {
+    await ManageFav1Func()
+        .changeIndexFav(context, oldIndex, newIndex, _valueFavGroup!);
     notifyListeners();
+
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/${Constants.FAV_DATA_TXT}');
+    await file.writeAsString(json.encode(favoriteData!));
   }
 
-  Future manageFavList(int pageGroup) async {
-    _valueFavGroup1 = pageGroup;
+  Future showFav1List(BuildContext context, int pageGroup) async {
+    _valueFavGroup = pageGroup;
     favResultList = [];
-    int findMaxLength = 0;
-    List<FavoriteData>? data = favoriteData!
-        .where((element) => element.pageIndex == pageGroup)
-        .toList();
-    if (data.isNotEmpty) {
-      for (var element in data) {
-        if (element.buttonOrder! > findMaxLength) {
-          findMaxLength = element.buttonOrder!;
-        }
-      }
-      for (var i = 1; i < findMaxLength + 5; i++) {
-        if (data.any((element) => element.buttonOrder == i)) {
-          var result = data.where((element) => element.buttonOrder == i);
-          favResultList!.add(FavoriteData(
-            templateID: result.first.templateID,
-            pageIndex: result.first.pageIndex,
-            productCode: result.first.productCode,
-            productID: result.first.productID,
-            hexColor: result.first.hexColor,
-            buttonOrder: result.first.buttonOrder,
-          ));
-        } else {
-          favResultList!.add(FavoriteData(
-            templateID: 0,
-            pageIndex: 0,
-            productCode: '',
-            productID: 0,
-            hexColor: '',
-            buttonOrder: 0,
-          ));
-        }
-      }
-    }
+    await ManageFav1Func().showData(context, pageGroup);
     notifyListeners();
   }
 
@@ -598,22 +552,22 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future clearReasonText() async {
-    _reasonController.text = '';
-    _valueIdReason.text = '';
-    _reasonTextController.text = '';
-    _valueQtyOrderController.text = '';
+    reasonController.text = '';
+    valueIdReason.text = '';
+    reasonTextController.text = '';
+    valueQtyOrderController.text = '';
     notifyListeners();
   }
 
   Future clearPaymentField() async {
-    _paymentRemark.text = '';
-    _payAmountCredit.text = '';
+    paymentRemark.text = '';
+    payAmountCredit.text = '';
     notifyListeners();
   }
 
   Future clearField() async {
-    _phoneMemberController.text = '';
-    _couponCodeController.text = '';
+    phoneMemberController.text = '';
+    couponCodeController.text = '';
     notifyListeners();
   }
 
@@ -637,7 +591,7 @@ class MenuProvider extends ChangeNotifier {
 
   Future dialogCountOrder(BuildContext context, int index) async {
     productAddModel!.responseObj!.orderList![index].qty =
-        double.parse(_valueQtyOrderController.text);
+        double.parse(valueQtyOrderController.text);
     await addProductToList(
         context,
         productAddModel!.responseObj!.orderList![index].productID!,
@@ -647,18 +601,18 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future setPayAmountField(int value) async {
-    if (_payAmountController.text.isEmpty) {
-      _payAmountController.text = value.toString();
+    if (payAmountController.text.isEmpty) {
+      payAmountController.text = value.toString();
     } else {
-      double total = double.parse(_payAmountController.text);
+      double total = double.parse(payAmountController.text);
       double sum = total + value;
-      _payAmountController.text = sum.toString();
+      payAmountController.text = sum.toString();
     }
     notifyListeners();
   }
 
   Future clearPayAmount() async {
-    _payAmountController.clear();
+    payAmountController.clear();
     notifyListeners();
   }
 
@@ -684,7 +638,7 @@ class MenuProvider extends ChangeNotifier {
 
   final List<String> currencyitems = ['THB'];
   setCouponCodeControllerForTest() {
-    _couponCodeController.text = '111E2F4F09122E72E123';
+    couponCodeController.text = '111E2F4F09122E72E123';
     notifyListeners();
   }
 }

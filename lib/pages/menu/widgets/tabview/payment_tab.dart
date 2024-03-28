@@ -57,7 +57,7 @@ Future dialogPayment(BuildContext context,
   switch (payTypeId) {
     case 2:
       if (menuWatch!.payAmountList!.isEmpty) {
-        menuWatch.getDueCreditController.text = menuWatch.getDueAmountCurrent;
+        menuWatch.dueCreditController.text = menuWatch.getDueAmountCurrent;
       }
       dialogCredit(context,
           payTypeId: payTypeId,
@@ -78,7 +78,7 @@ Future<void> dialogCredit(BuildContext context,
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
-      menuWatch!.getDueAmountController.text = menuWatch.getDueAmountCurrent;
+      menuWatch!.dueAmountController.text = menuWatch.getDueAmountCurrent;
       return Dialog(
         child: Padding(
           padding:
@@ -113,7 +113,7 @@ Future<void> dialogCredit(BuildContext context,
                       width: Constants().screenWidth(context) * 0.15,
                       height: Constants().screenheight(context) * 0.05,
                       child: TextField(
-                        controller: menuWatch.getDueAmountController,
+                        controller: menuWatch.dueAmountController,
                         readOnly: true,
                         textAlign: TextAlign.end,
                         keyboardType: TextInputType.number,
@@ -153,7 +153,7 @@ Future<void> dialogCredit(BuildContext context,
                       width: Constants().screenWidth(context) * 0.15,
                       height: Constants().screenheight(context) * 0.05,
                       child: TextField(
-                        controller: menuWatch.getDueCreditController,
+                        controller: menuWatch.dueCreditController,
                         readOnly: true,
                         textAlign: TextAlign.end,
                         keyboardType: TextInputType.number,
@@ -194,7 +194,7 @@ Future<void> dialogCredit(BuildContext context,
                       height: Constants().screenheight(context) * 0.05,
                       alignment: Alignment.center,
                       child: TextField(
-                        controller: menuWatch.getPayAmountCredit,
+                        controller: menuWatch.payAmountCredit,
                         textAlign: TextAlign.end,
                         keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
@@ -224,7 +224,7 @@ Future<void> dialogCredit(BuildContext context,
                   width: Constants().screenWidth(context) * 0.26,
                   height: Constants().screenheight(context) * 0.1,
                   child: TextField(
-                    controller: menuWatch.getPaymentRemark,
+                    controller: menuWatch.paymentRemark,
                     maxLines: 4,
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
@@ -242,9 +242,9 @@ Future<void> dialogCredit(BuildContext context,
                       child: ElevatedButton(
                         onPressed: () async {
                           double price =
-                              double.parse(menuWatch.getPayAmountCredit.text);
-                          double dueAmount = double.parse(
-                              menuWatch.getDueCreditController.text);
+                              double.parse(menuWatch.payAmountCredit.text);
+                          double dueAmount =
+                              double.parse(menuWatch.dueCreditController.text);
                           if (price > dueAmount) {
                             LoadingStyle().dialogError(context,
                                 error: LocaleKeys
@@ -257,8 +257,8 @@ Future<void> dialogCredit(BuildContext context,
                                     payTypeId: payTypeId,
                                     payCode: payTypeCode,
                                     payName: payTypeName,
-                                    payRemark: menuWatch.getPaymentRemark.text,
-                                    price: menuWatch.getPayAmountCredit.text)
+                                    payRemark: menuWatch.paymentRemark.text,
+                                    price: menuWatch.payAmountCredit.text)
                                 .then((value) => Navigator.maybePop(context));
                           }
                         },
@@ -494,7 +494,7 @@ Container totalPayAmount(
         Expanded(
           flex: 1,
           child: TextField(
-            controller: menuWatch.getTotalPayListController,
+            controller: menuWatch.totalPayListController,
             readOnly: true,
             textAlign: TextAlign.end,
             keyboardType: TextInputType.number,
@@ -530,7 +530,7 @@ Container inputTextField(
         Expanded(
           flex: 3,
           child: TextField(
-            controller: menuWatch.getPayAmountController,
+            controller: menuWatch.payAmountController,
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
@@ -580,12 +580,12 @@ Container inputTextField(
                     borderRadius: BorderRadius.circular(10)),
               ),
               onPressed: () {
-                if (menuWatch.getPayAmountController.text.isNotEmpty) {
+                if (menuWatch.payAmountController.text.isNotEmpty) {
                   menuRead.managePayAmountList(context, 'add',
                       payCode: 'CS',
                       payTypeId: 1,
                       payName: 'Cash',
-                      price: menuWatch.getPayAmountController.text);
+                      price: menuWatch.payAmountController.text);
                 }
               },
               child: Padding(

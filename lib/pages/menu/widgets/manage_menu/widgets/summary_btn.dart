@@ -120,7 +120,7 @@ Future<dynamic> dialogResultHtml(
                       child: SizedBox(
                         width: Constants().screenWidth(context) * 0.29,
                         child: Screenshot(
-                          controller: menuWatch.getScreenshotController,
+                          controller: menuWatch.screenshotController,
                           child: HtmlWidget(html),
                         ),
                       ),
@@ -138,7 +138,7 @@ Future<dynamic> dialogResultHtml(
                             if (menuWatch.apiState != ApiState.LOADING) {
                               menuWatch.apiState = ApiState.LOADING;
                               LoadingStyle().dialogLoadding(context);
-                              menuWatch.getScreenshotController
+                              menuWatch.screenshotController
                                   .capture(
                                       delay: const Duration(seconds: 1),
                                       pixelRatio: 1.3)

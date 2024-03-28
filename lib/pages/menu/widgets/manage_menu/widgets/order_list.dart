@@ -170,7 +170,7 @@ openQtyDialog(BuildContext context, MenuProvider menuWatch,
                 margin: const EdgeInsets.only(top: 10, bottom: 10),
                 child: TextField(
                   keyboardType: TextInputType.number,
-                  controller: menuWatch.getvalueQtyOrderController,
+                  controller: menuWatch.valueQtyOrderController,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                     FilteringTextInputFormatter.digitsOnly

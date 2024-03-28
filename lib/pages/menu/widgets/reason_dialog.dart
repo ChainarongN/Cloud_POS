@@ -33,8 +33,8 @@ Future<void> reasonDialog(BuildContext context) {
             child: AppTextStyle().textNormal(LocaleKeys.ok.tr(),
                 size: Constants().screenheight(context) * 0.03),
             onPressed: () async {
-              if (dataProvider.getReasonText.text.isNotEmpty ||
-                  dataProvider.getReasonController.text.isNotEmpty) {
+              if (dataProvider.reasonTextController.text.isNotEmpty ||
+                  dataProvider.reasonController.text.isNotEmpty) {
                 LoadingStyle().dialogLoadding(context);
                 await dataProvider.cancelTransaction(context);
               } else {
@@ -71,7 +71,7 @@ SingleChildScrollView resultData(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                controller: dataProvider.getReasonController,
+                controller: dataProvider.reasonController,
                 readOnly: true,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
@@ -102,7 +102,7 @@ SingleChildScrollView resultData(
               EdgeInsets.only(top: Constants().screenheight(context) * 0.01),
           width: Constants().screenWidth(context) * 0.27,
           child: TextField(
-            controller: dataProvider.getReasonText,
+            controller: dataProvider.reasonTextController,
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white.withOpacity(0.3),

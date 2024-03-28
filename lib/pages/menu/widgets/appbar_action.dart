@@ -138,7 +138,7 @@ Future<void> openNumberDialog(
                 width: Constants().screenWidth(context) * 0.2,
                 margin: const EdgeInsets.only(top: 10, bottom: 10),
                 child: TextField(
-                  controller: menuWatch.getPhoneMemberController,
+                  controller: menuWatch.phoneMemberController,
                   keyboardType: TextInputType.phone,
                   inputFormatters: [
                     MaskedInputFormatter('###-###-####',
@@ -164,7 +164,7 @@ Future<void> openNumberDialog(
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.ok.tr(), size: 18),
             onPressed: () async {
-              if (menuWatch.getPhoneMemberController.text.length == 12) {
+              if (menuWatch.phoneMemberController.text.length == 12) {
                 LoadingStyle().dialogLoadding(context);
                 // final phoneReplace =
                 //     menuWatch.getPhoneMemberController.text.replaceAll('-', '');

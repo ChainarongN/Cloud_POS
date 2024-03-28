@@ -39,6 +39,9 @@ class Constants {
   double screenheight(BuildContext context) =>
       MediaQuery.of(context).size.height;
 
+  int hexStringToColorFF(String hex) => int.parse("0xff$hex");
+  int hexStringToColorF2(String hex) => int.parse("0xF2$hex");
+
   void printInfo(String text) {
     print('\x1B[34m$text\x1B[0m');
   }

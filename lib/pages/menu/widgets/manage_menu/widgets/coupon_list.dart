@@ -435,7 +435,7 @@ Future<void> eCouponDialog(BuildContext context) {
                       right: Constants().screenheight(context) * 0.02),
                   width: Constants().screenWidth(context) * 0.3,
                   child: TextField(
-                    controller: dataProvider.getCouponCodeController,
+                    controller: dataProvider.couponCodeController,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white.withOpacity(0.5),
@@ -467,7 +467,7 @@ Future<void> eCouponDialog(BuildContext context) {
                       ),
                       onPressed: () {
                         if (dataProvider
-                            .getCouponCodeController.text.isNotEmpty) {
+                            .couponCodeController.text.isNotEmpty) {
                           LoadingStyle().dialogLoadding(context);
                           dataProvider.eCouponInquiry(context).then((value) {
                             if (dataProvider.apiState == ApiState.COMPLETED) {

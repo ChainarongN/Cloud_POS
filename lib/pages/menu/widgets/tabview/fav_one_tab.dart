@@ -1,4 +1,3 @@
-import 'package:cloud_pos/pages/menu/widgets/recipe_item.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
@@ -28,8 +27,10 @@ Center favoriteTab1(
                         ? const SizedBox.shrink()
                         : GestureDetector(
                             onTap: () {
-                              menuRead.manageFavList(menuWatch
-                                  .favoriteGroupList![index].pageIndex!);
+                              menuRead.showFav1List(
+                                  context,
+                                  menuWatch
+                                      .favoriteGroupList![index].pageIndex!);
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -43,7 +44,7 @@ Center favoriteTab1(
                                 gradient: LinearGradient(
                                   colors: menuWatch.favoriteGroupList![index]
                                               .pageIndex ==
-                                          menuWatch.getValueFavGroup1
+                                          menuWatch.getValueFavGroup
                                       ? [
                                           const Color.fromARGB(
                                               255, 113, 134, 255),
@@ -61,7 +62,7 @@ Center favoriteTab1(
                                   BoxShadow(
                                       color: menuWatch.favoriteGroupList![index]
                                                   .pageIndex ==
-                                              menuWatch.getValueFavGroup1
+                                              menuWatch.getValueFavGroup
                                           ? const Color.fromARGB(
                                               255, 157, 198, 255)
                                           : const Color(0xfff85560),
@@ -92,21 +93,23 @@ Center favoriteTab1(
                 ? Container(
                     margin: EdgeInsets.only(
                         top: Constants().screenheight(context) * 0.007),
+                    height: Constants().screenheight(context),
                     width: Constants().screenWidth(context),
-                    height: Constants().screenheight(context) * 0.7,
                   )
                 : Container(
                     margin: EdgeInsets.only(
                         top: Constants().screenheight(context) * 0.007),
+                    height: Constants().screenheight(context) * 0.68,
                     width: Constants().screenWidth(context),
-                    height: Constants().screenheight(context) * 0.7,
                     child: ReorderableGridView.count(
                       scrollDirection: Axis.horizontal,
-                      crossAxisCount: 3,
-                      childAspectRatio: 1.06,
-                      shrinkWrap: true,
+                      crossAxisCount: 5,
+                      childAspectRatio: 0.5,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
                       onReorder: (oldIndex, newIndex) {
-                        menuRead.reOrderableDataFav1(oldIndex, newIndex);
+                        menuRead.reOrderableDataFav(
+                            context, oldIndex, newIndex);
                       },
                       children: menuWatch.favResultList!.map((item) {
                         return item.productID == 0
@@ -114,36 +117,46 @@ Center favoriteTab1(
                                 elevation: 2,
                                 key: ValueKey(item),
                               )
-                            : RecipeItem(
+                            : GestureDetector(
                                 key: ValueKey(item),
-                                recipeName:
-                                    menuRead.getProdObject(item.productID!),
-                                recipeImage: 'assets/coffee2.jpg',
+                                onTap: () {
+                                  menuRead.addProductToList(
+                                      context, item.productID!, 1, '0');
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color(Constants()
+                                        .hexStringToColorFF(item.hexColor!)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Color(Constants()
+                                              .hexStringToColorF2(
+                                                  item.hexColor!)),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 6)),
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left:
+                                            Constants().screenheight(context) *
+                                                0.015,
+                                        right:
+                                            Constants().screenheight(context) *
+                                                0.015),
+                                    child: AppTextStyle().textNormal(
+                                        menuRead.getProdName(item.productID!),
+                                        size:
+                                            Constants().screenheight(context) *
+                                                0.023,
+                                        color: Colors.black),
+                                  ),
+                                ),
                               );
                       }).toList(),
                     ),
-
-                    // GridView.builder(
-                    //   scrollDirection: Axis.horizontal,
-                    //   shrinkWrap: true,
-                    //   itemCount: menuWatch.prodToShow!.length,
-                    //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    //     crossAxisCount: 3,
-                    //     childAspectRatio: 1.06,
-                    //   ),
-                    //   itemBuilder: (BuildContext context, int index) {
-                    //     return GestureDetector(
-                    //       onTap: () {
-                    //         menuRead.addProductToList(context,
-                    //             menuWatch.prodToShow![index].productID!, 1, '0');
-                    //       },
-                    //       child: RecipeItem(
-                    //         recipeName: menuWatch.prodToShow![index].productName!,
-                    //         recipeImage: 'assets/coffee2.jpg',
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
                   ),
           ],
         ),
