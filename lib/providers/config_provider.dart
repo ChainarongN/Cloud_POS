@@ -1,6 +1,7 @@
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/repositorys/config/i_config_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -16,12 +17,14 @@ class ConfigProvider extends ChangeNotifier {
   String? _connectionValue = 'Wifi';
   String? imageTest;
   final ScreenshotController _screenshotController = ScreenshotController();
+  final TextEditingController deviceIdController = TextEditingController();
 
   String get getWidgetString => _widgetString;
   bool get getprinterSwitch => _printerSwitch;
   bool get getNewDataSwitch => _newDataSwitch;
   String get getPrintValue => _printerValue!;
   String get getConnectionValue => _connectionValue!;
+
   List<String> get getPrinterList => _printerList;
   List<String> get getConnectList => _connectionList;
   ScreenshotController get getScreenShotController => _screenshotController;
@@ -29,6 +32,15 @@ class ConfigProvider extends ChangeNotifier {
   init() async {
     _widgetString = 'baseUrl';
     _newDataSwitch = await SharedPref().getNewDataSwitch();
+    deviceIdController.text = await SharedPref().getDeviceId();
+    Constants().printError(deviceIdController.text);
+  }
+
+  Future setDeviceID(String deviceID) async {
+    await SharedPref().setDeviceId(deviceID);
+    deviceIdController.text = await SharedPref().getDeviceId();
+    // await SharedPref().setDeviceId('0288-7363-6560-2714');
+    notifyListeners();
   }
 
   setWidgetString(String value) {

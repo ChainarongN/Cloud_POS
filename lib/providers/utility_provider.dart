@@ -33,29 +33,6 @@ class UtilityProvider extends ChangeNotifier {
     if (apiState == ApiState.COMPLETED) {
       _htmlResult = endDayModel!.responseObj!.printDataHtml!;
     }
-
-    // apiState = ApiState.LOADING;
-    // try {
-    //   var response =
-    //       await _utilityRepository.endDay(deviceKey: '0288-7363-6560-2714');
-    //   if (response is Failure) {
-    //     _errorText = response.errorResponse.toString();
-    //     apiState = ApiState.ERROR;
-    //   } else {
-    //     endDayModel = EndDayModel.fromJson(jsonDecode(response));
-    //     if (endDayModel!.responseCode!.isEmpty) {
-    //       _htmlResult = endDayModel!.responseObj!.printDataHtml!;
-    //       apiState = ApiState.COMPLETED;
-    //       Constants().printCheckFlow(response, 'endDay');
-    //     } else {
-    //       _errorText = endDayModel!.responseText!;
-    //       apiState = ApiState.ERROR;
-    //     }
-    //   }
-    // } catch (e, strack) {
-    //   apiState = ApiState.ERROR;
-    //   _errorText = strack.toString();
-    // }
   }
 
   Future closeSession(BuildContext context) async {

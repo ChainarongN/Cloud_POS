@@ -29,10 +29,6 @@ SingleChildScrollView printerSetting(BuildContext context,
         printerAddress(context),
         testPrintBtn(context, configRead, configWatch),
         btnSave(context, configWatch),
-        // Container(
-        //   margin: EdgeInsets.only(top: 50),
-        //   child: Image.asset('assets/images/rabbit_black.jpg'),
-        // ),
         Container(
           margin: const EdgeInsets.only(top: 40),
           child: Screenshot(
@@ -52,10 +48,6 @@ GestureDetector testPrintBtn(BuildContext context, ConfigProvider configRead,
       configWatch.getScreenShotController
           .capture(delay: const Duration(seconds: 1), pixelRatio: 1.2)
           .then((Uint8List? value) async {
-        // final Directory directory = await getApplicationDocumentsDirectory();
-        // var targetPath = directory.path;
-        // File file = await File('$targetPath/example_image_file.jpg').create();
-        // file.writeAsBytesSync(value!);
         Printer().printer(value!);
       });
     },

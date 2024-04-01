@@ -28,19 +28,20 @@ class LoginProvider extends ChangeNotifier {
   bool _passwordVisible = false;
   bool _openSession = false;
   String? _errorText = '';
-  final TextEditingController _openAmountController = TextEditingController();
+  final TextEditingController openAmountController = TextEditingController();
+  final TextEditingController deviceController = TextEditingController();
 
   // --------------------------- GET ---------------------------
   String get getErrorText => _errorText!;
   bool get passwordVisible => _passwordVisible;
   bool get getOpenSession => _openSession;
   List<String> get getLanguageList => _languageList;
-  TextEditingController get getOpenAmountController => _openAmountController;
 
   // ------------------------ Call Data -------------------------
   init() async {
     _errorText = '';
-    await SharedPref().setDeviceId('0288-7363-6560-2714');
+
+    notifyListeners();
   }
 
   Future flowOpen(BuildContext context) async {
@@ -75,7 +76,7 @@ class LoginProvider extends ChangeNotifier {
   Future openSession(BuildContext context) async {
     apisState = ApiState.LOADING;
     var response = await _loginRepository.openSession(
-        langID: '1', openAmount: _openAmountController.text);
+        langID: '1', openAmount: openAmountController.text);
     openSessionModel =
         await DetectLoginFunc().detectOpenSession(context, response);
     if (apisState == ApiState.COMPLETED) {
@@ -209,6 +210,11 @@ class LoginProvider extends ChangeNotifier {
 
   setTextError(String value) {
     _errorText = value;
+    notifyListeners();
+  }
+
+  setMockDeviceId() {
+    deviceController.text = '0288-7363-6560-2714';
     notifyListeners();
   }
 

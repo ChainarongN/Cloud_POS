@@ -1,11 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/providers/menu_provider.dart';
-import 'package:cloud_pos/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class ManageFav1Func {
@@ -13,20 +8,20 @@ class ManageFav1Func {
   static final ManageFav1Func _instance = ManageFav1Func._internal();
   factory ManageFav1Func() => _instance;
 
-  changeIndexFav(
-      BuildContext context, int oldIndex, int newIndex, int group) async {
-    var menuPvd = Provider.of<MenuProvider>(context, listen: false);
-    final item = menuPvd.favResultList!.removeAt(oldIndex);
-    menuPvd.favResultList!.insert(newIndex, item);
-    for (var i = 0; i < menuPvd.favResultList!.length; i++) {
-      menuPvd.favResultList![i].buttonOrder = i + 1;
-    }
-    menuPvd.favoriteData!.removeWhere((element) => element.pageIndex == group);
-    List<FavoriteData> result = menuPvd.favResultList!
-        .where((element) => element.pageIndex == group)
-        .toList();
-    menuPvd.favoriteData!.addAll(result);
-  }
+  // changeIndexFav(
+  //     BuildContext context, int oldIndex, int newIndex, int group) async {
+  //   var menuPvd = Provider.of<MenuProvider>(context, listen: false);
+  //   final item = menuPvd.favResultList!.removeAt(oldIndex);
+  //   menuPvd.favResultList!.insert(newIndex, item);
+  //   for (var i = 0; i < menuPvd.favResultList!.length; i++) {
+  //     menuPvd.favResultList![i].buttonOrder = i + 1;
+  //   }
+  //   menuPvd.favoriteData!.removeWhere((element) => element.pageIndex == group);
+  //   List<FavoriteData> result = menuPvd.favResultList!
+  //       .where((element) => element.pageIndex == group)
+  //       .toList();
+  //   menuPvd.favoriteData!.addAll(result);
+  // }
 
   showData(BuildContext context, int group) {
     var menuPvd = Provider.of<MenuProvider>(context, listen: false);
@@ -40,7 +35,7 @@ class ManageFav1Func {
           findMaxLength = element.buttonOrder!;
         }
       }
-      for (var i = 1; i < findMaxLength + 5; i++) {
+      for (var i = 1; i < findMaxLength + 2; i++) {
         if (data.any((element) => element.buttonOrder == i)) {
           var result = data.where((element) => element.buttonOrder == i);
           menuPvd.favResultList!.add(FavoriteData(

@@ -40,7 +40,7 @@ class Printer {
 //     printer.text('Special 2: blåbærgrød',
 //         styles: const PosStyles(codeTable: 'CP1252'));
 //
-//     printer.text('Bold text', styles: const PosStyles(bold: true));
+    printer.text('Bold text', styles: const PosStyles(bold: true));
 //     printer.text('Reverse text', styles: const PosStyles(reverse: true));
 //     printer.text('Underlined text', styles: const PosStyles(underline: true));
 //     printer.text('Align left', styles: const PosStyles(align: PosAlign.left));
@@ -49,34 +49,33 @@ class Printer {
 //     printer.text('Align right',
 //         styles: const PosStyles(align: PosAlign.right), linesAfter: 1);
 //
-//     printer.text('Text size 200%',
-//         styles: const PosStyles(
-//           height: PosTextSize.size2,
-//           width: PosTextSize.size2,
-//         ));
+    // printer.text('Text size 200%',
+    //     styles: const PosStyles(
+    //       height: PosTextSize.size2,
+    //       width: PosTextSize.size2,
+    //     ));
 
-//     final List<int> barData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 4];
-//     printer.barcode(Barcode.upcA(barData));
-//     printer.feed(2);
-//
-//     try {
-//       const String qrData = 'example.com';
-//       const double qrSize = 200;
-//       final uiImg = await QrPainter(
-//         data: qrData,
-//         version: QrVersions.auto,
-//         gapless: false,
-//       ).toImageData(qrSize);
-//       final dir = await getTemporaryDirectory();
-//       final pathName = '${dir.path}/qr_tmp.png';
-//       final qrFile = File(pathName);
-//       final imgFile = await qrFile.writeAsBytes(uiImg!.buffer.asUint8List());
-//       final img = decodeImage(imgFile.readAsBytesSync());
-//
-//       printer.image(img!);
-//     } catch (e) {
-//       print(e);
-//     }
+    // final List<int> barData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 4];
+    // printer.barcode(Barcode.upcA(barData));
+    // printer.feed(2);
+
+    // try {
+    //   const String qrData = 'example.com';
+    //   const double qrSize = 200;
+    //   final uiImg = await QrPainter(
+    //     data: qrData,
+    //     version: QrVersions.auto,
+    //     gapless: false,
+    //   ).toImageData(qrSize);
+    //   final dir = await getTemporaryDirectory();
+    //   final pathName = '${dir.path}/qr_tmp.png';
+    //   final qrFile = File(pathName);
+    //   final imgFile = await qrFile.writeAsBytes(uiImg!.buffer.asUint8List());
+    //   final img = decodeImage(imgFile.readAsBytesSync());
+    //   printer.image(img!);
+    // } catch (e) {
+    //   print(e);
+    // }
 
     printer.image(image!);
     printer.feed(1);

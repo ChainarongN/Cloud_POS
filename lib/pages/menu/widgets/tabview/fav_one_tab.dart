@@ -27,7 +27,7 @@ Center favoriteTab1(
                         ? const SizedBox.shrink()
                         : GestureDetector(
                             onTap: () {
-                              menuRead.showFav1List(
+                              menuRead.showFavList(
                                   context,
                                   menuWatch
                                       .favoriteGroupList![index].pageIndex!);
@@ -101,16 +101,18 @@ Center favoriteTab1(
                         top: Constants().screenheight(context) * 0.007),
                     height: Constants().screenheight(context) * 0.68,
                     width: Constants().screenWidth(context),
-                    child: ReorderableGridView.count(
+                    child:
+                        // ReorderableGridView.count
+                        GridView.count(
                       scrollDirection: Axis.horizontal,
                       crossAxisCount: 5,
                       childAspectRatio: 0.5,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
-                      onReorder: (oldIndex, newIndex) {
-                        menuRead.reOrderableDataFav(
-                            context, oldIndex, newIndex);
-                      },
+                      // onReorder: (oldIndex, newIndex) {
+                      //   menuRead.reOrderableDataFav(
+                      //       context, oldIndex, newIndex);
+                      // },
                       children: menuWatch.favResultList!.map((item) {
                         return item.productID == 0
                             ? Card(

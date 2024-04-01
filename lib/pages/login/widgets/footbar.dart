@@ -1,15 +1,19 @@
+import 'package:cloud_pos/providers/config_provider.dart';
+import 'package:cloud_pos/providers/login_provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-Row footbar(BuildContext context) {
+Row footbar(BuildContext context, LoginProvider loginWatch) {
+  var configPvd = Provider.of<ConfigProvider>(context, listen: false);
   return Row(
     crossAxisAlignment: CrossAxisAlignment.end,
     children: <Widget>[
       AppTextStyle().textNormal(
-          '${LocaleKeys.device_key.tr()} : 6102-3452-2456-1234',
+          '${LocaleKeys.device_key.tr()} : ${configPvd.deviceIdController.text}',
           size: Constants().screenheight(context) * 0.023),
       const Spacer(),
       Column(

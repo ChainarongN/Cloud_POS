@@ -1,17 +1,73 @@
 import 'package:cloud_pos/providers/provider.dart';
+
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
-SingleChildScrollView aboutSetting(BuildContext context,
+SingleChildScrollView otherSetting(BuildContext context,
     ConfigProvider configRead, ConfigProvider configWatch) {
   return SingleChildScrollView(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         loadDataSetting(context, configRead, configWatch),
+        SizedBox(
+          width: Constants().screenWidth(context) * 0.66,
+          height: Constants().screenheight(context) * 0.13,
+          child: Padding(
+            padding: EdgeInsets.only(
+                left: Constants().screenheight(context) * 0.05,
+                right: Constants().screenheight(context) * 0.05),
+            child: Row(
+              children: <Widget>[
+                AppTextStyle().textNormal('Device ID : ',
+                    size: Constants().screenheight(context) * 0.027),
+                const Spacer(),
+                SizedBox(
+                  width: Constants().screenWidth(context) * 0.4,
+                  child: TextField(
+                    controller: configWatch.deviceIdController,
+                    maxLength: 19,
+                    inputFormatters: [
+                      MaskedInputFormatter('####-####-####-####',
+                          allowedCharMatcher: RegExp(r'[0-9]')),
+                    ],
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.grey.shade100.withOpacity(0.1),
+                        labelText: 'XXXX - XXXX - XXXX - XXXX',
+                        border: Constants().myinputborder(),
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(
+                              left: Constants().screenheight(context) * 0.04,
+                              right: Constants().screenheight(context) * 0.02),
+                          child: Icon(
+                            Icons.lock,
+                            size: Constants().screenheight(context) * 0.045,
+                          ),
+                        ),
+                        suffixIcon: Padding(
+                          padding: EdgeInsets.only(
+                              right: Constants().screenheight(context) * 0.015),
+                          child: const Icon(Icons.cancel),
+                        )),
+                    style: TextStyle(
+                        color: Constants.textColor,
+                        fontSize: Constants().screenheight(context) * 0.025),
+                    onChanged: (value) {
+                      if (value.length == 19 || value.isEmpty) {
+                        configRead.setDeviceID(value);
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     ),
   );
@@ -23,7 +79,9 @@ Container loadDataSetting(BuildContext context, ConfigProvider configRead,
     alignment: Alignment.center,
     height: Constants().screenheight(context) * 0.1,
     width: Constants().screenWidth(context) * 0.66,
-    margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.015),
+    margin: EdgeInsets.only(
+        top: Constants().screenheight(context) * 0.015,
+        bottom: Constants().screenheight(context) * 0.030),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
       gradient: const LinearGradient(

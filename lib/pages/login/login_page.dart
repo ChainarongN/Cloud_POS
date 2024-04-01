@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                         btnLogin(context, loginRead, loginWatch),
                         merchantDetail(context),
                         const Spacer(),
-                        footbar(context)
+                        footbar(context, loginWatch)
                       ],
                     ),
                   ),

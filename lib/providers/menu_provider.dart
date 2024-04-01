@@ -2,8 +2,6 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/models/coupon_apply_model.dart';
@@ -31,7 +29,6 @@ import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import '../repositorys/repository.dart';
 
@@ -125,7 +122,7 @@ class MenuProvider extends ChangeNotifier {
     await _readData();
     await setReason(context, 0);
     setWhereMenu(prodGroupList![0].productGroupID.toString());
-    showFav1List(context, favoriteData!.first.pageIndex!);
+    showFavList(context, favoriteData!.first.pageIndex!);
 
     Constants().printWarning("OrderId : $_orderId");
     SharedPref().setOrderId(_orderId!);
@@ -476,12 +473,12 @@ class MenuProvider extends ChangeNotifier {
         case 1:
           var result =
               favoriteGroupList!.where((element) => element.pageType == 0);
-          showFav1List(context, result.first.pageIndex!);
+          showFavList(context, result.first.pageIndex!);
           break;
         case 2:
           var result =
               favoriteGroupList!.where((element) => element.pageType == 1);
-          showFav1List(context, result.first.pageIndex!);
+          showFavList(context, result.first.pageIndex!);
           break;
       }
     });
@@ -518,18 +515,7 @@ class MenuProvider extends ChangeNotifier {
     return result.first.productName!;
   }
 
-  Future reOrderableDataFav(
-      BuildContext context, int oldIndex, int newIndex) async {
-    await ManageFav1Func()
-        .changeIndexFav(context, oldIndex, newIndex, _valueFavGroup!);
-    notifyListeners();
-
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final File file = File('${directory.path}/${Constants.FAV_DATA_TXT}');
-    await file.writeAsString(json.encode(favoriteData!));
-  }
-
-  Future showFav1List(BuildContext context, int pageGroup) async {
+  Future showFavList(BuildContext context, int pageGroup) async {
     _valueFavGroup = pageGroup;
     favResultList = [];
     await ManageFav1Func().showData(context, pageGroup);
@@ -636,9 +622,19 @@ class MenuProvider extends ChangeNotifier {
     couponApplyModel = null;
   }
 
-  final List<String> currencyitems = ['THB'];
   setCouponCodeControllerForTest() {
     couponCodeController.text = '111E2F4F09122E72E123';
     notifyListeners();
   }
+
+  //   Future reOrderableDataFav(
+//       BuildContext context, int oldIndex, int newIndex) async {
+//     await ManageFav1Func()
+//         .changeIndexFav(context, oldIndex, newIndex, _valueFavGroup!);
+//
+//     notifyListeners();
+//     final Directory directory = await getApplicationDocumentsDirectory();
+//     final File file = File('${directory.path}/${Constants.FAV_DATA_TXT}');
+//     await file.writeAsString(json.encode(favoriteData!));
+//   }
 }
