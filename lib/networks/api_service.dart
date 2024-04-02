@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/service/firebase_log.dart';
+import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:dio/dio.dart';
 // import 'package:http/http.dart' as http;
@@ -19,21 +20,20 @@ class APIService {
       var param,
       var data,
       String? actionBy}) async {
+    String baseUrl = await SharedPref().getBaseUrl();
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
     };
-
-    BaseOptions options = BaseOptions(
-      baseUrl: Endpoints.baseUrl,
-      receiveDataWhenStatusError: true,
-      connectTimeout: const Duration(minutes: 1),
-      receiveTimeout: const Duration(minutes: 1),
-    );
-
-    var dio = Dio(options);
     try {
-      var response = await dio.request(url!,
+      BaseOptions options = BaseOptions(
+        baseUrl: baseUrl,
+        receiveDataWhenStatusError: true,
+        connectTimeout: const Duration(minutes: 1),
+        receiveTimeout: const Duration(minutes: 1),
+      );
+      var dio = Dio(options);
+      var response = await dio.request('$baseUrl/$url',
           options: Options(
             method: 'POST',
             headers: headers,
@@ -46,14 +46,18 @@ class APIService {
             actionBy: actionBy,
             params: param.toString(),
             reqData: data.toString(),
-            res: response.data.toString());
+            res: response.data.toString(),
+            baseUrl: baseUrl,
+            pathUrl: url);
         return json.encode(response.data);
       }
       FirebaseLog().logData(false,
           actionBy: actionBy,
           params: param.toString(),
           reqData: data.toString(),
-          res: response.data.toString());
+          res: response.data.toString(),
+          baseUrl: baseUrl,
+          pathUrl: url);
       return Failure(
         code: response.statusCode!,
         errorResponse: response.data,
@@ -64,7 +68,9 @@ class APIService {
             actionBy: actionBy,
             params: param.toString(),
             reqData: data.toString(),
-            res: e.toString());
+            res: e.toString(),
+            baseUrl: baseUrl,
+            pathUrl: url);
         return Failure(
           code: 408,
           errorResponse: 'Connection Timeout. Check your internet or Try again',
@@ -75,7 +81,9 @@ class APIService {
             actionBy: actionBy,
             params: param.toString(),
             reqData: data.toString(),
-            res: e.toString());
+            res: e.toString(),
+            baseUrl: baseUrl,
+            pathUrl: url);
         return Failure(
           code: 408,
           errorResponse: 'Connection Timeout. Check your internet or Try again',
@@ -86,7 +94,9 @@ class APIService {
           actionBy: actionBy,
           params: param.toString(),
           reqData: data.toString(),
-          res: e.toString());
+          res: e.toString(),
+          baseUrl: baseUrl,
+          pathUrl: url);
       return Failure(
         code: Constants.UNKNOWN_ERROR,
         errorResponse: '$e',
@@ -96,19 +106,18 @@ class APIService {
 
   Future postParams(
       {String? url, String? token, var param, String? actionBy}) async {
+    String baseUrl = await SharedPref().getBaseUrl();
     var headers = {'Authorization': 'Bearer $token'};
-
-    BaseOptions options = BaseOptions(
-      baseUrl: Endpoints.baseUrl,
-      receiveDataWhenStatusError: true,
-      connectTimeout: const Duration(minutes: 1),
-      receiveTimeout: const Duration(minutes: 1),
-    );
-    var dio = Dio(options);
-
     try {
+      BaseOptions options = BaseOptions(
+        baseUrl: baseUrl,
+        receiveDataWhenStatusError: true,
+        connectTimeout: const Duration(minutes: 1),
+        receiveTimeout: const Duration(minutes: 1),
+      );
+      var dio = Dio(options);
       var response = await dio.request(
-        url!,
+        '$baseUrl/$url',
         options: Options(
           method: 'POST',
           headers: headers,
@@ -120,13 +129,17 @@ class APIService {
         FirebaseLog().logData(true,
             actionBy: actionBy,
             params: param.toString(),
-            res: response.data.toString());
+            res: response.data.toString(),
+            baseUrl: baseUrl,
+            pathUrl: url);
         return json.encode(response.data);
       }
       FirebaseLog().logData(false,
           actionBy: actionBy,
           params: param.toString(),
-          res: response.data.toString());
+          res: response.data.toString(),
+          baseUrl: baseUrl,
+          pathUrl: url);
       return Failure(
         code: response.statusCode!,
         errorResponse: response.data,
@@ -134,7 +147,11 @@ class APIService {
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionTimeout) {
         FirebaseLog().logData(false,
-            actionBy: actionBy, params: param.toString(), res: e.toString());
+            actionBy: actionBy,
+            params: param.toString(),
+            res: e.toString(),
+            baseUrl: baseUrl,
+            pathUrl: url);
         return Failure(
           code: 408,
           errorResponse: 'Connection Timeout. Check your internet or Try again',
@@ -142,7 +159,11 @@ class APIService {
       }
       if (e.type == DioExceptionType.receiveTimeout) {
         FirebaseLog().logData(false,
-            actionBy: actionBy, params: param.toString(), res: e.toString());
+            actionBy: actionBy,
+            params: param.toString(),
+            res: e.toString(),
+            baseUrl: baseUrl,
+            pathUrl: url);
         return Failure(
           code: 408,
           errorResponse: 'Connection Timeout. Check your internet or Try again',
@@ -150,7 +171,11 @@ class APIService {
       }
     } catch (e) {
       FirebaseLog().logData(false,
-          actionBy: actionBy, params: param.toString(), res: e.toString());
+          actionBy: actionBy,
+          params: param.toString(),
+          res: e.toString(),
+          baseUrl: baseUrl,
+          pathUrl: url);
       return Failure(
         code: Constants.UNKNOWN_ERROR,
         errorResponse: '$e',
@@ -159,17 +184,18 @@ class APIService {
   }
 
   Future post(String url, var data) async {
+    String baseUrl = await SharedPref().getBaseUrl();
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    BaseOptions options = BaseOptions(
-      baseUrl: Endpoints.baseUrl,
-      receiveDataWhenStatusError: true,
-      connectTimeout: const Duration(minutes: 1),
-      receiveTimeout: const Duration(minutes: 1),
-    );
-    var dio = Dio(options);
     try {
+      BaseOptions options = BaseOptions(
+        baseUrl: baseUrl,
+        receiveDataWhenStatusError: true,
+        connectTimeout: const Duration(minutes: 1),
+        receiveTimeout: const Duration(minutes: 1),
+      );
+      var dio = Dio(options);
       var response = await dio.request(
-        url,
+        '$baseUrl/$url',
         options: Options(method: 'POST', headers: headers),
         data: data,
       );

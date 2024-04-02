@@ -10,7 +10,12 @@ class FirebaseLog {
 
   CollectionReference users = FirebaseFirestore.instance.collection('LogData');
   Future logData(bool isSuccess,
-      {String? actionBy, String? reqData, String? res, String? params}) async {
+      {String? actionBy,
+      String? reqData,
+      String? res,
+      String? params,
+      String? baseUrl,
+      String? pathUrl}) async {
     DateTime now = DateTime.now();
     String time = DateFormat('kk:mm:ss').format(now);
     String date = DateFormat.yMMMMd('en_US').format(now);
@@ -31,6 +36,8 @@ class FirebaseLog {
         .doc('Time $time')
         .set({
       "ActionBy": actionBy,
+      "BaseUrl": baseUrl,
+      "PathUrl": pathUrl,
       "ReqId": reqId,
       "SessionKey": sessionKey,
       "App_platform": Platform.isAndroid ? "android" : "ios",

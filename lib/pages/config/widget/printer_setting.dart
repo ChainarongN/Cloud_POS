@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:cloud_pos/providers/config_provider.dart';
 import 'package:cloud_pos/service/printer.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
@@ -10,7 +8,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 
 // import 'package:pdf/pdf.dart';

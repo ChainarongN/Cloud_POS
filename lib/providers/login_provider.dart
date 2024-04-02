@@ -36,12 +36,15 @@ class LoginProvider extends ChangeNotifier {
   bool get passwordVisible => _passwordVisible;
   bool get getOpenSession => _openSession;
   List<String> get getLanguageList => _languageList;
+  Future<String> getBaseUrl() async {
+    String result = await SharedPref().getBaseUrl();
+    return result;
+  }
 
   // ------------------------ Call Data -------------------------
-  init() async {
+  init() {
     _errorText = '';
-
-    notifyListeners();
+    // notifyListeners();
   }
 
   Future flowOpen(BuildContext context) async {

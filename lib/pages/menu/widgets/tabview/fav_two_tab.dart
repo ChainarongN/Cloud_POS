@@ -1,4 +1,4 @@
-import 'package:cloud_pos/pages/menu/widgets/recipe_item.dart';
+import 'package:cloud_pos/utils/widgets/recipe_item.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';

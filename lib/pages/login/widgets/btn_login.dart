@@ -17,11 +17,16 @@ GestureDetector btnLogin(
     BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
   var configPvd = Provider.of<ConfigProvider>(context, listen: false);
   return GestureDetector(
-      onTap: () {
-        if (configPvd.deviceIdController.text.isEmpty) {
-          openDeviceIdDialog(context, loginWatch, loginRead);
+      onTap: () async {
+        String baseUrl = await loginWatch.getBaseUrl();
+        if (baseUrl.isEmpty) {
+          LoadingStyle().dialogError(context,
+              isPopUntil: false,
+              error: 'Please setting your "Base url" in Configuration');
         } else {
-          if (loginWatch.apisState != ApiState.LOADING) {
+          if (configPvd.deviceIdController.text.isEmpty) {
+            openDeviceIdDialog(context, loginWatch, loginRead);
+          } else {
             LoadingStyle().dialogLoadding(context);
             loginRead.flowOpen(context).then((value) {
               if (loginWatch.apisState == ApiState.COMPLETED) {
@@ -103,22 +108,20 @@ Future<void> openDeviceIdDialog(
             },
             onPressed: () async {
               await configPvd.setDeviceID(loginWatch.deviceController.text);
-              if (loginWatch.apisState != ApiState.LOADING) {
-                LoadingStyle().dialogLoadding(context);
-                loginRead.flowOpen(context).then((value) {
-                  if (loginWatch.apisState == ApiState.COMPLETED) {
-                    Navigator.maybePop(context);
-                    Future.delayed(const Duration(milliseconds: 500), () {
-                      if (loginWatch.getOpenSession) {
-                        loginRead.openAmountController.text = '';
-                        openAmountDialog(context, loginWatch, loginRead);
-                      } else {
-                        Navigator.pushReplacementNamed(context, '/homePage');
-                      }
-                    });
-                  }
-                });
-              }
+              LoadingStyle().dialogLoadding(context);
+              loginRead.flowOpen(context).then((value) {
+                if (loginWatch.apisState == ApiState.COMPLETED) {
+                  Navigator.maybePop(context);
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    if (loginWatch.getOpenSession) {
+                      loginRead.openAmountController.text = '';
+                      openAmountDialog(context, loginWatch, loginRead);
+                    } else {
+                      Navigator.pushReplacementNamed(context, '/homePage');
+                    }
+                  });
+                }
+              });
             },
           ),
           TextButton(

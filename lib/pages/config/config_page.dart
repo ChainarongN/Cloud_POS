@@ -45,10 +45,11 @@ class _ConfigPageState extends State<ConfigPage> {
                 child: const VerticalDivider(thickness: 2),
               ),
               Consumer<ConfigProvider>(builder: (context, data, child) {
-                Widget widget = baseUrlSetting(context, configWatch);
+                Widget widget =
+                    baseUrlSetting(context, configWatch, configRead);
                 switch (data.getWidgetString) {
                   case 'baseUrl':
-                    widget = baseUrlSetting(context, configWatch);
+                    widget = baseUrlSetting(context, configWatch, configRead);
                     break;
                   case 'printer':
                     widget = printerSetting(context, configRead, configWatch);

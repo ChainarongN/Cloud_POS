@@ -122,4 +122,32 @@ class LoadingStyle {
       ],
     );
   }
+
+  Future<void> dialogSuccess(BuildContext context,
+      {bool? isPopUntil, String? popToPage}) {
+    return Dialogs.materialDialog(
+      barrierDismissible: false,
+      color: Colors.white,
+      titleStyle: const TextStyle(fontSize: 22),
+      title: 'Success',
+      lottieBuilder: Lottie.asset('assets/success_lottie.json'),
+      dialogWidth: 0.25,
+      context: context,
+      actions: [
+        IconsButton(
+          onPressed: () {
+            isPopUntil!
+                ? Navigator.of(context)
+                    .popUntil(ModalRoute.withName(popToPage!))
+                : Navigator.pop(context);
+          },
+          text: LocaleKeys.ok.tr(),
+          iconData: Icons.done,
+          color: Colors.blue,
+          textStyle: const TextStyle(color: Colors.white),
+          iconColor: Colors.white,
+        ),
+      ],
+    );
+  }
 }

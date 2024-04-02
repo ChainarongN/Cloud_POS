@@ -1,7 +1,7 @@
 import 'package:cloud_pos/pages/menu/widgets/appbar_action.dart';
 import 'package:cloud_pos/pages/menu/widgets/manage_menu/manage_menu.dart';
 import 'package:cloud_pos/pages/menu/widgets/reason_dialog.dart';
-import 'package:cloud_pos/pages/menu/widgets/tab_menu_title.dart';
+import 'package:cloud_pos/pages/menu/widgets/tab_view_title.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/discount_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/fav_one_tab.dart';
 import 'package:cloud_pos/pages/menu/widgets/tabview/fav_two_tab.dart';
@@ -91,7 +91,7 @@ class _MenuPageState extends State<MenuPage>
     return Expanded(
       child: Column(
         children: [
-          tabMenuTitle(context, menuWatch),
+          tabViewTitle(context, menuWatch),
           Expanded(
             child: TabBarView(
               controller: menuWatch.getTabController,
