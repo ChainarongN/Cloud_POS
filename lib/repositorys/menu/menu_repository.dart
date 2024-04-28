@@ -7,6 +7,39 @@ import 'package:cloud_pos/service/shared_pref.dart';
 
 class MenuRepository implements IMenuRepository {
   @override
+  Future orderProcess(
+      {String? langID,
+      String? tranData,
+      String? modifyId,
+      String? editOrderID,
+      String? orderQty,
+      String? productID}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    int staffId = await SharedPref().getStaffID();
+    String deviceId = await SharedPref().getDeviceId();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceId,
+      "ModifyID": modifyId,
+      "EditOrderID": editOrderID,
+      "OrderQty": orderQty,
+      "ProductID": productID,
+      "ProductBarCode": '',
+      "StaffID": staffId.toString(),
+      "LangID": '1',
+      "showProductInfo": 'true'
+    };
+    var response = await APIService().postAndData(
+        url: Endpoints.orderProcess,
+        param: param,
+        token: token,
+        data: tranData,
+        actionBy: 'orderProcess');
+    return response;
+  }
+
+  @override
   Future orderSummary({String? langID, String? orderId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();

@@ -21,6 +21,7 @@ class Printer {
 
     final PosPrintResult res =
         await printer.connect('192.168.1.137', port: 9100);
+
     // Image image = await getImage();
     final Image? imageResult = decodeImage(image8List);
 

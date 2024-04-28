@@ -4,18 +4,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
-import 'package:cloud_pos/models/coupon_apply_model.dart';
 import 'package:cloud_pos/models/coupon_inquiry_model.dart';
-import 'package:cloud_pos/models/finalize_bill_model.dart';
-import 'package:cloud_pos/models/member_apply_model.dart';
-import 'package:cloud_pos/models/member_cancel_model.dart';
 import 'package:cloud_pos/models/member_data_model.dart';
-import 'package:cloud_pos/models/order_summary_model.dart';
-import 'package:cloud_pos/models/pay_amount_model.dart';
-import 'package:cloud_pos/models/payment_submit_model.dart';
-import 'package:cloud_pos/models/product_add_model.dart';
+import 'package:cloud_pos/models/transaction_model.dart';
 import 'package:cloud_pos/models/product_obj_model.dart';
-import 'package:cloud_pos/models/promotion_cancel_model.dart';
 import 'package:cloud_pos/models/reason_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/pages/menu/functions/add_product_func.dart';
@@ -50,29 +42,17 @@ class MenuProvider extends ChangeNotifier {
   List<FavoriteData>? favResultList;
   ShopData? shopData;
   ComputerName? computerName;
-  List<PayAmountModel>? payAmountList = [];
+
   List<int>? _selectDiscountList = [];
   ReasonModel? reasonModel;
   CancelTranModel? cancelTranModel;
   ProductObjModel? productObjModel;
-  PromotionCancelModel? promotionCancelModel;
-  ProductAddModel? productAddModel;
-  CouponApplyModel? couponApplyModel;
   CouponInquiryModel? couponInquiryModel;
-  PaymentSubmitModel? paymentSubmitModel;
-  OrderSummaryModel? orderSummaryModel;
+  TransactionModel? transactionModel;
   MemberDataModel? memberDataModel;
-  MemberApplyModel? memberApplyModel;
-  MemberCancelModel? memberCancelModel;
-  FinalizeBillModel? finalizeBillModel;
-  int? _valueMenuSelect, _valueCurrencyId, _tranId, _valueFavGroup;
-  String? _valueReasonGroupSelect,
-      _htmlOrderSummary,
-      _orderId,
-      _tranKey,
-      _tranDataCurrent,
-      _valueCurrency;
-  String _exceptionText = '', _saleModeName = '';
+  int? _valueMenuSelect, _valueCurrencyId, _valueFavGroup;
+  String? _valueReasonGroupSelect, _htmlOrderSummary, _valueCurrency;
+  String _exceptionText = '';
   final TextEditingController reasonController = TextEditingController();
   final TextEditingController valueIdReason = TextEditingController();
   final TextEditingController reasonTextController = TextEditingController();
@@ -83,7 +63,6 @@ class MenuProvider extends ChangeNotifier {
   final TextEditingController payAmountCredit = TextEditingController();
   final TextEditingController paymentRemark = TextEditingController();
   final TextEditingController phoneMemberController = TextEditingController();
-  final TextEditingController dueCreditController = TextEditingController();
   TabController? _tabController;
   final ScreenshotController screenshotController = ScreenshotController();
   final TextEditingController couponCodeController = TextEditingController();
@@ -91,18 +70,14 @@ class MenuProvider extends ChangeNotifier {
   // --------------------------- GET ---------------------------
   bool get getLoading => _isLoading;
   TabController get getTabController => _tabController!;
-  String get getOrderId => _orderId!;
   String get getExceptionText => _exceptionText;
   int get getValueFavGroup => _valueFavGroup!;
-  String get getSaleModeName => _saleModeName;
   int get getvalueMenuSelect => _valueMenuSelect!;
   String get getvalueReasonGroupSelect => _valueReasonGroupSelect!;
   String get getHtmlOrderSummary => _htmlOrderSummary!;
   String get getValueCurrency => _valueCurrency!;
   int get getValueCurrencyId => _valueCurrencyId!;
   List<int> get getSelectDiscountList => _selectDiscountList!;
-  String get getDueAmountCurrent =>
-      jsonDecode(_tranDataCurrent!)['DueAmount'].toString();
 
   // ------------------------ Call Data -------------------------
   init(BuildContext context, TickerProvider tabThis) async {
@@ -112,11 +87,10 @@ class MenuProvider extends ChangeNotifier {
     _tabController = TabController(length: 6, vsync: tabThis);
     _valueCurrency = 'THB';
     _valueCurrencyId = 1;
-    productAddModel = null;
+
     prodGroupList = [];
     prodList = [];
     prodToSearch = [];
-    payAmountList = [];
     _selectDiscountList = [];
 
     await _readData();
@@ -124,8 +98,9 @@ class MenuProvider extends ChangeNotifier {
     setWhereMenu(prodGroupList![0].productGroupID.toString());
     showFavList(context, favoriteData!.first.pageIndex!);
 
-    Constants().printWarning("OrderId : $_orderId");
-    SharedPref().setOrderId(_orderId!);
+    Constants()
+        .printWarning("OrderId : ${transactionModel!.responseObj!.orderID}");
+    SharedPref().setOrderId(transactionModel!.responseObj!.orderID!);
     checkPaymentTab(context);
     if (apiState == ApiState.COMPLETED) {
       _isLoading = false;
@@ -134,11 +109,10 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future paymentCash({BuildContext? context, String? payAmount}) async {
-    if (productAddModel == null ||
-        productAddModel!.responseObj!.orderList!.isEmpty) {
+    if (transactionModel!.responseObj!.orderList!.isEmpty) {
       return;
     } else {
-      if (int.parse(payAmount!) < double.parse(getDueAmountCurrent)) {
+      if (int.parse(payAmount!) < transactionModel!.responseObj!.dueAmount!) {
         await LoadingStyle().dialogError(context!,
             error:
                 'You pay $payAmount THB.  ${LocaleKeys.pay_amount_must_more_than_total_price.tr()}',
@@ -151,45 +125,70 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future managePayAmountList(BuildContext context, String frag,
-      {String? payName,
+  Future paymentMulti(
+      {BuildContext? context,
+      String? payAmount,
       String? payCode,
+      String? payName,
       int? payTypeId,
-      String? price,
-      int? indexForRemove,
       String? payRemark}) async {
-    switch (frag) {
-      case 'add':
-        payAmountList!.add(
-          PayAmountModel(
-              payTypeId: payTypeId,
-              payCode: payCode,
-              payName: payName,
-              price: double.parse(price!),
-              payRemark: payRemark ?? ''),
-        );
-        payAmountController.text = '';
-        break;
-      case 'remove':
-        payAmountList!.removeAt(indexForRemove!);
-        break;
-      case 'clear':
-        payAmountList = [];
-        break;
-    }
-    num sum = 0;
-    sum = payAmountList!
-        .map((e) => e.price)
-        .reduce((value, element) => value! + element!)!;
-    dueCreditController.text =
-        (double.parse(getDueAmountCurrent) - sum).toString();
-    totalPayListController.text = sum.toString();
-    if (sum >= double.parse(getDueAmountCurrent)) {
-      LoadingStyle().dialogLoadding(context);
-      await PaymentFunc().paymentMulti(context);
+    if (transactionModel!.responseObj!.orderList!.isEmpty) {
+      return;
+    } else {
+      LoadingStyle().dialogLoadding(context!);
+      await paymentSubmit(context,
+          payAmount: payAmount,
+          payCode: payCode,
+          payName: payName,
+          payTypeId: payTypeId,
+          payRemark: payRemark);
+      if (transactionModel!.responseObj!.tranData!.dueAmount! == 0) {
+        await finalizeBill(context);
+      }
+      Navigator.maybePop(context);
     }
     notifyListeners();
   }
+
+  // Future managePayAmountList(BuildContext context, String frag,
+  //     {String? payName,
+  //     String? payCode,
+  //     int? payTypeId,
+  //     String? price,
+  //     int? indexForRemove,
+  //     String? payRemark}) async {
+  //   switch (frag) {
+  //     case 'add':
+  //       payAmountList!.add(
+  //         PayAmountModel(
+  //             payTypeId: payTypeId,
+  //             payCode: payCode,
+  //             payName: payName,
+  //             price: double.parse(price!),
+  //             payRemark: payRemark ?? ''),
+  //       );
+  //       payAmountController.text = '';
+  //       break;
+  //     case 'remove':
+  //       payAmountList!.removeAt(indexForRemove!);
+  //       break;
+  //     case 'clear':
+  //       payAmountList = [];
+  //       break;
+  //   }
+  //   num sum = 0;
+  //   sum = payAmountList!
+  //       .map((e) => e.price)
+  //       .reduce((value, element) => value! + element!)!;
+  //   dueCreditController.text =
+  //       (double.parse(getDueAmountCurrent) - sum).toString();
+  //   totalPayListController.text = sum.toString();
+  //   if (sum >= double.parse(getDueAmountCurrent)) {
+  //     LoadingStyle().dialogLoadding(context);
+  //     await PaymentFunc().paymentMulti(context);
+  //   }
+  //   notifyListeners();
+  // }
 
   Future addProductToList(BuildContext context, int prodId, double count,
       String orderDetailId) async {
@@ -213,8 +212,8 @@ class MenuProvider extends ChangeNotifier {
         shopCode: shopData!.shopCode,
         shopKey: shopData!.shopKey,
         shopName: shopData!.shopName,
-        tranKey: _tranKey,
-        transactionID: _tranId);
+        tranKey: transactionModel!.responseObj!.tranData!.tranKey,
+        transactionID: transactionModel!.responseObj!.tranData!.transactionID);
     couponInquiryModel =
         await DetectMenuFunc().detectCouponInquiry(context, response);
   }
@@ -224,12 +223,9 @@ class MenuProvider extends ChangeNotifier {
     var response = await _menuRepository.eCouponApply(
         langID: '1',
         couponSN: couponInquiryModel!.responseObj!.voucherSN,
-        tranData: _tranDataCurrent);
-    couponApplyModel =
-        await DetectMenuFunc().detectCouponApply(context, response);
-    if (apiState == ApiState.COMPLETED) {
-      _tranDataCurrent = json.encode(couponApplyModel!.responseObj!.tranData);
-    }
+        tranData: json.encode(transactionModel!.responseObj!.tranData));
+    transactionModel = await DetectMenuFunc()
+        .detectOrderSummary(context, response, 'eCouponApply');
     notifyListeners();
   }
 
@@ -238,29 +234,24 @@ class MenuProvider extends ChangeNotifier {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.promotionCancel(
       langID: '1',
-      promoUUID: couponApplyModel!.responseObj!.promoList![indexOutside]
+      promoUUID: transactionModel!.responseObj!.promoList![indexOutside]
           .couponList![indexInside].promoUUID,
-      tranData: _tranDataCurrent,
+      tranData: json.encode(transactionModel!.responseObj!.tranData),
     );
-    promotionCancelModel =
-        await DetectMenuFunc().detectPromotionCancel(context, response);
-    if (apiState == ApiState.COMPLETED) {
-      couponApplyModel = CouponApplyModel.fromJson(jsonDecode(response));
-      _tranDataCurrent =
-          json.encode(promotionCancelModel!.responseObj!.tranData);
-    }
+    transactionModel = await DetectMenuFunc()
+        .detectOrderSummary(context, response, 'promotionCancel');
     notifyListeners();
   }
 
   Future orderSummary(BuildContext context) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.orderSummary(orderId: _orderId);
-    orderSummaryModel =
-        await DetectMenuFunc().detectOrderSummary(context, response);
+    var response = await _menuRepository.orderSummary(
+        orderId: transactionModel!.responseObj!.tranData!.orderID);
+    transactionModel = await DetectMenuFunc()
+        .detectOrderSummary(context, response, 'orderSummary');
     if (apiState == ApiState.COMPLETED) {
-      _tranDataCurrent = json.encode(orderSummaryModel!.responseObj!.tranData);
       _htmlOrderSummary =
-          orderSummaryModel!.responseObj2!.receiptInfo!.receiptHtml;
+          transactionModel!.responseObj2!.receiptInfo!.receiptHtml;
     }
     notifyListeners();
   }
@@ -268,13 +259,13 @@ class MenuProvider extends ChangeNotifier {
   Future finalizeBill(BuildContext context) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.finalizeBill(
-      tranData: _tranDataCurrent,
+      tranData: json.encode(transactionModel!.responseObj!.tranData),
     );
-    finalizeBillModel =
-        await DetectMenuFunc().detectFinalizeBill(context, response);
+    transactionModel = await DetectMenuFunc()
+        .detectOrderSummary(context, response, 'finalizeBill');
     if (apiState == ApiState.COMPLETED) {
       await LoadingStyle().dialogPayment2(context,
-          text: paymentSubmitModel!.responseObj!.paymentList!.last.cashChange
+          text: transactionModel!.responseObj!.paymentList!.last.cashChange
               .toString(),
           popUntil: true,
           popToPage: '/homePage');
@@ -290,7 +281,7 @@ class MenuProvider extends ChangeNotifier {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.paymentSubmit(
         payAmount: payAmount,
-        tranData: _tranDataCurrent,
+        tranData: json.encode(transactionModel!.responseObj!.tranData),
         payCode: payCode, //CS
         payName: payName, //Cash
         currencyCode: _valueCurrency, //THB
@@ -298,10 +289,11 @@ class MenuProvider extends ChangeNotifier {
         currencyID: _valueCurrencyId,
         payRemark: payRemark ?? '');
 
-    paymentSubmitModel =
-        await DetectMenuFunc().detectPaymentSubmit(context, response);
+    transactionModel = await DetectMenuFunc()
+        .detectOrderSummary(context, response, 'paymentSubmit');
     if (apiState == ApiState.COMPLETED) {
-      _tranDataCurrent = json.encode(paymentSubmitModel!.responseObj!.tranData);
+      dueAmountController.text =
+          transactionModel!.responseObj!.dueAmount.toString();
     }
   }
 
@@ -311,12 +303,8 @@ class MenuProvider extends ChangeNotifier {
       apiState = ApiState.LOADING;
       var response = await _menuRepository.productAdd(
           prodObj: json.encode(productObjModel!.responseObj));
-      productAddModel =
-          await DetectMenuFunc().detectProductAdd(context, response);
-      if (apiState == ApiState.COMPLETED) {
-        _tranDataCurrent = json.encode(productAddModel!.responseObj!.tranData);
-        couponApplyModel = CouponApplyModel.fromJson(jsonDecode(response));
-      }
+      transactionModel = await DetectMenuFunc()
+          .detectOrderSummary(context, response, 'productAdd');
     } catch (e, strack) {
       apiState = ApiState.ERROR;
       Constants().printError(strack.toString());
@@ -325,11 +313,42 @@ class MenuProvider extends ChangeNotifier {
     }
   }
 
+  Future orderProcess(
+    BuildContext context,
+    double count,
+    String editOrderId,
+    String modifyId,
+    String productId,
+  ) async {
+    LoadingStyle().dialogLoadding(context);
+    try {
+      apiState = ApiState.LOADING;
+      var response = await _menuRepository.orderProcess(
+          langID: '1',
+          editOrderID: editOrderId,
+          modifyId: modifyId,
+          orderQty: count.toString(),
+          productID: productId,
+          tranData: json.encode(transactionModel!.responseObj!.tranData));
+      transactionModel = await DetectMenuFunc()
+          .detectOrderSummary(context, response, 'orderProcess');
+      if (apiState == ApiState.COMPLETED) {
+        Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
+      }
+    } catch (e, strack) {
+      apiState = ApiState.ERROR;
+      Constants().printError('$e // $strack');
+      LoadingStyle().dialogError(context,
+          error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
+    }
+    notifyListeners();
+  }
+
   Future productObj(
       BuildContext context, int prodId, String orderDetailId) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.productObj(
-        tranData: _tranDataCurrent,
+        tranData: json.encode(transactionModel!.responseObj!.tranData),
         productId: prodId.toString(),
         orderDetailId: orderDetailId);
     productObjModel =
@@ -341,7 +360,7 @@ class MenuProvider extends ChangeNotifier {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.cancelTran(
         langId: '1',
-        orderId: _orderId,
+        orderId: transactionModel!.responseObj!.orderID,
         reasonIDList: valueIdReason.text,
         reasonText: reasonTextController.text);
     cancelTranModel =
@@ -372,25 +391,19 @@ class MenuProvider extends ChangeNotifier {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.memberApply(
       memberId: memberDataModel!.responseObj!.memberInfo!.memberID.toString(),
-      tranData: _tranDataCurrent,
+      tranData: json.encode(transactionModel!.responseObj!.tranData),
     );
-    memberApplyModel =
-        await DetectMenuFunc().detectMemberApply(context, response);
-    if (apiState == ApiState.COMPLETED) {
-      _tranDataCurrent = json.encode(memberApplyModel!.responseObj!.tranData);
-    }
+    transactionModel = await DetectMenuFunc()
+        .detectOrderSummary(context, response, 'memberApply');
   }
 
   Future memberCancel(BuildContext context) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.memberCancel(
-      tranData: _tranDataCurrent,
+      tranData: json.encode(transactionModel!.responseObj!.tranData),
     );
-    memberCancelModel =
-        await DetectMenuFunc().detectMemberCancel(context, response);
-    if (apiState == ApiState.COMPLETED) {
-      _tranDataCurrent = json.encode(memberCancelModel!.responseObj!.tranData);
-    }
+    transactionModel = await DetectMenuFunc()
+        .detectOrderSummary(context, response, 'memberCancel');
   }
 
   Future addReasonText(int index) async {
@@ -461,8 +474,7 @@ class MenuProvider extends ChangeNotifier {
     _tabController!.addListener(() async {
       switch (_tabController!.index) {
         case 5:
-          if (productAddModel == null ||
-              productAddModel!.responseObj!.orderList!.isEmpty) {
+          if (transactionModel!.responseObj!.orderList!.isEmpty) {
             await LoadingStyle().dialogError(context,
                 error: LocaleKeys.must_have_at_least_1_order.tr(),
                 isPopUntil: true,
@@ -486,20 +498,19 @@ class MenuProvider extends ChangeNotifier {
 
   String sumTotalDiscountCoupon(int index, String frag) {
     double result = 0;
-    result = couponApplyModel!.responseObj!.orderList![index].promoItemList!
+    result = transactionModel!.responseObj!.orderList![index].promoItemList!
         .map((item) => item.totalDiscount)
         .reduce((a, b) => a! + b!)!;
     if (frag == 'salesPrice') {
-      result = couponApplyModel!.responseObj!.orderList![index].retailPrice! -
+      result = transactionModel!.responseObj!.orderList![index].retailPrice! -
           result;
     }
     return result.toString();
   }
 
   Future clearApplyCoupon(BuildContext context) async {
-    if (couponApplyModel != null &&
-        couponApplyModel!.responseObj!.promoList!.isNotEmpty) {
-      var promoList = couponApplyModel!.responseObj!.promoList;
+    if (transactionModel!.responseObj!.promoList!.isNotEmpty) {
+      var promoList = transactionModel!.responseObj!.promoList;
       for (var i = 0; i < promoList!.length; i++) {
         if (promoList[i].couponList!.isNotEmpty) {
           for (var j = 0; j < promoList[i].couponList!.length; j++) {
@@ -557,33 +568,46 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  addCountOrder(BuildContext context, int index) {
-    addProductToList(
-        context,
-        productAddModel!.responseObj!.orderList![index].productID!,
-        productAddModel!.responseObj!.orderList![index].qty! + 1,
-        productAddModel!.responseObj!.orderList![index].orderDetailID
-            .toString());
-  }
-
-  removeCountOrder(BuildContext context, int index) {
-    addProductToList(
-        context,
-        productAddModel!.responseObj!.orderList![index].productID!,
-        productAddModel!.responseObj!.orderList![index].qty! - 1,
-        productAddModel!.responseObj!.orderList![index].orderDetailID
-            .toString());
-  }
-
-  Future dialogCountOrder(BuildContext context, int index) async {
-    productAddModel!.responseObj!.orderList![index].qty =
-        double.parse(valueQtyOrderController.text);
-    await addProductToList(
-        context,
-        productAddModel!.responseObj!.orderList![index].productID!,
-        productAddModel!.responseObj!.orderList![index].qty!,
-        productAddModel!.responseObj!.orderList![index].orderDetailID
-            .toString());
+  manageCountOrder(BuildContext context, int index, String frag) {
+    if (frag == 'add') {
+      orderProcess(
+          context,
+          transactionModel!.responseObj!.orderList![index].qty! + 1,
+          transactionModel!.responseObj!.orderList![index].orderDetailID
+              .toString(),
+          '2',
+          transactionModel!.responseObj!.orderList![index].productID!
+              .toString());
+    } else if (frag == 'remove') {
+      if (transactionModel!.responseObj!.orderList![index].qty! > 1) {
+        orderProcess(
+            context,
+            transactionModel!.responseObj!.orderList![index].qty! - 1,
+            transactionModel!.responseObj!.orderList![index].orderDetailID
+                .toString(),
+            '2',
+            transactionModel!.responseObj!.orderList![index].productID!
+                .toString());
+      }
+    } else if (frag == 'dialog') {
+      orderProcess(
+          context,
+          double.parse(valueQtyOrderController.text),
+          transactionModel!.responseObj!.orderList![index].orderDetailID
+              .toString(),
+          '2',
+          transactionModel!.responseObj!.orderList![index].productID!
+              .toString());
+    } else {
+      orderProcess(
+          context,
+          transactionModel!.responseObj!.orderList![index].qty!,
+          transactionModel!.responseObj!.orderList![index].orderDetailID
+              .toString(),
+          '1',
+          transactionModel!.responseObj!.orderList![index].productID!
+              .toString());
+    }
   }
 
   Future setPayAmountField(int value) async {
@@ -607,23 +631,12 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future setTranData({
-    String? tranObject,
-    String? orderID,
-    String? saleModeName,
-    int? tranId,
-    String? tranKey,
-  }) async {
-    _tranDataCurrent = tranObject;
-    _orderId = orderID;
-    _saleModeName = saleModeName!;
-    _tranId = tranId;
-    _tranKey = tranKey;
-    couponApplyModel = null;
+  Future setTranData({String? tranModel}) async {
+    transactionModel = TransactionModel.fromJson(jsonDecode(tranModel!));
   }
 
   setCouponCodeControllerForTest() {
-    couponCodeController.text = '111E2F4F09122E72E123';
+    couponCodeController.text = '8F811112C4E72E72E177';
     notifyListeners();
   }
 

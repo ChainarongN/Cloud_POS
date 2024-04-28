@@ -58,7 +58,8 @@ class _MenuPageState extends State<MenuPage>
         actions: <Widget>[
           member(context, menuRead, menuWatch),
           employee(context),
-          clonebin(context),
+          clonebill(context),
+          holdBill(context),
         ],
       ),
       body: menuWatch.getLoading

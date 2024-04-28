@@ -466,8 +466,7 @@ Future<void> eCouponDialog(BuildContext context) {
                             borderRadius: BorderRadius.circular(10)),
                       ),
                       onPressed: () {
-                        if (dataProvider
-                            .couponCodeController.text.isNotEmpty) {
+                        if (dataProvider.couponCodeController.text.isNotEmpty) {
                           LoadingStyle().dialogLoadding(context);
                           dataProvider.eCouponInquiry(context).then((value) {
                             if (dataProvider.apiState == ApiState.COMPLETED) {
@@ -493,10 +492,8 @@ Future<void> eCouponDialog(BuildContext context) {
         content: SizedBox(
             width: Constants().screenWidth(context),
             height: Constants().screenheight(context),
-            child: dataProvider.couponApplyModel == null ||
-                    dataProvider.couponApplyModel!.responseCode!.isNotEmpty ||
-                    dataProvider
-                        .couponApplyModel!.responseObj!.promoList!.isEmpty
+            child: dataProvider
+                    .transactionModel!.responseObj!.promoList!.isEmpty
                 ? Container()
                 : SingleChildScrollView(
                     child: Column(
@@ -543,21 +540,19 @@ Future<void> eCouponDialog(BuildContext context) {
                                 SizedBox(
                                   height:
                                       Constants().screenheight(context) * 0.16,
-                                  child: dataProvider.couponApplyModel ==
-                                              null ||
-                                          dataProvider.couponApplyModel!
-                                              .responseCode!.isNotEmpty
+                                  child: dataProvider.transactionModel!
+                                          .responseObj!.promoList!.isEmpty
                                       ? const SizedBox.shrink()
                                       : SingleChildScrollView(
                                           child: Column(
                                             children: List.generate(
                                               dataProvider
-                                                  .couponApplyModel!
+                                                  .transactionModel!
                                                   .responseObj!
                                                   .promoList!
                                                   .length,
                                               (indexOutside) => dataProvider
-                                                      .couponApplyModel!
+                                                      .transactionModel!
                                                       .responseObj!
                                                       .promoList![indexOutside]
                                                       .couponList!
@@ -665,33 +660,31 @@ Future<void> eCouponDialog(BuildContext context) {
                                 SizedBox(
                                   height:
                                       Constants().screenheight(context) * 0.25,
-                                  child:
-                                      dataProvider.couponApplyModel == null ||
-                                              dataProvider.couponApplyModel!
-                                                  .responseCode!.isNotEmpty
-                                          ? const SizedBox.shrink()
-                                          : SingleChildScrollView(
-                                              child: Column(
-                                                children: List.generate(
-                                                  dataProvider
-                                                      .couponApplyModel!
+                                  child: dataProvider.transactionModel!
+                                          .responseObj!.promoList!.isEmpty
+                                      ? const SizedBox.shrink()
+                                      : SingleChildScrollView(
+                                          child: Column(
+                                            children: List.generate(
+                                              dataProvider
+                                                  .transactionModel!
+                                                  .responseObj!
+                                                  .orderList!
+                                                  .length,
+                                              (index) => dataProvider
+                                                      .transactionModel!
                                                       .responseObj!
-                                                      .orderList!
-                                                      .length,
-                                                  (index) => dataProvider
-                                                          .couponApplyModel!
-                                                          .responseObj!
-                                                          .orderList![index]
-                                                          .promoItemList!
-                                                          .isEmpty
-                                                      ? const SizedBox.shrink()
-                                                      : showOrderFromCoupon(
-                                                          dataProvider,
-                                                          index,
-                                                          context),
-                                                ),
-                                              ),
+                                                      .orderList![index]
+                                                      .promoItemList!
+                                                      .isEmpty
+                                                  ? const SizedBox.shrink()
+                                                  : showOrderFromCoupon(
+                                                      dataProvider,
+                                                      index,
+                                                      context),
                                             ),
+                                          ),
+                                        ),
                                 )
                               ],
                             ),
@@ -749,33 +742,31 @@ Future<void> eCouponDialog(BuildContext context) {
                                 SizedBox(
                                   height:
                                       Constants().screenheight(context) * 0.16,
-                                  child:
-                                      dataProvider.couponApplyModel == null ||
-                                              dataProvider.couponApplyModel!
-                                                  .responseCode!.isNotEmpty
-                                          ? const SizedBox.shrink()
-                                          : SingleChildScrollView(
-                                              child: Column(
-                                                children: List.generate(
-                                                  dataProvider
-                                                      .couponApplyModel!
+                                  child: dataProvider.transactionModel!
+                                          .responseObj!.promoList!.isEmpty
+                                      ? const SizedBox.shrink()
+                                      : SingleChildScrollView(
+                                          child: Column(
+                                            children: List.generate(
+                                              dataProvider
+                                                  .transactionModel!
+                                                  .responseObj!
+                                                  .promoList!
+                                                  .length,
+                                              (index) => dataProvider
+                                                      .transactionModel!
                                                       .responseObj!
-                                                      .promoList!
-                                                      .length,
-                                                  (index) => dataProvider
-                                                          .couponApplyModel!
-                                                          .responseObj!
-                                                          .promoList![index]
-                                                          .couponList!
-                                                          .isEmpty
-                                                      ? const SizedBox.shrink()
-                                                      : showPromotionSum(
-                                                          dataProvider,
-                                                          index,
-                                                          context),
-                                                ),
-                                              ),
+                                                      .promoList![index]
+                                                      .couponList!
+                                                      .isEmpty
+                                                  ? const SizedBox.shrink()
+                                                  : showPromotionSum(
+                                                      dataProvider,
+                                                      index,
+                                                      context),
                                             ),
+                                          ),
+                                        ),
                                 ),
                               ],
                             ),
@@ -811,7 +802,7 @@ Column showPromotionSum(
             flex: 2,
             child: Center(
               child: AppTextStyle().textNormal(
-                  dataProvider.couponApplyModel!.responseObj!.promoList![index]
+                  dataProvider.transactionModel!.responseObj!.promoList![index]
                       .promotionName!,
                   size: Constants().screenheight(context) * 0.024),
             ),
@@ -820,7 +811,7 @@ Column showPromotionSum(
             flex: 2,
             child: Center(
               child: Text(
-                dataProvider.couponApplyModel!.responseObj!.promoList![index]
+                dataProvider.transactionModel!.responseObj!.promoList![index]
                     .couponList!
                     .map((item) => item.couponNumber!)
                     .toList()
@@ -834,7 +825,7 @@ Column showPromotionSum(
             flex: 1,
             child: Center(
               child: AppTextStyle().textNormal(
-                  dataProvider.couponApplyModel!.responseObj!.promoList![index]
+                  dataProvider.transactionModel!.responseObj!.promoList![index]
                       .totalDiscount
                       .toString(),
                   size: Constants().screenheight(context) * 0.024),
@@ -850,7 +841,7 @@ Column showCouponData(
     MenuProvider dataProvider, int indexOutside, BuildContext context) {
   return Column(
     children: List.generate(
-      dataProvider.couponApplyModel!.responseObj!.promoList![indexOutside]
+      dataProvider.transactionModel!.responseObj!.promoList![indexOutside]
           .couponList!.length,
       (indexInside) => Column(
         children: [
@@ -862,7 +853,7 @@ Column showCouponData(
                 child: Center(
                   child: AppTextStyle().textNormal(
                       dataProvider
-                          .couponApplyModel!
+                          .transactionModel!
                           .responseObj!
                           .promoList![indexOutside]
                           .couponList![indexInside]
@@ -874,7 +865,7 @@ Column showCouponData(
                 flex: 2,
                 child: Center(
                   child: AppTextStyle().textNormal(
-                      dataProvider.couponApplyModel!.responseObj!
+                      dataProvider.transactionModel!.responseObj!
                           .promoList![indexOutside].promotionName!,
                       size: Constants().screenheight(context) * 0.024),
                 ),
@@ -918,7 +909,7 @@ Column showOrderFromCoupon(
             flex: 3,
             child: Center(
               child: AppTextStyle().textNormal(
-                  dataProvider.couponApplyModel!.responseObj!.orderList![index]
+                  dataProvider.transactionModel!.responseObj!.orderList![index]
                       .itemName!,
                   size: Constants().screenheight(context) * 0.024),
             ),
@@ -928,7 +919,7 @@ Column showOrderFromCoupon(
             child: Center(
               child: AppTextStyle().textNormal(
                   dataProvider
-                      .couponApplyModel!.responseObj!.orderList![index].qty!
+                      .transactionModel!.responseObj!.orderList![index].qty!
                       .toInt()
                       .toString(),
                   size: Constants().screenheight(context) * 0.024),
@@ -938,7 +929,7 @@ Column showOrderFromCoupon(
             flex: 2,
             child: Center(
               child: AppTextStyle().textNormal(
-                  dataProvider.couponApplyModel!.responseObj!.orderList![index]
+                  dataProvider.transactionModel!.responseObj!.orderList![index]
                       .unitPrice
                       .toString(),
                   size: Constants().screenheight(context) * 0.024),
@@ -948,7 +939,7 @@ Column showOrderFromCoupon(
             flex: 2,
             child: Center(
               child: AppTextStyle().textNormal(
-                  dataProvider.couponApplyModel!.responseObj!.orderList![index]
+                  dataProvider.transactionModel!.responseObj!.orderList![index]
                       .retailPrice
                       .toString(),
                   size: Constants().screenheight(context) * 0.024),
@@ -958,7 +949,7 @@ Column showOrderFromCoupon(
             flex: 1,
             child: Center(
               child: AppTextStyle().textNormal(
-                  dataProvider.couponApplyModel!.responseObj!.orderList![index]
+                  dataProvider.transactionModel!.responseObj!.orderList![index]
                       .promoItemList!.length
                       .toString(),
                   size: Constants().screenheight(context) * 0.024),
@@ -984,7 +975,7 @@ Column showOrderFromCoupon(
             flex: 3,
             child: Center(
                 child: Text(
-              dataProvider.couponApplyModel!.responseObj!.orderList![index]
+              dataProvider.transactionModel!.responseObj!.orderList![index]
                   .promoItemList!
                   .map((item) => item.promotionName)
                   .toList()

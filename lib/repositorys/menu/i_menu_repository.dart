@@ -40,4 +40,11 @@ abstract class IMenuRepository {
       String? staffName});
   Future eCouponApply({String? langID, String? couponSN, String? tranData});
   Future promotionCancel({String? langID, String? promoUUID, String? tranData});
+  Future orderProcess(
+      {String? langID,
+      String? tranData,
+      String? modifyId,
+      String? editOrderID,
+      String? orderQty,
+      String? productID});
 }

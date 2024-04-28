@@ -8,12 +8,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 
-Container clonebin(BuildContext context) {
+Container clonebill(BuildContext context) {
   return Container(
     alignment: Alignment.center,
     height: Constants().screenheight(context) * 0.07,
     width: Constants().screenWidth(context) * 0.09,
-    margin: const EdgeInsets.only(right: 30),
+    margin: const EdgeInsets.only(right: 10),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
       gradient: const LinearGradient(
@@ -33,6 +33,42 @@ Container clonebin(BuildContext context) {
       padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
       child: AppTextStyle().textNormal(LocaleKeys.clone_bill.tr(),
           size: Constants().screenheight(context) * 0.025),
+    ),
+  );
+}
+
+GestureDetector holdBill(BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      openHoldBillDialog(context);
+    },
+    child: Container(
+      alignment: Alignment.center,
+      height: Constants().screenheight(context) * 0.07,
+      width: Constants().screenWidth(context) * 0.09,
+      margin: const EdgeInsets.only(right: 30),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        gradient: const LinearGradient(
+          colors: [
+            Constants.secondaryColor,
+            Constants.primaryColor,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: const [
+          BoxShadow(
+              color: Constants.primaryColor,
+              blurRadius: 8,
+              offset: Offset(0, 6)),
+        ],
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
+        child: AppTextStyle().textBold('Hold bill',
+            size: Constants().screenheight(context) * 0.025),
+      ),
     ),
   );
 }
@@ -74,13 +110,13 @@ GestureDetector member(
       menuRead.orderSummary(context).then((value) {
         if (menuWatch.apiState == ApiState.COMPLETED) {
           Navigator.pop(context);
-          if (menuWatch.orderSummaryModel!.responseObj!.tranData!.memberID ==
+          if (menuWatch.transactionModel!.responseObj!.tranData!.memberID ==
               0) {
             openNumberDialog(context, menuWatch, menuRead);
           } else {
             menuRead
                 .memberData(context,
-                    menuWatch.orderSummaryModel!.responseObj!.memberMobile!)
+                    menuWatch.transactionModel!.responseObj!.memberMobile!)
                 .then((value) {
               if (menuWatch.apiState == ApiState.COMPLETED) {
                 Navigator.maybePop(context);
@@ -119,6 +155,37 @@ GestureDetector member(
             size: Constants().screenheight(context) * 0.025),
       ),
     ),
+  );
+}
+
+Future<void> openHoldBillDialog(BuildContext context) {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return AlertDialog(
+        content: SizedBox(
+          height: Constants().screenheight(context) * 0.35,
+          width: Constants().screenWidth(context) * 0.3,
+          child: Column(
+            children: <Widget>[],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: AppTextStyle().textNormal(LocaleKeys.ok.tr(), size: 18),
+            onPressed: () async {},
+          ),
+          TextButton(
+            child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
+                size: 18, color: Colors.red),
+            onPressed: () async {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      );
+    },
   );
 }
 

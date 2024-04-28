@@ -16,13 +16,10 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.total_qty.tr()}:'),
                 const Spacer(),
-                menuWatch.productAddModel == null ||
-                        menuWatch.productAddModel!.responseCode!.isNotEmpty ||
-                        menuWatch
-                            .productAddModel!.responseObj!.orderList!.isEmpty
+                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
                     ? AppTextStyle().textNormal('-')
                     : AppTextStyle().textNormal(menuWatch
-                        .productAddModel!.responseObj!.totalQty!
+                        .transactionModel!.responseObj!.totalQty!
                         .toStringAsFixed(2)),
               ],
             ),
@@ -30,13 +27,10 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.total_discount.tr()}:'),
                 const Spacer(),
-                menuWatch.productAddModel == null ||
-                        menuWatch.productAddModel!.responseCode!.isNotEmpty ||
-                        menuWatch
-                            .productAddModel!.responseObj!.orderList!.isEmpty
+                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
                     ? AppTextStyle().textNormal('-')
                     : AppTextStyle().textNormal(menuWatch
-                        .productAddModel!.responseObj!.totalDiscount!
+                        .transactionModel!.responseObj!.totalDiscount!
                         .toStringAsFixed(2)),
               ],
             ),
@@ -44,13 +38,10 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.service_charge.tr()}:'),
                 const Spacer(),
-                menuWatch.productAddModel == null ||
-                        menuWatch.productAddModel!.responseCode!.isNotEmpty ||
-                        menuWatch
-                            .productAddModel!.responseObj!.orderList!.isEmpty
+                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
                     ? AppTextStyle().textNormal('-')
                     : AppTextStyle().textNormal(menuWatch
-                        .productAddModel!.responseObj!.serviceCharge!
+                        .transactionModel!.responseObj!.serviceCharge!
                         .toStringAsFixed(2)),
               ],
             ),
@@ -65,13 +56,10 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.tax.tr()} 7.00%:'),
                 const Spacer(),
-                menuWatch.productAddModel == null ||
-                        menuWatch.productAddModel!.responseCode!.isNotEmpty ||
-                        menuWatch
-                            .productAddModel!.responseObj!.orderList!.isEmpty
+                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
                     ? AppTextStyle().textNormal('-')
                     : AppTextStyle().textNormal(menuWatch
-                        .productAddModel!.responseObj!.vATPercent!
+                        .transactionModel!.responseObj!.vATPercent!
                         .toStringAsFixed(2)),
               ],
             ),
@@ -102,13 +90,10 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
               children: <Widget>[
                 AppTextStyle().textNormal('Rounding:'),
                 const Spacer(),
-                menuWatch.productAddModel == null ||
-                        menuWatch.productAddModel!.responseCode!.isNotEmpty ||
-                        menuWatch
-                            .productAddModel!.responseObj!.orderList!.isEmpty
+                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
                     ? AppTextStyle().textNormal('-')
                     : AppTextStyle().textNormal(menuWatch
-                        .productAddModel!.responseObj!.roundingBill!
+                        .transactionModel!.responseObj!.roundingBill!
                         .toStringAsFixed(2)),
               ],
             ),
@@ -116,13 +101,10 @@ Row orderDetail(BuildContext context, MenuProvider menuWatch) {
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.pay_amount.tr()}:'),
                 const Spacer(),
-                menuWatch.productAddModel == null ||
-                        menuWatch.productAddModel!.responseCode!.isNotEmpty ||
-                        menuWatch
-                            .productAddModel!.responseObj!.orderList!.isEmpty
+                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
                     ? AppTextStyle().textNormal('-')
                     : AppTextStyle().textNormal(menuWatch
-                        .productAddModel!.responseObj!.payAmount!
+                        .transactionModel!.responseObj!.payAmount!
                         .toStringAsFixed(2)),
               ],
             ),

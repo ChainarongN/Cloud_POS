@@ -19,9 +19,7 @@ Row summaryBtn(
     children: [
       GestureDetector(
         onTap: () async {
-          if (menuWatch.productAddModel == null ||
-              menuWatch.productAddModel!.responseCode!.isNotEmpty ||
-              menuWatch.productAddModel!.responseObj!.orderList!.isEmpty) {
+          if (menuWatch.transactionModel!.responseObj!.orderList!.isEmpty) {
             LoadingStyle().dialogError(context,
                 error: LocaleKeys.must_have_at_least_1_order.tr(),
                 isPopUntil: true,

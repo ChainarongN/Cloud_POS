@@ -9,9 +9,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 SizedBox orderList(
     MenuProvider menuWatch, MenuProvider menuRead, BuildContext context) {
-  return menuWatch.productAddModel == null ||
-          menuWatch.productAddModel!.responseCode!.isNotEmpty ||
-          menuWatch.productAddModel!.responseObj!.orderList!.isEmpty
+  return menuWatch.transactionModel == null ||
+          menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
       ? SizedBox(
           height: Constants().screenheight(context) * 0.3,
           child: Center(
@@ -24,20 +23,20 @@ SizedBox orderList(
             children: [
               Column(
                 children: List.generate(
-                  menuWatch.productAddModel!.responseObj!.orderList!.length,
+                  menuWatch.transactionModel!.responseObj!.orderList!.length,
                   (index) => Slidable(
                     endActionPane: ActionPane(
                       motion: const BehindMotion(),
                       children: [
                         SlidableAction(
                           flex: 2,
-                          onPressed: (context) {
+                          onPressed: (contextSlidable) {
                             showDialog(
-                                context: context,
+                                context: contextSlidable,
                                 builder: (context) {
                                   return AlertDialog(
                                     title: AppTextStyle().textNormal(menuWatch
-                                        .productAddModel!
+                                        .transactionModel!
                                         .responseObj!
                                         .orderList![index]
                                         .itemName!),
@@ -75,7 +74,9 @@ SizedBox orderList(
                         ),
                         SlidableAction(
                           flex: 2,
-                          onPressed: (context) {},
+                          onPressed: (contextSlidable) {
+                            menuRead.manageCountOrder(context, index, 'delete');
+                          },
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
                           icon: Icons.save,
@@ -91,8 +92,8 @@ SizedBox orderList(
                       child: Row(
                         children: <Widget>[
                           GestureDetector(
-                            onTap: () =>
-                                menuRead.removeCountOrder(context, index),
+                            onTap: () => menuRead.manageCountOrder(
+                                context, index, 'remove'),
                             child: Icon(Icons.remove_circle_outline,
                                 color: Colors.red,
                                 size:
@@ -108,7 +109,7 @@ SizedBox orderList(
                               alignment: Alignment.center,
                               width: Constants().screenWidth(context) * 0.03,
                               child: AppTextStyle().textBold(
-                                  menuWatch.productAddModel!.responseObj!
+                                  menuWatch.transactionModel!.responseObj!
                                       .orderList![index].qty!
                                       .toInt()
                                       .toString(),
@@ -117,7 +118,8 @@ SizedBox orderList(
                             ),
                           ),
                           GestureDetector(
-                            onTap: () => menuRead.addCountOrder(context, index),
+                            onTap: () => menuRead.manageCountOrder(
+                                context, index, 'add'),
                             child: Icon(Icons.add_box_outlined,
                                 color: Constants.primaryColor,
                                 size:
@@ -129,7 +131,7 @@ SizedBox orderList(
                                       Constants().screenheight(context) * 0.01),
                               width: Constants().screenWidth(context) * 0.155,
                               child: AppTextStyle().textBold(
-                                  menuWatch.productAddModel!.responseObj!
+                                  menuWatch.transactionModel!.responseObj!
                                       .orderList![index].itemName!,
                                   size: Constants().screenheight(context) *
                                       0.023)),
@@ -138,7 +140,7 @@ SizedBox orderList(
                               alignment: Alignment.centerRight,
                               width: Constants().screenWidth(context) * 0.06,
                               child: AppTextStyle().textBold(
-                                  menuWatch.productAddModel!.responseObj!
+                                  menuWatch.transactionModel!.responseObj!
                                       .orderList![index].retailPrice!
                                       .toString(),
                                   size: Constants().screenheight(context) *
@@ -196,7 +198,7 @@ openQtyDialog(BuildContext context, MenuProvider menuWatch,
             child: AppTextStyle().textNormal(LocaleKeys.ok.tr(),
                 size: Constants().screenheight(context) * 0.025),
             onPressed: () {
-              menuRead.dialogCountOrder(context, index);
+              menuRead.manageCountOrder(context, index, 'dialog');
             },
           ),
           TextButton(

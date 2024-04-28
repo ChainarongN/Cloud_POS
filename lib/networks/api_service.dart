@@ -195,7 +195,7 @@ class APIService {
       );
       var dio = Dio(options);
       var response = await dio.request(
-        '$baseUrl/$url',
+        url,
         options: Options(method: 'POST', headers: headers),
         data: data,
       );

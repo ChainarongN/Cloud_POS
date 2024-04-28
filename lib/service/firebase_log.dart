@@ -28,28 +28,28 @@ class FirebaseLog {
     String username = await SharedPref().getUsername();
     String version = await SharedPref().getAppVersion();
 
-    users
-        .doc('Dev')
-        .collection(date)
-        .doc('User : $username')
-        .collection(isSuccess ? 'isSuccess' : 'isError')
-        .doc('Time $time')
-        .set({
-      "ActionBy": actionBy,
-      "BaseUrl": baseUrl,
-      "PathUrl": pathUrl,
-      "ReqId": reqId,
-      "SessionKey": sessionKey,
-      "App_platform": Platform.isAndroid ? "android" : "ios",
-      "App_version": version,
-      "Time": now,
-      "ComputerId": computerId,
-      "ShopId:": shopId,
-      "StaffId": staffId,
-      "OrderId": orderId,
-      "res": res,
-      "reqData": reqData ?? '',
-      "reqParams": params
-    });
+    // users
+    //     .doc('Dev')
+    //     .collection(date)
+    //     .doc('User : $username')
+    //     .collection(isSuccess ? 'isSuccess' : 'isError')
+    //     .doc('Time $time')
+    //     .set({
+    //   "ActionBy": actionBy,
+    //   "BaseUrl": baseUrl,
+    //   "PathUrl": pathUrl,
+    //   "ReqId": reqId,
+    //   "SessionKey": sessionKey,
+    //   "App_platform": Platform.isAndroid ? "android" : "ios",
+    //   "App_version": version,
+    //   "Time": now,
+    //   "ComputerId": computerId,
+    //   "ShopId:": shopId,
+    //   "StaffId": staffId,
+    //   "OrderId": orderId,
+    //   "res": res,
+    //   "reqData": reqData ?? '',
+    //   "reqParams": params
+    // });
   }
 }

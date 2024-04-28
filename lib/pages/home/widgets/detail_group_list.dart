@@ -41,20 +41,9 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
                     homeRead.setSex('');
                     homeRead.setNationality('');
                     Navigator.maybePop(context);
-                    String orderId = homeWatch
-                        .openTranModel!.responseObj!.tranData!.orderID!;
-                    String tranData = json.encode(
-                        homeWatch.openTranModel!.responseObj!.tranData!);
                     menuRead
                         .setTranData(
-                            orderID: orderId,
-                            tranObject: tranData,
-                            tranId: homeWatch.openTranModel!.responseObj!
-                                .tranData!.transactionID,
-                            tranKey: homeWatch
-                                .openTranModel!.responseObj!.tranData!.tranKey,
-                            saleModeName: homeWatch
-                                .openTranModel!.responseObj!.saleModeName)
+                            tranModel: json.encode(homeWatch.openTranModel))
                         .then((value) {
                       Navigator.pushNamed(context, '/menuPage');
                     });

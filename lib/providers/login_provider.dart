@@ -27,7 +27,7 @@ class LoginProvider extends ChangeNotifier {
   LoginModel? loginModel;
   bool _passwordVisible = false;
   bool _openSession = false;
-  String? _errorText = '';
+  String? _errorText = '', versionName = '';
   final TextEditingController openAmountController = TextEditingController();
   final TextEditingController deviceController = TextEditingController();
 
@@ -42,9 +42,11 @@ class LoginProvider extends ChangeNotifier {
   }
 
   // ------------------------ Call Data -------------------------
-  init() {
+  init() async {
     _errorText = '';
-    // notifyListeners();
+    deviceController.text = await SharedPref().getDeviceId();
+    versionName = await SharedPref().getAppVersion();
+    notifyListeners();
   }
 
   Future flowOpen(BuildContext context) async {

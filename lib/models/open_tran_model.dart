@@ -3,7 +3,7 @@ class OpenTranModel {
   String? responseText;
   var pendingReqId;
   ResponseObj? responseObj;
-  var responseObj2;
+  ResponseObj2? responseObj2;
   var loyaltyObj;
 
   OpenTranModel(
@@ -21,7 +21,9 @@ class OpenTranModel {
     responseObj = json['ResponseObj'] != null
         ? ResponseObj.fromJson(json['ResponseObj'])
         : null;
-    responseObj2 = json['ResponseObj2'];
+    responseObj2 = json['ResponseObj2'] != null
+        ? ResponseObj2.fromJson(json['ResponseObj2'])
+        : null;
     loyaltyObj = json['LoyaltyObj'];
   }
 
@@ -33,7 +35,9 @@ class OpenTranModel {
     if (responseObj != null) {
       data['ResponseObj'] = responseObj!.toJson();
     }
-    data['ResponseObj2'] = responseObj2;
+    if (responseObj2 != null) {
+      data['ResponseObj2'] = responseObj2!.toJson();
+    }
     data['LoyaltyObj'] = loyaltyObj;
     return data;
   }
@@ -54,8 +58,8 @@ class ResponseObj {
   int? shopID;
   String? shopCode;
   String? shopName;
-  String? storeKey;
-  String? storeName;
+  var storeKey;
+  var storeName;
   String? saleDate;
   int? saleModeID;
   String? saleModeName;
@@ -87,7 +91,9 @@ class ResponseObj {
   String? voidStaff;
   String? voidReason;
   String? voidTime;
-
+  List<OrderList>? orderList;
+  List<PromoList>? promoList;
+  List<PaymentList>? paymentList;
   int? deliveryAgentID;
   String? deliveryAgent;
   String? riderName;
@@ -96,8 +102,8 @@ class ResponseObj {
   String? riderStatusName;
   String? agentOrderId;
   String? agentOrderRef;
-  String? deliveryAddress;
-  String? pickupStoreInfo;
+  var deliveryAddress;
+  var pickupStoreInfo;
   TranData? tranData;
   var paymentStatus;
 
@@ -149,6 +155,9 @@ class ResponseObj {
       this.voidStaff,
       this.voidReason,
       this.voidTime,
+      this.orderList,
+      this.paymentList,
+      this.promoList,
       this.deliveryAgentID,
       this.deliveryAgent,
       this.riderName,
@@ -210,6 +219,24 @@ class ResponseObj {
     voidStaff = json['VoidStaff'];
     voidReason = json['VoidReason'];
     voidTime = json['VoidTime'];
+    if (json['OrderList'] != null) {
+      orderList = <OrderList>[];
+      json['OrderList'].forEach((v) {
+        orderList!.add(OrderList.fromJson(v));
+      });
+    }
+    if (json['PromoList'] != null) {
+      promoList = <PromoList>[];
+      json['PromoList'].forEach((v) {
+        promoList!.add(PromoList.fromJson(v));
+      });
+    }
+    if (json['PaymentList'] != null) {
+      paymentList = <PaymentList>[];
+      json['PaymentList'].forEach((v) {
+        paymentList!.add(PaymentList.fromJson(v));
+      });
+    }
     deliveryAgentID = json['DeliveryAgentID'];
     deliveryAgent = json['DeliveryAgent'];
     riderName = json['RiderName'];
@@ -274,6 +301,15 @@ class ResponseObj {
     data['VoidStaff'] = voidStaff;
     data['VoidReason'] = voidReason;
     data['VoidTime'] = voidTime;
+    if (orderList != null) {
+      data['OrderList'] = orderList!.map((v) => v.toJson()).toList();
+    }
+    if (promoList != null) {
+      data['PromoList'] = promoList!.map((v) => v.toJson()).toList();
+    }
+    if (paymentList != null) {
+      data['PaymentList'] = paymentList!.map((v) => v.toJson()).toList();
+    }
     data['DeliveryAgentID'] = deliveryAgentID;
     data['DeliveryAgent'] = deliveryAgent;
     data['RiderName'] = riderName;
@@ -288,6 +324,219 @@ class ResponseObj {
       data['TranData'] = tranData!.toJson();
     }
     data['PaymentStatus'] = paymentStatus;
+    return data;
+  }
+}
+
+class OrderList {
+  int? orderDetailID;
+  int? productID;
+  String? itemNo;
+  String? itemCode;
+  String? itemName;
+  double? unitPrice;
+  double? qty;
+  double? retailPrice;
+  String? vATCode;
+  int? statusID;
+  int? pProductID;
+  List<PromoItemList>? promoItemList;
+
+  OrderList(
+      {this.orderDetailID,
+      this.productID,
+      this.itemNo,
+      this.itemCode,
+      this.itemName,
+      this.unitPrice,
+      this.qty,
+      this.retailPrice,
+      this.vATCode,
+      this.statusID,
+      this.pProductID,
+      this.promoItemList});
+
+  OrderList.fromJson(Map<String, dynamic> json) {
+    orderDetailID = json['OrderDetailID'];
+    productID = json['ProductID'];
+    itemNo = json['ItemNo'];
+    itemCode = json['ItemCode'];
+    itemName = json['ItemName'];
+    unitPrice = json['UnitPrice'];
+    qty = json['Qty'];
+    retailPrice = json['RetailPrice'];
+    vATCode = json['VATCode'];
+    statusID = json['StatusID'];
+    pProductID = json['PProductID'];
+    if (json['PromoItemList'] != null) {
+      promoItemList = <PromoItemList>[];
+      json['PromoItemList'].forEach((v) {
+        promoItemList!.add(PromoItemList.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['OrderDetailID'] = orderDetailID;
+    data['ProductID'] = productID;
+    data['ItemNo'] = itemNo;
+    data['ItemCode'] = itemCode;
+    data['ItemName'] = itemName;
+    data['UnitPrice'] = unitPrice;
+    data['Qty'] = qty;
+    data['RetailPrice'] = retailPrice;
+    data['VATCode'] = vATCode;
+    data['StatusID'] = statusID;
+    data['PProductID'] = pProductID;
+    if (promoItemList != null) {
+      data['PromoItemList'] = promoItemList!.map((v) => v.toJson()).toList();
+    }
+
+    return data;
+  }
+}
+
+class PromoList {
+  int? promotionID;
+  String? promotionCode;
+  String? promotionName;
+  String? remark;
+  List<CouponList>? couponList;
+  double? totalDiscount;
+
+  PromoList(
+      {this.promotionID,
+      this.promotionCode,
+      this.promotionName,
+      this.remark,
+      this.couponList,
+      this.totalDiscount});
+
+  PromoList.fromJson(Map<String, dynamic> json) {
+    promotionID = json['PromotionID'];
+    promotionCode = json['PromotionCode'];
+    promotionName = json['PromotionName'];
+    remark = json['Remark'];
+    if (json['CouponList'] != null) {
+      couponList = <CouponList>[];
+      json['CouponList'].forEach((v) {
+        couponList!.add(CouponList.fromJson(v));
+      });
+    }
+    totalDiscount = json['TotalDiscount'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['PromotionID'] = promotionID;
+    data['PromotionCode'] = promotionCode;
+    data['PromotionName'] = promotionName;
+    data['Remark'] = remark;
+    if (couponList != null) {
+      data['CouponList'] = couponList!.map((v) => v.toJson()).toList();
+    }
+    data['TotalDiscount'] = totalDiscount;
+    return data;
+  }
+}
+
+class CouponList {
+  String? promoUUID;
+  String? couponNumber;
+  double? discountAmount;
+
+  CouponList({this.promoUUID, this.couponNumber, this.discountAmount});
+
+  CouponList.fromJson(Map<String, dynamic> json) {
+    promoUUID = json['PromoUUID'];
+    couponNumber = json['CouponNumber'];
+    discountAmount = json['DiscountAmount'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['PromoUUID'] = promoUUID;
+    data['CouponNumber'] = couponNumber;
+    data['DiscountAmount'] = discountAmount;
+    return data;
+  }
+}
+
+class PromoItemList {
+  int? promotionID;
+  String? promotionCode;
+  String? promotionName;
+  double? totalDiscount;
+
+  PromoItemList(
+      {this.promotionID,
+      this.promotionCode,
+      this.promotionName,
+      this.totalDiscount});
+
+  PromoItemList.fromJson(Map<String, dynamic> json) {
+    promotionID = json['PromotionID'];
+    promotionCode = json['PromotionCode'];
+    promotionName = json['PromotionName'];
+    totalDiscount = json['TotalDiscount'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['PromotionID'] = promotionID;
+    data['PromotionCode'] = promotionCode;
+    data['PromotionName'] = promotionName;
+    data['TotalDiscount'] = totalDiscount;
+    return data;
+  }
+}
+
+class PaymentList {
+  int? payDetailID;
+  int? payTypeID;
+  String? payTypeCode;
+  String? payTypeName;
+  String? remark;
+  double? payAmount;
+  double? cashChange;
+  var payTypeImage;
+  var payTypeDesp;
+
+  PaymentList(
+      {this.payDetailID,
+      this.payTypeID,
+      this.payTypeCode,
+      this.payTypeName,
+      this.remark,
+      this.payAmount,
+      this.cashChange,
+      this.payTypeImage,
+      this.payTypeDesp});
+
+  PaymentList.fromJson(Map<String, dynamic> json) {
+    payDetailID = json['PayDetailID'];
+    payTypeID = json['PayTypeID'];
+    payTypeCode = json['PayTypeCode'];
+    payTypeName = json['PayTypeName'];
+    remark = json['Remark'];
+    payAmount = json['PayAmount'];
+    cashChange = json['CashChange'];
+    payTypeImage = json['PayTypeImage'];
+    payTypeDesp = json['PayTypeDesp'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['PayDetailID'] = payDetailID;
+    data['PayTypeID'] = payTypeID;
+    data['PayTypeCode'] = payTypeCode;
+    data['PayTypeName'] = payTypeName;
+    data['Remark'] = remark;
+    data['PayAmount'] = payAmount;
+    data['CashChange'] = cashChange;
+    data['PayTypeImage'] = payTypeImage;
+    data['PayTypeDesp'] = payTypeDesp;
     return data;
   }
 }
@@ -401,6 +650,80 @@ class TranData {
     data['PickUpFromTime'] = pickUpFromTime;
     data['PickUpToTime'] = pickUpToTime;
     data['DecimalDigit'] = decimalDigit;
+    return data;
+  }
+}
+
+class ResponseObj2 {
+  ReceiptInfo? receiptInfo;
+  var printInfo;
+  List<MoreInfo>? moreInfo;
+
+  ResponseObj2({this.receiptInfo, this.printInfo, this.moreInfo});
+
+  ResponseObj2.fromJson(Map<String, dynamic> json) {
+    receiptInfo = json['ReceiptInfo'] != null
+        ? ReceiptInfo.fromJson(json['ReceiptInfo'])
+        : null;
+    printInfo = json['PrintInfo'];
+    if (json['MoreInfo'] != null) {
+      moreInfo = <MoreInfo>[];
+      json['MoreInfo'].forEach((v) {
+        moreInfo!.add(MoreInfo.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (receiptInfo != null) {
+      data['ReceiptInfo'] = receiptInfo!.toJson();
+    }
+    data['PrintInfo'] = printInfo;
+    if (moreInfo != null) {
+      data['MoreInfo'] = moreInfo!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ReceiptInfo {
+  String? receiptHtml;
+  String? receiptCopyHtml;
+  int? noPrintCopy;
+
+  ReceiptInfo({this.receiptHtml, this.receiptCopyHtml, this.noPrintCopy});
+
+  ReceiptInfo.fromJson(Map<String, dynamic> json) {
+    receiptHtml = json['ReceiptHtml'];
+    receiptCopyHtml = json['ReceiptCopyHtml'];
+    noPrintCopy = json['NoPrintCopy'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ReceiptHtml'] = receiptHtml;
+    data['ReceiptCopyHtml'] = receiptCopyHtml;
+    data['NoPrintCopy'] = noPrintCopy;
+    return data;
+  }
+}
+
+class MoreInfo {
+  String? dataType;
+  String? dataHtml;
+
+  MoreInfo({this.dataType, this.dataHtml});
+
+  MoreInfo.fromJson(Map<String, dynamic> json) {
+    dataType = json['DataType'];
+    dataHtml = json['DataHtml'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['DataType'] = dataType;
+    data['DataHtml'] = dataHtml;
     return data;
   }
 }

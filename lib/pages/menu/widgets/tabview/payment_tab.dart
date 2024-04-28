@@ -56,9 +56,6 @@ Future dialogPayment(BuildContext context,
   menuRead!.clearPaymentField();
   switch (payTypeId) {
     case 2:
-      if (menuWatch!.payAmountList!.isEmpty) {
-        menuWatch.dueCreditController.text = menuWatch.getDueAmountCurrent;
-      }
       dialogCredit(context,
           payTypeId: payTypeId,
           payTypeName: payTypeName,
@@ -78,7 +75,8 @@ Future<void> dialogCredit(BuildContext context,
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
-      menuWatch!.dueAmountController.text = menuWatch.getDueAmountCurrent;
+      menuWatch!.dueAmountController.text =
+          menuWatch.transactionModel!.responseObj!.dueAmount.toString();
       return Dialog(
         child: Padding(
           padding:
@@ -148,34 +146,6 @@ Future<void> dialogCredit(BuildContext context,
                           '${LocaleKeys.due_amount.tr()} : ',
                           size: 16),
                     ),
-                    SizedBox(width: Constants().screenWidth(context) * 0.008),
-                    SizedBox(
-                      width: Constants().screenWidth(context) * 0.15,
-                      height: Constants().screenheight(context) * 0.05,
-                      child: TextField(
-                        controller: menuWatch.dueCreditController,
-                        readOnly: true,
-                        textAlign: TextAlign.end,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          isDense: true,
-                          contentPadding: const EdgeInsets.all(8),
-                          suffixText: ' THB.',
-                          filled: true,
-                          fillColor: Colors.grey.withOpacity(0.2),
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            borderSide: BorderSide(color: Colors.black26),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            borderSide: BorderSide(color: Colors.black26),
-                          ),
-                        ),
-                        style: const TextStyle(
-                            color: Constants.textColor, fontSize: 20),
-                      ),
-                    ),
                   ],
                 ),
                 SizedBox(height: Constants().screenheight(context) * 0.02),
@@ -243,9 +213,9 @@ Future<void> dialogCredit(BuildContext context,
                         onPressed: () async {
                           double price =
                               double.parse(menuWatch.payAmountCredit.text);
-                          double dueAmount =
-                              double.parse(menuWatch.dueCreditController.text);
-                          if (price > dueAmount) {
+                          if (price >
+                              menuWatch
+                                  .transactionModel!.responseObj!.dueAmount!) {
                             LoadingStyle().dialogError(context,
                                 error: LocaleKeys
                                     .cannot_do_payment_for_amount_more_than_due_amount
@@ -253,12 +223,13 @@ Future<void> dialogCredit(BuildContext context,
                                 isPopUntil: false);
                           } else {
                             await menuRead!
-                                .managePayAmountList(context, 'add',
+                                .paymentMulti(
+                                    context: context,
                                     payTypeId: payTypeId,
                                     payCode: payTypeCode,
                                     payName: payTypeName,
                                     payRemark: menuWatch.paymentRemark.text,
-                                    price: menuWatch.payAmountCredit.text)
+                                    payAmount: menuWatch.payAmountCredit.text)
                                 .then((value) => Navigator.maybePop(context));
                           }
                         },
@@ -341,7 +312,7 @@ SizedBox paymentList(
   return SizedBox(
     height: Constants().screenheight(context) * 0.3,
     child: SingleChildScrollView(
-      child: menuWatch.payAmountList!.isEmpty
+      child: menuWatch.transactionModel!.responseObj!.paymentList!.isEmpty
           ? Container(
               margin: EdgeInsets.only(
                   top: Constants().screenheight(context) * 0.07),
@@ -351,7 +322,7 @@ SizedBox paymentList(
           : Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: List.generate(
-                menuWatch.payAmountList!.length,
+                menuWatch.transactionModel!.responseObj!.paymentList!.length,
                 (index) => Slidable(
                   endActionPane: ActionPane(
                     motion: const BehindMotion(),
@@ -359,8 +330,8 @@ SizedBox paymentList(
                       SlidableAction(
                         flex: 1,
                         onPressed: (context) {
-                          menuRead.managePayAmountList(context, 'remove',
-                              indexForRemove: index);
+                          // menuRead.managePayAmountList(context, 'remove',
+                          //     indexForRemove: index);
                         },
                         backgroundColor: Colors.redAccent,
                         foregroundColor: Colors.white,
@@ -378,7 +349,8 @@ SizedBox paymentList(
                           child: Container(
                             alignment: Alignment.center,
                             child: AppTextStyle().textNormal(
-                                menuWatch.payAmountList![index].payName!,
+                                menuWatch.transactionModel!.responseObj!
+                                    .paymentList![index].payTypeName!,
                                 size:
                                     Constants().screenheight(context) * 0.025),
                           ),
@@ -388,7 +360,8 @@ SizedBox paymentList(
                           child: Container(
                             alignment: Alignment.center,
                             child: AppTextStyle().textNormal(
-                                menuWatch.payAmountList![index].payRemark!,
+                                menuWatch.transactionModel!.responseObj!
+                                    .paymentList![index].remark!,
                                 size:
                                     Constants().screenheight(context) * 0.025),
                           ),
@@ -398,7 +371,8 @@ SizedBox paymentList(
                           child: Container(
                             alignment: Alignment.center,
                             child: AppTextStyle().textNormal(
-                                menuWatch.payAmountList![index].price
+                                menuWatch.transactionModel!.responseObj!
+                                    .paymentList![index].payAmount
                                     .toString(),
                                 size:
                                     Constants().screenheight(context) * 0.025),
@@ -465,7 +439,7 @@ Container totalPayAmount(
                     borderRadius: BorderRadius.circular(10)),
               ),
               onPressed: () {
-                menuRead.managePayAmountList(context, 'clear');
+                // menuRead.managePayAmountList(context, 'clear');
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -486,15 +460,14 @@ Container totalPayAmount(
           flex: 1,
           child: Container(
             alignment: Alignment.centerRight,
-            child: AppTextStyle().textBold(
-                '${LocaleKeys.total_pay_amount.tr()} :  ',
+            child: AppTextStyle().textBold('Due Amount :  ',
                 size: Constants().screenheight(context) * 0.023),
           ),
         ),
         Expanded(
           flex: 1,
           child: TextField(
-            controller: menuWatch.totalPayListController,
+            controller: menuWatch.dueAmountController,
             readOnly: true,
             textAlign: TextAlign.end,
             keyboardType: TextInputType.number,
@@ -581,11 +554,12 @@ Container inputTextField(
               ),
               onPressed: () {
                 if (menuWatch.payAmountController.text.isNotEmpty) {
-                  menuRead.managePayAmountList(context, 'add',
+                  menuRead.paymentMulti(
+                      context: context,
                       payCode: 'CS',
                       payTypeId: 1,
                       payName: 'Cash',
-                      price: menuWatch.payAmountController.text);
+                      payAmount: menuWatch.payAmountController.text);
                 }
               },
               child: Padding(
@@ -624,11 +598,6 @@ Expanded listPaymentType(
                                 .textBold(e.currencyCode!, size: 16),
                           ))
                       .toList(),
-                  // menuWatch.currencyitems
-                  //     .map((String item) => DropdownMenuItem<String>(
-                  //         value: item,
-                  //         child: AppTextStyle().textBold(item, size: 16)))
-                  //     .toList(),
                   value: menuWatch.getValueCurrency,
                   onChanged: (value) {},
                   buttonStyleData: ButtonStyleData(

@@ -24,7 +24,7 @@ GestureDetector btnLogin(
               isPopUntil: false,
               error: 'Please setting your "Base url" in Configuration');
         } else {
-          if (configPvd.deviceIdController.text.isEmpty) {
+          if (loginWatch.deviceController.text.isEmpty) {
             openDeviceIdDialog(context, loginWatch, loginRead);
           } else {
             LoadingStyle().dialogLoadding(context);

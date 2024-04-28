@@ -8,13 +8,14 @@ Row orderTitle(BuildContext context, MenuProvider menuWatch) {
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: <Widget>[
       Container(
-        child: AppTextStyle().textBold(menuWatch.getSaleModeName,
+        child: AppTextStyle().textBold(
+           '',
             size: Constants().screenheight(context) * 0.027),
       ),
       Container(
-        child: menuWatch.productAddModel != null &&
-                menuWatch.productAddModel!.responseCode!.isEmpty
-            ? AppTextStyle().textBold(menuWatch.getDueAmountCurrent,
+        child: menuWatch.transactionModel!.responseCode!.isEmpty
+            ? AppTextStyle().textBold(
+                menuWatch.transactionModel!.responseObj!.dueAmount.toString(),
                 size: Constants().screenheight(context) * 0.027)
             : AppTextStyle().textBold('0.00',
                 size: Constants().screenheight(context) * 0.027),
