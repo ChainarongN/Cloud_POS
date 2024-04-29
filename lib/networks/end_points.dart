@@ -27,4 +27,7 @@ class Endpoints {
   static const String promotionCancel = "api/POSModule/Promotion_Cancel";
   static const String orderProcess = "api/POSModule/POS_OrderProcess";
   static const String authInfo = "api/POSModule/POS_AuthInfo";
+  static const String holdBill = "api/POSModule/POS_HoldBill";
+  static const String holdBillSearch = "api/POSModule/POS_HoldBillSearch";
+  static const String unHoldBill = "api/POSModule/POS_UnHoldBill";
 }

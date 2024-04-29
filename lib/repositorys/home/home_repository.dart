@@ -7,6 +7,53 @@ import 'package:cloud_pos/service/shared_pref.dart';
 
 class HomeRepository implements IHomeRepository {
   @override
+  Future unHoldBill({String? langID, String? orderId}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    int staffId = await SharedPref().getStaffID();
+    String deviceId = await SharedPref().getDeviceId();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceId,
+      "LangID": langID,
+      "OrderId": orderId,
+      "StaffID": staffId,
+    };
+    var response = await APIService().postParams(
+        param: param,
+        token: token,
+        url: Endpoints.unHoldBill,
+        actionBy: 'unHoldBill');
+    return response;
+  }
+
+  @override
+  Future holdBillSearch({String? langID}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    int staffId = await SharedPref().getStaffID();
+    int shopId = await SharedPref().getShopID();
+    int computerId = await SharedPref().getComputerID();
+    String saleDate = await SharedPref().getSaleDate();
+    String deviceId = await SharedPref().getDeviceId();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceId,
+      "LangID": langID,
+      "SaleDate": saleDate,
+      "ShopID": shopId,
+      "StaffID": staffId,
+      "ComputerID": computerId
+    };
+    var response = await APIService().postParams(
+        param: param,
+        token: token,
+        url: Endpoints.holdBillSearch,
+        actionBy: 'holdBillSearch');
+    return response;
+  }
+
+  @override
   Future openTransaction(
       {String? langID, int? saleModeId, int? noCustomer}) async {
     String uuid = await SharedPref().getUuid();

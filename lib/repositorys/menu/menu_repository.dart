@@ -7,6 +7,58 @@ import 'package:cloud_pos/service/shared_pref.dart';
 
 class MenuRepository implements IMenuRepository {
   @override
+  Future authInfo(
+      {String? langID,
+      String? authType,
+      String? username,
+      String? password}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceId,
+      "LangID": langID,
+      "AuthType": authType,
+      "username": username,
+      "password": password,
+    };
+    var response = await APIService().postParams(
+        url: Endpoints.authInfo,
+        param: param,
+        token: token,
+        actionBy: 'authInfo');
+    return response;
+  }
+
+  @override
+  Future holdBill(
+      {String? langID,
+      String? orderId,
+      String? customerName,
+      String? customerMobile}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    int staffId = await SharedPref().getStaffID();
+    String deviceId = await SharedPref().getDeviceId();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceId,
+      "LangID": '1',
+      "OrderId": orderId,
+      "CustomerName": customerName,
+      "CustomerMobile": customerMobile,
+      "StaffID": staffId,
+    };
+    var response = await APIService().postParams(
+        url: Endpoints.holdBill,
+        param: param,
+        token: token,
+        actionBy: 'holdBill');
+    return response;
+  }
+
+  @override
   Future orderProcess(
       {String? langID,
       String? tranData,

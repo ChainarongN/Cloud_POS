@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'package:cloud_pos/models/hold_bill_search_model.dart';
 import 'package:cloud_pos/pages/home/functions/detect_home_func.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/models/open_tran_model.dart';
@@ -24,6 +25,7 @@ class HomeProvider extends ChangeNotifier {
   bool loading = false;
   SaleModeData? saleModeData;
   OpenTranModel? openTranModel;
+  HoldBillSearchModel? holdBillSearchModel;
   List<SaleModeData>? saleModeDataList;
   final TextEditingController _customerCount = TextEditingController();
 
@@ -47,6 +49,20 @@ class HomeProvider extends ChangeNotifier {
     await readSaleModeFile();
     String key = await SharedPref().getSessionKey();
     Constants().printWarning("session_key : $key");
+  }
+
+  Future holdBillSearch(BuildContext context) async {
+    apisState = ApiState.LOADING;
+    var response = await _homeRepository.holdBillSearch(langID: '1');
+    holdBillSearchModel =
+        await DetectHomeFunc().detectHoldBillSearch(context, response);
+  }
+
+  Future unHoldBill(BuildContext context, String orderId) async {
+    apisState = ApiState.LOADING;
+    var response =
+        await _homeRepository.unHoldBill(langID: '1', orderId: orderId);
+    openTranModel = await DetectHomeFunc().detectOpenTran(context, response);
   }
 
   Future openTransaction(BuildContext context, int index) async {

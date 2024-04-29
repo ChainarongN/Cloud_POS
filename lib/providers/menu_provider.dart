@@ -2,9 +2,11 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:cloud_pos/models/auth_Info_model.dart';
 import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/models/coupon_inquiry_model.dart';
+import 'package:cloud_pos/models/hold_bill_model.dart';
 import 'package:cloud_pos/models/member_data_model.dart';
 import 'package:cloud_pos/models/transaction_model.dart';
 import 'package:cloud_pos/models/product_obj_model.dart';
@@ -50,8 +52,16 @@ class MenuProvider extends ChangeNotifier {
   CouponInquiryModel? couponInquiryModel;
   TransactionModel? transactionModel;
   MemberDataModel? memberDataModel;
+  AuthInfoModel? authInfoModel;
+  HoldBillModel? holdBillModel;
   int? _valueMenuSelect, _valueCurrencyId, _valueFavGroup;
-  String? _valueReasonGroupSelect, _htmlOrderSummary, _valueCurrency;
+  String? _valueReasonGroupSelect,
+      _htmlOrderSummary,
+      _valueCurrency,
+      holdBillName,
+      holdBillPhone,
+      usernameCancel,
+      passwordCancel;
   String _exceptionText = '';
   final TextEditingController reasonController = TextEditingController();
   final TextEditingController valueIdReason = TextEditingController();
@@ -189,6 +199,25 @@ class MenuProvider extends ChangeNotifier {
   //   }
   //   notifyListeners();
   // }
+  Future authInfo(BuildContext context) async {
+    apiState = ApiState.LOADING;
+    var response = await _menuRepository.authInfo(
+        langID: '1',
+        authType: 'cancelbill',
+        username: usernameCancel,
+        password: passwordCancel);
+    authInfoModel = await DetectMenuFunc().detectAuthInfo(context, response);
+  }
+
+  Future holdBill(BuildContext context) async {
+    apiState = ApiState.LOADING;
+    var response = await _menuRepository.holdBill(
+        langID: '1',
+        orderId: transactionModel!.responseObj!.tranData!.orderID,
+        customerName: holdBillName,
+        customerMobile: holdBillPhone);
+    holdBillModel = await DetectMenuFunc().detectHoldBill(context, response);
+  }
 
   Future addProductToList(BuildContext context, int prodId, double count,
       String orderDetailId) async {
@@ -408,12 +437,12 @@ class MenuProvider extends ChangeNotifier {
 
   Future addReasonText(int index) async {
     if (reasonController.text == '' && valueIdReason.text == '') {
-      reasonController.text = reasonModel!.responseObj![index].text!;
-      valueIdReason.text = reasonModel!.responseObj![index].iD!.toString();
+      reasonController.text = authInfoModel!.responseObj2![index].text!;
+      valueIdReason.text = authInfoModel!.responseObj2![index].iD!.toString();
     } else {
-      reasonController.text += ', ${reasonModel!.responseObj![index].text!}';
+      reasonController.text += ', ${authInfoModel!.responseObj2![index].text!}';
       valueIdReason.text +=
-          ',${reasonModel!.responseObj![index].iD!.toString()}';
+          ',${authInfoModel!.responseObj2![index].iD!.toString()}';
     }
     notifyListeners();
   }

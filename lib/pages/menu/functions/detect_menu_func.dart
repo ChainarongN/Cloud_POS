@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:cloud_pos/models/auth_Info_model.dart';
 import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/coupon_inquiry_model.dart';
+import 'package:cloud_pos/models/hold_bill_model.dart';
 import 'package:cloud_pos/models/member_data_model.dart';
 import 'package:cloud_pos/models/transaction_model.dart';
 import 'package:cloud_pos/models/product_obj_model.dart';
@@ -49,6 +51,71 @@ class DetectMenuFunc {
   //   }
   //   return productAddModel!;
   // }
+  Future<AuthInfoModel> detectAuthInfo(
+      BuildContext context, var response) async {
+    var menuProvider = Provider.of<MenuProvider>(context, listen: false);
+    AuthInfoModel? authInfoModel;
+    try {
+      if (response is Failure) {
+        menuProvider.apiState = ApiState.ERROR;
+        LoadingStyle().dialogError(context,
+            error: response.errorResponse.toString(),
+            isPopUntil: true,
+            popToPage: '/menuPage');
+      } else {
+        authInfoModel = AuthInfoModel.fromJson(jsonDecode(response));
+        if (authInfoModel.responseCode!.isEmpty) {
+          menuProvider.apiState = ApiState.COMPLETED;
+          Constants().printCheckFlow(response, 'AuthInfoModel');
+        } else {
+          menuProvider.apiState = ApiState.ERROR;
+          LoadingStyle().dialogError(context,
+              error: authInfoModel.responseText,
+              isPopUntil: true,
+              popToPage: '/menuPage');
+        }
+      }
+    } catch (e, strack) {
+      Constants().printError('$e - $strack');
+      menuProvider.apiState = ApiState.ERROR;
+      LoadingStyle().dialogError(context,
+          error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
+    }
+    return authInfoModel!;
+  }
+
+  Future<HoldBillModel> detectHoldBill(
+      BuildContext context, var response) async {
+    var menuProvider = Provider.of<MenuProvider>(context, listen: false);
+    HoldBillModel? holdBillModel;
+    try {
+      if (response is Failure) {
+        menuProvider.apiState = ApiState.ERROR;
+        LoadingStyle().dialogError(context,
+            error: response.errorResponse.toString(),
+            isPopUntil: true,
+            popToPage: '/menuPage');
+      } else {
+        holdBillModel = HoldBillModel.fromJson(jsonDecode(response));
+        if (holdBillModel.responseCode!.isEmpty) {
+          menuProvider.apiState = ApiState.COMPLETED;
+          Constants().printCheckFlow(response, 'holdBill');
+        } else {
+          menuProvider.apiState = ApiState.ERROR;
+          LoadingStyle().dialogError(context,
+              error: holdBillModel.responseText,
+              isPopUntil: true,
+              popToPage: '/menuPage');
+        }
+      }
+    } catch (e, strack) {
+      Constants().printError('$e - $strack');
+      menuProvider.apiState = ApiState.ERROR;
+      LoadingStyle().dialogError(context,
+          error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
+    }
+    return holdBillModel!;
+  }
 
   Future<ProductObjModel> detectProductObj(
       BuildContext context, var response) async {

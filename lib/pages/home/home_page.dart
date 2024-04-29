@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Clound Pos'),
       ),
-      drawer: drawer(context),
+      drawer: drawer(context, homeWatch, homeRead),
       body: homeWatch.apisState == ApiState.LOADING ||
               homeWatch.saleModeDataList!.isEmpty
           ? const LoaddingData()

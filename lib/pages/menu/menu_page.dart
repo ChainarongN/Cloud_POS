@@ -44,22 +44,13 @@ class _MenuPageState extends State<MenuPage>
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
-              LoadingStyle().confirmDialog2(context,
-                  title: LocaleKeys.cancel_transaction.tr(),
-                  detail: LocaleKeys.You_need_cancel_transaction.tr(),
-                  onPressed: () {
-                Navigator.maybePop(context).then((value) {
-                  menuRead.clearReasonText();
-                  menuRead.setExceptionText('');
-                  reasonDialog(context);
-                });
-              });
+              openConfCancel(context, menuRead);
             }),
         actions: <Widget>[
           member(context, menuRead, menuWatch),
           employee(context),
           clonebill(context),
-          holdBill(context),
+          holdBill(context, menuRead),
         ],
       ),
       body: menuWatch.getLoading

@@ -1,4 +1,6 @@
 abstract class IMenuRepository {
+  Future authInfo(
+      {String? langID, String? authType, String? username, String? password});
   Future reason({String? langId, String? reasonId});
   Future cancelTran(
       {String? orderId,
@@ -47,4 +49,9 @@ abstract class IMenuRepository {
       String? editOrderID,
       String? orderQty,
       String? productID});
+  Future holdBill(
+      {String? langID,
+      String? orderId,
+      String? customerName,
+      String? customerMobile});
 }

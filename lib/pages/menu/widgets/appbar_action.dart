@@ -37,10 +37,10 @@ Container clonebill(BuildContext context) {
   );
 }
 
-GestureDetector holdBill(BuildContext context) {
+GestureDetector holdBill(BuildContext context, MenuProvider menuRead) {
   return GestureDetector(
     onTap: () {
-      openHoldBillDialog(context);
+      openHoldBillDialog(context, menuRead);
     },
     child: Container(
       alignment: Alignment.center,
@@ -112,7 +112,7 @@ GestureDetector member(
           Navigator.pop(context);
           if (menuWatch.transactionModel!.responseObj!.tranData!.memberID ==
               0) {
-            openNumberDialog(context, menuWatch, menuRead);
+            openNumberMemberDialog(context, menuWatch, menuRead);
           } else {
             menuRead
                 .memberData(context,
@@ -158,23 +158,68 @@ GestureDetector member(
   );
 }
 
-Future<void> openHoldBillDialog(BuildContext context) {
+Future<void> openHoldBillDialog(BuildContext context, MenuProvider menuRead) {
   return showDialog<void>(
     context: context,
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
         content: SizedBox(
-          height: Constants().screenheight(context) * 0.35,
+          height: Constants().screenheight(context) * 0.24,
           width: Constants().screenWidth(context) * 0.3,
-          child: Column(
-            children: <Widget>[],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                TextField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.3),
+                    labelText: 'Name',
+                    border: Constants().myinputborder(), //normal border
+                    enabledBorder: Constants().myinputborder(), //enabled border
+                    focusedBorder: Constants().myfocusborder(), //focused border
+                  ),
+                  style: TextStyle(
+                      color: Constants.textColor,
+                      fontSize: Constants().screenheight(context) * 0.024),
+                  onChanged: (value) {
+                    menuRead.holdBillName = value;
+                  },
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                TextField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.3),
+                    labelText: 'Phone Number',
+                    border: Constants().myinputborder(), //normal border
+                    enabledBorder: Constants().myinputborder(), //enabled border
+                    focusedBorder: Constants().myfocusborder(), //focused border
+                  ),
+                  style: TextStyle(
+                      color: Constants.textColor,
+                      fontSize: Constants().screenheight(context) * 0.024),
+                  onChanged: (value) {
+                    menuRead.holdBillPhone = value;
+                  },
+                ),
+              ],
+            ),
           ),
         ),
         actions: <Widget>[
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.ok.tr(), size: 18),
-            onPressed: () async {},
+            onPressed: () async {
+              LoadingStyle().dialogLoadding(context);
+              menuRead.holdBill(context).then((value) {
+                if (menuRead.apiState == ApiState.COMPLETED) {
+                  Navigator.of(context)
+                      .popUntil(ModalRoute.withName("/homePage"));
+                }
+              });
+            },
           ),
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
@@ -189,7 +234,7 @@ Future<void> openHoldBillDialog(BuildContext context) {
   );
 }
 
-Future<void> openNumberDialog(
+Future<void> openNumberMemberDialog(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
   menuRead.clearField();
   return showDialog<void>(

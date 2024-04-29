@@ -21,8 +21,8 @@ Future<void> reasonDialog(BuildContext context) {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              groupMenu(context, dataProvider),
-              const VerticalDivider(thickness: 1),
+              // groupMenu(context, dataProvider),
+              // const VerticalDivider(thickness: 1),
               detailReason(context, dataProvider),
               resultData(context, dataProvider)
             ],
@@ -54,6 +54,90 @@ Future<void> reasonDialog(BuildContext context) {
         ],
       ),
     ),
+  );
+}
+
+Future<void> openConfCancel(BuildContext context, MenuProvider menuRead) {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return AlertDialog(
+        content: SizedBox(
+          height: Constants().screenheight(context) * 0.24,
+          width: Constants().screenWidth(context) * 0.3,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                TextField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.3),
+                    labelText: 'Username',
+                    border: Constants().myinputborder(), //normal border
+                    enabledBorder: Constants().myinputborder(), //enabled border
+                    focusedBorder: Constants().myfocusborder(), //focused border
+                    prefixIcon: const Padding(
+                      padding: EdgeInsets.only(left: 25, right: 15),
+                      child: Icon(Icons.people),
+                    ),
+                  ),
+                  style: TextStyle(
+                      color: Constants.textColor,
+                      fontSize: Constants().screenheight(context) * 0.024),
+                  onChanged: (value) {
+                    menuRead.usernameCancel = value;
+                  },
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                TextField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.3),
+                    labelText: 'Password',
+                    border: Constants().myinputborder(), //normal border
+                    enabledBorder: Constants().myinputborder(), //enabled border
+                    focusedBorder: Constants().myfocusborder(), //focused border
+                    prefixIcon: const Padding(
+                      padding: EdgeInsets.only(left: 25, right: 15),
+                      child: Icon(Icons.lock),
+                    ),
+                  ),
+                  style: TextStyle(
+                      color: Constants.textColor,
+                      fontSize: Constants().screenheight(context) * 0.024),
+                  onChanged: (value) {
+                    menuRead.passwordCancel = value;
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: AppTextStyle().textNormal(LocaleKeys.ok.tr(), size: 18),
+            onPressed: () async {
+              LoadingStyle().dialogLoadding(context);
+              await menuRead.authInfo(context);
+              Navigator.maybePop(context).then((value) {
+                menuRead.clearReasonText();
+                menuRead.setExceptionText('');
+                reasonDialog(context);
+              });
+            },
+          ),
+          TextButton(
+            child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
+                size: 18, color: Colors.red),
+            onPressed: () async {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      );
+    },
   );
 }
 
@@ -138,8 +222,8 @@ SizedBox detailReason(BuildContext context, MenuProvider dataProvider) {
   return SizedBox(
     height: Constants().screenheight(context),
     width: Constants().screenWidth(context) * 0.44,
-    child: dataProvider.reasonModel == null ||
-            dataProvider.reasonModel!.responseCode!.isNotEmpty
+    child: dataProvider.authInfoModel == null ||
+            dataProvider.authInfoModel!.responseCode!.isNotEmpty
         ? Center(
             child: AppTextStyle()
                 .textNormal(LocaleKeys.something_wrong_please_try_again.tr()),
@@ -148,7 +232,7 @@ SizedBox detailReason(BuildContext context, MenuProvider dataProvider) {
             child: Wrap(
               runSpacing: 10,
               children: List.generate(
-                dataProvider.reasonModel!.responseObj!.length,
+                dataProvider.authInfoModel!.responseObj2!.length,
                 (index) => GestureDetector(
                   onTap: () => dataProvider.addReasonText(index),
                   child: Container(
@@ -161,7 +245,8 @@ SizedBox detailReason(BuildContext context, MenuProvider dataProvider) {
                             const Color.fromARGB(255, 254, 144, 190),
                         selected: false,
                         widget: AppTextStyle().textNormal(
-                            dataProvider.reasonModel!.responseObj![index].text!,
+                            dataProvider
+                                .authInfoModel!.responseObj2![index].text!,
                             size: Constants().screenheight(context) * 0.02,
                             color: Colors.white)),
                   ),
