@@ -199,13 +199,27 @@ class MenuProvider extends ChangeNotifier {
   //   }
   //   notifyListeners();
   // }
+  Future paymentCancel(BuildContext context, String payDetailId) async {
+    apiState = ApiState.LOADING;
+    var response = await _menuRepository.paymentCancel(
+        langID: '1',
+        payDetailId: payDetailId,
+        tranData: json.encode(transactionModel!.responseObj!.tranData));
+    transactionModel = await DetectMenuFunc()
+        .detectTransaction(context, response, 'paymentCancel');
+    notifyListeners();
+  }
+
   Future authInfo(BuildContext context) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.authInfo(
         langID: '1',
         authType: 'cancelbill',
-        username: usernameCancel,
-        password: passwordCancel);
+        username: 'vtec',
+        password: 'vtecsystem'
+        // username: usernameCancel,
+        // password: passwordCancel,
+        );
     authInfoModel = await DetectMenuFunc().detectAuthInfo(context, response);
   }
 
@@ -254,7 +268,7 @@ class MenuProvider extends ChangeNotifier {
         couponSN: couponInquiryModel!.responseObj!.voucherSN,
         tranData: json.encode(transactionModel!.responseObj!.tranData));
     transactionModel = await DetectMenuFunc()
-        .detectOrderSummary(context, response, 'eCouponApply');
+        .detectTransaction(context, response, 'eCouponApply');
     notifyListeners();
   }
 
@@ -268,7 +282,7 @@ class MenuProvider extends ChangeNotifier {
       tranData: json.encode(transactionModel!.responseObj!.tranData),
     );
     transactionModel = await DetectMenuFunc()
-        .detectOrderSummary(context, response, 'promotionCancel');
+        .detectTransaction(context, response, 'promotionCancel');
     notifyListeners();
   }
 
@@ -277,7 +291,7 @@ class MenuProvider extends ChangeNotifier {
     var response = await _menuRepository.orderSummary(
         orderId: transactionModel!.responseObj!.tranData!.orderID);
     transactionModel = await DetectMenuFunc()
-        .detectOrderSummary(context, response, 'orderSummary');
+        .detectTransaction(context, response, 'orderSummary');
     if (apiState == ApiState.COMPLETED) {
       _htmlOrderSummary =
           transactionModel!.responseObj2!.receiptInfo!.receiptHtml;
@@ -291,7 +305,7 @@ class MenuProvider extends ChangeNotifier {
       tranData: json.encode(transactionModel!.responseObj!.tranData),
     );
     transactionModel = await DetectMenuFunc()
-        .detectOrderSummary(context, response, 'finalizeBill');
+        .detectTransaction(context, response, 'finalizeBill');
     if (apiState == ApiState.COMPLETED) {
       await LoadingStyle().dialogPayment2(context,
           text: transactionModel!.responseObj!.paymentList!.last.cashChange
@@ -319,7 +333,7 @@ class MenuProvider extends ChangeNotifier {
         payRemark: payRemark ?? '');
 
     transactionModel = await DetectMenuFunc()
-        .detectOrderSummary(context, response, 'paymentSubmit');
+        .detectTransaction(context, response, 'paymentSubmit');
     if (apiState == ApiState.COMPLETED) {
       dueAmountController.text =
           transactionModel!.responseObj!.dueAmount.toString();
@@ -333,7 +347,7 @@ class MenuProvider extends ChangeNotifier {
       var response = await _menuRepository.productAdd(
           prodObj: json.encode(productObjModel!.responseObj));
       transactionModel = await DetectMenuFunc()
-          .detectOrderSummary(context, response, 'productAdd');
+          .detectTransaction(context, response, 'productAdd');
     } catch (e, strack) {
       apiState = ApiState.ERROR;
       Constants().printError(strack.toString());
@@ -360,7 +374,7 @@ class MenuProvider extends ChangeNotifier {
           productID: productId,
           tranData: json.encode(transactionModel!.responseObj!.tranData));
       transactionModel = await DetectMenuFunc()
-          .detectOrderSummary(context, response, 'orderProcess');
+          .detectTransaction(context, response, 'orderProcess');
       if (apiState == ApiState.COMPLETED) {
         Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
       }
@@ -391,7 +405,8 @@ class MenuProvider extends ChangeNotifier {
         langId: '1',
         orderId: transactionModel!.responseObj!.orderID,
         reasonIDList: valueIdReason.text,
-        reasonText: reasonTextController.text);
+        reasonText: reasonTextController.text,
+        staffId: authInfoModel!.responseObj!.staffInfo!.staffID.toString());
     cancelTranModel =
         await DetectMenuFunc().detectCancelTran(context, response);
     if (apiState == ApiState.COMPLETED) {
@@ -423,7 +438,7 @@ class MenuProvider extends ChangeNotifier {
       tranData: json.encode(transactionModel!.responseObj!.tranData),
     );
     transactionModel = await DetectMenuFunc()
-        .detectOrderSummary(context, response, 'memberApply');
+        .detectTransaction(context, response, 'memberApply');
   }
 
   Future memberCancel(BuildContext context) async {
@@ -432,7 +447,7 @@ class MenuProvider extends ChangeNotifier {
       tranData: json.encode(transactionModel!.responseObj!.tranData),
     );
     transactionModel = await DetectMenuFunc()
-        .detectOrderSummary(context, response, 'memberCancel');
+        .detectTransaction(context, response, 'memberCancel');
   }
 
   Future addReasonText(int index) async {

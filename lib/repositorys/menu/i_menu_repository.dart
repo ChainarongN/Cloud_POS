@@ -1,4 +1,5 @@
 abstract class IMenuRepository {
+  Future paymentCancel({String? langID, String? tranData, String? payDetailId});
   Future authInfo(
       {String? langID, String? authType, String? username, String? password});
   Future reason({String? langId, String? reasonId});
@@ -6,7 +7,8 @@ abstract class IMenuRepository {
       {String? orderId,
       String? reasonIDList,
       String? langId,
-      String? reasonText});
+      String? reasonText,
+      String? staffId});
   Future productObj(
       {String? langID,
       String? tranData,

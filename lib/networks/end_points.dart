@@ -30,4 +30,5 @@ class Endpoints {
   static const String holdBill = "api/POSModule/POS_HoldBill";
   static const String holdBillSearch = "api/POSModule/POS_HoldBillSearch";
   static const String unHoldBill = "api/POSModule/POS_UnHoldBill";
+  static const String paymentCancel = "api/POSModule/Payment_Cancel";
 }

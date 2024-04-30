@@ -183,7 +183,7 @@ class DetectMenuFunc {
   //   return finalizeBillModel!;
   // }
 
-  Future<TransactionModel> detectOrderSummary(
+  Future<TransactionModel> detectTransaction(
       BuildContext context, var response, String action) async {
     var menuProvider = Provider.of<MenuProvider>(context, listen: false);
     TransactionModel? transactionModel;

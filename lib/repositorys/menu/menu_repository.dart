@@ -7,6 +7,28 @@ import 'package:cloud_pos/service/shared_pref.dart';
 
 class MenuRepository implements IMenuRepository {
   @override
+  Future paymentCancel(
+      {String? langID, String? tranData, String? payDetailId}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceId,
+      "LangID": langID,
+      "PayDetailID": payDetailId,
+      "ViewOrderInfo": 'true',
+    };
+    var response = await APIService().postAndData(
+        url: Endpoints.paymentCancel,
+        param: param,
+        token: token,
+        data: tranData,
+        actionBy: 'paymentCancel');
+    return response;
+  }
+
+  @override
   Future authInfo(
       {String? langID,
       String? authType,
@@ -326,11 +348,12 @@ class MenuRepository implements IMenuRepository {
       {String? orderId,
       String? reasonIDList,
       String? langId,
-      String? reasonText}) async {
+      String? reasonText,
+      String? staffId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String saleDate = await SharedPref().getSaleDate();
-    int staffId = await SharedPref().getStaffID();
+
     String deviceId = await SharedPref().getDeviceId();
     var data = {
       "reqId": uuid,
@@ -339,7 +362,7 @@ class MenuRepository implements IMenuRepository {
       "OrderId": orderId,
       "ReasonIDList": reasonIDList,
       "ReasonText": reasonText,
-      "StaffID": staffId.toString(),
+      "StaffID": staffId,
       "TodayDate": saleDate
     };
     var response = await APIService().postParams(

@@ -1,3 +1,4 @@
+import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/menu_provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -133,18 +134,6 @@ Future<void> dialogCredit(BuildContext context,
                         style: const TextStyle(
                             color: Constants.textColor, fontSize: 20),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: Constants().screenheight(context) * 0.02),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    SizedBox(
-                      width: Constants().screenWidth(context) * 0.11,
-                      child: AppTextStyle().textNormal(
-                          '${LocaleKeys.due_amount.tr()} : ',
-                          size: 16),
                     ),
                   ],
                 ),
@@ -329,9 +318,19 @@ SizedBox paymentList(
                     children: [
                       SlidableAction(
                         flex: 1,
-                        onPressed: (context) {
-                          // menuRead.managePayAmountList(context, 'remove',
-                          //     indexForRemove: index);
+                        onPressed: (contextSlidable) {
+                          LoadingStyle().dialogLoadding(context);
+                          menuRead
+                              .paymentCancel(
+                                  context,
+                                  menuWatch.transactionModel!.responseObj!
+                                      .paymentList![index].payDetailID
+                                      .toString())
+                              .then((value) {
+                            if (menuWatch.apiState == ApiState.COMPLETED) {
+                              Navigator.pop(context);
+                            }
+                          });
                         },
                         backgroundColor: Colors.redAccent,
                         foregroundColor: Colors.white,
