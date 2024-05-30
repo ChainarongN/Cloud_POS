@@ -160,45 +160,6 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future managePayAmountList(BuildContext context, String frag,
-  //     {String? payName,
-  //     String? payCode,
-  //     int? payTypeId,
-  //     String? price,
-  //     int? indexForRemove,
-  //     String? payRemark}) async {
-  //   switch (frag) {
-  //     case 'add':
-  //       payAmountList!.add(
-  //         PayAmountModel(
-  //             payTypeId: payTypeId,
-  //             payCode: payCode,
-  //             payName: payName,
-  //             price: double.parse(price!),
-  //             payRemark: payRemark ?? ''),
-  //       );
-  //       payAmountController.text = '';
-  //       break;
-  //     case 'remove':
-  //       payAmountList!.removeAt(indexForRemove!);
-  //       break;
-  //     case 'clear':
-  //       payAmountList = [];
-  //       break;
-  //   }
-  //   num sum = 0;
-  //   sum = payAmountList!
-  //       .map((e) => e.price)
-  //       .reduce((value, element) => value! + element!)!;
-  //   dueCreditController.text =
-  //       (double.parse(getDueAmountCurrent) - sum).toString();
-  //   totalPayListController.text = sum.toString();
-  //   if (sum >= double.parse(getDueAmountCurrent)) {
-  //     LoadingStyle().dialogLoadding(context);
-  //     await PaymentFunc().paymentMulti(context);
-  //   }
-  //   notifyListeners();
-  // }
   Future paymentCancel(BuildContext context, String payDetailId) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.paymentCancel(
@@ -207,7 +168,19 @@ class MenuProvider extends ChangeNotifier {
         tranData: json.encode(transactionModel!.responseObj!.tranData));
     transactionModel = await DetectMenuFunc()
         .detectTransaction(context, response, 'paymentCancel');
+    if (apiState == ApiState.COMPLETED) {
+      dueAmountController.text =
+          transactionModel!.responseObj!.dueAmount.toString();
+    }
     notifyListeners();
+  }
+
+  Future clearPaymentList(BuildContext context) async {
+    LoadingStyle().dialogLoadding(context);
+    for (var element in transactionModel!.responseObj!.paymentList!) {
+      await paymentCancel(context, element.payDetailID.toString());
+    }
+    Navigator.maybePop(context);
   }
 
   Future authInfo(BuildContext context) async {

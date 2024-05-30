@@ -438,7 +438,7 @@ Container totalPayAmount(
                     borderRadius: BorderRadius.circular(10)),
               ),
               onPressed: () {
-                // menuRead.managePayAmountList(context, 'clear');
+                menuRead.clearPaymentList(context);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
