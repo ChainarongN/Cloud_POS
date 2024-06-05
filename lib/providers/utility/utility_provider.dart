@@ -3,7 +3,7 @@ import 'package:cloud_pos/models/close_session_model.dart';
 import 'package:cloud_pos/models/end_day_model.dart';
 import 'package:cloud_pos/models/session_search_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/pages/utility/functions/detect_utility_func.dart';
+import 'package:cloud_pos/providers/utility/functions/detect_utility_func.dart';
 import 'package:cloud_pos/repositorys/utility/i_utility_repositoty.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:flutter/material.dart';

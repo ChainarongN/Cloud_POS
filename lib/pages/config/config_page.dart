@@ -2,7 +2,7 @@ import 'package:cloud_pos/pages/config/widget/other_setting.dart';
 import 'package:cloud_pos/pages/config/widget/base_url_setting.dart';
 import 'package:cloud_pos/pages/config/widget/menu_config.dart';
 import 'package:cloud_pos/pages/config/widget/printer_setting.dart';
-import 'package:cloud_pos/providers/config_provider.dart';
+import 'package:cloud_pos/providers/config/config_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';

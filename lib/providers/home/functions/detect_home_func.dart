@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cloud_pos/models/hold_bill_search_model.dart';
 import 'package:cloud_pos/models/open_tran_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/providers/home_provider.dart';
+import 'package:cloud_pos/providers/home/home_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';

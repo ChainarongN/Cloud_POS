@@ -8,7 +8,7 @@ import 'package:cloud_pos/models/login_model.dart';
 import 'package:cloud_pos/models/open_session_model.dart';
 import 'package:cloud_pos/models/start_process_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/pages/login/functions/detect_login_func.dart';
+import 'package:cloud_pos/providers/login/functions/detect_login_func.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/service/shared_pref.dart';

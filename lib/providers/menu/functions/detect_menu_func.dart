@@ -8,7 +8,7 @@ import 'package:cloud_pos/models/transaction_model.dart';
 import 'package:cloud_pos/models/product_obj_model.dart';
 import 'package:cloud_pos/models/reason_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/providers/menu_provider.dart';
+import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';

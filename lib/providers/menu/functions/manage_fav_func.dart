@@ -1,5 +1,5 @@
 import 'package:cloud_pos/models/code_init_model.dart';
-import 'package:cloud_pos/providers/menu_provider.dart';
+import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

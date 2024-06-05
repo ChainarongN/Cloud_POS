@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:cloud_pos/providers/config_provider.dart';
+import 'package:cloud_pos/providers/config/config_provider.dart';
 import 'package:cloud_pos/service/printer.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';

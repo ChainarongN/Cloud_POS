@@ -1,4 +1,4 @@
-import 'package:cloud_pos/providers/home_provider.dart';
+import 'package:cloud_pos/providers/home/home_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

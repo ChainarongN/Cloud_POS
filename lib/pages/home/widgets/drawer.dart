@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/providers/home_provider.dart';
-import 'package:cloud_pos/providers/login_provider.dart';
-import 'package:cloud_pos/providers/menu_provider.dart';
+import 'package:cloud_pos/providers/home/home_provider.dart';
+import 'package:cloud_pos/providers/login/login_provider.dart';
+import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';

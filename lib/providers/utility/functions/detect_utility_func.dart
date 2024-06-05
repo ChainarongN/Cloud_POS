@@ -4,7 +4,7 @@ import 'package:cloud_pos/models/close_session_model.dart';
 import 'package:cloud_pos/models/end_day_model.dart';
 import 'package:cloud_pos/models/session_search_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/providers/utility_provider.dart';
+import 'package:cloud_pos/providers/utility/utility_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';

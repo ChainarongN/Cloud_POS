@@ -2,11 +2,11 @@
 
 import 'dart:convert';
 import 'package:cloud_pos/models/hold_bill_search_model.dart';
-import 'package:cloud_pos/pages/home/functions/detect_home_func.dart';
+import 'package:cloud_pos/providers/home/functions/detect_home_func.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/models/open_tran_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/pages/menu/functions/read_file_func.dart';
+import 'package:cloud_pos/providers/menu/functions/read_file_func.dart';
 import 'package:cloud_pos/repositorys/home/i_home_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';

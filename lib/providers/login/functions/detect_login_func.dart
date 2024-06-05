@@ -6,7 +6,7 @@ import 'package:cloud_pos/models/login_model.dart';
 import 'package:cloud_pos/models/open_session_model.dart';
 import 'package:cloud_pos/models/start_process_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/providers/login_provider.dart';
+import 'package:cloud_pos/providers/login/login_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';

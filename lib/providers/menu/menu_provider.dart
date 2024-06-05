@@ -12,11 +12,11 @@ import 'package:cloud_pos/models/transaction_model.dart';
 import 'package:cloud_pos/models/product_obj_model.dart';
 import 'package:cloud_pos/models/reason_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/pages/menu/functions/add_product_func.dart';
-import 'package:cloud_pos/pages/menu/functions/detect_menu_func.dart';
-import 'package:cloud_pos/pages/menu/functions/manage_fav_func.dart';
-import 'package:cloud_pos/pages/menu/functions/payment_func.dart';
-import 'package:cloud_pos/pages/menu/functions/read_file_func.dart';
+import 'package:cloud_pos/providers/menu/functions/add_product_func.dart';
+import 'package:cloud_pos/providers/menu/functions/detect_menu_func.dart';
+import 'package:cloud_pos/providers/menu/functions/manage_fav_func.dart';
+import 'package:cloud_pos/providers/menu/functions/payment_func.dart';
+import 'package:cloud_pos/providers/menu/functions/read_file_func.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -24,7 +24,7 @@ import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
-import '../repositorys/repository.dart';
+import '../../repositorys/repository.dart';
 
 class MenuProvider extends ChangeNotifier {
   final IMenuRepository _menuRepository;
