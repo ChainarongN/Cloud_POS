@@ -6,7 +6,7 @@ import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-SingleChildScrollView baseUrlSetting(BuildContext context,
+SingleChildScrollView baseUrlSettingTablet(BuildContext context,
     ConfigProvider configWatch, ConfigProvider configRead) {
   return SingleChildScrollView(
     child: Column(

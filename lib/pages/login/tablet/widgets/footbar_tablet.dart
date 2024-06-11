@@ -5,7 +5,7 @@ import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-Row footbar(BuildContext context, LoginProvider loginWatch) {
+Row footbarTablet(BuildContext context, LoginProvider loginWatch) {
   // var configPvd = Provider.of<ConfigProvider>(context, listen: false);
   return Row(
     crossAxisAlignment: CrossAxisAlignment.end,

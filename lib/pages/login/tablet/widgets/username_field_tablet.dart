@@ -3,7 +3,7 @@ import 'package:cloud_pos/utils/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-Container username(BuildContext context) {
+Container usernameTablet(BuildContext context) {
   return Container(
     margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.024),
     width: Constants().screenWidth(context) * 0.3,

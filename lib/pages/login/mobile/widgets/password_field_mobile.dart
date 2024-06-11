@@ -4,14 +4,14 @@ import 'package:cloud_pos/utils/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-SizedBox password(
+SizedBox passwordMobile(
     BuildContext context, LoginProvider loginWatch, LoginProvider loginRead) {
   return SizedBox(
-    width: Constants().screenWidth(context) * 0.3,
+    width: Constants().screenWidth(context) * 0.7,
     child: TextField(
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.white.withOpacity(0.3),
+        fillColor: Colors.white.withOpacity(0.25),
         labelText: LocaleKeys.password.tr(),
         border: Constants().myinputborder(),
         enabledBorder: Constants().myinputborder(),
@@ -33,7 +33,7 @@ SizedBox password(
       obscureText: loginWatch.passwordVisible,
       style: TextStyle(
           color: Constants.textColor,
-          fontSize: Constants().screenheight(context) * 0.024),
+          fontSize: Constants().screenheight(context) * 0.018),
     ),
   );
 }

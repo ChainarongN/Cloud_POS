@@ -11,6 +11,7 @@ class Constants {
   static const INVALID_FORMAT = 102;
   static const UNKNOWN_ERROR = 103;
   static const TIME_OUT = 408;
+  static const MOBILE_WIDTH = 600;
   static const SALE_MODE_TXT = 'sale_mode.txt';
   static const PROD_GROUP_TXT = 'prod_group.txt';
   static const PROD_TXT = 'prod.txt';
@@ -35,9 +36,9 @@ class Constants {
   static const five_hundredImg = 'assets/images/five_hundred.png';
   static const thousandImg = 'assets/images/thousand.png';
 
-  double screenWidth(BuildContext context) => MediaQuery.of(context).size.width;
+  double screenWidth(BuildContext context) => MediaQuery.sizeOf(context).width;
   double screenheight(BuildContext context) =>
-      MediaQuery.of(context).size.height;
+      MediaQuery.sizeOf(context).height;
 
   int hexStringToColorFF(String hex) => int.parse("0xff$hex");
   int hexStringToColorF2(String hex) => int.parse("0xF2$hex");

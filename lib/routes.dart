@@ -1,3 +1,5 @@
+import 'package:cloud_pos/pages/config/config_page.dart';
+import 'package:cloud_pos/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'pages/page.dart';
 

@@ -5,7 +5,7 @@ import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-SingleChildScrollView menuConfig(BuildContext context,
+SingleChildScrollView menuConfigTablet(BuildContext context,
     ConfigProvider configRead, ConfigProvider configWatch) {
   return SingleChildScrollView(
     child: Column(
@@ -39,7 +39,8 @@ SingleChildScrollView menuConfig(BuildContext context,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: AppTextStyle().textNormal(LocaleKeys.base_url_setting.tr(),
-                  size: Constants().screenheight(context) * 0.03, color: Colors.white),
+                  size: Constants().screenheight(context) * 0.03,
+                  color: Colors.white),
             ),
           ),
         ),
@@ -72,7 +73,8 @@ SingleChildScrollView menuConfig(BuildContext context,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: AppTextStyle().textNormal(LocaleKeys.printer_setting.tr(),
-                  size: Constants().screenheight(context) * 0.03, color: Colors.white),
+                  size: Constants().screenheight(context) * 0.03,
+                  color: Colors.white),
             ),
           ),
         ),
@@ -101,7 +103,8 @@ SingleChildScrollView menuConfig(BuildContext context,
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: AppTextStyle().textNormal(LocaleKeys.licenes_setting.tr(),
-                size: Constants().screenheight(context) * 0.03, color: Colors.white),
+                size: Constants().screenheight(context) * 0.03,
+                color: Colors.white),
           ),
         ),
         GestureDetector(
@@ -133,7 +136,8 @@ SingleChildScrollView menuConfig(BuildContext context,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: AppTextStyle().textNormal(LocaleKeys.about_setting.tr(),
-                  size: Constants().screenheight(context) * 0.03, color: Colors.white),
+                  size: Constants().screenheight(context) * 0.03,
+                  color: Colors.white),
             ),
           ),
         ),

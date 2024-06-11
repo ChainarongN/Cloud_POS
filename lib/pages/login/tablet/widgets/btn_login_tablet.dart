@@ -13,7 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 import 'package:provider/provider.dart';
 
-GestureDetector btnLogin(
+GestureDetector btnLoginTablet(
     BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
   var configPvd = Provider.of<ConfigProvider>(context, listen: false);
   return GestureDetector(

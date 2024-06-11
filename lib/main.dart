@@ -5,6 +5,7 @@ import 'package:cloud_pos/translations/codegen_loader.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:provider/provider.dart';
@@ -37,6 +38,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var sizeWidth = MediaQuery.sizeOf(context).width;
+    if (sizeWidth < Constants.MOBILE_WIDTH) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+        // DeviceOrientation.landscapeRight,
+        // DeviceOrientation.landscapeLeft
+      ]);
+    } else {
+      SystemChrome.setPreferredOrientations([
+        // DeviceOrientation.portraitUp,
+        // DeviceOrientation.portraitDown,
+        DeviceOrientation.landscapeRight,
+        DeviceOrientation.landscapeLeft
+      ]);
+    }
     return MultiProvider(
       providers: routeProvider(),
       child: MaterialApp(

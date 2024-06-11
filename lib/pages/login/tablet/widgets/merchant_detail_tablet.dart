@@ -4,7 +4,7 @@ import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-Container merchantDetail(BuildContext context) {
+Container merchantDetailTablet(BuildContext context) {
   return Container(
     margin: EdgeInsets.only(left: Constants().screenheight(context) * 0.03),
     child: Column(
