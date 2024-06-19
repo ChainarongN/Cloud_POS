@@ -12,7 +12,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:flutter/services.dart';
 
-Row summaryBtn(
+Row summaryBtnTablet(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceAround,

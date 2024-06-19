@@ -22,8 +22,14 @@ class SharedPref {
   static const String appVersion = 'appVersion';
   static const String deviceId = 'deviceId';
   static const String keyBaseUrl = 'baseUrl';
+  static const String keyResponsiveDevice = 'ResponsiveDevice';
 
   // ----------------------------- set ------------------------------- //
+  Future setResponsiveDevice(String value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setString(keyResponsiveDevice, value);
+  }
+
   Future setAppVersion(String value) async {
     SharedPreferences prefs = await _prefs;
     await prefs.setString(appVersion, value);
@@ -105,6 +111,12 @@ class SharedPref {
   }
 
   // ----------------------------- get ------------------------------- //
+  Future<String> getResponsiveDevice() async {
+    SharedPreferences prefs = await _prefs;
+    String? result = prefs.getString(keyResponsiveDevice) ?? '';
+    return result;
+  }
+
   Future<String> getBaseUrl() async {
     SharedPreferences prefs = await _prefs;
     String? result = prefs.getString(keyBaseUrl) ?? '';

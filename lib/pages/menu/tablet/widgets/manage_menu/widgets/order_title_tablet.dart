@@ -3,7 +3,7 @@ import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 
-Row orderTitle(BuildContext context, MenuProvider menuWatch) {
+Row orderTitleTablet(BuildContext context, MenuProvider menuWatch) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: <Widget>[

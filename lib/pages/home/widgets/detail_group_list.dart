@@ -35,7 +35,9 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
               gradient4: Colors.blue.shade500,
               onPressed: () async {
                 LoadingStyle().dialogLoadding(context);
-                await homeRead.openTransaction(context, index).then((value) {
+                await homeRead
+                    .openTransaction(context, index: index)
+                    .then((value) {
                   if (homeWatch.apisState == ApiState.COMPLETED) {
                     homeRead.setCountText('1');
                     homeRead.setSex('');

@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-Center paymentTab(
+Center paymentTabTablet(
     BuildContext context, MenuProvider menuRead, MenuProvider menuWatch) {
   return Center(
     child: Padding(

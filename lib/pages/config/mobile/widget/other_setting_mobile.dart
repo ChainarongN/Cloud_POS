@@ -115,11 +115,11 @@ Container loadDataSetting(BuildContext context, ConfigProvider configRead,
             children: [
               AppTextStyle().textBold(
                 LocaleKeys.get_new_data.tr(),
-                size: Constants().screenheight(context) * 0.02,
+                size: Constants().screenWidth(context) * 0.035,
                 color: Colors.white,
               ),
               AppTextStyle().textNormal(LocaleKeys.get_new_data_detail.tr(),
-                  size: Constants().screenheight(context) * 0.016,
+                  size: Constants().screenWidth(context) * 0.025,
                   color: Colors.grey.shade100)
             ],
           ),

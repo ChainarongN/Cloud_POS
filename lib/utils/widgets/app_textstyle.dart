@@ -15,7 +15,6 @@ class AppTextStyle {
         fontSize: size,
         color: color,
         overflow: TextOverflow.fade,
-  
       ),
       maxLines: 2,
     );
@@ -30,7 +29,6 @@ class AppTextStyle {
         fontWeight: FontWeight.normal,
         fontSize: size,
         color: color,
-
         overflow: TextOverflow.fade,
       ),
       maxLines: 2,

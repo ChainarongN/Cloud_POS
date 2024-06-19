@@ -8,13 +8,16 @@ import 'package:cloud_pos/models/login_model.dart';
 import 'package:cloud_pos/models/open_session_model.dart';
 import 'package:cloud_pos/models/start_process_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
+import 'package:cloud_pos/providers/home/home_provider.dart';
 import 'package:cloud_pos/providers/login/functions/detect_login_func.dart';
+import 'package:cloud_pos/providers/menu/functions/read_file_func.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginProvider extends ChangeNotifier {
   final ILoginRepository _loginRepository;
@@ -28,6 +31,7 @@ class LoginProvider extends ChangeNotifier {
   bool _passwordVisible = false;
   bool _openSession = false;
   String? _errorText = '', versionName = '';
+  List<SaleModeData>? saleModeDataList;
   final TextEditingController openAmountController = TextEditingController();
   final TextEditingController deviceController = TextEditingController();
 
@@ -140,6 +144,7 @@ class LoginProvider extends ChangeNotifier {
   }
 
   Future checkReadCoreData(BuildContext context) async {
+    var homePvd = context.read<HomeProvider>();
     bool statusCoreData = await SharedPref().getNewDataSwitch();
     if (statusCoreData) {
       await getCoreDataInit(context, false);
@@ -150,10 +155,14 @@ class LoginProvider extends ChangeNotifier {
       if (!fileExists) {
         await getCoreDataInit(context, false);
       }
+      saleModeDataList = [];
+      await readSaleModeFile();
+      homePvd.setSaleModeData(saleModeDataList);
     }
   }
 
   Future getCoreDataInit(BuildContext context, bool loginAgain) async {
+    var homePvd = context.read<HomeProvider>();
     apisState = ApiState.LOADING;
     var response = await _loginRepository.getCoreDataDetail(
       langID: '1',
@@ -189,6 +198,9 @@ class LoginProvider extends ChangeNotifier {
               Constants.CURRENCY_INFO_TXT)
         ],
       );
+      saleModeDataList = [];
+      await readSaleModeFile();
+      homePvd.setSaleModeData(saleModeDataList);
       if (loginAgain) {
         await login(context);
       }
@@ -200,6 +212,23 @@ class LoginProvider extends ChangeNotifier {
     final Directory directory = await getApplicationDocumentsDirectory();
     final File file = File('${directory.path}/$fileName');
     await file.writeAsString(text);
+  }
+
+  Future readSaleModeFile() async {
+    try {
+      String? fileResponse =
+          await ReadFileFunc().readCoreInit(Constants.SALE_MODE_TXT);
+      saleModeDataList = (jsonDecode(fileResponse) as List)
+          .map((e) => SaleModeData.fromJson(e))
+          .toList();
+      Constants().printWarning('Read from file "${Constants.SALE_MODE_TXT}"');
+      apisState = ApiState.COMPLETED;
+    } catch (e, strack) {
+      Constants().printError('$e - $strack');
+      _errorText = e.toString();
+      apisState = ApiState.ERROR;
+    }
+    notifyListeners();
   }
 
   // --------------------------- SET ---------------------------

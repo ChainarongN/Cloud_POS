@@ -36,6 +36,9 @@ class Constants {
   static const five_hundredImg = 'assets/images/five_hundred.png';
   static const thousandImg = 'assets/images/thousand.png';
 
+  // static const headerSize =
+  static const normalSize = 0.035;
+
   double screenWidth(BuildContext context) => MediaQuery.sizeOf(context).width;
   double screenheight(BuildContext context) =>
       MediaQuery.sizeOf(context).height;

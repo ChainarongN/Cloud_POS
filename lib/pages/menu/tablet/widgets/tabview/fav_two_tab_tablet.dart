@@ -5,7 +5,7 @@ import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
 
-Center favoriteTab2(
+Center favoriteTab2Tablet(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
   return Center(
     child: Padding(

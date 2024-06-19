@@ -5,7 +5,7 @@ import 'package:cloud_pos/utils/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-Center searchTab(
+Center searchTabTablet(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
   return Center(
     child: Padding(

@@ -8,7 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-Future<void> reasonDialog(BuildContext context) {
+Future<void> reasonDialogTablet(BuildContext context) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) => Consumer<MenuProvider>(
@@ -124,7 +124,7 @@ Future<void> openConfCancel(BuildContext context, MenuProvider menuRead) {
               Navigator.maybePop(context).then((value) {
                 menuRead.clearReasonText();
                 menuRead.setExceptionText('');
-                reasonDialog(context);
+                reasonDialogTablet(context);
               });
             },
           ),

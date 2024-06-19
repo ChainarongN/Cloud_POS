@@ -15,10 +15,10 @@ Container merchantDetailMobile(BuildContext context) {
               width: Constants().screenWidth(context) * 0.4,
               child: AppTextStyle().textBold(
                   '${LocaleKeys.merchant_name.tr()} : ',
-                  size: Constants().screenheight(context) * 0.018),
+                  size: Constants().screenWidth(context) * 0.03),
             ),
             AppTextStyle().textNormal('vTec Restaurant',
-                size: Constants().screenheight(context) * 0.018)
+                size: Constants().screenWidth(context) * 0.03)
           ],
         ),
         Row(
@@ -27,9 +27,9 @@ Container merchantDetailMobile(BuildContext context) {
                 width: Constants().screenWidth(context) * 0.4,
                 child: AppTextStyle().textBold(
                     '${LocaleKeys.brand_name.tr()} : ',
-                    size: Constants().screenheight(context) * 0.018)),
+                    size: Constants().screenWidth(context) * 0.03)),
             AppTextStyle().textNormal('vTec Brand',
-                size: Constants().screenheight(context) * 0.018)
+                size: Constants().screenWidth(context) * 0.03)
           ],
         ),
         Row(
@@ -38,9 +38,9 @@ Container merchantDetailMobile(BuildContext context) {
                 width: Constants().screenWidth(context) * 0.4,
                 child: AppTextStyle().textBold(
                     '${LocaleKeys.shop_name.tr()} : ',
-                    size: Constants().screenheight(context) * 0.018)),
+                    size: Constants().screenWidth(context) * 0.03)),
             AppTextStyle().textNormal('vTec Demo Store',
-                size: Constants().screenheight(context) * 0.018)
+                size: Constants().screenWidth(context) * 0.03)
           ],
         ),
         Row(
@@ -48,9 +48,9 @@ Container merchantDetailMobile(BuildContext context) {
             SizedBox(
                 width: Constants().screenWidth(context) * 0.4,
                 child: AppTextStyle().textBold('${LocaleKeys.pos_name.tr()} : ',
-                    size: Constants().screenheight(context) * 0.018)),
+                    size: Constants().screenWidth(context) * 0.03)),
             AppTextStyle().textNormal('POS Demo',
-                size: Constants().screenheight(context) * 0.018)
+                size: Constants().screenWidth(context) * 0.03)
           ],
         ),
       ],

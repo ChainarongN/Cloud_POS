@@ -3,7 +3,7 @@ import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 
-Center menuTab(
+Center menuTabTablet(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
   return Center(
     child: Padding(

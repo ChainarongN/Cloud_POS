@@ -5,7 +5,7 @@ import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-Row orderDetail(BuildContext context, MenuProvider menuWatch) {
+Row orderDetailTablet(BuildContext context, MenuProvider menuWatch) {
   return Row(
     children: <Widget>[
       SizedBox(

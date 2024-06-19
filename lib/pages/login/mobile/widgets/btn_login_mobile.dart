@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
@@ -15,30 +17,39 @@ import 'package:provider/provider.dart';
 
 GestureDetector btnLoginMobile(
     BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
-  var configPvd = Provider.of<ConfigProvider>(context, listen: false);
+  var homePvd = Provider.of<HomeProvider>(context, listen: false);
+  var menuPvd = Provider.of<MenuProvider>(context, listen: false);
   return GestureDetector(
       onTap: () async {
         String baseUrl = await loginWatch.getBaseUrl();
         if (baseUrl.isEmpty) {
           LoadingStyle().dialogError(context,
               isPopUntil: false,
-              error: 'Please setting your "Base url" in Configuration');
+              error: 'Please setting your "Base url" in Config');
         } else {
           if (loginWatch.deviceController.text.isEmpty) {
             openDeviceIdDialog(context, loginWatch, loginRead);
           } else {
             LoadingStyle().dialogLoadding(context);
-            loginRead.flowOpen(context).then((value) {
+            loginRead.flowOpen(context).then((value) async {
               if (loginWatch.apisState == ApiState.COMPLETED) {
-                Navigator.maybePop(context);
-                Future.delayed(const Duration(milliseconds: 500), () {
-                  if (loginWatch.getOpenSession) {
-                    loginRead.openAmountController.text = '';
-                    openAmountDialog(context, loginWatch, loginRead);
-                  } else {
-                    Navigator.pushReplacementNamed(context, '/homePage');
-                  }
-                });
+                if (loginWatch.getOpenSession) {
+                  Navigator.maybePop(context);
+                  loginRead.openAmountController.text = '';
+                  openAmountDialog(context, loginWatch, loginRead);
+                } else {
+                  await homePvd.openTransaction(context).then((value) {
+                    if (homePvd.apisState == ApiState.COMPLETED) {
+                      menuPvd
+                          .setTranData(
+                              tranModel: json.encode(homePvd.openTranModel))
+                          .then((value) {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/menuPage', (route) => false);
+                      });
+                    }
+                  });
+                }
               }
             });
           }
@@ -64,17 +75,18 @@ Future<void> openDeviceIdDialog(
     BuildContext context, LoginProvider loginWatch, LoginProvider loginRead) {
   var configPvd = Provider.of<ConfigProvider>(context, listen: false);
   loginRead.deviceController.text = '';
+  var homePvd = Provider.of<HomeProvider>(context, listen: false);
+  var menuPvd = Provider.of<MenuProvider>(context, listen: false);
   return showDialog<void>(
     context: context,
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
         content: SizedBox(
-          height: Constants().screenheight(context) * 0.18,
+          height: Constants().screenheight(context) * 0.15,
           child: Column(
             children: <Widget>[
               Container(
-                width: Constants().screenWidth(context) * 0.2,
                 margin: const EdgeInsets.only(top: 10, bottom: 10),
                 child: TextField(
                   maxLength: 19,
@@ -94,7 +106,7 @@ Future<void> openDeviceIdDialog(
                   ),
                   style: TextStyle(
                       color: Constants.textColor,
-                      fontSize: Constants().screenheight(context) * 0.025),
+                      fontSize: Constants().screenheight(context) * 0.02),
                 ),
               ),
             ],
@@ -102,7 +114,8 @@ Future<void> openDeviceIdDialog(
         ),
         actions: <Widget>[
           TextButton(
-            child: AppTextStyle().textNormal('OK', size: 18),
+            child: AppTextStyle().textNormal('OK',
+                size: Constants().screenheight(context) * 0.02),
             onLongPress: () {
               loginRead.setMockDeviceId();
             },
@@ -112,12 +125,22 @@ Future<void> openDeviceIdDialog(
               loginRead.flowOpen(context).then((value) {
                 if (loginWatch.apisState == ApiState.COMPLETED) {
                   Navigator.maybePop(context);
-                  Future.delayed(const Duration(milliseconds: 500), () {
+                  Future.delayed(const Duration(milliseconds: 500), () async {
                     if (loginWatch.getOpenSession) {
                       loginRead.openAmountController.text = '';
                       openAmountDialog(context, loginWatch, loginRead);
                     } else {
-                      Navigator.pushReplacementNamed(context, '/homePage');
+                      await homePvd.openTransaction(context).then((value) {
+                        if (homePvd.apisState == ApiState.COMPLETED) {
+                          menuPvd
+                              .setTranData(
+                                  tranModel: json.encode(homePvd.openTranModel))
+                              .then((value) {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, '/menuPage', (route) => false);
+                          });
+                        }
+                      });
                     }
                   });
                 }
@@ -125,8 +148,9 @@ Future<void> openDeviceIdDialog(
             },
           ),
           TextButton(
-            child: AppTextStyle()
-                .textNormal('Cancel', size: 18, color: Colors.red),
+            child: AppTextStyle().textNormal('Cancel',
+                size: Constants().screenheight(context) * 0.02,
+                color: Colors.red),
             onPressed: () async {
               Navigator.pop(context);
             },
@@ -139,6 +163,8 @@ Future<void> openDeviceIdDialog(
 
 Future<void> openAmountDialog(
     BuildContext context, LoginProvider loginWatch, LoginProvider loginRead) {
+  var homePvd = Provider.of<HomeProvider>(context, listen: false);
+  var menuPvd = Provider.of<MenuProvider>(context, listen: false);
   return showDialog<void>(
     context: context,
     barrierDismissible: false,
@@ -149,7 +175,7 @@ Future<void> openAmountDialog(
           child: Column(
             children: <Widget>[
               Container(
-                width: Constants().screenWidth(context) * 0.2,
+                // width: Constants().screenWidth(context) * 0.2,
                 margin: const EdgeInsets.only(top: 10, bottom: 10),
                 child: TextField(
                   keyboardType: TextInputType.number,
@@ -180,10 +206,19 @@ Future<void> openAmountDialog(
             onPressed: () async {
               if (loginWatch.openAmountController.text.isNotEmpty) {
                 LoadingStyle().dialogLoadding(context);
-                await loginRead.openSession(context).then((value) {
+                await loginRead.openSession(context).then((value) async {
                   if (loginWatch.apisState == ApiState.COMPLETED) {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/homePage', (route) => false);
+                    await homePvd.openTransaction(context).then((value) {
+                      if (homePvd.apisState == ApiState.COMPLETED) {
+                        menuPvd
+                            .setTranData(
+                                tranModel: json.encode(homePvd.openTranModel))
+                            .then((value) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/menuPage', (route) => false);
+                        });
+                      }
+                    });
                   }
                 });
               }

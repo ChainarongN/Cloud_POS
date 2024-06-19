@@ -8,7 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 
-Container clonebill(BuildContext context) {
+Container clonebillTablet(BuildContext context) {
   return Container(
     alignment: Alignment.center,
     height: Constants().screenheight(context) * 0.07,
@@ -37,7 +37,7 @@ Container clonebill(BuildContext context) {
   );
 }
 
-GestureDetector holdBill(BuildContext context, MenuProvider menuRead) {
+GestureDetector holdBillTablet(BuildContext context, MenuProvider menuRead) {
   return GestureDetector(
     onTap: () {
       openHoldBillDialog(context, menuRead);
@@ -73,7 +73,7 @@ GestureDetector holdBill(BuildContext context, MenuProvider menuRead) {
   );
 }
 
-Container employee(BuildContext context) {
+Container employeeTablet(BuildContext context) {
   return Container(
     alignment: Alignment.center,
     height: Constants().screenheight(context) * 0.07,
@@ -102,7 +102,7 @@ Container employee(BuildContext context) {
   );
 }
 
-GestureDetector member(
+GestureDetector memberTablet(
     BuildContext context, MenuProvider menuRead, MenuProvider menuWatch) {
   return GestureDetector(
     onTap: () {

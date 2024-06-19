@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'dart:math';
 import 'package:cloud_pos/models/hold_bill_search_model.dart';
 import 'package:cloud_pos/providers/home/functions/detect_home_func.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
@@ -65,12 +66,21 @@ class HomeProvider extends ChangeNotifier {
     openTranModel = await DetectHomeFunc().detectOpenTran(context, response);
   }
 
-  Future openTransaction(BuildContext context, int index) async {
+  Future openTransaction(BuildContext context, {int? index}) async {
     apisState = ApiState.LOADING;
+    int? defaultSaleMode = saleModeDataList!
+        .where((element) => element.isDefault == 1)
+        .first
+        .saleModeID;
+    String defaultNoCustomer =
+        _customerCount.text.isEmpty ? '1' : _customerCount.text;
+
     var response = await _homeRepository.openTransaction(
         langID: '1',
-        noCustomer: int.parse(_customerCount.text),
-        saleModeId: saleModeDataList![index].saleModeID!);
+        noCustomer: int.parse(defaultNoCustomer),
+        saleModeId: index == null
+            ? defaultSaleMode
+            : saleModeDataList![index].saleModeID!);
     openTranModel = await DetectHomeFunc().detectOpenTran(context, response);
   }
 
@@ -122,6 +132,10 @@ class HomeProvider extends ChangeNotifier {
   setNationality(String value) {
     _nationalityValue = value;
     notifyListeners();
+  }
+
+  setSaleModeData(List<SaleModeData>? saleModeList) {
+    saleModeDataList = saleModeList!;
   }
 
   // --------------------------- Mock ---------------------------

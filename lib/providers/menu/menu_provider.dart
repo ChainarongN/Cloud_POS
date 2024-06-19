@@ -54,7 +54,10 @@ class MenuProvider extends ChangeNotifier {
   MemberDataModel? memberDataModel;
   AuthInfoModel? authInfoModel;
   HoldBillModel? holdBillModel;
-  int? _valueMenuSelect, _valueCurrencyId, _valueFavGroup;
+  int? _valueMenuSelect,
+      _valueCurrencyId,
+      _valueFavGroup,
+      _valueTitleSelect = 0;
   String? _valueReasonGroupSelect,
       _htmlOrderSummary,
       _valueCurrency,
@@ -83,6 +86,7 @@ class MenuProvider extends ChangeNotifier {
   String get getExceptionText => _exceptionText;
   int get getValueFavGroup => _valueFavGroup!;
   int get getvalueMenuSelect => _valueMenuSelect!;
+  int get getvalueTitleSelect => _valueTitleSelect!;
   String get getvalueReasonGroupSelect => _valueReasonGroupSelect!;
   String get getHtmlOrderSummary => _htmlOrderSummary!;
   String get getValueCurrency => _valueCurrency!;
@@ -90,14 +94,12 @@ class MenuProvider extends ChangeNotifier {
   List<int> get getSelectDiscountList => _selectDiscountList!;
 
   // ------------------------ Call Data -------------------------
-  init(BuildContext context, TickerProvider tabThis) async {
+  init(BuildContext context, {TickerProvider? tabThis}) async {
     _isLoading = true;
     payAmountController.text = '';
     totalPayListController.text = '0.00';
-    _tabController = TabController(length: 6, vsync: tabThis);
     _valueCurrency = 'THB';
     _valueCurrencyId = 1;
-
     prodGroupList = [];
     prodList = [];
     prodToSearch = [];
@@ -111,7 +113,11 @@ class MenuProvider extends ChangeNotifier {
     Constants()
         .printWarning("OrderId : ${transactionModel!.responseObj!.orderID}");
     SharedPref().setOrderId(transactionModel!.responseObj!.orderID!);
-    checkPaymentTab(context);
+    String deviceType = await SharedPref().getResponsiveDevice();
+    if (deviceType == 'tablet') {
+      _tabController = TabController(length: 6, vsync: tabThis!);
+      checkPaymentTab(context);
+    }
     if (apiState == ApiState.COMPLETED) {
       _isLoading = false;
     }
@@ -465,6 +471,7 @@ class MenuProvider extends ChangeNotifier {
       Constants().printError('$e - $strack');
       apiState = ApiState.ERROR;
     }
+    notifyListeners();
   }
 
   searchMenu(String value) {
@@ -484,6 +491,13 @@ class MenuProvider extends ChangeNotifier {
     prodToShow = prodList!
         .where((e) => e.productGroupID.toString().contains(value))
         .toList();
+    notifyListeners();
+  }
+
+  Future showFavList(BuildContext context, int pageGroup) async {
+    _valueFavGroup = pageGroup;
+    favResultList = [];
+    await ManageFav1Func().showData(context, pageGroup);
     notifyListeners();
   }
 
@@ -543,14 +557,13 @@ class MenuProvider extends ChangeNotifier {
     return result.first.productName!;
   }
 
-  Future showFavList(BuildContext context, int pageGroup) async {
-    _valueFavGroup = pageGroup;
-    favResultList = [];
-    await ManageFav1Func().showData(context, pageGroup);
+  // --------------------------- SET ---------------------------\
+
+  setValueTitle(int value) {
+    _valueTitleSelect = value;
     notifyListeners();
   }
 
-  // --------------------------- SET ---------------------------\
   Future setSelectDiscount(int prodId) async {
     if (_selectDiscountList!.contains(prodId)) {
       _selectDiscountList!.removeWhere((item) => item == prodId);

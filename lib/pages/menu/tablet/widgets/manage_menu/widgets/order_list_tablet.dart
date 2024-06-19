@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-SizedBox orderList(
+SizedBox orderListTablet(
     MenuProvider menuWatch, MenuProvider menuRead, BuildContext context) {
   return menuWatch.transactionModel == null ||
           menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
