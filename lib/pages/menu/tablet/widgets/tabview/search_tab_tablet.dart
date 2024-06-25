@@ -1,4 +1,4 @@
-import 'package:cloud_pos/utils/widgets/recipe_item.dart';
+import 'package:cloud_pos/utils/widgets/recipe_item_tablet.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -59,7 +59,7 @@ Center searchTabTablet(
                       menuRead.addProductToList(context,
                           menuWatch.prodToSearch![index].productID!, 1, '0');
                     },
-                    child: RecipeItem(
+                    child: RecipeItemTablet(
                       recipeName: menuWatch.prodToSearch![index].productName!,
                       recipeImage: 'assets/coffee2.jpg',
                     ),

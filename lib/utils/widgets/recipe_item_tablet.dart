@@ -3,10 +3,10 @@ import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 
-class RecipeItem extends StatelessWidget {
+class RecipeItemTablet extends StatelessWidget {
   final String recipeName;
   final String recipeImage;
-  const RecipeItem(
+  const RecipeItemTablet(
       {super.key, required this.recipeName, required this.recipeImage});
 
   @override

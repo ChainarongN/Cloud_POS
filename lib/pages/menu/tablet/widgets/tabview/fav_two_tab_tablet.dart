@@ -1,4 +1,4 @@
-import 'package:cloud_pos/utils/widgets/recipe_item.dart';
+import 'package:cloud_pos/utils/widgets/recipe_item_tablet.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
@@ -125,7 +125,7 @@ Center favoriteTab2Tablet(
                                   menuRead.addProductToList(
                                       context, item.productID!, 1, '0');
                                 },
-                                child: RecipeItem(
+                                child: RecipeItemTablet(
                                   recipeName:
                                       menuRead.getProdName(item.productID!),
                                   recipeImage: 'assets/coffee2.jpg',

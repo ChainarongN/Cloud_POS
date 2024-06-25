@@ -18,7 +18,9 @@ class LoadingStyle {
     return Dialogs.materialDialog(
       barrierDismissible: false,
       color: Colors.white,
-      titleStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      titleStyle: TextStyle(
+          fontSize: Constants().screenWidth(context) * Constants.normalSize,
+          fontWeight: FontWeight.bold),
       msgStyle: const TextStyle(fontSize: 18),
       msg: '${LocaleKeys.change.tr()} $text  THB.',
       title: LocaleKeys.payment_Success.tr(),
@@ -46,6 +48,36 @@ class LoadingStyle {
     );
   }
 
+  Future<void> dialogPaymentProcess(BuildContext context,
+      {String? text, Function()? onPressed}) {
+    return Dialogs.materialDialog(
+      barrierDismissible: false,
+      color: Colors.white,
+      titleStyle: TextStyle(
+          fontSize: Constants().screenWidth(context) * Constants.normalSize,
+          fontWeight: FontWeight.bold),
+      msgStyle: const TextStyle(fontSize: 18),
+      msg: '${LocaleKeys.change.tr()} $text  THB.',
+      title: LocaleKeys.payment_Success.tr(),
+      lottieBuilder: Lottie.asset(
+        'assets/payment_success.json',
+        fit: BoxFit.contain,
+      ),
+      dialogWidth: 0.3,
+      context: context,
+      actions: [
+        IconsButton(
+          onPressed: onPressed!,
+          text: LocaleKeys.ok.tr(),
+          iconData: Icons.done,
+          color: Colors.blue,
+          textStyle: const TextStyle(color: Colors.white),
+          iconColor: Colors.white,
+        ),
+      ],
+    );
+  }
+
   Future confirmDialog2(BuildContext context,
       {String? title, String? detail, VoidCallback? onPressed}) async {
     Dialogs.materialDialog(
@@ -55,8 +87,11 @@ class LoadingStyle {
         color: Colors.white,
         context: context,
         dialogWidth: 0.38,
-        titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        msgStyle: const TextStyle(fontSize: 18),
+        titleStyle: TextStyle(
+            fontSize: Constants().screenWidth(context) * Constants.boldSize,
+            fontWeight: FontWeight.bold),
+        msgStyle: TextStyle(
+            fontSize: Constants().screenWidth(context) * Constants.normalSize),
         actions: [
           IconsButton(
             onPressed: onPressed!,
@@ -93,9 +128,11 @@ class LoadingStyle {
     return Dialogs.materialDialog(
       barrierDismissible: false,
       color: Colors.white,
-      titleStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      titleStyle: TextStyle(
+          fontSize: Constants().screenWidth(context) * Constants.boldSize,
+          fontWeight: FontWeight.bold),
       msgStyle: TextStyle(
-          fontSize: Constants().screenheight(context) * 0.019,
+          fontSize: Constants().screenWidth(context) * Constants.normalSize,
           overflow: TextOverflow.fade),
       msg: error,
       title: LocaleKeys.something_went_wrong.tr(),
@@ -128,7 +165,9 @@ class LoadingStyle {
     return Dialogs.materialDialog(
       barrierDismissible: false,
       color: Colors.white,
-      titleStyle: const TextStyle(fontSize: 22),
+      titleStyle: TextStyle(
+        fontSize: Constants().screenWidth(context) * Constants.normalSize,
+      ),
       title: 'Success',
       lottieBuilder: Lottie.asset('assets/success_lottie.json'),
       dialogWidth: 0.25,

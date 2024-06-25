@@ -38,6 +38,7 @@ class Constants {
 
   // static const headerSize =
   static const normalSize = 0.035;
+  static const boldSize = 0.045;
 
   double screenWidth(BuildContext context) => MediaQuery.sizeOf(context).width;
   double screenheight(BuildContext context) =>

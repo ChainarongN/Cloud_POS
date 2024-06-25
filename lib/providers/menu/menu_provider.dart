@@ -17,12 +17,14 @@ import 'package:cloud_pos/providers/menu/functions/detect_menu_func.dart';
 import 'package:cloud_pos/providers/menu/functions/manage_fav_func.dart';
 import 'package:cloud_pos/providers/menu/functions/payment_func.dart';
 import 'package:cloud_pos/providers/menu/functions/read_file_func.dart';
+import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import '../../repositorys/repository.dart';
 
@@ -64,7 +66,8 @@ class MenuProvider extends ChangeNotifier {
       holdBillName,
       holdBillPhone,
       usernameCancel,
-      passwordCancel;
+      passwordCancel,
+      payAmount = '';
   String _exceptionText = '';
   final TextEditingController reasonController = TextEditingController();
   final TextEditingController valueIdReason = TextEditingController();
@@ -280,17 +283,36 @@ class MenuProvider extends ChangeNotifier {
 
   Future finalizeBill(BuildContext context) async {
     apiState = ApiState.LOADING;
+    String deviceType = await SharedPref().getResponsiveDevice();
     var response = await _menuRepository.finalizeBill(
       tranData: json.encode(transactionModel!.responseObj!.tranData),
     );
     transactionModel = await DetectMenuFunc()
         .detectTransaction(context, response, 'finalizeBill');
     if (apiState == ApiState.COMPLETED) {
-      await LoadingStyle().dialogPayment2(context,
-          text: transactionModel!.responseObj!.paymentList!.last.cashChange
-              .toString(),
-          popUntil: true,
-          popToPage: '/homePage');
+      if (deviceType == 'tablet') {
+        await LoadingStyle().dialogPayment2(context,
+            text: transactionModel!.responseObj!.paymentList!.last.cashChange
+                .toString(),
+            popUntil: true,
+            popToPage: '/homePage');
+      } else {
+        var homePvd = context.read<HomeProvider>();
+        await LoadingStyle().dialogPaymentProcess(context,
+            text: transactionModel!.responseObj!.paymentList!.last.cashChange
+                .toString(), onPressed: () async {
+          LoadingStyle().dialogLoadding(context);
+          await homePvd.openTransaction(context).then((value) {
+            if (homePvd.apisState == ApiState.COMPLETED) {
+              setTranData(tranModel: json.encode(homePvd.openTranModel))
+                  .then((value) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/menuPage', (route) => false);
+              });
+            }
+          });
+        });
+      }
     }
   }
 
@@ -343,6 +365,7 @@ class MenuProvider extends ChangeNotifier {
     String productId,
   ) async {
     LoadingStyle().dialogLoadding(context);
+    String deviceType = await SharedPref().getResponsiveDevice();
     try {
       apiState = ApiState.LOADING;
       var response = await _menuRepository.orderProcess(
@@ -355,13 +378,26 @@ class MenuProvider extends ChangeNotifier {
       transactionModel = await DetectMenuFunc()
           .detectTransaction(context, response, 'orderProcess');
       if (apiState == ApiState.COMPLETED) {
-        Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
+        if (deviceType == 'tablet') {
+          Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
+        } else {
+          Navigator.of(context)
+              .popUntil(ModalRoute.withName('/shopingCartPage'));
+        }
       }
     } catch (e, strack) {
       apiState = ApiState.ERROR;
       Constants().printError('$e // $strack');
-      LoadingStyle().dialogError(context,
-          error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
+
+      if (deviceType == 'tablet') {
+        LoadingStyle().dialogError(context,
+            error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
+      } else {
+        LoadingStyle().dialogError(context,
+            error: e.toString(),
+            isPopUntil: true,
+            popToPage: '/shopingCartPage');
+      }
     }
     notifyListeners();
   }
