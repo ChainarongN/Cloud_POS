@@ -1,3 +1,4 @@
+import 'package:cloud_pos/pages/menu/mobile/widget/change_sale_mode.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/drawer_widget.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/menu_detail/fav1_detail_widget.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/menu_detail/fav2_detail_widget.dart';
@@ -5,6 +6,7 @@ import 'package:cloud_pos/pages/menu/mobile/widget/menu_detail/menu_detail_widge
 import 'package:cloud_pos/pages/menu/mobile/widget/menugroup_widget.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/menutitle_widget.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/searchbar/searchbar_widget.dart';
+import 'package:cloud_pos/providers/home/home_provider.dart';
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -32,6 +34,8 @@ class _MenuMobileState extends State<MenuMobile> {
   Widget build(BuildContext context) {
     var menuRead = context.read<MenuProvider>();
     var menuWatch = context.watch<MenuProvider>();
+    var homeWatch = context.watch<HomeProvider>();
+    var homeRead = context.read<HomeProvider>();
     return Scaffold(
       appBar: AppBar(
         title: AppTextStyle().textNormal(LocaleKeys.menu.tr()),
@@ -39,12 +43,18 @@ class _MenuMobileState extends State<MenuMobile> {
           Container(
             margin:
                 EdgeInsets.only(right: Constants().screenWidth(context) * 0.05),
-            child: Row(
-              children: [
-                AppTextStyle().textNormal('SaleMode : '),
-                AppTextStyle().textBold(
-                    menuWatch.transactionModel!.responseObj!.saleModeName!),
-              ],
+            child: GestureDetector(
+              onTap: () {
+                changeSaleModeDialog(context, homeWatch, homeRead, menuRead);
+              },
+              child: Row(
+                children: [
+                  AppTextStyle().textNormal('SaleMode : '),
+                  AppTextStyle().textBold(
+                      menuWatch.transactionModel!.responseObj!.saleModeName!),
+                  const Icon(Icons.arrow_drop_down)
+                ],
+              ),
             ),
           )
         ],

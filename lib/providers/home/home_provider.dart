@@ -81,6 +81,7 @@ class HomeProvider extends ChangeNotifier {
         saleModeId: index == null
             ? defaultSaleMode
             : saleModeDataList![index].saleModeID!);
+
     openTranModel = await DetectHomeFunc().detectOpenTran(context, response);
   }
 

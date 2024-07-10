@@ -59,7 +59,8 @@ class MenuProvider extends ChangeNotifier {
   int? _valueMenuSelect,
       _valueCurrencyId,
       _valueFavGroup,
-      _valueTitleSelect = 0;
+      _valueTitleSelect = 0,
+      indexSaleMode;
   String? _valueReasonGroupSelect,
       _htmlOrderSummary,
       _valueCurrency,
@@ -413,9 +414,10 @@ class MenuProvider extends ChangeNotifier {
         await DetectMenuFunc().detectProductObj(context, response);
   }
 
-  Future cancelTransaction(BuildContext context) async {
-    await clearApplyCoupon(context);
+  Future cancelTransaction(BuildContext context, {int? indexSaleMode}) async {
     apiState = ApiState.LOADING;
+    await clearApplyCoupon(context);
+    String deviceType = await SharedPref().getResponsiveDevice();
     var response = await _menuRepository.cancelTran(
         langId: '1',
         orderId: transactionModel!.responseObj!.orderID,
@@ -425,7 +427,35 @@ class MenuProvider extends ChangeNotifier {
     cancelTranModel =
         await DetectMenuFunc().detectCancelTran(context, response);
     if (apiState == ApiState.COMPLETED) {
-      Navigator.of(context).popUntil(ModalRoute.withName('/homePage'));
+      if (deviceType == 'tablet') {
+        Navigator.of(context).popUntil(ModalRoute.withName('/homePage'));
+      } else {
+        var homePvd = context.read<HomeProvider>();
+        LoadingStyle().dialogLoadding(context);
+        if (indexSaleMode == null) {
+          await homePvd.openTransaction(context).then((value) {
+            if (homePvd.apisState == ApiState.COMPLETED) {
+              setTranData(tranModel: json.encode(homePvd.openTranModel))
+                  .then((value) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/menuPage', (route) => false);
+              });
+            }
+          });
+        } else {
+          await homePvd
+              .openTransaction(context, index: indexSaleMode)
+              .then((value) {
+            if (homePvd.apisState == ApiState.COMPLETED) {
+              setTranData(tranModel: json.encode(homePvd.openTranModel))
+                  .then((value) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/menuPage', (route) => false);
+              });
+            }
+          });
+        }
+      }
     }
   }
 

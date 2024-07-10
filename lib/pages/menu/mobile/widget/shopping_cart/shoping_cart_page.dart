@@ -1,8 +1,11 @@
+import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/shopping_cart/manage_menu/order_detail_mobile.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/shopping_cart/manage_menu/order_list_mobile.dart';
+import 'package:cloud_pos/pages/menu/mobile/widget/shopping_cart/ordersummary.dart';
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -74,14 +77,29 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
                 ],
               ),
               Divider(thickness: 1, color: Colors.grey.shade300),
-              cardMenu(context,
-                  title: 'e-Coupon', subTitle: 'ใช้คูปอง', onTap: () {}),
-              cardMenu(context,
+              cardTitle(context,
+                  title: 'e-Coupon',
+                  subTitle: menuWatch
+                          .transactionModel!.responseObj!.promoList!.isNotEmpty
+                      ? '${menuWatch.transactionModel!.responseObj!.promoList!.length} Coupon'
+                      : 'ใช้คูปอง', onTap: () {
+                Navigator.pushNamed(context, '/eCouponPage');
+              }),
+              cardTitle(context,
                   title: 'Discount', subTitle: 'ใช้ส่วนลด', onTap: () {}),
-              cardMenu(context,
+              cardTitle(context,
                   title: 'Discount other', subTitle: 'ใช้ส่วนลด', onTap: () {}),
-              cardMenu(context,
-                  title: 'Order summary', subTitle: '', onTap: () {}),
+              cardTitle(context, title: 'Order summary', subTitle: '',
+                  onTap: () async {
+                LoadingStyle().dialogLoadding(context);
+                await menuRead.orderSummary(context).then((value) {
+                  if (menuWatch.apiState == ApiState.COMPLETED) {
+                    Navigator.pop(context);
+                    showOrderSumDialog(
+                        context, menuWatch.getHtmlOrderSummary, menuWatch);
+                  }
+                });
+              }),
               Divider(thickness: 1, color: Colors.grey.shade300),
               orderDetailMobile(context, menuWatch),
               Divider(thickness: 1, color: Colors.grey.shade300),
@@ -182,7 +200,7 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
     );
   }
 
-  GestureDetector cardMenu(
+  GestureDetector cardTitle(
     BuildContext context, {
     String? title,
     String? subTitle,

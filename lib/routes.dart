@@ -1,7 +1,10 @@
 import 'package:cloud_pos/pages/config/config_page.dart';
 import 'package:cloud_pos/pages/login/login_page.dart';
 import 'package:cloud_pos/pages/menu/menu_page.dart';
+import 'package:cloud_pos/pages/menu/mobile/widget/drawer/cancel_tran_page.dart';
+import 'package:cloud_pos/pages/menu/mobile/widget/drawer/holdBill_search_page.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/searchbar/search_detail_page.dart';
+import 'package:cloud_pos/pages/menu/mobile/widget/shopping_cart/eCoupon/eCoupon_page.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/shopping_cart/shoping_cart_page.dart';
 import 'package:flutter/material.dart';
 import 'pages/page.dart';
@@ -14,4 +17,7 @@ final Map<String, WidgetBuilder> routes = {
   '/utilityPage': (BuildContext context) => const UtilityPage(),
   '/searchDetailPage': (BuildContext context) => const SearchDetailPage(),
   '/shopingCartPage': (BuildContext context) => const ShopingCartPage(),
+  '/cancelTranPage': (BuildContext context) => const CancelTranPage(),
+  '/holdBillSearchPage': (BuildContext context) => const HoldBillSearchPage(),
+  '/eCouponPage': (BuildContext context) => const ECouponPage(),
 };
