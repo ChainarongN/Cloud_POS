@@ -14,7 +14,7 @@ class AppTextStyle {
         fontWeight: FontWeight.bold,
         fontSize: size,
         color: color,
-        overflow: TextOverflow.fade,
+        overflow: TextOverflow.ellipsis,
       ),
       maxLines: 2,
     );
@@ -22,14 +22,13 @@ class AppTextStyle {
 
   Text textNormal(String name, {double? size, Color? color}) {
     color ?? Constants.textColor;
-
     return Text(
       name,
       style: TextStyle(
         fontWeight: FontWeight.normal,
         fontSize: size,
         color: color,
-        overflow: TextOverflow.fade,
+        overflow: TextOverflow.ellipsis,
       ),
       maxLines: 2,
     );

@@ -51,12 +51,15 @@ Future<void> openNumberMemberDialog(
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.ok.tr(),
                 size: Constants().screenWidth(context) * Constants.normalSize),
+            onLongPress: () {
+              menuRead.setPhoneMemberForTest();
+            },
             onPressed: () async {
               if (menuWatch.phoneMemberController.text.length == 12) {
                 LoadingStyle().dialogLoadding(context);
-                // final phoneReplace =
-                //     menuWatch.getPhoneMemberController.text.replaceAll('-', '');
-                String phoneReplace = '0836869334';
+                final phoneReplace =
+                    menuWatch.phoneMemberController.text.replaceAll('-', '');
+                // String phoneReplace = '0836869334';
                 await menuRead.memberData(context, phoneReplace).then((value) {
                   if (menuWatch.apiState == ApiState.COMPLETED) {
                     Navigator.maybePop(context);

@@ -70,7 +70,7 @@ class _LoginMobileState extends State<LoginMobile> {
                         SizedBox(
                             height: Constants().screenheight(context) * 0.005),
                         btnLoginMobile(context, loginRead, loginWatch),
-                        merchantDetailMobile(context),
+                        merchantDetailMobile(context, loginRead, loginWatch),
                         const Spacer(),
                         footbarMobile(context, loginWatch)
                       ],

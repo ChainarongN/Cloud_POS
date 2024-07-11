@@ -86,6 +86,7 @@ class DetectLoginFunc {
             isPopUntil: true,
             popToPage: '/loginPage');
       } else {
+        
         loginModel = LoginModel.fromJson(jsonDecode(response));
         loginProvider.apisState = ApiState.COMPLETED;
       }

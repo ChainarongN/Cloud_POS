@@ -68,7 +68,7 @@ class _LoginTabletState extends State<LoginTablet> {
                         SizedBox(
                             height: Constants().screenheight(context) * 0.01),
                         btnLoginTablet(context, loginRead, loginWatch),
-                        merchantDetailTablet(context),
+                        merchantDetailTablet(context, loginRead, loginWatch),
                         const Spacer(),
                         footbarTablet(context, loginWatch)
                       ],

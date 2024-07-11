@@ -124,7 +124,6 @@ class APIService {
         ),
         queryParameters: param,
       );
-
       if (response.statusCode == 200) {
         FirebaseLog().logData(true,
             actionBy: actionBy,
@@ -199,6 +198,8 @@ class APIService {
         options: Options(method: 'POST', headers: headers),
         data: data,
       );
+      Constants().printInfo(response.statusCode.toString());
+      Constants().printInfo(response.data.toString());
       if (response.statusCode == 200) {
         return json.encode(response.data);
       }

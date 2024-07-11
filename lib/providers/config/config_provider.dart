@@ -1,7 +1,10 @@
+import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
+import 'package:cloud_pos/providers/menu/functions/read_file_func.dart';
 import 'package:cloud_pos/repositorys/config/i_config_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
+import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -16,6 +19,7 @@ class ConfigProvider extends ChangeNotifier {
   String? _printerValue = 'TM-30';
   String? _connectionValue = 'Wifi';
   String? imageTest;
+  ShopData? shopData;
   final ScreenshotController _screenshotController = ScreenshotController();
   final TextEditingController deviceIdController = TextEditingController();
   final TextEditingController baseUrlController = TextEditingController();
@@ -30,13 +34,20 @@ class ConfigProvider extends ChangeNotifier {
   List<String> get getConnectList => _connectionList;
   ScreenshotController get getScreenShotController => _screenshotController;
 
-  init() async {
+  init(BuildContext context) async {
     _widgetString = 'baseUrl';
     _newDataSwitch = await SharedPref().getNewDataSwitch();
     deviceIdController.text = await SharedPref().getDeviceId();
     baseUrlController.text = await SharedPref().getBaseUrl();
     addressController.text = await SharedPref().getPrinterAddress();
     Constants().printError(deviceIdController.text);
+    _readShopData();
+  }
+
+  Future _readShopData() async {
+    var value = await ReadFileFunc().readShopData();
+    shopData = value;
+    notifyListeners();
   }
 
   Future setDeviceID(String deviceID) async {

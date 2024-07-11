@@ -19,7 +19,7 @@ class _ConfigTabletState extends State<ConfigTablet> {
   @override
   void initState() {
     super.initState();
-    context.read<ConfigProvider>().init();
+    context.read<ConfigProvider>().init(context);
   }
 
   @override

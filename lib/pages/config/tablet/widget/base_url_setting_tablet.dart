@@ -32,8 +32,12 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
               children: [
                 AppTextStyle().textBold(LocaleKeys.merchant_name.tr(),
                     size: Constants().screenheight(context) * 0.025),
-                AppTextStyle().textNormal('-',
-                    size: Constants().screenheight(context) * 0.025),
+                configWatch.shopData == null
+                    ? AppTextStyle().textNormal('-',
+                        size: Constants().screenheight(context) * 0.025)
+                    : AppTextStyle().textNormal(
+                        configWatch.shopData!.merchantName!,
+                        size: Constants().screenheight(context) * 0.025),
               ],
             ),
             Row(
@@ -41,8 +45,12 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
               children: [
                 AppTextStyle().textBold(LocaleKeys.brand_name.tr(),
                     size: Constants().screenheight(context) * 0.025),
-                AppTextStyle().textNormal('-',
-                    size: Constants().screenheight(context) * 0.025),
+                configWatch.shopData == null
+                    ? AppTextStyle().textNormal('-',
+                        size: Constants().screenheight(context) * 0.025)
+                    : AppTextStyle().textNormal(
+                        configWatch.shopData!.brandName!,
+                        size: Constants().screenheight(context) * 0.025),
               ],
             ),
           ],
@@ -57,8 +65,11 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
               children: [
                 AppTextStyle().textBold(LocaleKeys.shop_name.tr(),
                     size: Constants().screenheight(context) * 0.025),
-                AppTextStyle().textNormal('-',
-                    size: Constants().screenheight(context) * 0.025),
+                configWatch.shopData == null
+                    ? AppTextStyle().textNormal('-',
+                        size: Constants().screenheight(context) * 0.025)
+                    : AppTextStyle().textNormal(configWatch.shopData!.shopName!,
+                        size: Constants().screenheight(context) * 0.025),
               ],
             ),
             Row(
@@ -66,8 +77,11 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
               children: [
                 AppTextStyle().textBold(LocaleKeys.shop_key.tr(),
                     size: Constants().screenheight(context) * 0.025),
-                AppTextStyle().textNormal('-',
-                    size: Constants().screenheight(context) * 0.025),
+                configWatch.shopData == null
+                    ? AppTextStyle().textNormal('-',
+                        size: Constants().screenheight(context) * 0.025)
+                    : AppTextStyle().textNormal(configWatch.shopData!.shopKey!,
+                        size: Constants().screenheight(context) * 0.025),
               ],
             ),
           ],
@@ -82,8 +96,11 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
               children: [
                 AppTextStyle().textBold(LocaleKeys.pos_name.tr(),
                     size: Constants().screenheight(context) * 0.025),
-                AppTextStyle().textNormal('-',
-                    size: Constants().screenheight(context) * 0.025),
+                configWatch.shopData == null
+                    ? AppTextStyle().textNormal('-',
+                        size: Constants().screenheight(context) * 0.025)
+                    : AppTextStyle().textNormal('-',
+                        size: Constants().screenheight(context) * 0.025),
               ],
             ),
             Row(
@@ -107,8 +124,22 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
               children: [
                 AppTextStyle().textBold(LocaleKeys.store_address.tr(),
                     size: Constants().screenheight(context) * 0.025),
-                AppTextStyle().textNormal('-',
-                    size: Constants().screenheight(context) * 0.025),
+                configWatch.shopData == null
+                    ? AppTextStyle().textNormal('-',
+                        size: Constants().screenheight(context) * 0.025)
+                    : Column(
+                        children: [
+                          AppTextStyle().textNormal(
+                              '${configWatch.shopData!.storeAddress1}',
+                              size: Constants().screenheight(context) * 0.025),
+                          AppTextStyle().textNormal(
+                              '${configWatch.shopData!.storeAddress2}',
+                              size: Constants().screenheight(context) * 0.025),
+                          AppTextStyle().textNormal(
+                              '${configWatch.shopData!.storeAddress3}',
+                              size: Constants().screenheight(context) * 0.025),
+                        ],
+                      ),
               ],
             ),
           ],

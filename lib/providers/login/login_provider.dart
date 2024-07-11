@@ -33,6 +33,7 @@ class LoginProvider extends ChangeNotifier {
   bool _openSession = false;
   String? _errorText = '', versionName = '';
   List<SaleModeData>? saleModeDataList;
+  ShopData? shopData;
   final TextEditingController openAmountController = TextEditingController();
   final TextEditingController deviceController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
@@ -166,7 +167,9 @@ class LoginProvider extends ChangeNotifier {
       saleModeDataList = [];
       await readSaleModeFile();
       homePvd.setSaleModeData(saleModeDataList);
+      _readShopData();
     }
+    notifyListeners();
   }
 
   Future getCoreDataInit(BuildContext context, bool loginAgain) async {
@@ -206,6 +209,7 @@ class LoginProvider extends ChangeNotifier {
               Constants.CURRENCY_INFO_TXT)
         ],
       );
+      shopData = coreInitModel!.responseObj!.shopData;
       saleModeDataList = [];
       await readSaleModeFile();
       homePvd.setSaleModeData(saleModeDataList);
@@ -236,6 +240,12 @@ class LoginProvider extends ChangeNotifier {
       _errorText = e.toString();
       apisState = ApiState.ERROR;
     }
+    notifyListeners();
+  }
+
+  Future _readShopData() async {
+    var value = await ReadFileFunc().readShopData();
+    shopData = value;
     notifyListeners();
   }
 

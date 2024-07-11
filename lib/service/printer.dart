@@ -133,7 +133,7 @@ class Printer {
     // String model = await SharedPref().getPrinterModel();
     String address = await SharedPref().getPrinterAddress();
 
-    Constants().printError(type);
+    Constants().printError(address);
     switch (type) {
       case 'Wifi':
         const PaperSize paper = PaperSize.mm80;
