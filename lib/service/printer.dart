@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cloud_pos/service/shared_pref.dart';
+import 'package:cloud_pos/utils/constants.dart';
 import 'package:esc_pos_printer/esc_pos_printer.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart' hide Image;
@@ -8,32 +10,75 @@ import 'package:flutter/services.dart';
 import 'package:image/image.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:sunmi_printer_plus/column_maker.dart';
+import 'package:sunmi_printer_plus/enums.dart';
+import 'package:sunmi_printer_plus/sunmi_printer_plus.dart';
 
 class Printer {
   Printer._internal();
   static final Printer _instance = Printer._internal();
   factory Printer() => _instance;
 
-  Future printer(Uint8List image8List) async {
+  Future<bool?> _bindingPrinter() async {
+    final bool? result = await SunmiPrinter.bindingPrinter();
+    await SunmiPrinter.initPrinter();
+    return result;
+  }
+
+  Future printReceipt(Uint8List image8List) async {
+    String type = await SharedPref().getPrinterType();
+    // String model = await SharedPref().getPrinterModel();
+    switch (type) {
+      case 'Wifi':
+        printerNetwork(image8List);
+        break;
+      case 'SunmiV2':
+        sunmiPrinterFunc(image8List);
+        break;
+    }
+  }
+
+  Future printerNetwork(Uint8List image8List) async {
+    String address = await SharedPref().getPrinterAddress();
+
     const PaperSize paper = PaperSize.mm80;
     final profile = await CapabilityProfile.load();
     final printer = NetworkPrinter(paper, profile);
 
-    final PosPrintResult res =
-        await printer.connect('192.168.1.137', port: 9100);
-
+    // final PosPrintResult res =
+    //     await printer.connect('192.168.1.137', port: 9100);
+    final PosPrintResult res = await printer.connect(address, port: 9100);
     // Image image = await getImage();
     final Image? imageResult = decodeImage(image8List);
 
     if (res == PosPrintResult.success) {
-      await testReceipt(printer, imageResult);
+      await receipt(printer, imageResult);
       printer.disconnect();
     }
-
     print('Print result: ${res.msg}');
   }
 
-  Future<void> testReceipt(NetworkPrinter printer, Image? image) async {
+  Future sunmiPrinterFunc(Uint8List image8List) async {
+    _bindingPrinter();
+
+    // await SunmiPrinter.printText('Payment receipt');
+    // await SunmiPrinter.printText('Using the old way to bold!');
+    // await SunmiPrinter.line();
+    // await SunmiPrinter.printRow(cols: [
+    //   ColumnMaker(text: 'Name', width: 12, align: SunmiPrintAlign.LEFT),
+    //   ColumnMaker(text: 'Qty', width: 6, align: SunmiPrintAlign.CENTER),
+    //   ColumnMaker(text: 'UN', width: 6, align: SunmiPrintAlign.RIGHT),
+    //   ColumnMaker(text: 'TOT', width: 6, align: SunmiPrintAlign.RIGHT),
+    // ]);
+
+    await SunmiPrinter.setAlignment(SunmiPrintAlign.CENTER);
+    await SunmiPrinter.startTransactionPrint(true);
+    await SunmiPrinter.printImage(image8List);
+    await SunmiPrinter.lineWrap(5);
+    await SunmiPrinter.exitTransactionPrint(true);
+  }
+
+  Future<void> receipt(NetworkPrinter printer, Image? image) async {
 //     printer.text(
 //         'Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
 //     printer.text('Special 1: àÀ èÈ éÉ ûÛ üÜ çÇ ôÔ',
@@ -41,7 +86,7 @@ class Printer {
 //     printer.text('Special 2: blåbærgrød',
 //         styles: const PosStyles(codeTable: 'CP1252'));
 //
-    printer.text('Bold text', styles: const PosStyles(bold: true));
+    // printer.text('Bold text', styles: const PosStyles(bold: true));
 //     printer.text('Reverse text', styles: const PosStyles(reverse: true));
 //     printer.text('Underlined text', styles: const PosStyles(underline: true));
 //     printer.text('Align left', styles: const PosStyles(align: PosAlign.left));
@@ -81,6 +126,36 @@ class Printer {
     printer.image(image!);
     printer.feed(1);
     printer.cut();
+  }
+
+  Future testPrinter() async {
+    String type = await SharedPref().getPrinterType();
+    // String model = await SharedPref().getPrinterModel();
+    String address = await SharedPref().getPrinterAddress();
+
+    Constants().printError(type);
+    switch (type) {
+      case 'Wifi':
+        const PaperSize paper = PaperSize.mm80;
+        final profile = await CapabilityProfile.load();
+        final printer = NetworkPrinter(paper, profile);
+        final PosPrintResult res = await printer.connect(address, port: 9100);
+
+        if (res == PosPrintResult.success) {
+          printer.text('Hello World', styles: const PosStyles(bold: true));
+          printer.feed(1);
+          printer.cut();
+          printer.disconnect();
+        }
+        Constants().printError(type);
+        break;
+      case 'SunmiV2':
+        _bindingPrinter();
+        await SunmiPrinter.printText('Using the old way to bold!');
+        await SunmiPrinter.lineWrap(8);
+        await SunmiPrinter.exitTransactionPrint(true);
+        break;
+    }
   }
 
   Future<Image> getImage() async {

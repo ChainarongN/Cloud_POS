@@ -23,8 +23,32 @@ class SharedPref {
   static const String deviceId = 'deviceId';
   static const String keyBaseUrl = 'baseUrl';
   static const String keyResponsiveDevice = 'ResponsiveDevice';
+  static const String keyPrinterModel = 'printerModel';
+  static const String keyPrinterType = 'printerType';
+  static const String keyPrinterAddress = 'printerAddress';
+  static const String keyPrinterReceipt = 'printerReceipt';
 
   // ----------------------------- set ------------------------------- //
+  Future setPrinterReceipt(bool value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setBool(keyPrinterReceipt, value);
+  }
+
+  Future setPrinterModel(String value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setString(keyPrinterModel, value);
+  }
+
+  Future setPrinterAddress(String value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setString(keyPrinterAddress, value);
+  }
+
+  Future setPrinterType(String value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setString(keyPrinterType, value);
+  }
+
   Future setResponsiveDevice(String value) async {
     SharedPreferences prefs = await _prefs;
     await prefs.setString(keyResponsiveDevice, value);
@@ -111,6 +135,30 @@ class SharedPref {
   }
 
   // ----------------------------- get ------------------------------- //
+  Future<bool> getPrinterReceipt() async {
+    SharedPreferences prefs = await _prefs;
+    bool? result = prefs.getBool(keyPrinterReceipt) ?? true;
+    return result;
+  }
+
+  Future<String> getPrinterAddress() async {
+    SharedPreferences prefs = await _prefs;
+    String? result = prefs.getString(keyPrinterAddress) ?? '';
+    return result;
+  }
+
+  Future<String> getPrinterType() async {
+    SharedPreferences prefs = await _prefs;
+    String? result = prefs.getString(keyPrinterType) ?? 'Wifi';
+    return result;
+  }
+
+  Future<String> getPrinterModel() async {
+    SharedPreferences prefs = await _prefs;
+    String? result = prefs.getString(keyPrinterModel) ?? '';
+    return result;
+  }
+
   Future<String> getResponsiveDevice() async {
     SharedPreferences prefs = await _prefs;
     String? result = prefs.getString(keyResponsiveDevice) ?? '';

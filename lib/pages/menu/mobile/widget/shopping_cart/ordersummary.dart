@@ -1,9 +1,15 @@
+import 'dart:typed_data';
+
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
+import 'package:cloud_pos/service/printer.dart';
 import 'package:cloud_pos/utils/constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:sunmi_printer_plus/enums.dart';
+import 'package:sunmi_printer_plus/sunmi_printer_plus.dart';
 
 showOrderSumDialog(BuildContext context, String html, MenuProvider menuWatch) {
   showDialog(
@@ -28,7 +34,7 @@ showOrderSumDialog(BuildContext context, String html, MenuProvider menuWatch) {
                         child: SizedBox(
                           width: Constants().screenWidth(context),
                           child: Screenshot(
-                            controller: menuWatch.screenshotController,
+                            controller: menuWatch.screenshotOrderSumController,
                             child: HtmlWidget(html),
                           ),
                         ),
@@ -38,14 +44,25 @@ showOrderSumDialog(BuildContext context, String html, MenuProvider menuWatch) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                            right: Constants().screenWidth(context) * 0.03),
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.print,
-                          size: Constants().screenWidth(context) * 0.1,
-                          color: Constants.primaryColor,
+                      GestureDetector(
+                        onTap: () async {
+                          menuWatch.screenshotOrderSumController
+                              .capture(
+                                  delay: const Duration(seconds: 1),
+                                  pixelRatio: 1.2)
+                              .then((Uint8List? value) async {
+                            Printer().printReceipt(value!);
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              right: Constants().screenWidth(context) * 0.03),
+                          alignment: Alignment.center,
+                          child: Icon(
+                            Icons.print,
+                            size: Constants().screenWidth(context) * 0.1,
+                            color: Constants.primaryColor,
+                          ),
                         ),
                       ),
                       GestureDetector(

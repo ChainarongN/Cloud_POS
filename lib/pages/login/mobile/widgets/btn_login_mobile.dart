@@ -83,7 +83,7 @@ Future<void> openDeviceIdDialog(
     builder: (context) {
       return AlertDialog(
         content: SizedBox(
-          height: Constants().screenheight(context) * 0.15,
+          height: Constants().screenheight(context) * 0.17,
           child: Column(
             children: <Widget>[
               Container(
@@ -152,7 +152,7 @@ Future<void> openDeviceIdDialog(
                 size: Constants().screenheight(context) * 0.02,
                 color: Colors.red),
             onPressed: () async {
-              Navigator.pop(context);
+              Navigator.of(context).popUntil(ModalRoute.withName("/loginPage"));
             },
           ),
         ],
@@ -228,7 +228,7 @@ Future<void> openAmountDialog(
             child: AppTextStyle()
                 .textNormal('Cancel', size: 18, color: Colors.red),
             onPressed: () async {
-              Navigator.pop(context);
+              Navigator.of(context).popUntil(ModalRoute.withName("/loginPage"));
             },
           ),
         ],

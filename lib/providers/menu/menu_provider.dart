@@ -81,7 +81,8 @@ class MenuProvider extends ChangeNotifier {
   final TextEditingController paymentRemark = TextEditingController();
   final TextEditingController phoneMemberController = TextEditingController();
   TabController? _tabController;
-  final ScreenshotController screenshotController = ScreenshotController();
+  final ScreenshotController screenshotOrderSumController =
+      ScreenshotController();
   final TextEditingController couponCodeController = TextEditingController();
 
   // --------------------------- GET ---------------------------

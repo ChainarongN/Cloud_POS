@@ -141,7 +141,7 @@ Widget cardDetail(BuildContext context, Widget widget) {
 GestureDetector saveConfigBtn(BuildContext context, ConfigProvider configRead) {
   return GestureDetector(
     onTap: () {
-      configRead.saveConfig().then((value) {
+      configRead.saveConfigUrl().then((value) {
         LoadingStyle().dialogSuccess(context, isPopUntil: false);
       });
     },

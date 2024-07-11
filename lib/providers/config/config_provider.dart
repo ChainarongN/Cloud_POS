@@ -13,12 +13,13 @@ class ConfigProvider extends ChangeNotifier {
   String _widgetString = 'baseUrl';
   bool _printerSwitch = true;
   bool _newDataSwitch = false;
-  String? _printerValue = 'Senor';
+  String? _printerValue = 'TM-30';
   String? _connectionValue = 'Wifi';
   String? imageTest;
   final ScreenshotController _screenshotController = ScreenshotController();
   final TextEditingController deviceIdController = TextEditingController();
   final TextEditingController baseUrlController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
 
   String get getWidgetString => _widgetString;
   bool get getprinterSwitch => _printerSwitch;
@@ -34,6 +35,7 @@ class ConfigProvider extends ChangeNotifier {
     _newDataSwitch = await SharedPref().getNewDataSwitch();
     deviceIdController.text = await SharedPref().getDeviceId();
     baseUrlController.text = await SharedPref().getBaseUrl();
+    addressController.text = await SharedPref().getPrinterAddress();
     Constants().printError(deviceIdController.text);
   }
 
@@ -44,8 +46,20 @@ class ConfigProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future saveConfig() async {
+  Future saveConfigUrl() async {
     await SharedPref().setBaseUrl(baseUrlController.text);
+  }
+
+  Future saveConfigPrinter() async {
+    SharedPref().setPrinterType(_connectionValue!);
+    SharedPref().setPrinterModel(_printerValue!);
+    SharedPref().setPrinterAddress(addressController.text);
+
+    String type = await SharedPref().getPrinterType();
+    String model = await SharedPref().getPrinterModel();
+    String address = await SharedPref().getPrinterAddress();
+
+    Constants().printWarning('$type : $model : $address');
   }
 
   setWidgetString(String value) {
@@ -78,7 +92,12 @@ class ConfigProvider extends ChangeNotifier {
     baseUrlController.text = 'https://apicore.vtec-system.com';
     notifyListeners();
   }
+
+  setAddressForTest() {
+    addressController.text = '192.168.1.137';
+    notifyListeners();
+  }
 }
 
-List<String> _printerList = ['Senor', 'Something'];
-List<String> _connectionList = ['Wifi', 'Something'];
+List<String> _printerList = ['TM-30', 'Sunmi'];
+List<String> _connectionList = ['Wifi', 'SunmiV2'];

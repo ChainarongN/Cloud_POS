@@ -1,3 +1,4 @@
+import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
@@ -14,12 +15,15 @@ class LoadingStyle {
   factory LoadingStyle() => _instance;
 
   Future<void> dialogPayment2(BuildContext context,
-      {String? text, bool? popUntil, String? popToPage}) {
+      {String? text, bool? popUntil, String? popToPage}) async {
+    String deviceType = await SharedPref().getResponsiveDevice();
     return Dialogs.materialDialog(
       barrierDismissible: false,
       color: Colors.white,
       titleStyle: TextStyle(
-          fontSize: Constants().screenWidth(context) * Constants.normalSize,
+          fontSize: deviceType == 'tablet'
+              ? Constants().screenWidth(context) * 0.015
+              : Constants().screenWidth(context) * Constants.normalSize,
           fontWeight: FontWeight.bold),
       msgStyle: const TextStyle(fontSize: 18),
       msg: '${LocaleKeys.change.tr()} $text  THB.',
@@ -49,12 +53,15 @@ class LoadingStyle {
   }
 
   Future<void> dialogPaymentProcess(BuildContext context,
-      {String? text, Function()? onPressed}) {
+      {String? text, Function()? onPressed}) async {
+    String deviceType = await SharedPref().getResponsiveDevice();
     return Dialogs.materialDialog(
       barrierDismissible: false,
       color: Colors.white,
       titleStyle: TextStyle(
-          fontSize: Constants().screenWidth(context) * Constants.normalSize,
+          fontSize: deviceType == 'tablet'
+              ? Constants().screenWidth(context) * 0.015
+              : Constants().screenWidth(context) * Constants.normalSize,
           fontWeight: FontWeight.bold),
       msgStyle: const TextStyle(fontSize: 18),
       msg: '${LocaleKeys.change.tr()} $text  THB.',
@@ -80,6 +87,7 @@ class LoadingStyle {
 
   Future confirmDialog2(BuildContext context,
       {String? title, String? detail, VoidCallback? onPressed}) async {
+    String deviceType = await SharedPref().getResponsiveDevice();
     Dialogs.materialDialog(
         barrierDismissible: false,
         title: title,
@@ -88,10 +96,15 @@ class LoadingStyle {
         context: context,
         dialogWidth: 0.38,
         titleStyle: TextStyle(
-            fontSize: Constants().screenWidth(context) * Constants.boldSize,
+            fontSize: deviceType == 'tablet'
+                ? Constants().screenWidth(context) * 0.015
+                : Constants().screenWidth(context) * Constants.normalSize,
             fontWeight: FontWeight.bold),
         msgStyle: TextStyle(
-            fontSize: Constants().screenWidth(context) * Constants.normalSize),
+          fontSize: deviceType == 'tablet'
+              ? Constants().screenWidth(context) * 0.015
+              : Constants().screenWidth(context) * Constants.normalSize,
+        ),
         actions: [
           IconsButton(
             onPressed: onPressed!,
@@ -124,15 +137,20 @@ class LoadingStyle {
   }
 
   Future<void> dialogError(BuildContext context,
-      {String? error, bool? isPopUntil, String? popToPage}) {
+      {String? error, bool? isPopUntil, String? popToPage}) async {
+    String deviceType = await SharedPref().getResponsiveDevice();
     return Dialogs.materialDialog(
       barrierDismissible: false,
       color: Colors.white,
       titleStyle: TextStyle(
-          fontSize: Constants().screenWidth(context) * Constants.boldSize,
+          fontSize: deviceType == 'tablet'
+              ? Constants().screenWidth(context) * 0.015
+              : Constants().screenWidth(context) * Constants.boldSize,
           fontWeight: FontWeight.bold),
       msgStyle: TextStyle(
-          fontSize: Constants().screenWidth(context) * Constants.normalSize,
+          fontSize: deviceType == 'tablet'
+              ? Constants().screenWidth(context) * 0.015
+              : Constants().screenWidth(context) * Constants.boldSize,
           overflow: TextOverflow.fade),
       msg: error,
       title: LocaleKeys.something_went_wrong.tr(),

@@ -12,6 +12,7 @@ import 'package:cloud_pos/repositorys/home/i_home_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:screenshot/screenshot.dart';
 
 class HomeProvider extends ChangeNotifier {
   final IHomeRepository _homeRepository;
@@ -29,6 +30,8 @@ class HomeProvider extends ChangeNotifier {
   HoldBillSearchModel? holdBillSearchModel;
   List<SaleModeData>? saleModeDataList;
   final TextEditingController _customerCount = TextEditingController();
+  final ScreenshotController screenshotCloseSession = ScreenshotController();
+  final ScreenshotController screenshotEndday = ScreenshotController();
 
   // --------------------------- GET ---------------------------
   String get getErrorText => _errorText!;

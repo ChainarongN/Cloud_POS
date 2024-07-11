@@ -4,6 +4,7 @@ import 'package:cloud_pos/service/printer.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
+import 'package:cloud_pos/utils/widgets/loading_style.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -23,16 +24,18 @@ SingleChildScrollView printerSettingTablet(BuildContext context,
         receiptPrinter(context, configRead, configWatch),
         printerModel(context, configRead, configWatch),
         connectionType(context, configRead, configWatch),
-        printerAddress(context),
+        configWatch.getConnectionValue == 'SunmiV2'
+            ? const SizedBox.shrink()
+            : printerAddress(context, configWatch, configRead),
         testPrintBtn(context, configRead, configWatch),
-        btnSave(context, configWatch),
-        Container(
-          margin: const EdgeInsets.only(top: 40),
-          child: Screenshot(
-            controller: configWatch.getScreenShotController,
-            child: HtmlWidget(Printer().htmlTest),
-          ),
-        ),
+        btnSave(context, configWatch, configRead),
+        // Container(
+        //   margin: const EdgeInsets.only(top: 40),
+        //   child: Screenshot(
+        //     controller: configWatch.getScreenShotController,
+        //     child: HtmlWidget(Printer().htmlTest),
+        //   ),
+        // ),
       ],
     ),
   );
@@ -42,11 +45,12 @@ GestureDetector testPrintBtn(BuildContext context, ConfigProvider configRead,
     ConfigProvider configWatch) {
   return GestureDetector(
     onTap: () async {
-      configWatch.getScreenShotController
-          .capture(delay: const Duration(seconds: 1), pixelRatio: 1.2)
-          .then((Uint8List? value) async {
-        Printer().printer(value!);
-      });
+      // configWatch.getScreenShotController
+      //     .capture(delay: const Duration(seconds: 1), pixelRatio: 1.2)
+      //     .then((Uint8List? value) async {
+      //   Printer().printer(value!);
+      // });
+      Printer().testPrinter();
     },
     child: Container(
       alignment: Alignment.center,
@@ -94,9 +98,14 @@ GestureDetector testPrintBtn(BuildContext context, ConfigProvider configRead,
   );
 }
 
-GestureDetector btnSave(BuildContext context, ConfigProvider configWatch) {
+GestureDetector btnSave(BuildContext context, ConfigProvider configWatch,
+    ConfigProvider configRead) {
   return GestureDetector(
-    onTap: () async {},
+    onTap: () async {
+      configRead.saveConfigPrinter().then((value) {
+        LoadingStyle().dialogSuccess(context, isPopUntil: false);
+      });
+    },
     child: Container(
       alignment: Alignment.center,
       height: Constants().screenheight(context) * 0.09,
@@ -143,7 +152,8 @@ GestureDetector btnSave(BuildContext context, ConfigProvider configWatch) {
   );
 }
 
-SizedBox printerAddress(BuildContext context) {
+SizedBox printerAddress(BuildContext context, ConfigProvider configWatch,
+    ConfigProvider configRead) {
   return SizedBox(
     width: Constants().screenWidth(context) * 0.66,
     height: Constants().screenheight(context) * 0.13,
@@ -159,6 +169,7 @@ SizedBox printerAddress(BuildContext context) {
           SizedBox(
             width: Constants().screenWidth(context) * 0.4,
             child: TextField(
+              controller: configWatch.addressController,
               decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey.shade100.withOpacity(0.1),
@@ -168,9 +179,14 @@ SizedBox printerAddress(BuildContext context) {
                     padding: EdgeInsets.only(
                         left: Constants().screenheight(context) * 0.04,
                         right: Constants().screenheight(context) * 0.02),
-                    child: Icon(
-                      Icons.wifi_password,
-                      size: Constants().screenheight(context) * 0.045,
+                    child: GestureDetector(
+                      onLongPress: () {
+                        configWatch.setAddressForTest();
+                      },
+                      child: Icon(
+                        Icons.wifi_password,
+                        size: Constants().screenheight(context) * 0.045,
+                      ),
                     ),
                   ),
                   suffixIcon: Padding(

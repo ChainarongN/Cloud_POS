@@ -325,13 +325,13 @@ Future<dynamic> eCouponInquiryDialog(
                   Container(
                     margin: EdgeInsets.only(
                         top: Constants().screenheight(context) * 0.018),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         AppTextStyle().textBold(
                             '${LocaleKeys.voucher.tr()} S/N :',
                             size: Constants().screenWidth(context) *
                                 Constants.normalSize),
-                        const Spacer(),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!.voucherSN!
                                     .isNotEmpty
@@ -346,13 +346,13 @@ Future<dynamic> eCouponInquiryDialog(
                   Container(
                     margin: EdgeInsets.only(
                         top: Constants().screenheight(context) * 0.01),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         AppTextStyle().textBold(
                             '${LocaleKeys.voucher_name.tr()} :',
                             size: Constants().screenWidth(context) *
                                 Constants.normalSize),
-                        const Spacer(),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!
                                     .voucherName!.isNotEmpty
@@ -367,13 +367,13 @@ Future<dynamic> eCouponInquiryDialog(
                   Container(
                     margin: EdgeInsets.only(
                         top: Constants().screenheight(context) * 0.01),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         AppTextStyle().textBold(
                             '${LocaleKeys.promotion_code.tr()} :',
                             size: Constants().screenWidth(context) *
                                 Constants.normalSize),
-                        const Spacer(),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!
                                     .promotionCode!.isNotEmpty
@@ -388,13 +388,13 @@ Future<dynamic> eCouponInquiryDialog(
                   Container(
                     margin: EdgeInsets.only(
                         top: Constants().screenheight(context) * 0.01),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         AppTextStyle().textBold(
                             '${LocaleKeys.promotion_name.tr()} :',
                             size: Constants().screenWidth(context) *
                                 Constants.normalSize),
-                        const Spacer(),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!
                                     .promotionName!.isNotEmpty
@@ -409,13 +409,13 @@ Future<dynamic> eCouponInquiryDialog(
                   Container(
                     margin: EdgeInsets.only(
                         top: Constants().screenheight(context) * 0.01),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         AppTextStyle().textBold(
                             '${LocaleKeys.voucher_amount.tr()} :',
                             size: Constants().screenWidth(context) *
                                 Constants.normalSize),
-                        const Spacer(),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!
                                     .voucherAmount!.isNotEmpty
@@ -430,13 +430,13 @@ Future<dynamic> eCouponInquiryDialog(
                   Container(
                     margin: EdgeInsets.only(
                         top: Constants().screenheight(context) * 0.01),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         AppTextStyle().textBold(
                             '${LocaleKeys.voucher_value.tr()} :',
                             size: Constants().screenWidth(context) *
                                 Constants.normalSize),
-                        const Spacer(),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!
                                     .voucherValue!.isNotEmpty
@@ -451,13 +451,13 @@ Future<dynamic> eCouponInquiryDialog(
                   Container(
                     margin: EdgeInsets.only(
                         top: Constants().screenheight(context) * 0.01),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         AppTextStyle().textBold(
                             '${LocaleKeys.expire_date.tr()} :',
                             size: Constants().screenWidth(context) *
                                 Constants.normalSize),
-                        const Spacer(),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!.expireDate!
                                     .isNotEmpty

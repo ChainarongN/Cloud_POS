@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
+import 'package:cloud_pos/service/printer.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style_2.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import 'package:provider/provider.dart';
+import 'package:screenshot/screenshot.dart';
 
 class UtilityPage extends StatefulWidget {
   const UtilityPage({super.key});
@@ -266,6 +268,7 @@ class _UtilityPageState extends State<UtilityPage> {
       UtilityProvider utilityWatch,
       UtilityProvider utilityRead,
       bool isSession) {
+    var homePvd = Provider.of<HomeProvider>(context, listen: false);
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -282,7 +285,11 @@ class _UtilityPageState extends State<UtilityPage> {
                     height: Constants().screenheight(context),
                     child: Scrollbar(
                       child: SingleChildScrollView(
-                          child: HtmlWidget(utilityWatch.getHtml)),
+                          child: Screenshot(
+                              controller: isSession
+                                  ? homePvd.screenshotCloseSession
+                                  : homePvd.screenshotEndday,
+                              child: HtmlWidget(utilityWatch.getHtml))),
                     ),
                   ),
                   Container(
@@ -290,10 +297,26 @@ class _UtilityPageState extends State<UtilityPage> {
                     child: ContainerStyle2(
                       onPressed: () {
                         if (isSession) {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/loginPage', (route) => false);
+                          homePvd.screenshotCloseSession
+                              .capture(
+                                  delay: const Duration(seconds: 1),
+                                  pixelRatio: 1.2)
+                              .then((Uint8List? value) async {
+                            Printer().printReceipt(value!).then((value) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, '/loginPage', (route) => false);
+                            });
+                          });
                         } else {
-                          Navigator.maybePop(context);
+                          homePvd.screenshotEndday
+                              .capture(
+                                  delay: const Duration(seconds: 1),
+                                  pixelRatio: 1.2)
+                              .then((Uint8List? value) async {
+                            Printer().printReceipt(value!).then((value) {
+                              Navigator.maybePop(context);
+                            });
+                          });
                         }
                       },
                       radius: 25,

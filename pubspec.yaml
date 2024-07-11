@@ -61,6 +61,7 @@ dependencies:
   esc_pos_printer:
   esc_pos_utils:
   image:
+  sunmi_printer_plus:
   # pdf:
   # html_to_pdf_plus:
   # printing:

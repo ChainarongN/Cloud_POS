@@ -118,7 +118,7 @@ Future<dynamic> dialogResultHtml(
                       child: SizedBox(
                         width: Constants().screenWidth(context) * 0.29,
                         child: Screenshot(
-                          controller: menuWatch.screenshotController,
+                          controller: menuWatch.screenshotOrderSumController,
                           child: HtmlWidget(html),
                         ),
                       ),
@@ -136,12 +136,14 @@ Future<dynamic> dialogResultHtml(
                             if (menuWatch.apiState != ApiState.LOADING) {
                               menuWatch.apiState = ApiState.LOADING;
                               LoadingStyle().dialogLoadding(context);
-                              menuWatch.screenshotController
+                              menuWatch.screenshotOrderSumController
                                   .capture(
                                       delay: const Duration(seconds: 1),
                                       pixelRatio: 1.3)
                                   .then((Uint8List? value) async {
-                                await Printer().printer(value!).then((value) {
+                                await Printer()
+                                    .printReceipt(value!)
+                                    .then((value) {
                                   menuWatch.apiState = ApiState.COMPLETED;
                                   Navigator.of(context).popUntil(
                                       ModalRoute.withName('/menuPage'));

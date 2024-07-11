@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:cloud_pos/networks/api_service.dart';
+import 'package:cloud_pos/providers/home/home_provider.dart';
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/providers/utility/utility_provider.dart';
+import 'package:cloud_pos/service/printer.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/loading_style.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 
 Future openAmountSessionDialog(BuildContext context,
@@ -97,6 +100,8 @@ showHtmlDialog(BuildContext context, UtilityProvider utilityWatch,
   showDialog(
     context: context,
     builder: (context) {
+      var homePvd = Provider.of<HomeProvider>(context, listen: false);
+
       return Padding(
         padding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
         child: ClipPath(
@@ -116,7 +121,11 @@ showHtmlDialog(BuildContext context, UtilityProvider utilityWatch,
                       child: SingleChildScrollView(
                         child: SizedBox(
                           width: Constants().screenWidth(context),
-                          child: HtmlWidget(utilityWatch.getHtml),
+                          child: Screenshot(
+                              controller: isSession
+                                  ? homePvd.screenshotCloseSession
+                                  : homePvd.screenshotEndday,
+                              child: HtmlWidget(utilityWatch.getHtml)),
                         ),
                       ),
                     ),
@@ -126,8 +135,29 @@ showHtmlDialog(BuildContext context, UtilityProvider utilityWatch,
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/loginPage', (route) => false);
+                          if (isSession) {
+                            homePvd.screenshotCloseSession
+                                .capture(
+                                    delay: const Duration(seconds: 1),
+                                    pixelRatio: 1.2)
+                                .then((Uint8List? value) async {
+                              Printer().printReceipt(value!).then((value) {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, '/loginPage', (route) => false);
+                              });
+                            });
+                          } else {
+                            homePvd.screenshotEndday
+                                .capture(
+                                    delay: const Duration(seconds: 1),
+                                    pixelRatio: 1.2)
+                                .then((Uint8List? value) async {
+                              Printer().printReceipt(value!).then((value) {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, '/loginPage', (route) => false);
+                              });
+                            });
+                          }
                         },
                         child: Container(
                           margin: EdgeInsets.only(
