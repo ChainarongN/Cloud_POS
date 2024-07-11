@@ -20,6 +20,9 @@ GestureDetector btnLoginMobile(
   var homePvd = Provider.of<HomeProvider>(context, listen: false);
   var menuPvd = Provider.of<MenuProvider>(context, listen: false);
   return GestureDetector(
+      onLongPress: () {
+        loginRead.setUsernameForTest();
+      },
       onTap: () async {
         String baseUrl = await loginWatch.getBaseUrl();
         if (baseUrl.isEmpty) {

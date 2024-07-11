@@ -39,7 +39,7 @@ Drawer drawerWidget(BuildContext context) {
                   .textNormal('Cancel Transaction', size: textSize),
               leading: const Icon(Icons.access_alarm),
               onTap: () {
-                openConfCancel(context, menuRead);
+                openConfCancel(context, menuRead, menuWatch);
               },
             ),
             ListTile(

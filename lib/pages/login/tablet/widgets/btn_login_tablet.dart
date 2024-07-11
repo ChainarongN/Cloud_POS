@@ -17,6 +17,9 @@ GestureDetector btnLoginTablet(
     BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
   var configPvd = Provider.of<ConfigProvider>(context, listen: false);
   return GestureDetector(
+      onLongPress: () {
+        loginRead.setUsernameForTest();
+      },
       onTap: () async {
         String baseUrl = await loginWatch.getBaseUrl();
         if (baseUrl.isEmpty) {

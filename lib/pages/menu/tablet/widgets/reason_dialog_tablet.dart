@@ -57,7 +57,8 @@ Future<void> reasonDialogTablet(BuildContext context) {
   );
 }
 
-Future<void> openConfCancel(BuildContext context, MenuProvider menuRead) {
+Future<void> openConfCancel(
+    BuildContext context, MenuProvider menuRead, MenuProvider menuWatch) {
   return showDialog<void>(
     context: context,
     barrierDismissible: false,
@@ -71,6 +72,7 @@ Future<void> openConfCancel(BuildContext context, MenuProvider menuRead) {
             child: Column(
               children: <Widget>[
                 TextField(
+                  controller: menuWatch.authInfoUsernameController,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white.withOpacity(0.3),
@@ -86,12 +88,10 @@ Future<void> openConfCancel(BuildContext context, MenuProvider menuRead) {
                   style: TextStyle(
                       color: Constants.textColor,
                       fontSize: Constants().screenheight(context) * 0.024),
-                  onChanged: (value) {
-                    menuRead.usernameCancel = value;
-                  },
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                 TextField(
+                  controller: menuWatch.authInfoPasswordController,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white.withOpacity(0.3),
@@ -107,9 +107,6 @@ Future<void> openConfCancel(BuildContext context, MenuProvider menuRead) {
                   style: TextStyle(
                       color: Constants.textColor,
                       fontSize: Constants().screenheight(context) * 0.024),
-                  onChanged: (value) {
-                    menuRead.passwordCancel = value;
-                  },
                 ),
               ],
             ),
@@ -118,6 +115,9 @@ Future<void> openConfCancel(BuildContext context, MenuProvider menuRead) {
         actions: <Widget>[
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.ok.tr(), size: 18),
+            onLongPress: () {
+              menuRead.setCancelUserNameForTest();
+            },
             onPressed: () async {
               LoadingStyle().dialogLoadding(context);
               await menuRead.authInfo(context);

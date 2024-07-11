@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 Future<void> changeSaleModeDialog(BuildContext context, HomeProvider homeWatch,
-    HomeProvider homeRead, MenuProvider menuRead) {
+    HomeProvider homeRead, MenuProvider menuRead, MenuProvider menuWatch) {
   return showDialog<void>(
     context: context,
     barrierDismissible: false,
@@ -30,7 +30,7 @@ Future<void> changeSaleModeDialog(BuildContext context, HomeProvider homeWatch,
                   homeWatch.saleModeDataList!.length,
                   (index) => GestureDetector(
                         onTap: () {
-                          confChangeDialog(context, menuRead, index);
+                          confChangeDialog(context, menuRead, index, menuWatch);
                         },
                         child: Card(
                           child: Padding(
@@ -64,8 +64,8 @@ Future<void> changeSaleModeDialog(BuildContext context, HomeProvider homeWatch,
   );
 }
 
-Future<void> confChangeDialog(
-    BuildContext context, MenuProvider menuRead, int saleModeIndex) {
+Future<void> confChangeDialog(BuildContext context, MenuProvider menuRead,
+    int saleModeIndex, MenuProvider menuWatch) {
   return showDialog<void>(
     context: context,
     barrierDismissible: false,
@@ -77,7 +77,7 @@ Future<void> confChangeDialog(
             children: [
               ElevatedButton(
                 onPressed: () async {
-                  openConfCancel(context, menuRead,
+                  openConfCancel(context, menuRead, menuWatch,
                       indexSaleMode: saleModeIndex);
                 },
                 child: Center(

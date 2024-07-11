@@ -112,7 +112,8 @@ class _CancelTranPageState extends State<CancelTranPage> {
   }
 }
 
-Future<void> openConfCancel(BuildContext context, MenuProvider menuRead,
+Future<void> openConfCancel(
+    BuildContext context, MenuProvider menuRead, MenuProvider menuWatch,
     {int? indexSaleMode}) {
   return showDialog<void>(
     context: context,
@@ -127,6 +128,7 @@ Future<void> openConfCancel(BuildContext context, MenuProvider menuRead,
             child: Column(
               children: <Widget>[
                 TextField(
+                  controller: menuWatch.authInfoUsernameController,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white.withOpacity(0.3),
@@ -142,12 +144,10 @@ Future<void> openConfCancel(BuildContext context, MenuProvider menuRead,
                   style: TextStyle(
                       color: Constants.textColor,
                       fontSize: Constants().screenheight(context) * 0.024),
-                  onChanged: (value) {
-                    menuRead.usernameCancel = value;
-                  },
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                 TextField(
+                  controller: menuWatch.authInfoPasswordController,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white.withOpacity(0.3),
@@ -163,9 +163,6 @@ Future<void> openConfCancel(BuildContext context, MenuProvider menuRead,
                   style: TextStyle(
                       color: Constants.textColor,
                       fontSize: Constants().screenheight(context) * 0.024),
-                  onChanged: (value) {
-                    menuRead.passwordCancel = value;
-                  },
                 ),
               ],
             ),
@@ -175,6 +172,9 @@ Future<void> openConfCancel(BuildContext context, MenuProvider menuRead,
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.ok.tr(),
                 size: Constants().screenWidth(context) * Constants.normalSize),
+            onLongPress: () {
+              menuRead.setCancelUserNameForTest();
+            },
             onPressed: () async {
               LoadingStyle().dialogLoadding(context);
               if (indexSaleMode == null) {

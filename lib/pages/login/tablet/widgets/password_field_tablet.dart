@@ -9,6 +9,7 @@ SizedBox passwordTablet(
   return SizedBox(
     width: Constants().screenWidth(context) * 0.3,
     child: TextField(
+      controller: loginWatch.passwordController,
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white.withOpacity(0.3),

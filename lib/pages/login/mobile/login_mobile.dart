@@ -59,7 +59,7 @@ class _LoginMobileState extends State<LoginMobile> {
                       children: [
                         AppTextStyle().textNormal('vTec - Cloud POS',
                             size: Constants().screenheight(context) * 0.02),
-                        usernameMobile(context),
+                        usernameMobile(context, loginWatch),
                         SizedBox(
                             height: Constants().screenheight(context) * 0.014),
                         passwordMobile(context, loginWatch, loginRead),

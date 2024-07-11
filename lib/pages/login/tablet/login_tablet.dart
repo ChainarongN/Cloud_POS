@@ -57,7 +57,7 @@ class _LoginTabletState extends State<LoginTablet> {
                       children: [
                         AppTextStyle().textNormal('vTec - Cloud POS',
                             size: Constants().screenheight(context) * 0.024),
-                        usernameTablet(context),
+                        usernameTablet(context, loginWatch),
                         SizedBox(
                             height: Constants().screenheight(context) * 0.02),
                         passwordTablet(context, loginWatch, loginRead),

@@ -35,6 +35,8 @@ class LoginProvider extends ChangeNotifier {
   List<SaleModeData>? saleModeDataList;
   final TextEditingController openAmountController = TextEditingController();
   final TextEditingController deviceController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   // --------------------------- GET ---------------------------
   String get getErrorText => _errorText!;
@@ -115,10 +117,11 @@ class LoginProvider extends ChangeNotifier {
 
   Future login(BuildContext context) async {
     apisState = ApiState.LOADING;
-    String username = 'cpos';
+    // String username = 'cpos';
+    // String password = 'cpos';
     var response = await _loginRepository.login(
-      username: username,
-      password: 'cpos',
+      username: usernameController.text,
+      password: passwordController.text,
       langId: '1',
     );
     loginModel = await DetectLoginFunc().detectLogin(context, response);
@@ -136,7 +139,7 @@ class LoginProvider extends ChangeNotifier {
         Constants().printCheckFlow(response, 'Success Login');
         await SharedPref()
             .setStaffID(loginModel!.responseObj!.staffInfo!.staffID!);
-        await SharedPref().setUsername(username);
+        await SharedPref().setUsername(usernameController.text);
         await SharedPref()
             .setStaffCode(loginModel!.responseObj!.staffInfo!.staffCode!);
         await SharedPref().setStaffRoleName(
@@ -254,6 +257,12 @@ class LoginProvider extends ChangeNotifier {
 
   setMockDeviceId() {
     deviceController.text = '0288-7363-6560-2714';
+    notifyListeners();
+  }
+
+  setUsernameForTest() {
+    usernameController.text = 'cpos';
+    passwordController.text = 'cpos';
     notifyListeners();
   }
 

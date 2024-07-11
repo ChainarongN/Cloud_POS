@@ -66,8 +66,6 @@ class MenuProvider extends ChangeNotifier {
       _valueCurrency,
       holdBillName,
       holdBillPhone,
-      usernameCancel,
-      passwordCancel,
       payAmount = '';
   String _exceptionText = '';
   final TextEditingController reasonController = TextEditingController();
@@ -80,6 +78,10 @@ class MenuProvider extends ChangeNotifier {
   final TextEditingController payAmountCredit = TextEditingController();
   final TextEditingController paymentRemark = TextEditingController();
   final TextEditingController phoneMemberController = TextEditingController();
+  final TextEditingController authInfoUsernameController =
+      TextEditingController();
+  final TextEditingController authInfoPasswordController =
+      TextEditingController();
   TabController? _tabController;
   final ScreenshotController screenshotOrderSumController =
       ScreenshotController();
@@ -199,11 +201,10 @@ class MenuProvider extends ChangeNotifier {
     var response = await _menuRepository.authInfo(
         langID: '1',
         authType: 'cancelbill',
-        username: 'vtec',
-        password: 'vtecsystem'
-        // username: usernameCancel,
-        // password: passwordCancel,
-        );
+        // username: 'vtec',
+        // password: 'vtecsystem'
+        username: authInfoUsernameController.text,
+        password: authInfoPasswordController.text);
     authInfoModel = await DetectMenuFunc().detectAuthInfo(context, response);
   }
 
@@ -734,6 +735,17 @@ class MenuProvider extends ChangeNotifier {
 
   setCouponCodeControllerForTest() {
     couponCodeController.text = '8F811112C4E72E72E177';
+    notifyListeners();
+  }
+
+  setPhoneMemberForTest() {
+    phoneMemberController.text = '083-686-9334';
+    notifyListeners();
+  }
+
+  setCancelUserNameForTest() {
+    authInfoUsernameController.text = 'vtec';
+    authInfoPasswordController.text = 'vtecsystem';
     notifyListeners();
   }
 

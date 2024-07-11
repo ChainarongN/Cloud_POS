@@ -43,7 +43,7 @@ class _MenuTabletState extends State<MenuTablet>
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
-              openConfCancel(context, menuRead);
+              openConfCancel(context, menuRead, menuWatch);
             }),
         actions: <Widget>[
           memberTablet(context, menuRead, menuWatch),

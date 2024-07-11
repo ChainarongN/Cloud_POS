@@ -45,7 +45,8 @@ class _MenuMobileState extends State<MenuMobile> {
                 EdgeInsets.only(right: Constants().screenWidth(context) * 0.05),
             child: GestureDetector(
               onTap: () {
-                changeSaleModeDialog(context, homeWatch, homeRead, menuRead);
+                changeSaleModeDialog(
+                    context, homeWatch, homeRead, menuRead, menuWatch);
               },
               child: Row(
                 children: [
