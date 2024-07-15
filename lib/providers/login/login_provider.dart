@@ -14,7 +14,7 @@ import 'package:cloud_pos/providers/menu/functions/read_file_func.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -135,7 +135,7 @@ class LoginProvider extends ChangeNotifier {
       if (loginModel!.responseCode == '99') {
         if (loginModel!.responseText == Constants.INVALID_LOGIN) {
           _errorText = 'Invalid username or password';
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               error: _errorText, isPopUntil: true, popToPage: '/loginPage');
           apisState = ApiState.ERROR;
         } else {

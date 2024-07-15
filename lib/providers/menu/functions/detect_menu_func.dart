@@ -10,7 +10,7 @@ import 'package:cloud_pos/models/reason_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +26,7 @@ class DetectMenuFunc {
   //   try {
   //     if (response is Failure) {
   //       menuProvider.apiState = ApiState.ERROR;
-  //       LoadingStyle().dialogError(context,
+  //       DialogStyle().dialogError(context,
   //           error: response.errorResponse.toString(),
   //           isPopUntil: true,
   //           popToPage: '/menuPage');
@@ -37,7 +37,7 @@ class DetectMenuFunc {
   //         Constants().printCheckFlow(response, 'productAdd');
   //       } else {
   //         menuProvider.apiState = ApiState.ERROR;
-  //         LoadingStyle().dialogError(context,
+  //         DialogStyle().dialogError(context,
   //             error: productAddModel.responseText,
   //             isPopUntil: true,
   //             popToPage: '/menuPage');
@@ -46,7 +46,7 @@ class DetectMenuFunc {
   //   } catch (e, strack) {
   //     Constants().printError('$e - $strack');
   //     menuProvider.apiState = ApiState.ERROR;
-  //     LoadingStyle().dialogError(context,
+  //     DialogStyle().dialogError(context,
   //         error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
   //   }
   //   return productAddModel!;
@@ -58,7 +58,7 @@ class DetectMenuFunc {
     try {
       if (response is Failure) {
         menuProvider.apiState = ApiState.ERROR;
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/menuPage');
@@ -69,7 +69,7 @@ class DetectMenuFunc {
           Constants().printCheckFlow(response, 'AuthInfoModel');
         } else {
           menuProvider.apiState = ApiState.ERROR;
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               error: authInfoModel.responseText,
               isPopUntil: true,
               popToPage: '/menuPage');
@@ -78,7 +78,7 @@ class DetectMenuFunc {
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       menuProvider.apiState = ApiState.ERROR;
-      LoadingStyle().dialogError(context,
+      DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
     }
     return authInfoModel!;
@@ -91,7 +91,7 @@ class DetectMenuFunc {
     try {
       if (response is Failure) {
         menuProvider.apiState = ApiState.ERROR;
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/menuPage');
@@ -102,7 +102,7 @@ class DetectMenuFunc {
           Constants().printCheckFlow(response, 'holdBill');
         } else {
           menuProvider.apiState = ApiState.ERROR;
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               error: holdBillModel.responseText,
               isPopUntil: true,
               popToPage: '/menuPage');
@@ -111,7 +111,7 @@ class DetectMenuFunc {
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       menuProvider.apiState = ApiState.ERROR;
-      LoadingStyle().dialogError(context,
+      DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
     }
     return holdBillModel!;
@@ -124,7 +124,7 @@ class DetectMenuFunc {
     try {
       if (response is Failure) {
         menuProvider.apiState = ApiState.ERROR;
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/menuPage');
@@ -135,7 +135,7 @@ class DetectMenuFunc {
           Constants().printCheckFlow(response, 'productObj');
         } else {
           menuProvider.apiState = ApiState.ERROR;
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               error: productObjModel.responseText,
               isPopUntil: true,
               popToPage: '/menuPage');
@@ -144,7 +144,7 @@ class DetectMenuFunc {
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       menuProvider.apiState = ApiState.ERROR;
-      LoadingStyle().dialogError(context,
+      DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
     }
     return productObjModel!;
@@ -157,7 +157,7 @@ class DetectMenuFunc {
   //   try {
   //     if (response is Failure) {
   //       menuProvider.apiState = ApiState.ERROR;
-  //       LoadingStyle().dialogError(context,
+  //       DialogStyle().dialogError(context,
   //           error: response.errorResponse.toString(),
   //           isPopUntil: true,
   //           popToPage: '/menuPage');
@@ -168,7 +168,7 @@ class DetectMenuFunc {
   //         Constants().printCheckFlow(response, 'finalizeBill');
   //       } else {
   //         menuProvider.apiState = ApiState.ERROR;
-  //         LoadingStyle().dialogError(context,
+  //         DialogStyle().dialogError(context,
   //             error: finalizeBillModel.responseText,
   //             isPopUntil: true,
   //             popToPage: '/menuPage');
@@ -177,7 +177,7 @@ class DetectMenuFunc {
   //   } catch (e, strack) {
   //     Constants().printError('$e - $strack');
   //     menuProvider.apiState = ApiState.ERROR;
-  //     LoadingStyle().dialogError(context,
+  //     DialogStyle().dialogError(context,
   //         error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
   //   }
   //   return finalizeBillModel!;
@@ -190,7 +190,7 @@ class DetectMenuFunc {
     try {
       if (response is Failure) {
         menuProvider.apiState = ApiState.ERROR;
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/menuPage');
@@ -201,7 +201,7 @@ class DetectMenuFunc {
           Constants().printCheckFlow(response, action);
         } else {
           menuProvider.apiState = ApiState.ERROR;
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               error: jsonDecode(response)['ResponseText'],
               isPopUntil: true,
               popToPage: '/menuPage');
@@ -210,7 +210,7 @@ class DetectMenuFunc {
     } catch (e, strack) {
       Constants().printError('$e - $strack');
       menuProvider.apiState = ApiState.ERROR;
-      LoadingStyle().dialogError(context,
+      DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
     }
     return transactionModel!;
@@ -223,7 +223,7 @@ class DetectMenuFunc {
   //   try {
   //     if (response is Failure) {
   //       menuProvider.apiState = ApiState.ERROR;
-  //       LoadingStyle().dialogError(context,
+  //       DialogStyle().dialogError(context,
   //           error: response.errorResponse.toString(),
   //           isPopUntil: true,
   //           popToPage: '/menuPage');
@@ -234,7 +234,7 @@ class DetectMenuFunc {
   //         Constants().printCheckFlow(response, 'paymentSubmit');
   //       } else {
   //         menuProvider.apiState = ApiState.ERROR;
-  //         LoadingStyle().dialogError(context,
+  //         DialogStyle().dialogError(context,
   //             error: paymentSubmitModel.responseText,
   //             isPopUntil: true,
   //             popToPage: '/menuPage');
@@ -243,7 +243,7 @@ class DetectMenuFunc {
   //   } catch (e, strack) {
   //     Constants().printError('$e - $strack');
   //     menuProvider.apiState = ApiState.ERROR;
-  //     LoadingStyle().dialogError(context,
+  //     DialogStyle().dialogError(context,
   //         error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
   //   }
   //   return paymentSubmitModel!;
@@ -258,7 +258,7 @@ class DetectMenuFunc {
         menuProvider.apiState = ApiState.ERROR;
         Navigator.pop(context);
         Future.delayed(const Duration(milliseconds: 500), () {
-          LoadingStyle()
+          DialogStyle()
               .dialogError(context,
                   error: response.errorResponse.toString(), isPopUntil: false)
               .then((value) => Navigator.of(context)
@@ -273,7 +273,7 @@ class DetectMenuFunc {
           menuProvider.apiState = ApiState.ERROR;
           Navigator.pop(context);
           Future.delayed(const Duration(milliseconds: 500), () {
-            LoadingStyle()
+            DialogStyle()
                 .dialogError(context,
                     error: cancelTranModel!.responseText, isPopUntil: false)
                 .then((value) => Navigator.of(context)
@@ -286,7 +286,7 @@ class DetectMenuFunc {
       menuProvider.apiState = ApiState.ERROR;
       Navigator.pop(context);
       Future.delayed(const Duration(milliseconds: 500), () {
-        LoadingStyle()
+        DialogStyle()
             .dialogError(context, error: e.toString(), isPopUntil: false)
             .then((value) => Navigator.of(context)
                 .popUntil(ModalRoute.withName('/homePage')));
@@ -302,7 +302,7 @@ class DetectMenuFunc {
       if (response is Failure) {
         menuProvider.apiState = ApiState.ERROR;
         Future.delayed(const Duration(milliseconds: 500), () {
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               error: response.errorResponse.toString(), isPopUntil: false);
         });
       } else {
@@ -313,7 +313,7 @@ class DetectMenuFunc {
         } else {
           menuProvider.apiState = ApiState.ERROR;
           Future.delayed(const Duration(milliseconds: 500), () {
-            LoadingStyle().dialogError(context,
+            DialogStyle().dialogError(context,
                 error: reasonModel!.responseText, isPopUntil: false);
           });
         }
@@ -322,7 +322,7 @@ class DetectMenuFunc {
       Constants().printError('$e - $strack');
       menuProvider.apiState = ApiState.ERROR;
       Future.delayed(const Duration(milliseconds: 500), () {
-        LoadingStyle()
+        DialogStyle()
             .dialogError(context, error: e.toString(), isPopUntil: false);
       });
     }
@@ -337,7 +337,7 @@ class DetectMenuFunc {
       if (response is Failure) {
         menuProvider.apiState = ApiState.ERROR;
         Future.delayed(const Duration(milliseconds: 500), () {
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               error: response.errorResponse.toString(),
               isPopUntil: true,
               popToPage: '/menuPage');
@@ -350,7 +350,7 @@ class DetectMenuFunc {
         } else {
           menuProvider.apiState = ApiState.ERROR;
           Future.delayed(const Duration(milliseconds: 500), () {
-            LoadingStyle().dialogError(context,
+            DialogStyle().dialogError(context,
                 error: memberDataModel!.responseText,
                 isPopUntil: true,
                 popToPage: '/menuPage');
@@ -361,7 +361,7 @@ class DetectMenuFunc {
       Constants().printError('$e - $strack');
       menuProvider.apiState = ApiState.ERROR;
       Future.delayed(const Duration(milliseconds: 500), () {
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
       });
     }
@@ -376,7 +376,7 @@ class DetectMenuFunc {
   //     if (response is Failure) {
   //       menuProvider.apiState = ApiState.ERROR;
   //       Future.delayed(const Duration(milliseconds: 500), () {
-  //         LoadingStyle().dialogError(context,
+  //         DialogStyle().dialogError(context,
   //             error: response.errorResponse.toString(),
   //             isPopUntil: true,
   //             popToPage: '/menuPage');
@@ -389,7 +389,7 @@ class DetectMenuFunc {
   //       } else {
   //         menuProvider.apiState = ApiState.ERROR;
   //         Future.delayed(const Duration(milliseconds: 500), () {
-  //           LoadingStyle().dialogError(context,
+  //           DialogStyle().dialogError(context,
   //               error: memberApplyModel!.responseText,
   //               isPopUntil: true,
   //               popToPage: '/menuPage');
@@ -400,7 +400,7 @@ class DetectMenuFunc {
   //     Constants().printError('$e - $strack');
   //     menuProvider.apiState = ApiState.ERROR;
   //     Future.delayed(const Duration(milliseconds: 500), () {
-  //       LoadingStyle().dialogError(context,
+  //       DialogStyle().dialogError(context,
   //           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
   //     });
   //   }
@@ -415,7 +415,7 @@ class DetectMenuFunc {
   //     if (response is Failure) {
   //       menuProvider.apiState = ApiState.ERROR;
   //       Future.delayed(const Duration(milliseconds: 500), () {
-  //         LoadingStyle().dialogError(context,
+  //         DialogStyle().dialogError(context,
   //             error: response.errorResponse.toString(),
   //             isPopUntil: true,
   //             popToPage: '/menuPage');
@@ -428,7 +428,7 @@ class DetectMenuFunc {
   //       } else {
   //         menuProvider.apiState = ApiState.ERROR;
   //         Future.delayed(const Duration(milliseconds: 500), () {
-  //           LoadingStyle().dialogError(context,
+  //           DialogStyle().dialogError(context,
   //               error: memberCancelModel!.responseText,
   //               isPopUntil: true,
   //               popToPage: '/menuPage');
@@ -439,7 +439,7 @@ class DetectMenuFunc {
   //     Constants().printError('$e - $strack');
   //     menuProvider.apiState = ApiState.ERROR;
   //     Future.delayed(const Duration(milliseconds: 500), () {
-  //       LoadingStyle().dialogError(context,
+  //       DialogStyle().dialogError(context,
   //           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
   //     });
   //   }
@@ -454,7 +454,7 @@ class DetectMenuFunc {
       if (response is Failure) {
         menuProvider.apiState = ApiState.ERROR;
         Future.delayed(const Duration(milliseconds: 500), () {
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               error: response.errorResponse.toString(),
               isPopUntil: true,
               popToPage: '/menuPage');
@@ -467,7 +467,7 @@ class DetectMenuFunc {
         } else {
           menuProvider.apiState = ApiState.ERROR;
           Future.delayed(const Duration(milliseconds: 500), () {
-            LoadingStyle().dialogError(context,
+            DialogStyle().dialogError(context,
                 error: couponInquiryModel!.responseText,
                 isPopUntil: true,
                 popToPage: '/menuPage');
@@ -478,7 +478,7 @@ class DetectMenuFunc {
       Constants().printError('$e - $strack');
       menuProvider.apiState = ApiState.ERROR;
       Future.delayed(const Duration(milliseconds: 500), () {
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
       });
     }
@@ -493,7 +493,7 @@ class DetectMenuFunc {
   //     if (response is Failure) {
   //       menuProvider.apiState = ApiState.ERROR;
   //       Future.delayed(const Duration(milliseconds: 500), () {
-  //         LoadingStyle().dialogError(context,
+  //         DialogStyle().dialogError(context,
   //             error: response.errorResponse.toString(),
   //             isPopUntil: true,
   //             popToPage: '/menuPage');
@@ -506,7 +506,7 @@ class DetectMenuFunc {
   //       } else {
   //         menuProvider.apiState = ApiState.ERROR;
   //         Future.delayed(const Duration(milliseconds: 500), () {
-  //           LoadingStyle().dialogError(context,
+  //           DialogStyle().dialogError(context,
   //               error: jsonDecode(response)['ResponseText'],
   //               isPopUntil: true,
   //               popToPage: '/menuPage');
@@ -517,7 +517,7 @@ class DetectMenuFunc {
   //     Constants().printError('$e - $strack');
   //     menuProvider.apiState = ApiState.ERROR;
   //     Future.delayed(const Duration(milliseconds: 500), () {
-  //       LoadingStyle().dialogError(context,
+  //       DialogStyle().dialogError(context,
   //           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
   //     });
   //   }
@@ -532,7 +532,7 @@ class DetectMenuFunc {
   //     if (response is Failure) {
   //       menuProvider.apiState = ApiState.ERROR;
   //       Future.delayed(const Duration(milliseconds: 500), () {
-  //         LoadingStyle().dialogError(context,
+  //         DialogStyle().dialogError(context,
   //             error: response.errorResponse.toString(),
   //             isPopUntil: true,
   //             popToPage: '/menuPage');
@@ -546,7 +546,7 @@ class DetectMenuFunc {
   //       } else {
   //         menuProvider.apiState = ApiState.ERROR;
   //         Future.delayed(const Duration(milliseconds: 500), () {
-  //           LoadingStyle().dialogError(context,
+  //           DialogStyle().dialogError(context,
   //               error: promotionCancelModel!.responseText,
   //               isPopUntil: true,
   //               popToPage: '/menuPage');
@@ -557,7 +557,7 @@ class DetectMenuFunc {
   //     Constants().printError('$e - $strack');
   //     menuProvider.apiState = ApiState.ERROR;
   //     Future.delayed(const Duration(milliseconds: 500), () {
-  //       LoadingStyle().dialogError(context,
+  //       DialogStyle().dialogError(context,
   //           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
   //     });
   //   }

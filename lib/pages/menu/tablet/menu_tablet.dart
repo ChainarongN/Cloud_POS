@@ -55,7 +55,7 @@ class _MenuTabletState extends State<MenuTablet>
         ],
       ),
       body: menuWatch.getLoading
-          ? const LoaddingData()
+          ? const LoadingData()
           : Padding(
               padding:
                   EdgeInsets.all(Constants().screenheight(context) * 0.013),

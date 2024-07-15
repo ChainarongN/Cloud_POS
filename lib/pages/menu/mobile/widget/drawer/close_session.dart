@@ -7,7 +7,7 @@ import 'package:cloud_pos/providers/utility/utility_provider.dart';
 import 'package:cloud_pos/service/printer.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -57,7 +57,7 @@ Future openAmountSessionDialog(BuildContext context,
             child: AppTextStyle().textNormal('OK', size: 18),
             onPressed: () async {
               if (utilityWatch.getCloseAmountController.text.isNotEmpty) {
-                LoadingStyle().dialogLoadding(context);
+                DialogStyle().dialogLoadding(context);
                 utilityRead.closeSession(context).then((value) {
                   if (utilityWatch.apiState == ApiState.COMPLETED) {
                     if (isSession) {

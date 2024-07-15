@@ -6,7 +6,7 @@ import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -177,7 +177,7 @@ Future<void> addCouponDialog(BuildContext context) {
                   color: Constants.primaryColor),
               onPressed: () async {
                 if (dataProvider.couponCodeController.text.isNotEmpty) {
-                  LoadingStyle().dialogLoadding(context);
+                  DialogStyle().dialogLoadding(context);
                   dataProvider.eCouponInquiry(context).then((value) {
                     if (dataProvider.apiState == ApiState.COMPLETED) {
                       dataProvider.clearField();
@@ -485,7 +485,7 @@ Future<dynamic> eCouponInquiryDialog(
               onPressed: () async {
                 if (menuPvd.couponInquiryModel!.responseObj!.voucherStatus ==
                     1) {
-                  LoadingStyle().dialogLoadding(context);
+                  DialogStyle().dialogLoadding(context);
                   menuPvd.eCouponApply(context).then((value) {
                     if (menuPvd.apiState == ApiState.COMPLETED) {
                       Navigator.of(context)

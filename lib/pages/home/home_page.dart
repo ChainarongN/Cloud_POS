@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
       drawer: drawer(context, homeWatch, homeRead),
       body: homeWatch.apisState == ApiState.LOADING ||
               homeWatch.saleModeDataList!.isEmpty
-          ? const LoaddingData()
+          ? const LoadingData()
           : Padding(
               padding:
                   EdgeInsets.all(Constants().screenheight(context) * 0.025),

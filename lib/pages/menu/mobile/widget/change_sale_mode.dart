@@ -7,7 +7,7 @@ import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -89,7 +89,7 @@ Future<void> confChangeDialog(BuildContext context, MenuProvider menuRead,
               SizedBox(height: Constants().screenheight(context) * 0.01),
               ElevatedButton(
                 onPressed: () {
-                  LoadingStyle().dialogLoadding(context);
+                  DialogStyle().dialogLoadding(context);
                   menuRead.holdBill(context).then((value) async {
                     if (menuRead.apiState == ApiState.COMPLETED) {
                       var homePvd = context.read<HomeProvider>();

@@ -11,7 +11,7 @@ import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -55,7 +55,7 @@ Drawer drawerWidget(BuildContext context) {
               leading: const Icon(Icons.access_alarm),
               onTap: () {
                 var homeRead = context.read<HomeProvider>();
-                LoadingStyle().dialogLoadding(context);
+                DialogStyle().dialogLoadding(context);
                 homeRead.holdBillSearch(context).then((value) {
                   if (homeRead.apisState == ApiState.COMPLETED) {
                     Navigator.maybePop(context).then((value) =>
@@ -68,7 +68,7 @@ Drawer drawerWidget(BuildContext context) {
               title: AppTextStyle().textNormal('Member', size: textSize),
               leading: const Icon(Icons.access_alarm),
               onTap: () {
-                LoadingStyle().dialogLoadding(context);
+                DialogStyle().dialogLoadding(context);
                 menuRead.orderSummary(context).then((value) {
                   if (menuWatch.apiState == ApiState.COMPLETED) {
                     Navigator.pop(context);

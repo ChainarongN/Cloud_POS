@@ -21,7 +21,7 @@ import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +68,7 @@ class MenuProvider extends ChangeNotifier {
       _valueCurrency,
       holdBillName,
       holdBillPhone,
-      payAmount = '';
+      payAmountMobile = '';
   String _exceptionText = '';
   final TextEditingController reasonController = TextEditingController();
   final TextEditingController valueIdReason = TextEditingController();
@@ -137,46 +137,22 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future paymentCash({BuildContext? context, String? payAmount}) async {
-    if (transactionModel!.responseObj!.orderList!.isEmpty) {
-      return;
-    } else {
-      if (double.parse(payAmount!) <
-          transactionModel!.responseObj!.dueAmount!) {
-        await LoadingStyle().dialogError(context!,
-            error:
-                'You pay $payAmount THB.  ${LocaleKeys.pay_amount_must_more_than_total_price.tr()}',
-            isPopUntil: false);
-      } else {
-        await PaymentFunc()
-            .paymentCashType(context: context, payAmount: payAmount);
-      }
-    }
-    notifyListeners();
-  }
-
   Future paymentMulti(
       {BuildContext? context,
       String? payAmount,
       String? payCode,
       String? payName,
       int? payTypeId,
-      String? payRemark}) async {
-    if (transactionModel!.responseObj!.orderList!.isEmpty) {
-      return;
-    } else {
-      LoadingStyle().dialogLoadding(context!);
-      await paymentSubmit(context,
-          payAmount: payAmount,
-          payCode: payCode,
-          payName: payName,
-          payTypeId: payTypeId,
-          payRemark: payRemark);
-      if (transactionModel!.responseObj!.tranData!.dueAmount! == 0) {
-        await finalizeBill(context);
-      }
-      Navigator.maybePop(context);
-    }
+      String? payRemark,
+      bool? fromQuick}) async {
+    await PaymentFunc().paymentSubmitFlow(
+        context: context,
+        payTypeId: payTypeId,
+        payAmount: payAmount,
+        payCode: payCode,
+        payName: payName,
+        payRemark: payRemark,
+        fromQuick: fromQuick);
     notifyListeners();
   }
 
@@ -196,7 +172,7 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future clearPaymentList(BuildContext context) async {
-    LoadingStyle().dialogLoadding(context);
+    DialogStyle().dialogLoadding(context);
     for (var element in transactionModel!.responseObj!.paymentList!) {
       await paymentCancel(context, element.payDetailID.toString());
     }
@@ -227,7 +203,7 @@ class MenuProvider extends ChangeNotifier {
 
   Future addProductToList(BuildContext context, int prodId, double count,
       String orderDetailId) async {
-    LoadingStyle().dialogLoadding(context);
+    DialogStyle().dialogLoadding(context);
     await AddProductFunc().addProductToList(
       context,
       orderDetailId: orderDetailId,
@@ -301,17 +277,17 @@ class MenuProvider extends ChangeNotifier {
         .detectTransaction(context, response, 'finalizeBill');
     if (apiState == ApiState.COMPLETED) {
       if (deviceType == 'tablet') {
-        await LoadingStyle().dialogPayment2(context,
+        await DialogStyle().dialogPayment2(context,
             text: transactionModel!.responseObj!.paymentList!.last.cashChange
                 .toString(),
             popUntil: true,
             popToPage: '/homePage');
       } else {
         var homePvd = context.read<HomeProvider>();
-        await LoadingStyle().dialogPaymentProcess(context,
+        await DialogStyle().dialogPaymentProcess(context,
             text: transactionModel!.responseObj!.paymentList!.last.cashChange
                 .toString(), onPressed: () async {
-          LoadingStyle().dialogLoadding(context);
+          DialogStyle().dialogLoadding(context);
           await homePvd.openTransaction(context).then((value) {
             if (homePvd.apisState == ApiState.COMPLETED) {
               setTranData(tranModel: json.encode(homePvd.openTranModel))
@@ -362,7 +338,7 @@ class MenuProvider extends ChangeNotifier {
     } catch (e, strack) {
       apiState = ApiState.ERROR;
       Constants().printError(strack.toString());
-      LoadingStyle().dialogError(context,
+      DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
     }
   }
@@ -374,7 +350,7 @@ class MenuProvider extends ChangeNotifier {
     String modifyId,
     String productId,
   ) async {
-    LoadingStyle().dialogLoadding(context);
+    DialogStyle().dialogLoadding(context);
     String deviceType = await SharedPref().getResponsiveDevice();
     try {
       apiState = ApiState.LOADING;
@@ -400,10 +376,10 @@ class MenuProvider extends ChangeNotifier {
       Constants().printError('$e // $strack');
 
       if (deviceType == 'tablet') {
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
       } else {
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: e.toString(),
             isPopUntil: true,
             popToPage: '/shopingCartPage');
@@ -440,7 +416,7 @@ class MenuProvider extends ChangeNotifier {
         Navigator.of(context).popUntil(ModalRoute.withName('/homePage'));
       } else {
         var homePvd = context.read<HomeProvider>();
-        LoadingStyle().dialogLoadding(context);
+        DialogStyle().dialogLoadding(context);
         if (indexSaleMode == null) {
           await homePvd.openTransaction(context).then((value) {
             if (homePvd.apisState == ApiState.COMPLETED) {
@@ -599,7 +575,7 @@ class MenuProvider extends ChangeNotifier {
       switch (_tabController!.index) {
         case 5:
           if (transactionModel!.responseObj!.orderList!.isEmpty) {
-            await LoadingStyle().dialogError(context,
+            await DialogStyle().dialogError(context,
                 error: LocaleKeys.must_have_at_least_1_order.tr(),
                 isPopUntil: true,
                 popToPage: '/menuPage');

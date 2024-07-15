@@ -3,7 +3,7 @@ import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
@@ -56,7 +56,7 @@ Future<void> openNumberMemberDialog(
             },
             onPressed: () async {
               if (menuWatch.phoneMemberController.text.length == 12) {
-                LoadingStyle().dialogLoadding(context);
+                DialogStyle().dialogLoadding(context);
                 final phoneReplace =
                     menuWatch.phoneMemberController.text.replaceAll('-', '');
                 // String phoneReplace = '0836869334';
@@ -187,7 +187,7 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                           Constants.normalSize,
                       color: Colors.red),
                   onPressed: () async {
-                    LoadingStyle().dialogLoadding(context);
+                    DialogStyle().dialogLoadding(context);
                     menuRead.memberCancel(context).then((value) {
                       if (menuWatch.apiState == ApiState.COMPLETED) {
                         Navigator.of(context)
@@ -201,7 +201,7 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                       size: Constants().screenWidth(context) *
                           Constants.normalSize),
                   onPressed: () async {
-                    LoadingStyle().dialogLoadding(context);
+                    DialogStyle().dialogLoadding(context);
                     menuRead.memberApply(context).then((value) {
                       if (menuWatch.apiState == ApiState.COMPLETED) {
                         Navigator.of(context)

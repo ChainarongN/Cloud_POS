@@ -7,7 +7,7 @@ import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style_2.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,14 @@ Row priceListTablet(
     children: <Widget>[
       GestureDetector(
         onTap: () {
-          menuRead.paymentCash(context: context, payAmount: '100');
+          menuRead.paymentMulti(
+              context: context,
+              payAmount: '100',
+              payCode: 'CS',
+              payName: 'Cash',
+              payTypeId: 1,
+              payRemark: '',
+              fromQuick: true);
         },
         child: Container(
           width: Constants().screenWidth(context) * 0.07,
@@ -44,7 +51,14 @@ Row priceListTablet(
       ),
       GestureDetector(
         onTap: () {
-          menuRead.paymentCash(context: context, payAmount: '500');
+          menuRead.paymentMulti(
+              context: context,
+              payAmount: '500',
+              payCode: 'CS',
+              payName: 'Cash',
+              payTypeId: 1,
+              payRemark: '',
+              fromQuick: true);
         },
         child: Container(
           width: Constants().screenWidth(context) * 0.07,
@@ -67,7 +81,14 @@ Row priceListTablet(
       ),
       GestureDetector(
         onTap: () {
-          menuRead.paymentCash(context: context, payAmount: '1000');
+          menuRead.paymentMulti(
+              context: context,
+              payAmount: '1000',
+              payCode: 'CS',
+              payName: 'Cash',
+              payTypeId: 1,
+              payRemark: '',
+              fromQuick: true);
         },
         child: Container(
           width: Constants().screenWidth(context) * 0.07,
@@ -132,11 +153,16 @@ Future<void> moreChoiceDialog(
             child: ListView(padding: EdgeInsets.zero, children: [
               GestureDetector(
                 onTap: () {
-                  menuRead.paymentCash(
+                  menuRead.paymentMulti(
                       context: context,
                       payAmount: menuWatch
                           .transactionModel!.responseObj!.dueAmount
-                          .toString());
+                          .toString(),
+                      payCode: 'CS',
+                      payName: 'Cash',
+                      payTypeId: 1,
+                      payRemark: '',
+                      fromQuick: true);
                 },
                 child: SizedBox(
                   height: Constants().screenheight(context) * 0.1,
@@ -193,12 +219,12 @@ Future<void> moreChoiceDialog(
                 onTap: () async {
                   if (menuWatch
                       .transactionModel!.responseObj!.orderList!.isEmpty) {
-                    LoadingStyle().dialogError(context,
+                    DialogStyle().dialogError(context,
                         error: LocaleKeys.must_have_at_least_1_order.tr(),
                         isPopUntil: true,
                         popToPage: '/menuPage');
                   } else {
-                    LoadingStyle().dialogLoadding(context);
+                    DialogStyle().dialogLoadding(context);
                     await menuRead.orderSummary(context).then((value) {
                       if (menuWatch.apiState == ApiState.COMPLETED) {
                         dialogResultHtml(
@@ -290,7 +316,7 @@ Future<dynamic> dialogResultHtml(
                           onPressed: () {
                             if (menuWatch.apiState != ApiState.LOADING) {
                               menuWatch.apiState = ApiState.LOADING;
-                              LoadingStyle().dialogLoadding(context);
+                              DialogStyle().dialogLoadding(context);
                               menuWatch.screenshotOrderSumController
                                   .capture(
                                       delay: const Duration(seconds: 1),

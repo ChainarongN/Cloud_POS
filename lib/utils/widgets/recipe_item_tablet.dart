@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class RecipeItemTablet extends StatelessWidget {
   final String recipeName;
@@ -24,6 +25,8 @@ class RecipeItemTablet extends StatelessWidget {
             image: DecorationImage(
               image: NetworkImage(recipeImage),
               fit: BoxFit.cover,
+              onError: (error, stackTrace) =>
+                  const AssetImage('assets/images/no-image.png'),
             ),
           ),
         ),

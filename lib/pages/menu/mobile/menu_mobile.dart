@@ -83,7 +83,7 @@ class _MenuMobileState extends State<MenuMobile> {
         ),
       ),
       body: menuWatch.getLoading
-          ? const LoaddingData()
+          ? const LoadingData()
           : Padding(
               padding: EdgeInsets.only(
                   top: Constants().screenWidth(context) * 0.045,

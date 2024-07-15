@@ -4,7 +4,7 @@ import 'package:cloud_pos/providers/menu/functions/read_file_func.dart';
 import 'package:cloud_pos/repositorys/config/i_config_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 

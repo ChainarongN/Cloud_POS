@@ -3,7 +3,7 @@ import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +35,7 @@ Future<void> reasonDialogTablet(BuildContext context) {
             onPressed: () async {
               if (dataProvider.reasonTextController.text.isNotEmpty ||
                   dataProvider.reasonController.text.isNotEmpty) {
-                LoadingStyle().dialogLoadding(context);
+                DialogStyle().dialogLoadding(context);
                 await dataProvider.cancelTransaction(context);
               } else {
                 dataProvider.setExceptionText(
@@ -119,7 +119,7 @@ Future<void> openConfCancel(
               menuRead.setCancelUserNameForTest();
             },
             onPressed: () async {
-              LoadingStyle().dialogLoadding(context);
+              DialogStyle().dialogLoadding(context);
               await menuRead.authInfo(context);
               Navigator.maybePop(context).then((value) {
                 menuRead.clearReasonText();

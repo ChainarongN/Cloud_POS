@@ -6,7 +6,7 @@ import 'package:cloud_pos/service/printer.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style_2.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
@@ -55,7 +55,7 @@ class _UtilityPageState extends State<UtilityPage> {
                     onlyText: false,
                     size: 20,
                     onPressed: () {
-                      LoadingStyle().confirmDialog2(context,
+                      DialogStyle().confirmDialog2(context,
                           title: 'Close Session',
                           detail: 'You need to close session. ? ',
                           onPressed: () {
@@ -105,7 +105,7 @@ class _UtilityPageState extends State<UtilityPage> {
                     onlyText: false,
                     size: 20,
                     onPressed: () {
-                      LoadingStyle().confirmDialog2(context,
+                      DialogStyle().confirmDialog2(context,
                           title: 'End day',
                           detail:
                               'You need to end day. ? If it ends, you will not be able to open another session today.',
@@ -123,7 +123,7 @@ class _UtilityPageState extends State<UtilityPage> {
                         //             context, utilityWatch, utilityRead, false)
                         //         .then((value) {
                         //       if (utilityWatch.apiState != ApiState.LOADING) {
-                        //         LoadingStyle().dialogLoadding(context);
+                        //         DialogStyle().dialogLoadding(context);
                         //         utilityRead.endDay(context).then((value) async {
                         //           if (utilityWatch.apiState ==
                         //               ApiState.COMPLETED) {
@@ -152,7 +152,7 @@ class _UtilityPageState extends State<UtilityPage> {
                         //             .then((value) async {
                         //           if (utilityWatch.apiState !=
                         //               ApiState.LOADING) {
-                        //             LoadingStyle().dialogLoadding(context);
+                        //             DialogStyle().dialogLoadding(context);
                         //             utilityRead
                         //                 .endDay(context)
                         //                 .then((value) async {
@@ -225,7 +225,7 @@ class _UtilityPageState extends State<UtilityPage> {
               child: AppTextStyle().textNormal('OK', size: 18),
               onPressed: () async {
                 if (utilityWatch.getCloseAmountController.text.isNotEmpty) {
-                  LoadingStyle().dialogLoadding(context);
+                  DialogStyle().dialogLoadding(context);
                   utilityRead.closeSession(context).then((value) {
                     if (utilityWatch.apiState == ApiState.COMPLETED) {
                       if (isSession) {

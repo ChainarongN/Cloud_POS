@@ -3,7 +3,7 @@ import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -56,7 +56,7 @@ class _CancelTranPageState extends State<CancelTranPage> {
         onPressed: () async {
           if (menuWatch.reasonTextController.text.isNotEmpty ||
               menuWatch.reasonController.text.isNotEmpty) {
-            LoadingStyle().dialogLoadding(context);
+            DialogStyle().dialogLoadding(context);
             if (menuWatch.indexSaleMode == null) {
               await menuRead.cancelTransaction(context);
             } else {
@@ -176,7 +176,7 @@ Future<void> openConfCancel(
               menuRead.setCancelUserNameForTest();
             },
             onPressed: () async {
-              LoadingStyle().dialogLoadding(context);
+              DialogStyle().dialogLoadding(context);
               if (indexSaleMode == null) {
                 menuRead.indexSaleMode = null;
                 await menuRead.authInfo(context).then((value) {

@@ -5,7 +5,7 @@ import 'package:cloud_pos/models/open_tran_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/home/home_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +21,7 @@ class DetectHomeFunc {
     try {
       if (response is Failure) {
         homeProvider.apisState = ApiState.ERROR;
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/homePage');
@@ -33,7 +33,7 @@ class DetectHomeFunc {
           Constants().printCheckFlow(response, 'holdBillSearch');
         } else {
           homeProvider.apisState = ApiState.ERROR;
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               error: holdBillSearchModel.responseText!,
               isPopUntil: true,
               popToPage: '/homePage');
@@ -42,7 +42,7 @@ class DetectHomeFunc {
     } catch (e, strack) {
       homeProvider.apisState = ApiState.ERROR;
       Constants().printError(strack.toString());
-      LoadingStyle().dialogError(context,
+      DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/homePage');
     }
     return holdBillSearchModel!;
@@ -55,7 +55,7 @@ class DetectHomeFunc {
     try {
       if (response is Failure) {
         homeProvider.apisState = ApiState.ERROR;
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/homePage');
@@ -66,7 +66,7 @@ class DetectHomeFunc {
           Constants().printCheckFlow(response, 'OpenTransaction');
         } else {
           homeProvider.apisState = ApiState.ERROR;
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               error: openTranModel.responseText!,
               isPopUntil: true,
               popToPage: '/homePage');
@@ -75,7 +75,7 @@ class DetectHomeFunc {
     } catch (e, strack) {
       homeProvider.apisState = ApiState.ERROR;
       Constants().printError(strack.toString());
-      LoadingStyle().dialogError(context,
+      DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/homePage');
     }
     return openTranModel!;

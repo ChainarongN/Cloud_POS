@@ -1,18 +1,20 @@
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
+import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 
-class LoadingStyle {
-  LoadingStyle._internal();
-  static final LoadingStyle _instance = LoadingStyle._internal();
-  factory LoadingStyle() => _instance;
+class DialogStyle {
+  DialogStyle._internal();
+  static final DialogStyle _instance = DialogStyle._internal();
+  factory DialogStyle() => _instance;
 
   Future<void> dialogPayment2(BuildContext context,
       {String? text, bool? popUntil, String? popToPage}) async {
@@ -131,7 +133,7 @@ class LoadingStyle {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return const LoaddingData();
+        return const LoadingData();
       },
     );
   }

@@ -8,7 +8,7 @@ import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,14 +26,14 @@ GestureDetector btnLoginMobile(
       onTap: () async {
         String baseUrl = await loginWatch.getBaseUrl();
         if (baseUrl.isEmpty) {
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               isPopUntil: false,
               error: 'Please setting your "Base url" in Config');
         } else {
           if (loginWatch.deviceController.text.isEmpty) {
             openDeviceIdDialog(context, loginWatch, loginRead);
           } else {
-            LoadingStyle().dialogLoadding(context);
+            DialogStyle().dialogLoadding(context);
             loginRead.flowOpen(context).then((value) async {
               if (loginWatch.apisState == ApiState.COMPLETED) {
                 if (loginWatch.getOpenSession) {
@@ -124,7 +124,7 @@ Future<void> openDeviceIdDialog(
             },
             onPressed: () async {
               await configPvd.setDeviceID(loginWatch.deviceController.text);
-              LoadingStyle().dialogLoadding(context);
+              DialogStyle().dialogLoadding(context);
               loginRead.flowOpen(context).then((value) {
                 if (loginWatch.apisState == ApiState.COMPLETED) {
                   Navigator.maybePop(context);
@@ -208,7 +208,7 @@ Future<void> openAmountDialog(
             child: AppTextStyle().textNormal('OK', size: 18),
             onPressed: () async {
               if (loginWatch.openAmountController.text.isNotEmpty) {
-                LoadingStyle().dialogLoadding(context);
+                DialogStyle().dialogLoadding(context);
                 await loginRead.openSession(context).then((value) async {
                   if (loginWatch.apisState == ApiState.COMPLETED) {
                     await homePvd.openTransaction(context).then((value) {

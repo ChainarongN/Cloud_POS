@@ -3,7 +3,7 @@ import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
@@ -106,7 +106,7 @@ GestureDetector memberTablet(
     BuildContext context, MenuProvider menuRead, MenuProvider menuWatch) {
   return GestureDetector(
     onTap: () {
-      LoadingStyle().dialogLoadding(context);
+      DialogStyle().dialogLoadding(context);
       menuRead.orderSummary(context).then((value) {
         if (menuWatch.apiState == ApiState.COMPLETED) {
           Navigator.pop(context);
@@ -212,7 +212,7 @@ Future<void> openHoldBillDialog(BuildContext context, MenuProvider menuRead) {
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.ok.tr(), size: 18),
             onPressed: () async {
-              LoadingStyle().dialogLoadding(context);
+              DialogStyle().dialogLoadding(context);
               menuRead.holdBill(context).then((value) {
                 if (menuRead.apiState == ApiState.COMPLETED) {
                   Navigator.of(context)
@@ -280,7 +280,7 @@ Future<void> openNumberMemberDialog(
             },
             onPressed: () async {
               if (menuWatch.phoneMemberController.text.length == 12) {
-                LoadingStyle().dialogLoadding(context);
+                DialogStyle().dialogLoadding(context);
                 final phoneReplace =
                     menuWatch.phoneMemberController.text.replaceAll('-', '');
                 await menuRead.memberData(context, phoneReplace).then((value) {
@@ -400,7 +400,7 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                   child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
                       size: 18, color: Colors.red),
                   onPressed: () async {
-                    LoadingStyle().dialogLoadding(context);
+                    DialogStyle().dialogLoadding(context);
                     menuRead.memberCancel(context).then((value) {
                       if (menuWatch.apiState == ApiState.COMPLETED) {
                         Navigator.of(context)
@@ -413,7 +413,7 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                   child: AppTextStyle()
                       .textNormal(LocaleKeys.apply.tr(), size: 18),
                   onPressed: () async {
-                    LoadingStyle().dialogLoadding(context);
+                    DialogStyle().dialogLoadding(context);
                     menuRead.memberApply(context).then((value) {
                       if (menuWatch.apiState == ApiState.COMPLETED) {
                         Navigator.of(context)

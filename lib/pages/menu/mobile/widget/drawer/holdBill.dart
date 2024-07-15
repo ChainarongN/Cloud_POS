@@ -6,7 +6,7 @@ import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -67,7 +67,7 @@ Future<void> openHoldBillDialog(BuildContext context, MenuProvider menuRead) {
             child: AppTextStyle().textNormal(LocaleKeys.ok.tr(),
                 size: Constants().screenWidth(context) * Constants.normalSize),
             onPressed: () async {
-              LoadingStyle().dialogLoadding(context);
+              DialogStyle().dialogLoadding(context);
               menuRead.holdBill(context).then((value) async {
                 if (menuRead.apiState == ApiState.COMPLETED) {
                   var homePvd = context.read<HomeProvider>();

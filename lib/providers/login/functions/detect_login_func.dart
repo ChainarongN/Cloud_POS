@@ -8,7 +8,7 @@ import 'package:cloud_pos/models/start_process_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/login/login_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +24,7 @@ class DetectLoginFunc {
     try {
       if (response is Failure) {
         loginProvider.apisState = ApiState.ERROR;
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/loginPage');
@@ -36,7 +36,7 @@ class DetectLoginFunc {
     } catch (e, strack) {
       loginProvider.apisState = ApiState.ERROR;
       Constants().printError(strack.toString());
-      await LoadingStyle().dialogError(context,
+      await DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/loginPage');
     }
     return authTokenModel!;
@@ -49,7 +49,7 @@ class DetectLoginFunc {
     try {
       if (response is Failure) {
         loginProvider.apisState = ApiState.ERROR;
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/loginPage');
@@ -60,7 +60,7 @@ class DetectLoginFunc {
           Constants().printCheckFlow(response, 'CoreDataInit');
         } else {
           loginProvider.apisState = ApiState.ERROR;
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               error: coreInitModel.responseText!,
               isPopUntil: true,
               popToPage: '/loginPage');
@@ -69,7 +69,7 @@ class DetectLoginFunc {
     } catch (e, strack) {
       loginProvider.apisState = ApiState.ERROR;
       Constants().printError(strack.toString());
-      LoadingStyle().dialogError(context,
+      DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/loginPage');
     }
     return coreInitModel!;
@@ -81,7 +81,7 @@ class DetectLoginFunc {
     try {
       if (response is Failure) {
         loginProvider.apisState = ApiState.ERROR;
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/loginPage');
@@ -93,7 +93,7 @@ class DetectLoginFunc {
     } catch (e, strack) {
       loginProvider.apisState = ApiState.ERROR;
       Constants().printError(strack.toString());
-      LoadingStyle().dialogError(context,
+      DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/loginPage');
     }
     return loginModel!;
@@ -106,7 +106,7 @@ class DetectLoginFunc {
     try {
       if (response is Failure) {
         loginProvider.apisState = ApiState.ERROR;
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/loginPage');
@@ -117,7 +117,7 @@ class DetectLoginFunc {
           Constants().printCheckFlow(response, 'openSession');
         } else {
           loginProvider.apisState = ApiState.ERROR;
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               error: openSessionModel.responseText!,
               isPopUntil: true,
               popToPage: '/loginPage');
@@ -126,7 +126,7 @@ class DetectLoginFunc {
     } catch (e, strack) {
       loginProvider.apisState = ApiState.ERROR;
       Constants().printError(strack.toString());
-      LoadingStyle().dialogError(context,
+      DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/loginPage');
     }
     return openSessionModel!;
@@ -139,7 +139,7 @@ class DetectLoginFunc {
     try {
       if (response is Failure) {
         loginProvider.apisState = ApiState.ERROR;
-        LoadingStyle().dialogError(context,
+        DialogStyle().dialogError(context,
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/loginPage');
@@ -150,7 +150,7 @@ class DetectLoginFunc {
           Constants().printCheckFlow(response, 'startProcess');
         } else {
           loginProvider.apisState = ApiState.ERROR;
-          LoadingStyle().dialogError(context,
+          DialogStyle().dialogError(context,
               error: startProcessModel.responseText!,
               isPopUntil: true,
               popToPage: '/loginPage');
@@ -159,7 +159,7 @@ class DetectLoginFunc {
     } catch (e, strack) {
       loginProvider.apisState = ApiState.ERROR;
       Constants().printError(strack.toString());
-      LoadingStyle().dialogError(context,
+      DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/loginPage');
     }
     return startProcessModel!;

@@ -4,7 +4,7 @@ import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/container_style_2.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/material.dart';
 
 SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
@@ -34,7 +34,7 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
               gradient3: Colors.blue.shade500,
               gradient4: Colors.blue.shade500,
               onPressed: () async {
-                LoadingStyle().dialogLoadding(context);
+                DialogStyle().dialogLoadding(context);
                 await homeRead
                     .openTransaction(context, index: index)
                     .then((value) {

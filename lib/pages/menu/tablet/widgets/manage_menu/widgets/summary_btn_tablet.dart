@@ -20,12 +20,12 @@
 //       GestureDetector(
 //         onTap: () async {
 //           if (menuWatch.transactionModel!.responseObj!.orderList!.isEmpty) {
-//             LoadingStyle().dialogError(context,
+//             DialogStyle().dialogError(context,
 //                 error: LocaleKeys.must_have_at_least_1_order.tr(),
 //                 isPopUntil: true,
 //                 popToPage: '/menuPage');
 //           } else {
-//             LoadingStyle().dialogLoadding(context);
+//             DialogStyle().dialogLoadding(context);
 //             await menuRead.orderSummary(context).then((value) {
 //               if (menuWatch.apiState == ApiState.COMPLETED) {
 //                 dialogResultHtml(
@@ -135,7 +135,7 @@
 //                           onPressed: () {
 //                             if (menuWatch.apiState != ApiState.LOADING) {
 //                               menuWatch.apiState = ApiState.LOADING;
-//                               LoadingStyle().dialogLoadding(context);
+//                               DialogStyle().dialogLoadding(context);
 //                               menuWatch.screenshotOrderSumController
 //                                   .capture(
 //                                       delay: const Duration(seconds: 1),

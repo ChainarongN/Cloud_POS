@@ -5,7 +5,7 @@ import 'package:cloud_pos/pages/menu/mobile/widget/shopping_cart/ordersummary.da
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
-import 'package:cloud_pos/utils/widgets/loading_style.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -91,7 +91,7 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
                   title: 'Discount other', subTitle: 'ใช้ส่วนลด', onTap: () {}),
               cardTitle(context, title: 'Order summary', subTitle: '',
                   onTap: () async {
-                LoadingStyle().dialogLoadding(context);
+                DialogStyle().dialogLoadding(context);
                 await menuRead.orderSummary(context).then((value) {
                   if (menuWatch.apiState == ApiState.COMPLETED) {
                     Navigator.pop(context);
@@ -170,7 +170,7 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
                         color: Constants.textColor,
                         fontSize: Constants().screenheight(context) * 0.025),
                     onChanged: (value) {
-                      menuRead.payAmount = value;
+                      menuRead.payAmountMobile = value;
                     },
                   ),
                 ),
@@ -181,9 +181,15 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
             TextButton(
               child: AppTextStyle().textNormal('OK', size: 18),
               onPressed: () async {
-                if (menuWatch.payAmount!.isNotEmpty) {
-                  menuRead.paymentCash(
-                      context: context, payAmount: menuWatch.payAmount);
+                if (menuWatch.payAmountMobile!.isNotEmpty) {
+                  menuRead.paymentMulti(
+                      context: context,
+                      payAmount: menuWatch.payAmountMobile,
+                      payCode: 'CS',
+                      payName: 'Cash',
+                      payTypeId: 1,
+                      payRemark: '',
+                      fromQuick: true);
                 }
               },
             ),
