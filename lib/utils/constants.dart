@@ -14,6 +14,7 @@ class Constants {
   static const MOBILE_WIDTH = 600;
   static const SALE_MODE_TXT = 'sale_mode.txt';
   static const PROD_GROUP_TXT = 'prod_group.txt';
+  static const PROD_DEPT_TXT = 'prod_dept.txt';
   static const PROD_TXT = 'prod.txt';
   static const FAV_GROUP_TXT = 'fav_group.txt';
   static const FAV_DATA_TXT = 'fav_data.txt';

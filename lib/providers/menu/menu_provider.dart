@@ -14,7 +14,7 @@ import 'package:cloud_pos/models/reason_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/menu/functions/add_product_func.dart';
 import 'package:cloud_pos/providers/menu/functions/detect_menu_func.dart';
-import 'package:cloud_pos/providers/menu/functions/manage_fav_func.dart';
+import 'package:cloud_pos/providers/menu/functions/manage_menu_func.dart';
 import 'package:cloud_pos/providers/menu/functions/payment_func.dart';
 import 'package:cloud_pos/providers/menu/functions/read_file_func.dart';
 import 'package:cloud_pos/providers/provider.dart';
@@ -35,6 +35,7 @@ class MenuProvider extends ChangeNotifier {
   ApiState apiState = ApiState.COMPLETED;
   bool _isLoading = false;
   List<ProductGroup>? prodGroupList;
+  List<ProductDept>? prodDeptList;
   List<ReasonGroup>? reasonGroupList;
   List<FavoriteGroup>? favoriteGroupList;
   List<FavoriteData>? favoriteData;
@@ -59,6 +60,7 @@ class MenuProvider extends ChangeNotifier {
   int? _valueMenuSelect,
       _valueCurrencyId,
       _valueFavGroup,
+      _valueDept,
       _valueTitleSelect = 0,
       indexSaleMode;
   String? _valueReasonGroupSelect,
@@ -92,6 +94,7 @@ class MenuProvider extends ChangeNotifier {
   TabController get getTabController => _tabController!;
   String get getExceptionText => _exceptionText;
   int get getValueFavGroup => _valueFavGroup!;
+  int get getValueDept => _valueDept!;
   int get getvalueMenuSelect => _valueMenuSelect!;
   int get getvalueTitleSelect => _valueTitleSelect!;
   String get getvalueReasonGroupSelect => _valueReasonGroupSelect!;
@@ -108,13 +111,16 @@ class MenuProvider extends ChangeNotifier {
     _valueCurrency = 'THB';
     _valueCurrencyId = 1;
     prodGroupList = [];
+    prodDeptList = [];
     prodList = [];
     prodToSearch = [];
     _selectDiscountList = [];
 
     await _readData();
     await setReason(context, 0);
-    setWhereMenu(prodGroupList![0].productGroupID.toString());
+    // setWhereMenu(prodGroupList![0].productGroupID.toString());
+    showMenuList(context, true,
+        prodGroupId: prodGroupList!.first.productGroupID!);
     showFavList(context, favoriteData!.first.pageIndex!);
 
     Constants()
@@ -123,7 +129,7 @@ class MenuProvider extends ChangeNotifier {
     String deviceType = await SharedPref().getResponsiveDevice();
     if (deviceType == 'tablet') {
       _tabController = TabController(length: 6, vsync: tabThis!);
-      checkPaymentTab(context);
+      checkTabView(context);
     }
     if (apiState == ApiState.COMPLETED) {
       _isLoading = false;
@@ -135,7 +141,8 @@ class MenuProvider extends ChangeNotifier {
     if (transactionModel!.responseObj!.orderList!.isEmpty) {
       return;
     } else {
-      if (int.parse(payAmount!) < transactionModel!.responseObj!.dueAmount!) {
+      if (double.parse(payAmount!) <
+          transactionModel!.responseObj!.dueAmount!) {
         await LoadingStyle().dialogError(context!,
             error:
                 'You pay $payAmount THB.  ${LocaleKeys.pay_amount_must_more_than_total_price.tr()}',
@@ -521,7 +528,8 @@ class MenuProvider extends ChangeNotifier {
         ReadFileFunc().readFavoriteData(),
         ReadFileFunc().readShopData(),
         ReadFileFunc().readComputerName(),
-        ReadFileFunc().readCurrencyInfo()
+        ReadFileFunc().readCurrencyInfo(),
+        ReadFileFunc().readProdDept(),
       ]);
       prodGroupList = value[0] as List<ProductGroup>;
       prodList = value[1] as List<Products>;
@@ -532,6 +540,7 @@ class MenuProvider extends ChangeNotifier {
       shopData = value[6] as ShopData;
       computerName = value[7] as ComputerName;
       currencyInfo = value[8] as List<CurrencyInfo>;
+      prodDeptList = value[9] as List<ProductDept>;
 
       apiState = ApiState.COMPLETED;
     } catch (e, strack) {
@@ -565,11 +574,27 @@ class MenuProvider extends ChangeNotifier {
   Future showFavList(BuildContext context, int pageGroup) async {
     _valueFavGroup = pageGroup;
     favResultList = [];
-    await ManageFav1Func().showData(context, pageGroup);
+    await ManageMenuFunc().showDataFav(context, pageGroup);
     notifyListeners();
   }
 
-  checkPaymentTab(BuildContext context) {
+  Future showMenuList(BuildContext context, bool fromProdGroup,
+      {int? prodGroupId, int? prodDeptId}) async {
+    if (fromProdGroup) {
+      _valueMenuSelect = prodGroupId;
+      _valueDept = prodDeptList!
+          .where((element) => element.productGroupID == prodGroupId)
+          .first
+          .productDeptID;
+      ManageMenuFunc().showMenuData(context, prodGroupId!, _valueDept!);
+    } else {
+      _valueDept = prodDeptId;
+      ManageMenuFunc().showMenuData(context, _valueMenuSelect!, prodDeptId!);
+    }
+    notifyListeners();
+  }
+
+  checkTabView(BuildContext context) {
     _tabController!.addListener(() async {
       switch (_tabController!.index) {
         case 5:
@@ -584,12 +609,21 @@ class MenuProvider extends ChangeNotifier {
         case 1:
           var result =
               favoriteGroupList!.where((element) => element.pageType == 0);
-          showFavList(context, result.first.pageIndex!);
+          if (result.isNotEmpty) {
+            showFavList(context, result.first.pageIndex!);
+          } else {
+            favResultList = [];
+          }
           break;
         case 2:
           var result =
               favoriteGroupList!.where((element) => element.pageType == 1);
-          showFavList(context, result.first.pageIndex!);
+          if (result.isNotEmpty) {
+            showFavList(context, result.first.pageIndex!);
+          } else {
+            favResultList = [];
+          }
+
           break;
       }
     });
@@ -623,6 +657,11 @@ class MenuProvider extends ChangeNotifier {
   String getProdName(int prodId) {
     var result = prodList!.where((element) => element.productID == prodId);
     return result.first.productName!;
+  }
+
+  String getProdImage(int prodId) {
+    var result = prodList!.where((element) => element.productID == prodId);
+    return result.first.imageFileName!;
   }
 
   // --------------------------- SET ---------------------------\
@@ -721,6 +760,11 @@ class MenuProvider extends ChangeNotifier {
 
   Future clearPayAmount() async {
     payAmountController.clear();
+    notifyListeners();
+  }
+
+  Future clearResultFav() async {
+    favResultList = [];
     notifyListeners();
   }
 

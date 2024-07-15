@@ -54,6 +54,12 @@ class LoginProvider extends ChangeNotifier {
     _errorText = '';
     deviceController.text = await SharedPref().getDeviceId();
     versionName = await SharedPref().getAppVersion();
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/${Constants.SHOP_DATA_TXT}');
+    bool fileExists = file.existsSync();
+    if (fileExists) {
+      _readShopData();
+    }
     notifyListeners();
   }
 
@@ -101,19 +107,18 @@ class LoginProvider extends ChangeNotifier {
   Future authToken(BuildContext context) async {
     apisState = ApiState.LOADING;
     DateTime now = DateTime.now();
-    String openTokenDay = await SharedPref().getOpenTokenDay();
-    if (openTokenDay.isEmpty || openTokenDay != now.day.toString()) {
-      var response = await _loginRepository.authToken(
-          clientID: 'verticaltec.cloudinventory.dev',
-          grantType: 'client_credentials',
-          clientSecret: 'acf7e10c71296430');
-      authTokenModel =
-          await DetectLoginFunc().detectAuthToken(context, response);
-      if (apisState == ApiState.COMPLETED) {
-        await SharedPref().setToken(authTokenModel!.accessToken!);
-        await SharedPref().setOpenTokenDay(now.day.toString());
-      }
+    // String openTokenDay = await SharedPref().getOpenTokenDay();
+    // if (openTokenDay.isEmpty || openTokenDay != now.day.toString()) {
+    var response = await _loginRepository.authToken(
+        clientID: 'verticaltec.cloudinventory.dev',
+        grantType: 'client_credentials',
+        clientSecret: 'acf7e10c71296430');
+    authTokenModel = await DetectLoginFunc().detectAuthToken(context, response);
+    if (apisState == ApiState.COMPLETED) {
+      await SharedPref().setToken(authTokenModel!.accessToken!);
+      await SharedPref().setOpenTokenDay(now.day.toString());
     }
+    // }
   }
 
   Future login(BuildContext context) async {
@@ -188,6 +193,9 @@ class LoginProvider extends ChangeNotifier {
           _writeCoreInit(
               jsonEncode(coreInitModel!.responseObj!.productData!.productGroup),
               Constants.PROD_GROUP_TXT),
+          _writeCoreInit(
+              jsonEncode(coreInitModel!.responseObj!.productData!.productDept),
+              Constants.PROD_DEPT_TXT),
           _writeCoreInit(
               jsonEncode(coreInitModel!.responseObj!.productData!.products),
               Constants.PROD_TXT),
@@ -266,13 +274,17 @@ class LoginProvider extends ChangeNotifier {
   }
 
   setMockDeviceId() {
-    deviceController.text = '0288-7363-6560-2714';
+    // deviceController.text = '0288-7363-6560-2714';
+    deviceController.text = '0003-2331-5123-5071';
+
     notifyListeners();
   }
 
   setUsernameForTest() {
-    usernameController.text = 'cpos';
-    passwordController.text = 'cpos';
+    // usernameController.text = 'cpos';
+    // passwordController.text = 'cpos';
+    usernameController.text = '1';
+    passwordController.text = '1';
     notifyListeners();
   }
 

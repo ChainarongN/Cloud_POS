@@ -11,7 +11,7 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
     HomeProvider homeRead, MenuProvider menuRead) {
   return SizedBox(
     width: Constants().screenWidth(context) * 0.65,
-    height: Constants().screenheight(context) * 0.65,
+    height: Constants().screenheight(context),
     child: SingleChildScrollView(
       child: Wrap(
         spacing: Constants().screenheight(context) * 0.01,

@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                   SingleChildScrollView(
                     child: Column(
                       children: <Widget>[
-                        groupList(context, homeWatch, homeRead),
+                        // groupList(context, homeWatch, homeRead),
                         Container(
                           width: Constants().screenWidth(context) * 0.5,
                           margin: const EdgeInsets.only(top: 5, bottom: 5),

@@ -1,4 +1,5 @@
 import 'package:cloud_pos/pages/menu/tablet/widgets/appbar_action_tablet.dart';
+import 'package:cloud_pos/pages/menu/tablet/widgets/coupon_tablet.dart';
 import 'package:cloud_pos/pages/menu/tablet/widgets/manage_menu/manage_menu_tablet.dart';
 import 'package:cloud_pos/pages/menu/tablet/widgets/reason_dialog_tablet.dart';
 import 'package:cloud_pos/pages/menu/tablet/widgets/tab_view_title_tablet.dart';
@@ -46,9 +47,10 @@ class _MenuTabletState extends State<MenuTablet>
               openConfCancel(context, menuRead, menuWatch);
             }),
         actions: <Widget>[
+          eCoupon(context, menuRead),
           memberTablet(context, menuRead, menuWatch),
-          employeeTablet(context),
-          clonebillTablet(context),
+          // employeeTablet(context),
+          // clonebillTablet(context),
           holdBillTablet(context, menuRead),
         ],
       ),

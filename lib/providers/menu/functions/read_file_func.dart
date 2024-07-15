@@ -21,6 +21,17 @@ class ReadFileFunc {
     return prodGroupList;
   }
 
+  Future<List<ProductDept>> readProdDept() async {
+    List<ProductDept> prodDeptList = [];
+    String? fileResponse = await _readFile(Constants.PROD_DEPT_TXT);
+
+    prodDeptList = (jsonDecode(fileResponse) as List)
+        .map((e) => ProductDept.fromJson(e))
+        .toList();
+    Constants().printWarning('Read from file "${Constants.PROD_DEPT_TXT}"');
+    return prodDeptList;
+  }
+
   Future<List<PayTypeInfo>> readPaymentInfo() async {
     List<PayTypeInfo> payDataList = [];
     String? fileResponse = await _readFile(Constants.PAYMENT_GROUP_TXT);

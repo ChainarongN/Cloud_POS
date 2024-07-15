@@ -1,4 +1,4 @@
-import 'package:cloud_pos/pages/menu/tablet/widgets/manage_menu/widgets/coupon_list_tablet.dart';
+import 'package:cloud_pos/pages/menu/tablet/widgets/coupon_tablet.dart';
 import 'package:cloud_pos/pages/menu/tablet/widgets/manage_menu/widgets/order_detail_tablet.dart';
 import 'package:cloud_pos/pages/menu/tablet/widgets/manage_menu/widgets/order_list_tablet.dart';
 import 'package:cloud_pos/pages/menu/tablet/widgets/manage_menu/widgets/order_title_tablet.dart';
@@ -27,9 +27,8 @@ Card manageMenu(
               Divider(thickness: 2, color: Colors.grey.shade300),
               orderDetailTablet(context, menuWatch),
               Divider(thickness: 2, color: Colors.grey.shade300),
-              couponListTablet(context, menuRead, menuWatch),
-              summaryBtnTablet(context, menuWatch, menuRead),
-              priceListTablet(context, menuRead)
+              // summaryBtnTablet(context, menuWatch, menuRead),
+              priceListTablet(context, menuRead, menuWatch)
             ],
           ),
         ),

@@ -8,34 +8,34 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 
-Container clonebillTablet(BuildContext context) {
-  return Container(
-    alignment: Alignment.center,
-    height: Constants().screenheight(context) * 0.07,
-    width: Constants().screenWidth(context) * 0.09,
-    margin: const EdgeInsets.only(right: 10),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(20),
-      gradient: const LinearGradient(
-        colors: [
-          Constants.secondaryColor,
-          Constants.primaryColor,
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
-      boxShadow: const [
-        BoxShadow(
-            color: Constants.primaryColor, blurRadius: 8, offset: Offset(0, 6)),
-      ],
-    ),
-    child: Padding(
-      padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
-      child: AppTextStyle().textNormal(LocaleKeys.clone_bill.tr(),
-          size: Constants().screenheight(context) * 0.025),
-    ),
-  );
-}
+// Container clonebillTablet(BuildContext context) {
+//   return Container(
+//     alignment: Alignment.center,
+//     height: Constants().screenheight(context) * 0.07,
+//     width: Constants().screenWidth(context) * 0.09,
+//     margin: const EdgeInsets.only(right: 10),
+//     decoration: BoxDecoration(
+//       borderRadius: BorderRadius.circular(20),
+//       gradient: const LinearGradient(
+//         colors: [
+//           Constants.secondaryColor,
+//           Constants.primaryColor,
+//         ],
+//         begin: Alignment.topLeft,
+//         end: Alignment.bottomRight,
+//       ),
+//       boxShadow: const [
+//         BoxShadow(
+//             color: Constants.primaryColor, blurRadius: 8, offset: Offset(0, 6)),
+//       ],
+//     ),
+//     child: Padding(
+//       padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
+//       child: AppTextStyle().textNormal(LocaleKeys.clone_bill.tr(),
+//           size: Constants().screenheight(context) * 0.025),
+//     ),
+//   );
+// }
 
 GestureDetector holdBillTablet(BuildContext context, MenuProvider menuRead) {
   return GestureDetector(
@@ -73,34 +73,34 @@ GestureDetector holdBillTablet(BuildContext context, MenuProvider menuRead) {
   );
 }
 
-Container employeeTablet(BuildContext context) {
-  return Container(
-    alignment: Alignment.center,
-    height: Constants().screenheight(context) * 0.07,
-    width: Constants().screenWidth(context) * 0.09,
-    margin: const EdgeInsets.only(right: 10),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(20),
-      gradient: const LinearGradient(
-        colors: [
-          Constants.secondaryColor,
-          Constants.primaryColor,
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
-      boxShadow: const [
-        BoxShadow(
-            color: Constants.primaryColor, blurRadius: 8, offset: Offset(0, 6)),
-      ],
-    ),
-    child: Padding(
-      padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
-      child: AppTextStyle().textNormal(LocaleKeys.employee.tr(),
-          size: Constants().screenheight(context) * 0.025),
-    ),
-  );
-}
+// Container employeeTablet(BuildContext context) {
+//   return Container(
+//     alignment: Alignment.center,
+//     height: Constants().screenheight(context) * 0.07,
+//     width: Constants().screenWidth(context) * 0.09,
+//     margin: const EdgeInsets.only(right: 10),
+//     decoration: BoxDecoration(
+//       borderRadius: BorderRadius.circular(20),
+//       gradient: const LinearGradient(
+//         colors: [
+//           Constants.secondaryColor,
+//           Constants.primaryColor,
+//         ],
+//         begin: Alignment.topLeft,
+//         end: Alignment.bottomRight,
+//       ),
+//       boxShadow: const [
+//         BoxShadow(
+//             color: Constants.primaryColor, blurRadius: 8, offset: Offset(0, 6)),
+//       ],
+//     ),
+//     child: Padding(
+//       padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
+//       child: AppTextStyle().textNormal(LocaleKeys.employee.tr(),
+//           size: Constants().screenheight(context) * 0.025),
+//     ),
+//   );
+// }
 
 GestureDetector memberTablet(
     BuildContext context, MenuProvider menuRead, MenuProvider menuWatch) {

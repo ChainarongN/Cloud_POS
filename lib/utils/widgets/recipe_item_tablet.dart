@@ -22,7 +22,7 @@ class RecipeItemTablet extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             image: DecorationImage(
-              image: AssetImage(recipeImage),
+              image: NetworkImage(recipeImage),
               fit: BoxFit.cover,
             ),
           ),

@@ -100,7 +100,8 @@ class ConfigProvider extends ChangeNotifier {
   }
 
   setBaseUrlForTest() {
-    baseUrlController.text = 'https://apicore.vtec-system.com';
+    // baseUrlController.text = 'https://apicore.vtec-system.com';
+    baseUrlController.text = 'https://apicore-inthanin-qas.bangchakretail.com';
     notifyListeners();
   }
 

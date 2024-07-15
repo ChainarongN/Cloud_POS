@@ -3,10 +3,10 @@ import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ManageFav1Func {
-  ManageFav1Func._internal();
-  static final ManageFav1Func _instance = ManageFav1Func._internal();
-  factory ManageFav1Func() => _instance;
+class ManageMenuFunc {
+  ManageMenuFunc._internal();
+  static final ManageMenuFunc _instance = ManageMenuFunc._internal();
+  factory ManageMenuFunc() => _instance;
 
   // changeIndexFav(
   //     BuildContext context, int oldIndex, int newIndex, int group) async {
@@ -23,7 +23,7 @@ class ManageFav1Func {
   //   menuPvd.favoriteData!.addAll(result);
   // }
 
-  showData(BuildContext context, int group) {
+  showDataFav(BuildContext context, int group) {
     var menuPvd = Provider.of<MenuProvider>(context, listen: false);
     int findMaxLength = 0;
     List<FavoriteData>? data = menuPvd.favoriteData!
@@ -35,7 +35,7 @@ class ManageFav1Func {
           findMaxLength = element.buttonOrder!;
         }
       }
-      for (var i = 1; i < findMaxLength + 2; i++) {
+      for (var i = 1; i < findMaxLength + 1; i++) {
         if (data.any((element) => element.buttonOrder == i)) {
           var result = data.where((element) => element.buttonOrder == i);
           menuPvd.favResultList!.add(FavoriteData(
@@ -58,5 +58,14 @@ class ManageFav1Func {
         }
       }
     }
+  }
+
+  showMenuData(BuildContext context, int prodGroupId, int prodDeptId) {
+    var menuPvd = Provider.of<MenuProvider>(context, listen: false);
+    menuPvd.prodToShow = menuPvd.prodList!
+        .where((e) =>
+            e.productGroupID.toString().contains(prodGroupId.toString()) &&
+            e.productDeptID.toString().contains(prodDeptId.toString()))
+        .toList();
   }
 }

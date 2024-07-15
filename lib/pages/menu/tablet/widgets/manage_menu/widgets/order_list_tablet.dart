@@ -12,148 +12,173 @@ SizedBox orderListTablet(
   return menuWatch.transactionModel == null ||
           menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
       ? SizedBox(
-          height: Constants().screenheight(context) * 0.3,
+          height: Constants().screenheight(context) * 0.56,
           child: Center(
               child:
                   AppTextStyle().textNormal(LocaleKeys.there_is_no_menu.tr())),
         )
       : SizedBox(
-          height: Constants().screenheight(context) * 0.3,
-          child: ListView(
-            children: [
-              Column(
-                children: List.generate(
-                  menuWatch.transactionModel!.responseObj!.orderList!.length,
-                  (index) => Slidable(
-                    endActionPane: ActionPane(
-                      motion: const BehindMotion(),
-                      children: [
-                        SlidableAction(
-                          flex: 2,
-                          onPressed: (contextSlidable) {
-                            showDialog(
-                                context: contextSlidable,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: AppTextStyle().textNormal(menuWatch
-                                        .transactionModel!
-                                        .responseObj!
-                                        .orderList![index]
-                                        .itemName!),
-                                    content: TextField(
-                                      onChanged: (value) {},
-                                      decoration: InputDecoration(
-                                          hintText: LocaleKeys.input_your_remark
-                                              .tr()),
-                                    ),
-                                    actions: [
-                                      GestureDetector(
-                                        onTap: () => Navigator.pop(context),
-                                        child: AppTextStyle().textNormal(
-                                            LocaleKeys.cancel.tr(),
-                                            color: Colors.red),
-                                      ),
-                                      SizedBox(
-                                          width: Constants()
-                                                  .screenheight(context) *
-                                              0.025),
-                                      GestureDetector(
-                                        onTap: () => Navigator.pop(context),
-                                        child: AppTextStyle().textBold(
-                                            LocaleKeys.ok.tr(),
-                                            color: Constants.primaryColor),
-                                      ),
-                                    ],
-                                  );
-                                });
-                          },
-                          backgroundColor: Colors.grey,
-                          foregroundColor: Colors.white,
-                          icon: Icons.archive,
-                          label: LocaleKeys.remark.tr(),
-                        ),
-                        SlidableAction(
-                          flex: 2,
-                          onPressed: (contextSlidable) {
-                            menuRead.manageCountOrder(context, index, 'delete');
-                          },
-                          backgroundColor: Colors.red,
-                          foregroundColor: Colors.white,
-                          icon: Icons.save,
-                          label: LocaleKeys.delete.tr(),
-                        ),
-                      ],
+          width: Constants().screenWidth(context),
+          height: Constants().screenheight(context) * 0.56,
+          child: ListView.builder(
+            itemCount:
+                menuWatch.transactionModel!.responseObj!.orderList!.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: EdgeInsets.only(
+                    bottom: Constants().screenheight(context) * 0.015),
+                width: Constants().screenWidth(context),
+                height: Constants().screenheight(context) * 0.14,
+                decoration: BoxDecoration(
+                  color: Constants.secondaryColor,
+                  borderRadius: BorderRadius.circular(10),
+                  // border: Border.all(color: Colors.grey, width: 2),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Constants.primaryColor,
+                        blurRadius: 4,
+                        offset: Offset(0, 0)),
+                  ],
+                ),
+                child: slidable(menuWatch, index, menuRead, context),
+              );
+            },
+          ),
+        );
+}
+
+Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
+    BuildContext context) {
+  return Slidable(
+    endActionPane: ActionPane(
+      motion: const BehindMotion(),
+      children: [
+        SlidableAction(
+          flex: 2,
+          borderRadius: BorderRadius.circular(10),
+          onPressed: (contextSlidable) {
+            showDialog(
+                context: contextSlidable,
+                builder: (context) {
+                  return AlertDialog(
+                    title: AppTextStyle().textNormal(menuWatch.transactionModel!
+                        .responseObj!.orderList![index].itemName!),
+                    content: TextField(
+                      onChanged: (value) {},
+                      decoration: InputDecoration(
+                          hintText: LocaleKeys.input_your_remark.tr()),
                     ),
+                    actions: [
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
+                            color: Colors.red),
+                      ),
+                      SizedBox(
+                          width: Constants().screenheight(context) * 0.025),
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: AppTextStyle().textBold(LocaleKeys.ok.tr(),
+                            color: Constants.primaryColor),
+                      ),
+                    ],
+                  );
+                });
+          },
+          backgroundColor: Colors.grey,
+          foregroundColor: Colors.white,
+          icon: Icons.archive,
+          label: LocaleKeys.remark.tr(),
+        ),
+        SlidableAction(
+          flex: 2,
+          borderRadius: BorderRadius.circular(10),
+          onPressed: (contextSlidable) {
+            menuRead.manageCountOrder(context, index, 'delete');
+          },
+          backgroundColor: Colors.red,
+          foregroundColor: Colors.white,
+          icon: Icons.save,
+          label: LocaleKeys.delete.tr(),
+        ),
+      ],
+    ),
+    child: orderContainer(context, menuWatch, index, menuRead),
+  );
+}
+
+Padding orderContainer(BuildContext context, MenuProvider menuWatch, int index,
+    MenuProvider menuRead) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      children: <Widget>[
+        Expanded(
+          flex: 3,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              AppTextStyle().textBold(
+                menuWatch
+                    .transactionModel!.responseObj!.orderList![index].itemName!,
+                size: Constants().screenheight(context) * 0.022,
+              )
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              AppTextStyle().textBold(
+                menuWatch.transactionModel!.responseObj!.orderList![index]
+                    .retailPrice!
+                    .toString(),
+                size: Constants().screenheight(context) * 0.022,
+              ),
+              const Spacer(),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () =>
+                        menuRead.manageCountOrder(context, index, 'remove'),
+                    child: Icon(Icons.remove_circle_outline,
+                        color: Colors.red,
+                        size: Constants().screenheight(context) * 0.045),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      menuRead.clearReasonText();
+                      openQtyDialog(context, menuWatch, menuRead, index);
+                    },
                     child: Container(
-                      height: Constants().screenheight(context) * 0.065,
-                      margin: EdgeInsets.only(
-                          bottom: Constants().screenheight(context) * 0.01,
-                          right: Constants().screenheight(context) * 0.01),
-                      child: Row(
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: () => menuRead.manageCountOrder(
-                                context, index, 'remove'),
-                            child: Icon(Icons.remove_circle_outline,
-                                color: Colors.red,
-                                size:
-                                    Constants().screenheight(context) * 0.045),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              menuRead.clearReasonText();
-                              openQtyDialog(
-                                  context, menuWatch, menuRead, index);
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: Constants().screenWidth(context) * 0.03,
-                              child: AppTextStyle().textBold(
-                                  menuWatch.transactionModel!.responseObj!
-                                      .orderList![index].qty!
-                                      .toInt()
-                                      .toString(),
-                                  size:
-                                      Constants().screenheight(context) * 0.02),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () => menuRead.manageCountOrder(
-                                context, index, 'add'),
-                            child: Icon(Icons.add_box_outlined,
-                                color: Constants.primaryColor,
-                                size:
-                                    Constants().screenheight(context) * 0.045),
-                          ),
-                          Container(
-                              margin: EdgeInsets.only(
-                                  left:
-                                      Constants().screenheight(context) * 0.01),
-                              width: Constants().screenWidth(context) * 0.155,
-                              child: AppTextStyle().textBold(
-                                  menuWatch.transactionModel!.responseObj!
-                                      .orderList![index].itemName!,
-                                  size: Constants().screenheight(context) *
-                                      0.023)),
-                          const Spacer(),
-                          Container(
-                              alignment: Alignment.centerRight,
-                              width: Constants().screenWidth(context) * 0.06,
-                              child: AppTextStyle().textBold(
-                                  menuWatch.transactionModel!.responseObj!
-                                      .orderList![index].retailPrice!
-                                      .toString(),
-                                  size: Constants().screenheight(context) *
-                                      0.023)),
-                        ],
+                      alignment: Alignment.center,
+                      width: Constants().screenWidth(context) * 0.02,
+                      child: AppTextStyle().textBold(
+                        menuWatch.transactionModel!.responseObj!
+                            .orderList![index].qty!
+                            .toInt()
+                            .toString(),
+                        size: Constants().screenheight(context) * 0.022,
                       ),
                     ),
                   ),
-                ),
-              ),
+                  GestureDetector(
+                    onTap: () =>
+                        menuRead.manageCountOrder(context, index, 'add'),
+                    child: Icon(Icons.add_box_outlined,
+                        color: Constants.primaryColor,
+                        size: Constants().screenheight(context) * 0.045),
+                  ),
+                ],
+              )
             ],
           ),
-        );
+        ),
+      ],
+    ),
+  );
 }
 
 openQtyDialog(BuildContext context, MenuProvider menuWatch,

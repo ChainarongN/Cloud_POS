@@ -3,7 +3,6 @@ import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
-import 'package:reorderable_grid/reorderable_grid.dart';
 
 Center favoriteTab2Tablet(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
@@ -102,13 +101,10 @@ Center favoriteTab2Tablet(
                         top: Constants().screenheight(context) * 0.007),
                     width: Constants().screenWidth(context),
                     height: Constants().screenheight(context) * 0.7,
-                    child:
-                        // ReorderableGridView.count
-                        GridView.count(
-                      scrollDirection: Axis.horizontal,
-                      crossAxisCount: 3,
-                      childAspectRatio: 1.06,
-                      shrinkWrap: true,
+                    child: GridView.count(
+                      crossAxisCount: 5,
+                      childAspectRatio: 1,
+                      // shrinkWrap: true,
                       // onReorder: (oldIndex, newIndex) {
                       //   menuRead.reOrderableDataFav(
                       //       context, oldIndex, newIndex);
@@ -128,7 +124,8 @@ Center favoriteTab2Tablet(
                                 child: RecipeItemTablet(
                                   recipeName:
                                       menuRead.getProdName(item.productID!),
-                                  recipeImage: 'assets/coffee2.jpg',
+                                  recipeImage:
+                                      menuRead.getProdImage(item.productID!),
                                 ),
                               );
                       }).toList(),

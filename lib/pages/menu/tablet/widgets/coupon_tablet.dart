@@ -8,109 +8,40 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-Row couponListTablet(
-    BuildContext context, MenuProvider menuRead, MenuProvider menuWatch) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceAround,
-    children: <Widget>[
-      GestureDetector(
-        onTap: () {
-          // LoadingStyle().dialogLoadding(context);
-          // menuRead.orderSummary(context).then((value) {
-          //   if (menuWatch.apiState == ApiState.COMPLETED) {
-          // Navigator.maybePop(context).then((value) {
-          menuRead.clearField();
-          eCouponDialog(context);
-          //     });
-          //   }
-          // });
-        },
-        child: Container(
-          width: Constants().screenWidth(context) * 0.09,
-          height: Constants().screenheight(context) * 0.084,
-          padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
-          margin: const EdgeInsets.all(2),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Constants.primaryColor),
-            color: Constants.secondaryColor,
-            boxShadow: const [
-              BoxShadow(
-                  color: Constants.primaryColor,
-                  blurRadius: 8,
-                  offset: Offset(0, 6)),
-            ],
-          ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Icon(Icons.local_attraction,
-                    color: Colors.black54,
-                    size: Constants().screenheight(context) * 0.03),
-                AppTextStyle().textNormal('e-Coupon'),
-              ],
-            ),
-          ),
-        ),
-      ),
-      Container(
-        width: Constants().screenWidth(context) * 0.09,
-        height: Constants().screenheight(context) * 0.084,
-        padding: const EdgeInsets.all(5.0),
-        margin: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Constants.primaryColor),
-          color: Constants.secondaryColor,
-          boxShadow: const [
-            BoxShadow(
-                color: Constants.primaryColor,
-                blurRadius: 8,
-                offset: Offset(0, 6)),
+GestureDetector eCoupon(BuildContext context, MenuProvider menuRead) {
+  return GestureDetector(
+    onTap: () {
+      menuRead.clearField();
+      eCouponDialog(context);
+    },
+    child: Container(
+      alignment: Alignment.center,
+      height: Constants().screenheight(context) * 0.07,
+      width: Constants().screenWidth(context) * 0.09,
+      margin: const EdgeInsets.only(right: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        gradient: const LinearGradient(
+          colors: [
+            Constants.secondaryColor,
+            Constants.primaryColor,
           ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Icon(Icons.percent,
-                  color: Colors.black54,
-                  size: Constants().screenheight(context) * 0.028),
-              AppTextStyle().textNormal(LocaleKeys.discount_other.tr()),
-            ],
-          ),
-        ),
+        boxShadow: const [
+          BoxShadow(
+              color: Constants.primaryColor,
+              blurRadius: 8,
+              offset: Offset(0, 6)),
+        ],
       ),
-      Container(
-        width: Constants().screenWidth(context) * 0.09,
-        height: Constants().screenheight(context) * 0.084,
-        padding: const EdgeInsets.all(5.0),
-        margin: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Constants.primaryColor),
-          color: Constants.secondaryColor,
-          boxShadow: const [
-            BoxShadow(
-                color: Constants.primaryColor,
-                blurRadius: 8,
-                offset: Offset(0, 6)),
-          ],
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Icon(Icons.discount,
-                  color: Colors.black54,
-                  size: Constants().screenheight(context) * 0.028),
-              AppTextStyle().textNormal(LocaleKeys.discount.tr()),
-            ],
-          ),
-        ),
+      child: Padding(
+        padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
+        child: AppTextStyle().textNormal(LocaleKeys.e_coupon.tr(),
+            size: Constants().screenheight(context) * 0.025),
       ),
-    ],
+    ),
   );
 }
 

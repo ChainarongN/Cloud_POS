@@ -25,17 +25,6 @@ Row orderDetailTablet(BuildContext context, MenuProvider menuWatch) {
             ),
             Row(
               children: <Widget>[
-                AppTextStyle().textNormal('${LocaleKeys.total_discount.tr()}:'),
-                const Spacer(),
-                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
-                    ? AppTextStyle().textNormal('-')
-                    : AppTextStyle().textNormal(menuWatch
-                        .transactionModel!.responseObj!.totalDiscount!
-                        .toStringAsFixed(2)),
-              ],
-            ),
-            Row(
-              children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.service_charge.tr()}:'),
                 const Spacer(),
                 menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
@@ -43,13 +32,6 @@ Row orderDetailTablet(BuildContext context, MenuProvider menuWatch) {
                     : AppTextStyle().textNormal(menuWatch
                         .transactionModel!.responseObj!.serviceCharge!
                         .toStringAsFixed(2)),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                AppTextStyle().textNormal('${LocaleKeys.other_income.tr()}:'),
-                const Spacer(),
-                AppTextStyle().textNormal('-'),
               ],
             ),
             Row(
@@ -76,24 +58,21 @@ Row orderDetailTablet(BuildContext context, MenuProvider menuWatch) {
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.sub_total.tr()}:'),
                 const Spacer(),
-                AppTextStyle().textNormal('-'),
+                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
+                    ? AppTextStyle().textNormal('-')
+                    : AppTextStyle().textNormal(menuWatch
+                        .transactionModel!.responseObj!.totalDiscount!
+                        .toStringAsFixed(2)),
               ],
             ),
             Row(
               children: <Widget>[
-                AppTextStyle().textNormal('${LocaleKeys.grand_total.tr()}:'),
-                const Spacer(),
-                AppTextStyle().textNormal('-'),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                AppTextStyle().textNormal('Rounding:'),
+                AppTextStyle().textNormal('${LocaleKeys.total_discount.tr()}:'),
                 const Spacer(),
                 menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
                     ? AppTextStyle().textNormal('-')
                     : AppTextStyle().textNormal(menuWatch
-                        .transactionModel!.responseObj!.roundingBill!
+                        .transactionModel!.responseObj!.totalDiscount!
                         .toStringAsFixed(2)),
               ],
             ),
@@ -106,13 +85,6 @@ Row orderDetailTablet(BuildContext context, MenuProvider menuWatch) {
                     : AppTextStyle().textNormal(menuWatch
                         .transactionModel!.responseObj!.payAmount!
                         .toStringAsFixed(2)),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                AppTextStyle().textNormal('Before Tex:'),
-                const Spacer(),
-                AppTextStyle().textNormal('-'),
               ],
             ),
           ],

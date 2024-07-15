@@ -2,7 +2,6 @@ import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
-import 'package:reorderable_grid/reorderable_grid.dart';
 
 Center favoriteTab1Tablet(
     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
@@ -104,9 +103,9 @@ Center favoriteTab1Tablet(
                     child:
                         // ReorderableGridView.count
                         GridView.count(
-                      scrollDirection: Axis.horizontal,
+                      // scrollDirection: Axis.horizontal,
                       crossAxisCount: 5,
-                      childAspectRatio: 0.5,
+                      childAspectRatio: 2,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                       // onReorder: (oldIndex, newIndex) {

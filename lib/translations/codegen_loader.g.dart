@@ -113,7 +113,7 @@ class CodegenLoader extends AssetLoader{
   "total_price": "Total price",
   "due_amount": "Due amount",
   "cannot_do_payment_for_amount_more_than_due_amount": "Cannot do payment for amount more than due amount.",
-  "e_coupon": "eCoupon",
+  "e_coupon": "e-Coupon",
   "voucher_information": "Voucher Information",
   "voucher_id": "Voucher Id",
   "coupon_system": "Coupon System",
