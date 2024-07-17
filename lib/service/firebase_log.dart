@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -11,9 +13,9 @@ class FirebaseLog {
   CollectionReference users = FirebaseFirestore.instance.collection('LogData');
   Future logData(bool isSuccess,
       {String? actionBy,
-      String? reqData,
-      String? res,
-      String? params,
+      var reqData,
+      var res,
+      var params,
       String? baseUrl,
       String? pathUrl}) async {
     DateTime now = DateTime.now();
@@ -47,9 +49,9 @@ class FirebaseLog {
       "ShopId:": shopId,
       "StaffId": staffId,
       "OrderId": orderId,
-      "res": res,
-      "reqData": reqData ?? '',
-      "reqParams": params
+      "res": jsonEncode(res),
+      "reqData": reqData,
+      "reqParams": jsonEncode(params)
     });
   }
 }

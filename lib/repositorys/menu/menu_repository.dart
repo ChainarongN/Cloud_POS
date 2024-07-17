@@ -4,7 +4,6 @@ import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/menu/i_menu_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
-import 'package:cloud_pos/utils/constants.dart';
 
 class MenuRepository implements IMenuRepository {
   @override

@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/service/firebase_log.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -44,18 +43,18 @@ class APIService {
       if (response.statusCode == 200) {
         FirebaseLog().logData(true,
             actionBy: actionBy,
-            params: param.toString(),
-            reqData: data.toString(),
-            res: response.data.toString(),
+            params: param,
+            reqData: data,
+            res: response.data,
             baseUrl: baseUrl,
             pathUrl: url);
         return json.encode(response.data);
       }
       FirebaseLog().logData(false,
           actionBy: actionBy,
-          params: param.toString(),
-          reqData: data.toString(),
-          res: response.data.toString(),
+          params: param,
+          reqData: data,
+          res: response.data,
           baseUrl: baseUrl,
           pathUrl: url);
       return Failure(
@@ -66,9 +65,9 @@ class APIService {
       if (e.type == DioExceptionType.connectionTimeout) {
         FirebaseLog().logData(false,
             actionBy: actionBy,
-            params: param.toString(),
-            reqData: data.toString(),
-            res: e.toString(),
+            params: param,
+            reqData: data,
+            res: e,
             baseUrl: baseUrl,
             pathUrl: url);
         return Failure(
@@ -79,9 +78,9 @@ class APIService {
       if (e.type == DioExceptionType.receiveTimeout) {
         FirebaseLog().logData(false,
             actionBy: actionBy,
-            params: param.toString(),
-            reqData: data.toString(),
-            res: e.toString(),
+            params: param,
+            reqData: data,
+            res: e,
             baseUrl: baseUrl,
             pathUrl: url);
         return Failure(
@@ -92,9 +91,9 @@ class APIService {
     } catch (e) {
       FirebaseLog().logData(false,
           actionBy: actionBy,
-          params: param.toString(),
-          reqData: data.toString(),
-          res: e.toString(),
+          params: param,
+          reqData: data,
+          res: e,
           baseUrl: baseUrl,
           pathUrl: url);
       return Failure(
@@ -127,16 +126,18 @@ class APIService {
       if (response.statusCode == 200) {
         FirebaseLog().logData(true,
             actionBy: actionBy,
-            params: param.toString(),
-            res: response.data.toString(),
+            params: param,
+            reqData: '',
+            res: response.data,
             baseUrl: baseUrl,
             pathUrl: url);
         return json.encode(response.data);
       }
       FirebaseLog().logData(false,
           actionBy: actionBy,
-          params: param.toString(),
-          res: response.data.toString(),
+          params: param,
+          res: response.data,
+          reqData: '',
           baseUrl: baseUrl,
           pathUrl: url);
       return Failure(
@@ -147,8 +148,9 @@ class APIService {
       if (e.type == DioExceptionType.connectionTimeout) {
         FirebaseLog().logData(false,
             actionBy: actionBy,
-            params: param.toString(),
-            res: e.toString(),
+            params: param,
+            res: e,
+            reqData: '',
             baseUrl: baseUrl,
             pathUrl: url);
         return Failure(
@@ -159,9 +161,10 @@ class APIService {
       if (e.type == DioExceptionType.receiveTimeout) {
         FirebaseLog().logData(false,
             actionBy: actionBy,
-            params: param.toString(),
-            res: e.toString(),
+            params: param,
+            res: e,
             baseUrl: baseUrl,
+            reqData: '',
             pathUrl: url);
         return Failure(
           code: 408,
@@ -171,8 +174,9 @@ class APIService {
     } catch (e) {
       FirebaseLog().logData(false,
           actionBy: actionBy,
-          params: param.toString(),
-          res: e.toString(),
+          params: param,
+          reqData: '',
+          res: e,
           baseUrl: baseUrl,
           pathUrl: url);
       return Failure(
@@ -198,8 +202,6 @@ class APIService {
         options: Options(method: 'POST', headers: headers),
         data: data,
       );
-      Constants().printInfo(response.statusCode.toString());
-      Constants().printInfo(response.data.toString());
       if (response.statusCode == 200) {
         return json.encode(response.data);
       }
