@@ -53,8 +53,8 @@ class HomeProvider extends ChangeNotifier {
     _customerCount.text = "1";
     saleModeDataList = [];
     computerSaleMode = [];
-    await readSaleModeFile();
     await readComputerName();
+    await readSaleModeFile();
     String key = await SharedPref().getSessionKey();
     Constants().printWarning("session_key : $key");
   }

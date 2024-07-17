@@ -92,6 +92,7 @@ class MenuProvider extends ChangeNotifier {
   final ScreenshotController screenshotOrderSumController =
       ScreenshotController();
   final TextEditingController couponCodeController = TextEditingController();
+  final TextEditingController qrCodeForTestController = TextEditingController();
 
   // --------------------------- GET ---------------------------
   bool get getLoading => _isLoading;
@@ -327,6 +328,10 @@ class MenuProvider extends ChangeNotifier {
         payRemark: payRemark ?? '');
     paymentQRRequestModel = await DetectMenuFunc()
         .detectPaymentQRRequest(context, response, 'paymentQRRequest');
+    if (apiState == ApiState.COMPLETED) {
+      qrCodeForTestController.text =
+          paymentQRRequestModel!.responseObj!.qrCode!;
+    }
     notifyListeners();
   }
 

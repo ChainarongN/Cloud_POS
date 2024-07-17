@@ -9,6 +9,7 @@ import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 
 class DialogPayment {
   DialogPayment._internal();
@@ -85,6 +86,28 @@ class DialogPayment {
                                     Constants().screenheight(context) * 0.025),
                           ],
                         ),
+                      ),
+                      Center(
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 5),
+                          child: TimerCountdown(
+                            format: CountDownTimerFormat.minutesSeconds,
+                            endTime: DateTime.now().add(
+                              const Duration(minutes: 20, seconds: 00),
+                            ),
+                            timeTextStyle: TextStyle(
+                                fontSize:
+                                    Constants().screenheight(context) * 0.025),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 15),
+                        child: TextField(
+                          controller: menuWatch.qrCodeForTestController,
+                          maxLines: null,
+                          keyboardType: TextInputType.multiline,
+                        ),
                       )
                     ],
                   ),
@@ -103,8 +126,7 @@ class DialogPayment {
                     detail: 'You need to cancel payment ?',
                     onPressed: () async {
                       DialogStyle().dialogLoadding(context);
-                      menuRead!.timerInquiry!.cancel();
-                      await menuRead
+                      await menuRead!
                           .paymentQRInquiry(context,
                               payTypeId: payTypeId,
                               payTypeCode: payTypeCode,
@@ -113,16 +135,17 @@ class DialogPayment {
                               payRemark: payRemark,
                               isRecursive: false)
                           .then((value) {
+                        menuRead.timerInquiry!.cancel();
                         menuRead
                             .paymentQRCancel(context,
                                 edcType: edcType,
-                                payRemark: '',
+                                payRemark: payRemark,
                                 payTypeCode: payTypeCode,
                                 payTypeId: payTypeId,
                                 payTypeName: payTypeName)
                             .then((value) {
                           if (menuWatch.apiState == ApiState.COMPLETED) {
-                            menuRead.timerInquiry!.cancel();
+                            // menuRead.timerInquiry!.cancel();
                             Navigator.of(context)
                                 .popUntil(ModalRoute.withName("/menuPage"));
                           }
