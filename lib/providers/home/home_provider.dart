@@ -29,6 +29,8 @@ class HomeProvider extends ChangeNotifier {
   OpenTranModel? openTranModel;
   HoldBillSearchModel? holdBillSearchModel;
   List<SaleModeData>? saleModeDataList;
+  ComputerName? computerName;
+  List computerSaleMode = [];
   final TextEditingController _customerCount = TextEditingController();
   final ScreenshotController screenshotCloseSession = ScreenshotController();
   final ScreenshotController screenshotEndday = ScreenshotController();
@@ -50,7 +52,9 @@ class HomeProvider extends ChangeNotifier {
   init() async {
     _customerCount.text = "1";
     saleModeDataList = [];
+    computerSaleMode = [];
     await readSaleModeFile();
+    await readComputerName();
     String key = await SharedPref().getSessionKey();
     Constants().printWarning("session_key : $key");
   }
@@ -105,7 +109,18 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future readComputerName() async {
+    computerName = await ReadFileFunc().readComputerName();
+    notifyListeners();
+  }
+
   // --------------------------- SET ---------------------------
+
+  setComputerSaleMode() {
+    computerSaleMode = computerName!.saleModeList!.split(',');
+    notifyListeners();
+  }
+
   addCount() {
     _countValue++;
     _customerCount.text = _countValue.toString();
