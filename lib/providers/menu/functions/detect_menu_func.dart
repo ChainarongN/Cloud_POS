@@ -4,6 +4,7 @@ import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/coupon_inquiry_model.dart';
 import 'package:cloud_pos/models/hold_bill_model.dart';
 import 'package:cloud_pos/models/member_data_model.dart';
+import 'package:cloud_pos/models/payment_qr_request_model.dart';
 import 'package:cloud_pos/models/transaction_model.dart';
 import 'package:cloud_pos/models/product_obj_model.dart';
 import 'package:cloud_pos/models/reason_model.dart';
@@ -19,38 +20,43 @@ class DetectMenuFunc {
   static final DetectMenuFunc _instance = DetectMenuFunc._internal();
   factory DetectMenuFunc() => _instance;
 
-  // Future<ProductAddModel> detectProductAdd(
-  //     BuildContext context, var response) async {
-  //   var menuProvider = Provider.of<MenuProvider>(context, listen: false);
-  //   ProductAddModel? productAddModel;
-  //   try {
-  //     if (response is Failure) {
-  //       menuProvider.apiState = ApiState.ERROR;
-  //       DialogStyle().dialogError(context,
-  //           error: response.errorResponse.toString(),
-  //           isPopUntil: true,
-  //           popToPage: '/menuPage');
-  //     } else {
-  //       productAddModel = ProductAddModel.fromJson(jsonDecode(response));
-  //       if (productAddModel.responseCode!.isEmpty) {
-  //         menuProvider.apiState = ApiState.COMPLETED;
-  //         Constants().printCheckFlow(response, 'productAdd');
-  //       } else {
-  //         menuProvider.apiState = ApiState.ERROR;
-  //         DialogStyle().dialogError(context,
-  //             error: productAddModel.responseText,
-  //             isPopUntil: true,
-  //             popToPage: '/menuPage');
-  //       }
-  //     }
-  //   } catch (e, strack) {
-  //     Constants().printError('$e - $strack');
-  //     menuProvider.apiState = ApiState.ERROR;
-  //     DialogStyle().dialogError(context,
-  //         error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
-  //   }
-  //   return productAddModel!;
-  // }
+  Future<PaymentQRRequestModel> detectPaymentQRRequest(
+      BuildContext context, var response, String action) async {
+    var menuProvider = Provider.of<MenuProvider>(context, listen: false);
+    PaymentQRRequestModel? paymentQRRequestModel;
+    try {
+      if (response is Failure) {
+        menuProvider.apiState = ApiState.ERROR;
+        DialogStyle().dialogError(context,
+            error: response.errorResponse.toString(),
+            isPopUntil: true,
+            popToPage: '/menuPage');
+        Constants().printCheckError(response.errorResponse.toString(), action);
+      } else {
+        if (jsonDecode(response)['ResponseCode'] == "") {
+          paymentQRRequestModel =
+              PaymentQRRequestModel.fromJson(jsonDecode(response));
+          menuProvider.apiState = ApiState.COMPLETED;
+          Constants().printCheckFlow(response, action);
+        } else {
+          menuProvider.apiState = ApiState.ERROR;
+          DialogStyle().dialogError(context,
+              error: jsonDecode(response)['ResponseText'],
+              isPopUntil: true,
+              popToPage: '/menuPage');
+          Constants()
+              .printCheckError(jsonDecode(response)['ResponseText'], action);
+        }
+      }
+    } catch (e, strack) {
+      Constants().printError('$e - $strack');
+      menuProvider.apiState = ApiState.ERROR;
+      DialogStyle().dialogError(context,
+          error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
+    }
+    return paymentQRRequestModel!;
+  }
+
   Future<AuthInfoModel> detectAuthInfo(
       BuildContext context, var response) async {
     var menuProvider = Provider.of<MenuProvider>(context, listen: false);
@@ -62,17 +68,21 @@ class DetectMenuFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/menuPage');
+        Constants().printCheckError(
+            response.errorResponse.toString(), 'AuthInfoModel');
       } else {
-        authInfoModel = AuthInfoModel.fromJson(jsonDecode(response));
-        if (authInfoModel.responseCode!.isEmpty) {
+        if (jsonDecode(response)['ResponseCode'] == "") {
+          authInfoModel = AuthInfoModel.fromJson(jsonDecode(response));
           menuProvider.apiState = ApiState.COMPLETED;
           Constants().printCheckFlow(response, 'AuthInfoModel');
         } else {
           menuProvider.apiState = ApiState.ERROR;
           DialogStyle().dialogError(context,
-              error: authInfoModel.responseText,
+              error: jsonDecode(response)['ResponseText'],
               isPopUntil: true,
               popToPage: '/menuPage');
+          Constants().printCheckError(
+              jsonDecode(response).toString(), 'AuthInfoModel');
         }
       }
     } catch (e, strack) {
@@ -150,39 +160,6 @@ class DetectMenuFunc {
     return productObjModel!;
   }
 
-  // Future<FinalizeBillModel> detectFinalizeBill(
-  //     BuildContext context, var response) async {
-  //   var menuProvider = Provider.of<MenuProvider>(context, listen: false);
-  //   FinalizeBillModel? finalizeBillModel;
-  //   try {
-  //     if (response is Failure) {
-  //       menuProvider.apiState = ApiState.ERROR;
-  //       DialogStyle().dialogError(context,
-  //           error: response.errorResponse.toString(),
-  //           isPopUntil: true,
-  //           popToPage: '/menuPage');
-  //     } else {
-  //       finalizeBillModel = FinalizeBillModel.fromJson(jsonDecode(response));
-  //       if (finalizeBillModel.responseCode!.isEmpty) {
-  //         menuProvider.apiState = ApiState.COMPLETED;
-  //         Constants().printCheckFlow(response, 'finalizeBill');
-  //       } else {
-  //         menuProvider.apiState = ApiState.ERROR;
-  //         DialogStyle().dialogError(context,
-  //             error: finalizeBillModel.responseText,
-  //             isPopUntil: true,
-  //             popToPage: '/menuPage');
-  //       }
-  //     }
-  //   } catch (e, strack) {
-  //     Constants().printError('$e - $strack');
-  //     menuProvider.apiState = ApiState.ERROR;
-  //     DialogStyle().dialogError(context,
-  //         error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
-  //   }
-  //   return finalizeBillModel!;
-  // }
-
   Future<TransactionModel> detectTransaction(
       BuildContext context, var response, String action) async {
     var menuProvider = Provider.of<MenuProvider>(context, listen: false);
@@ -215,39 +192,6 @@ class DetectMenuFunc {
     }
     return transactionModel!;
   }
-
-  // Future<PaymentSubmitModel> detectPaymentSubmit(
-  //     BuildContext context, var response) async {
-  //   var menuProvider = Provider.of<MenuProvider>(context, listen: false);
-  //   PaymentSubmitModel? paymentSubmitModel;
-  //   try {
-  //     if (response is Failure) {
-  //       menuProvider.apiState = ApiState.ERROR;
-  //       DialogStyle().dialogError(context,
-  //           error: response.errorResponse.toString(),
-  //           isPopUntil: true,
-  //           popToPage: '/menuPage');
-  //     } else {
-  //       paymentSubmitModel = PaymentSubmitModel.fromJson(jsonDecode(response));
-  //       if (paymentSubmitModel.responseCode!.isEmpty) {
-  //         menuProvider.apiState = ApiState.COMPLETED;
-  //         Constants().printCheckFlow(response, 'paymentSubmit');
-  //       } else {
-  //         menuProvider.apiState = ApiState.ERROR;
-  //         DialogStyle().dialogError(context,
-  //             error: paymentSubmitModel.responseText,
-  //             isPopUntil: true,
-  //             popToPage: '/menuPage');
-  //       }
-  //     }
-  //   } catch (e, strack) {
-  //     Constants().printError('$e - $strack');
-  //     menuProvider.apiState = ApiState.ERROR;
-  //     DialogStyle().dialogError(context,
-  //         error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
-  //   }
-  //   return paymentSubmitModel!;
-  // }
 
   Future<CancelTranModel> detectCancelTran(
       BuildContext context, var response) async {
@@ -368,84 +312,6 @@ class DetectMenuFunc {
     return memberDataModel!;
   }
 
-  // Future<MemberApplyModel> detectMemberApply(
-  //     BuildContext context, var response) async {
-  //   var menuProvider = Provider.of<MenuProvider>(context, listen: false);
-  //   MemberApplyModel? memberApplyModel;
-  //   try {
-  //     if (response is Failure) {
-  //       menuProvider.apiState = ApiState.ERROR;
-  //       Future.delayed(const Duration(milliseconds: 500), () {
-  //         DialogStyle().dialogError(context,
-  //             error: response.errorResponse.toString(),
-  //             isPopUntil: true,
-  //             popToPage: '/menuPage');
-  //       });
-  //     } else {
-  //       memberApplyModel = MemberApplyModel.fromJson(jsonDecode(response));
-  //       if (memberApplyModel.responseCode!.isEmpty) {
-  //         menuProvider.apiState = ApiState.COMPLETED;
-  //         Constants().printCheckFlow(response, 'MemberApply');
-  //       } else {
-  //         menuProvider.apiState = ApiState.ERROR;
-  //         Future.delayed(const Duration(milliseconds: 500), () {
-  //           DialogStyle().dialogError(context,
-  //               error: memberApplyModel!.responseText,
-  //               isPopUntil: true,
-  //               popToPage: '/menuPage');
-  //         });
-  //       }
-  //     }
-  //   } catch (e, strack) {
-  //     Constants().printError('$e - $strack');
-  //     menuProvider.apiState = ApiState.ERROR;
-  //     Future.delayed(const Duration(milliseconds: 500), () {
-  //       DialogStyle().dialogError(context,
-  //           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
-  //     });
-  //   }
-  //   return memberApplyModel!;
-  // }
-
-  // Future<MemberCancelModel> detectMemberCancel(
-  //     BuildContext context, var response) async {
-  //   var menuProvider = Provider.of<MenuProvider>(context, listen: false);
-  //   MemberCancelModel? memberCancelModel;
-  //   try {
-  //     if (response is Failure) {
-  //       menuProvider.apiState = ApiState.ERROR;
-  //       Future.delayed(const Duration(milliseconds: 500), () {
-  //         DialogStyle().dialogError(context,
-  //             error: response.errorResponse.toString(),
-  //             isPopUntil: true,
-  //             popToPage: '/menuPage');
-  //       });
-  //     } else {
-  //       memberCancelModel = MemberCancelModel.fromJson(jsonDecode(response));
-  //       if (memberCancelModel.responseCode!.isEmpty) {
-  //         menuProvider.apiState = ApiState.COMPLETED;
-  //         Constants().printCheckFlow(response, 'MemberCancel');
-  //       } else {
-  //         menuProvider.apiState = ApiState.ERROR;
-  //         Future.delayed(const Duration(milliseconds: 500), () {
-  //           DialogStyle().dialogError(context,
-  //               error: memberCancelModel!.responseText,
-  //               isPopUntil: true,
-  //               popToPage: '/menuPage');
-  //         });
-  //       }
-  //     }
-  //   } catch (e, strack) {
-  //     Constants().printError('$e - $strack');
-  //     menuProvider.apiState = ApiState.ERROR;
-  //     Future.delayed(const Duration(milliseconds: 500), () {
-  //       DialogStyle().dialogError(context,
-  //           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
-  //     });
-  //   }
-  //   return memberCancelModel!;
-  // }
-
   Future<CouponInquiryModel> detectCouponInquiry(
       BuildContext context, var response) async {
     var menuProvider = Provider.of<MenuProvider>(context, listen: false);
@@ -484,83 +350,4 @@ class DetectMenuFunc {
     }
     return couponInquiryModel!;
   }
-
-  // Future<CouponApplyModel> detectCouponApply(
-  //     BuildContext context, var response) async {
-  //   var menuProvider = Provider.of<MenuProvider>(context, listen: false);
-  //   CouponApplyModel? couponApplyModel;
-  //   try {
-  //     if (response is Failure) {
-  //       menuProvider.apiState = ApiState.ERROR;
-  //       Future.delayed(const Duration(milliseconds: 500), () {
-  //         DialogStyle().dialogError(context,
-  //             error: response.errorResponse.toString(),
-  //             isPopUntil: true,
-  //             popToPage: '/menuPage');
-  //       });
-  //     } else {
-  //       if (jsonDecode(response)['ResponseCode'] == "") {
-  //         couponApplyModel = CouponApplyModel.fromJson(jsonDecode(response));
-  //         menuProvider.apiState = ApiState.COMPLETED;
-  //         Constants().printCheckFlow(response, 'eCouponApply');
-  //       } else {
-  //         menuProvider.apiState = ApiState.ERROR;
-  //         Future.delayed(const Duration(milliseconds: 500), () {
-  //           DialogStyle().dialogError(context,
-  //               error: jsonDecode(response)['ResponseText'],
-  //               isPopUntil: true,
-  //               popToPage: '/menuPage');
-  //         });
-  //       }
-  //     }
-  //   } catch (e, strack) {
-  //     Constants().printError('$e - $strack');
-  //     menuProvider.apiState = ApiState.ERROR;
-  //     Future.delayed(const Duration(milliseconds: 500), () {
-  //       DialogStyle().dialogError(context,
-  //           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
-  //     });
-  //   }
-  //   return couponApplyModel!;
-  // }
-
-  // Future<PromotionCancelModel> detectPromotionCancel(
-  //     BuildContext context, var response) async {
-  //   var menuProvider = Provider.of<MenuProvider>(context, listen: false);
-  //   PromotionCancelModel? promotionCancelModel;
-  //   try {
-  //     if (response is Failure) {
-  //       menuProvider.apiState = ApiState.ERROR;
-  //       Future.delayed(const Duration(milliseconds: 500), () {
-  //         DialogStyle().dialogError(context,
-  //             error: response.errorResponse.toString(),
-  //             isPopUntil: true,
-  //             popToPage: '/menuPage');
-  //       });
-  //     } else {
-  //       promotionCancelModel =
-  //           PromotionCancelModel.fromJson(jsonDecode(response));
-  //       if (promotionCancelModel.responseCode!.isEmpty) {
-  //         menuProvider.apiState = ApiState.COMPLETED;
-  //         Constants().printCheckFlow(response, 'Promotion_Cancel');
-  //       } else {
-  //         menuProvider.apiState = ApiState.ERROR;
-  //         Future.delayed(const Duration(milliseconds: 500), () {
-  //           DialogStyle().dialogError(context,
-  //               error: promotionCancelModel!.responseText,
-  //               isPopUntil: true,
-  //               popToPage: '/menuPage');
-  //         });
-  //       }
-  //     }
-  //   } catch (e, strack) {
-  //     Constants().printError('$e - $strack');
-  //     menuProvider.apiState = ApiState.ERROR;
-  //     Future.delayed(const Duration(milliseconds: 500), () {
-  //       DialogStyle().dialogError(context,
-  //           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
-  //     });
-  //   }
-  //   return promotionCancelModel!;
-  // }
 }

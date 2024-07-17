@@ -3,6 +3,7 @@ class Endpoints {
 
   // static const String baseUrl = "https://apicore.vtec-system.com";
   static const String authUrl = "https://auth.vtec-system.com/connect/token";
+  
 
   static const String coreDataInit = "api/POSModule/POS_Init";
   static const String login = "api/POSModule/POS_StaffLogin";
@@ -31,4 +32,9 @@ class Endpoints {
   static const String holdBillSearch = "api/POSModule/POS_HoldBillSearch";
   static const String unHoldBill = "api/POSModule/POS_UnHoldBill";
   static const String paymentCancel = "api/POSModule/Payment_Cancel";
+  static const String paymentQRInquiry =
+      "api/POSModule/payment_cloud_QR_Inquiry";
+  static const String paymentQRRequest =
+      "api/POSModule/payment_cloud_QR_Request";
+  static const String paymentQRCancel = "api/POSModule/payment_cloud_QR_Cancel";
 }

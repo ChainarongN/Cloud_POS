@@ -1,6 +1,6 @@
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/providers/menu/functions/read_file_func.dart';
+import 'package:cloud_pos/service/read_file_func.dart';
 import 'package:cloud_pos/repositorys/config/i_config_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';

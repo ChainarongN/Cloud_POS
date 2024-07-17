@@ -1,4 +1,5 @@
 import 'package:cloud_pos/networks/api_service.dart';
+import 'package:cloud_pos/providers/menu/functions/payment_func.dart';
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -47,26 +48,6 @@ Center paymentTabTablet(
       ),
     ),
   );
-}
-
-Future dialogPayment(BuildContext context,
-    {int? payTypeId,
-    String? payTypeName,
-    String? payTypeCode,
-    MenuProvider? menuRead,
-    MenuProvider? menuWatch}) async {
-  menuRead!.clearPaymentField();
-  switch (payTypeId) {
-    ///Credit Card = 2
-    case 2:
-      DialogPayment().dialogCredit(context,
-          payTypeId: payTypeId,
-          payTypeName: payTypeName,
-          payTypeCode: payTypeCode,
-          menuRead: menuRead,
-          menuWatch: menuWatch);
-      break;
-  }
 }
 
 Container bangNotes(BuildContext context, MenuProvider menuWatch) {
@@ -457,34 +438,46 @@ Expanded listPaymentType(
                 child: Column(
                   children: List.generate(
                     menuWatch.payTypeInfoList!.length,
-                    (index) => GestureDetector(
-                      onTap: () {
-                        dialogPayment(context,
-                            payTypeId:
-                                menuWatch.payTypeInfoList![index].payTypeID,
-                            payTypeName:
-                                menuWatch.payTypeInfoList![index].payTypeName,
-                            payTypeCode:
-                                menuWatch.payTypeInfoList![index].payTypeCode,
-                            menuRead: menuRead,
-                            menuWatch: menuWatch);
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            bottom: Constants().screenheight(context) * 0.018),
-                        child: ContainerStyle(
-                          height: Constants().screenheight(context) * 0.1,
-                          width: Constants().screenWidth(context) * 0.19,
-                          primaryColor: Colors.amber.shade500,
-                          secondaryColor: Colors.amber.shade600,
-                          selected: false,
-                          widget: AppTextStyle().textNormal(
-                              menuWatch.payTypeInfoList![index].payTypeName!,
-                              size: Constants().screenheight(context) * 0.025,
-                              color: Colors.white),
-                        ),
-                      ),
-                    ),
+                    (index) => !menuWatch.resultPayTypeList!.contains(menuWatch
+                            .payTypeInfoList![index].payTypeID
+                            .toString())
+                        ? const SizedBox.shrink()
+                        : GestureDetector(
+                            onTap: () {
+                              PaymentFunc().paymentDinamic(context,
+                                  edcType:
+                                      menuWatch.payTypeInfoList![index].eDCType,
+                                  payTypeFlow: menuWatch
+                                      .payTypeInfoList![index].payTypeFlow!,
+                                  payTypeId: menuWatch
+                                      .payTypeInfoList![index].payTypeID,
+                                  payTypeName: menuWatch
+                                      .payTypeInfoList![index].payTypeName,
+                                  payTypeCode: menuWatch
+                                      .payTypeInfoList![index].payTypeCode,
+                                  payRemark: '',
+                                  menuRead: menuRead,
+                                  menuWatch: menuWatch);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  bottom: Constants().screenheight(context) *
+                                      0.018),
+                              child: ContainerStyle(
+                                height: Constants().screenheight(context) * 0.1,
+                                width: Constants().screenWidth(context) * 0.19,
+                                primaryColor: Colors.amber.shade500,
+                                secondaryColor: Colors.amber.shade600,
+                                selected: false,
+                                widget: AppTextStyle().textNormal(
+                                    menuWatch
+                                        .payTypeInfoList![index].payTypeName!,
+                                    size: Constants().screenheight(context) *
+                                        0.025,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
                   ),
                 ),
               ),

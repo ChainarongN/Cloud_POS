@@ -27,10 +27,25 @@ class MenuTablet extends StatefulWidget {
 
 class _MenuTabletState extends State<MenuTablet>
     with SingleTickerProviderStateMixin {
+  MenuProvider? menuPvd;
   @override
   void initState() {
     super.initState();
     context.read<MenuProvider>().init(context, tabThis: this);
+  }
+
+  @override
+  void dispose() {
+    if (menuPvd!.timerInquiry!.isActive) {
+      menuPvd!.timerInquiry!.cancel();
+    }
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    menuPvd = context.read<MenuProvider>();
+    super.didChangeDependencies();
   }
 
   @override

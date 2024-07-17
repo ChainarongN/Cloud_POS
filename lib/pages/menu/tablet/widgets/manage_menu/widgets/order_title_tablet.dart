@@ -8,9 +8,13 @@ Row orderTitleTablet(BuildContext context, MenuProvider menuWatch) {
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: <Widget>[
       Container(
-        child: AppTextStyle().textBold(
-            menuWatch.transactionModel!.responseObj!.saleModeName!,
-            size: Constants().screenheight(context) * 0.027),
+        child: menuWatch.transactionModel!.responseCode!.isEmpty
+            ? AppTextStyle().textBold(
+                menuWatch.transactionModel!.responseObj!.saleModeName
+                    .toString(),
+                size: Constants().screenheight(context) * 0.035)
+            : AppTextStyle()
+                .textBold('', size: Constants().screenheight(context) * 0.035),
       ),
       Container(
         child: menuWatch.transactionModel!.responseCode!.isEmpty

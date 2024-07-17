@@ -56,4 +56,40 @@ abstract class IMenuRepository {
       String? orderId,
       String? customerName,
       String? customerMobile});
+  Future paymentQRRequest({
+    String? langID,
+    var tranData,
+    int? payTypeId,
+    String? payTypeCode,
+    String? payTypeName,
+    int? edcType,
+    String? payRemark,
+    int? currencyID,
+    String? currencyCode,
+    double? payAmount,
+  });
+  Future paymentQRInquiry({
+    String? langID,
+    var tranData,
+    int? payTypeId,
+    String? payTypeCode,
+    String? payTypeName,
+    int? edcType,
+    String? payRemark,
+    int? currencyID,
+    String? currencyCode,
+    double? payAmount,
+  });
+  Future paymentQRCancel({
+    String? langID,
+    var tranData,
+    int? payTypeId,
+    String? payTypeCode,
+    String? payTypeName,
+    int? edcType,
+    String? payRemark,
+    int? currencyID,
+    String? currencyCode,
+    double? payAmount,
+  });
 }

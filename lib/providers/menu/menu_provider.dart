@@ -8,6 +8,7 @@ import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/models/coupon_inquiry_model.dart';
 import 'package:cloud_pos/models/hold_bill_model.dart';
 import 'package:cloud_pos/models/member_data_model.dart';
+import 'package:cloud_pos/models/payment_qr_request_model.dart';
 import 'package:cloud_pos/models/transaction_model.dart';
 import 'package:cloud_pos/models/product_obj_model.dart';
 import 'package:cloud_pos/models/reason_model.dart';
@@ -16,7 +17,7 @@ import 'package:cloud_pos/providers/menu/functions/add_product_func.dart';
 import 'package:cloud_pos/providers/menu/functions/detect_menu_func.dart';
 import 'package:cloud_pos/providers/menu/functions/manage_menu_func.dart';
 import 'package:cloud_pos/providers/menu/functions/payment_func.dart';
-import 'package:cloud_pos/providers/menu/functions/read_file_func.dart';
+import 'package:cloud_pos/service/read_file_func.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
@@ -45,6 +46,7 @@ class MenuProvider extends ChangeNotifier {
   List<Products>? prodToShow;
   List<Products>? prodToSearch;
   List<FavoriteData>? favResultList;
+  List<String>? resultPayTypeList;
   ShopData? shopData;
   ComputerName? computerName;
 
@@ -57,6 +59,7 @@ class MenuProvider extends ChangeNotifier {
   MemberDataModel? memberDataModel;
   AuthInfoModel? authInfoModel;
   HoldBillModel? holdBillModel;
+  PaymentQRRequestModel? paymentQRRequestModel;
   int? _valueMenuSelect,
       _valueCurrencyId,
       _valueFavGroup,
@@ -70,6 +73,7 @@ class MenuProvider extends ChangeNotifier {
       holdBillPhone,
       payAmountMobile = '';
   String _exceptionText = '';
+  Timer? timerInquiry;
   final TextEditingController reasonController = TextEditingController();
   final TextEditingController valueIdReason = TextEditingController();
   final TextEditingController reasonTextController = TextEditingController();
@@ -113,11 +117,14 @@ class MenuProvider extends ChangeNotifier {
     prodGroupList = [];
     prodDeptList = [];
     prodList = [];
+    resultPayTypeList = [];
     prodToSearch = [];
     _selectDiscountList = [];
+    timerInquiry = Timer(const Duration(seconds: 1200), () {});
 
     await _readData();
-    await setReason(context, 0);
+    setPayTypeResult(context);
+    // await setReason(context, 0);
     // setWhereMenu(prodGroupList![0].productGroupID.toString());
     showMenuList(context, true,
         prodGroupId: prodGroupList!.first.productGroupID!);
@@ -265,6 +272,127 @@ class MenuProvider extends ChangeNotifier {
           transactionModel!.responseObj2!.receiptInfo!.receiptHtml;
     }
     notifyListeners();
+  }
+
+  Future paymentQRCancel(BuildContext context,
+      {String? payTypeCode,
+      String? payTypeName,
+      int? payTypeId,
+      String? payRemark,
+      int? edcType}) async {
+    apiState = ApiState.LOADING;
+    var response = await _menuRepository.paymentQRCancel(
+        langID: '1',
+        edcType: edcType,
+        payAmount: transactionModel!.responseObj!.tranData!.dueAmount!,
+        tranData: json.encode(transactionModel!.responseObj!.tranData),
+        payTypeCode: payTypeCode, //CS
+        payTypeName: payTypeName, //Cash
+        currencyCode: _valueCurrency, //THB
+        payTypeId: payTypeId, //1
+        currencyID: _valueCurrencyId,
+        payRemark: payRemark ?? '');
+    if (jsonDecode(response)['ResponseCode'] == "") {
+      apiState = ApiState.COMPLETED;
+      Constants()
+          .printCheckFlow(jsonDecode(response).toString(), 'paymentQRCancel');
+    } else {
+      DialogStyle().dialogError(context,
+          error: jsonDecode(response)['ResponseText'],
+          isPopUntil: true,
+          popToPage: '/menuPage');
+      Constants()
+          .printCheckError(jsonDecode(response).toString(), 'paymentQRCancel');
+    }
+    notifyListeners();
+  }
+
+  Future paymentQRRequest(BuildContext context,
+      {String? payTypeCode,
+      String? payTypeName,
+      int? payTypeId,
+      String? payRemark,
+      int? edcType}) async {
+    apiState = ApiState.LOADING;
+    var response = await _menuRepository.paymentQRRequest(
+        langID: '1',
+        edcType: edcType,
+        payAmount: transactionModel!.responseObj!.tranData!.dueAmount!,
+        tranData: json.encode(transactionModel!.responseObj!.tranData),
+        payTypeCode: payTypeCode, //CS
+        payTypeName: payTypeName, //Cash
+        currencyCode: _valueCurrency, //THB
+        payTypeId: payTypeId, //1
+        currencyID: _valueCurrencyId,
+        payRemark: payRemark ?? '');
+    paymentQRRequestModel = await DetectMenuFunc()
+        .detectPaymentQRRequest(context, response, 'paymentQRRequest');
+    notifyListeners();
+  }
+
+  Future paymentQRInquiry(BuildContext context,
+      {String? payTypeCode,
+      String? payTypeName,
+      int? payTypeId,
+      String? payRemark,
+      int? edcType,
+      bool? isRecursive}) async {
+    apiState = ApiState.LOADING;
+    if (isRecursive!) {
+      timerInquiry = Timer.periodic(const Duration(seconds: 5), (timer) async {
+        var response = await _menuRepository.paymentQRInquiry(
+            langID: '1',
+            edcType: edcType,
+            payAmount: transactionModel!.responseObj!.tranData!.dueAmount!,
+            tranData: json.encode(transactionModel!.responseObj!.tranData),
+            payTypeCode: payTypeCode, //CS
+            payTypeName: payTypeName, //Cash
+            currencyCode: _valueCurrency, //THB
+            payTypeId: payTypeId, //1
+            currencyID: _valueCurrencyId,
+            payRemark: payRemark ?? '');
+        if (jsonDecode(response)['ResponseCode'] != "90") {
+          timer.cancel();
+          transactionModel = await DetectMenuFunc()
+              .detectTransaction(context, response, 'paymentQRInquiry')
+              .then((value) async {
+            if (apiState == ApiState.COMPLETED) {
+              await finalizeBill(context);
+            }
+          });
+          notifyListeners();
+        } else {
+          Constants().printCheckFlow(
+              jsonDecode(response).toString(), 'paymentQRInquiry');
+        }
+      });
+    } else {
+      var response = await _menuRepository.paymentQRInquiry(
+          langID: '1',
+          edcType: edcType,
+          payAmount: transactionModel!.responseObj!.tranData!.dueAmount!,
+          tranData: json.encode(transactionModel!.responseObj!.tranData),
+          payTypeCode: payTypeCode, //CS
+          payTypeName: payTypeName, //Cash
+          currencyCode: _valueCurrency, //THB
+          payTypeId: payTypeId, //1
+          currencyID: _valueCurrencyId,
+          payRemark: payRemark ?? '');
+      if (jsonDecode(response)['ResponseCode'] != "90") {
+        timerInquiry!.cancel();
+        transactionModel = await DetectMenuFunc()
+            .detectTransaction(context, response, 'paymentQRInquiry')
+            .then((value) async {
+          if (apiState == ApiState.COMPLETED) {
+            await finalizeBill(context);
+          }
+        });
+        notifyListeners();
+      } else {
+        Constants().printCheckFlow(
+            jsonDecode(response).toString(), 'paymentQRInquiry');
+      }
+    }
   }
 
   Future finalizeBill(BuildContext context) async {
@@ -444,15 +572,15 @@ class MenuProvider extends ChangeNotifier {
     }
   }
 
-  Future setReason(BuildContext context, int index) async {
-    reasonModel = null;
-    apiState = ApiState.LOADING;
-    _valueReasonGroupSelect = reasonGroupList![index].name;
-    var response = await _menuRepository.reason(
-        langId: '1', reasonId: reasonGroupList![index].iD.toString());
-    reasonModel = await DetectMenuFunc().detectReason(context, response);
-    notifyListeners();
-  }
+  // Future setReason(BuildContext context, int index) async {
+  //   reasonModel = null;
+  //   apiState = ApiState.LOADING;
+  //   _valueReasonGroupSelect = reasonGroupList![index].name;
+  //   var response = await _menuRepository.reason(
+  //       langId: '1', reasonId: reasonGroupList![index].iD.toString());
+  //   reasonModel = await DetectMenuFunc().detectReason(context, response);
+  //   notifyListeners();
+  // }
 
   Future memberData(BuildContext context, String phone) async {
     apiState = ApiState.LOADING;
@@ -642,6 +770,22 @@ class MenuProvider extends ChangeNotifier {
 
   // --------------------------- SET ---------------------------\
 
+  setPayTypeResult(BuildContext context) {
+    var homePvd = context.read<HomeProvider>();
+    final computerSplitList = computerName!.payTypeList!.split(',').toSet();
+    final saleModeSplitList = homePvd.saleModeDataList!
+        .where((element) =>
+            element.saleModeID == transactionModel!.responseObj!.saleModeID)
+        .first
+        .payTypeList!
+        .split(',')
+        .toSet();
+    resultPayTypeList =
+        computerSplitList.intersection(saleModeSplitList).toList();
+
+    notifyListeners();
+  }
+
   setValueTitle(int value) {
     _valueTitleSelect = value;
     notifyListeners();
@@ -764,8 +908,8 @@ class MenuProvider extends ChangeNotifier {
   }
 
   setCancelUserNameForTest() {
-    authInfoUsernameController.text = 'vtec';
-    authInfoPasswordController.text = 'vtecsystem';
+    authInfoUsernameController.text = '1';
+    authInfoPasswordController.text = '1';
     notifyListeners();
   }
 

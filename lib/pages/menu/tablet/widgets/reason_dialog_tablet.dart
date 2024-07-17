@@ -266,7 +266,7 @@ SizedBox groupMenu(BuildContext context, MenuProvider dataProvider) {
         dataProvider.reasonGroupList!.length,
         (index) => GestureDetector(
           onTap: () {
-            dataProvider.setReason(context, index);
+            // dataProvider.setReason(context, index);
           },
           child: Container(
             alignment: Alignment.center,

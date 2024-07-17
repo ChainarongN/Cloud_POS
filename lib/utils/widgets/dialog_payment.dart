@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -11,6 +14,128 @@ class DialogPayment {
   DialogPayment._internal();
   static final DialogPayment _instance = DialogPayment._internal();
   factory DialogPayment() => _instance;
+
+  Future<void> dialogPaymentQR(BuildContext context,
+      {int? payTypeId,
+      String? payTypeName,
+      String? payTypeCode,
+      int? edcType,
+      String? payRemark,
+      MenuProvider? menuRead,
+      MenuProvider? menuWatch}) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: SizedBox(
+              height: Constants().screenheight(context) * 0.65,
+              width: Constants().screenWidth(context) * 0.3,
+              child: Padding(
+                padding:
+                    EdgeInsets.all(Constants().screenWidth(context) * 0.01),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Image.memory(base64Decode(menuWatch!
+                            .paymentQRRequestModel!.responseObj!.qrImg!)),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        child: Row(
+                          children: [
+                            AppTextStyle().textBold('Order id : ',
+                                size:
+                                    Constants().screenheight(context) * 0.025),
+                            AppTextStyle().textNormal(
+                                menuWatch.paymentQRRequestModel!.responseObj!
+                                    .orderId!,
+                                size:
+                                    Constants().screenheight(context) * 0.025),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        child: Row(
+                          children: [
+                            AppTextStyle().textBold('Txn id : ',
+                                size:
+                                    Constants().screenheight(context) * 0.025),
+                            AppTextStyle().textNormal(
+                                menuWatch
+                                    .paymentQRRequestModel!.responseObj!.txnId!,
+                                size:
+                                    Constants().screenheight(context) * 0.025),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        child: Row(
+                          children: [
+                            AppTextStyle().textBold('Amount : ',
+                                size:
+                                    Constants().screenheight(context) * 0.025),
+                            AppTextStyle().textNormal(
+                                '${menuWatch.paymentQRRequestModel!.responseObj!.amount} ${menuWatch.paymentQRRequestModel!.responseObj!.currency}',
+                                size:
+                                    Constants().screenheight(context) * 0.025),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
+                    size: Constants().screenWidth(context) * 0.015,
+                    color: Colors.red),
+                onPressed: () async {
+                  await DialogStyle().confirmDialog2(
+                    context,
+                    title: 'Cancel',
+                    detail: 'You need to cancel payment ?',
+                    onPressed: () async {
+                      DialogStyle().dialogLoadding(context);
+                      menuRead!.timerInquiry!.cancel();
+                      await menuRead
+                          .paymentQRInquiry(context,
+                              payTypeId: payTypeId,
+                              payTypeCode: payTypeCode,
+                              payTypeName: payTypeName,
+                              edcType: edcType,
+                              payRemark: payRemark,
+                              isRecursive: false)
+                          .then((value) {
+                        menuRead
+                            .paymentQRCancel(context,
+                                edcType: edcType,
+                                payRemark: '',
+                                payTypeCode: payTypeCode,
+                                payTypeId: payTypeId,
+                                payTypeName: payTypeName)
+                            .then((value) {
+                          if (menuWatch.apiState == ApiState.COMPLETED) {
+                            menuRead.timerInquiry!.cancel();
+                            Navigator.of(context)
+                                .popUntil(ModalRoute.withName("/menuPage"));
+                          }
+                        });
+                      });
+                    },
+                  );
+                },
+              ),
+            ],
+          );
+        });
+  }
 
   Future<void> dialogCredit(BuildContext context,
       {int? payTypeId,

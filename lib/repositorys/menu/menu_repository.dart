@@ -4,8 +4,162 @@ import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/menu/i_menu_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
+import 'package:cloud_pos/utils/constants.dart';
 
 class MenuRepository implements IMenuRepository {
+  @override
+  Future paymentQRCancel({
+    String? langID,
+    var tranData,
+    int? payTypeId,
+    String? payTypeCode,
+    String? payTypeName,
+    int? edcType,
+    String? payRemark,
+    int? currencyID,
+    String? currencyCode,
+    double? payAmount,
+  }) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    int staffId = await SharedPref().getStaffID();
+    String staffName = await SharedPref().getStaffRoleName();
+
+    var param = {
+      "reqId": uuid,
+      "LangID": langID,
+      "RefundCode": '01',
+      "RefundReason": 'Cancel payment'
+    };
+
+    var data = {
+      "payTypeID": payTypeId,
+      "payTypeCode": payTypeCode,
+      "payTypeName": payTypeName,
+      "edcType": edcType,
+      "payRemark": payRemark,
+      "currencyID": currencyID,
+      "currencyCode": currencyCode,
+      "payAmount": payAmount,
+      "customerCode": "",
+      "edcResponse": "",
+      "staffID": staffId,
+      "staffName": staffName,
+      "tranData": jsonDecode(tranData),
+      "ccInfo": null,
+      "voucherInfo": null
+    };
+    var response = await APIService().postAndData(
+        url: Endpoints.paymentQRCancel,
+        param: param,
+        token: token,
+        data: data,
+        actionBy: 'paymentQRCancel');
+    return response;
+  }
+
+  @override
+  Future paymentQRInquiry({
+    String? langID,
+    var tranData,
+    int? payTypeId,
+    String? payTypeCode,
+    String? payTypeName,
+    int? edcType,
+    String? payRemark,
+    int? currencyID,
+    String? currencyCode,
+    double? payAmount,
+  }) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    int staffId = await SharedPref().getStaffID();
+    String staffName = await SharedPref().getStaffRoleName();
+
+    var param = {
+      "reqId": uuid,
+      "LangID": langID,
+    };
+
+    var data = {
+      "payTypeID": payTypeId,
+      "payTypeCode": payTypeCode,
+      "payTypeName": payTypeName,
+      "edcType": edcType,
+      "payRemark": payRemark,
+      "currencyID": currencyID,
+      "currencyCode": currencyCode,
+      "payAmount": payAmount,
+      "customerCode": "",
+      "edcResponse": "",
+      "staffID": staffId,
+      "staffName": staffName,
+      "tranData": jsonDecode(tranData),
+      "ccInfo": null,
+      "voucherInfo": null
+    };
+
+    // Constants().printError(data.toString());
+    var response = await APIService().postAndData(
+        url: Endpoints.paymentQRInquiry,
+        param: param,
+        token: token,
+        data: data,
+        actionBy: 'paymentQRInquiry');
+    return response;
+  }
+
+  @override
+  Future paymentQRRequest({
+    String? langID,
+    var tranData,
+    int? payTypeId,
+    String? payTypeCode,
+    String? payTypeName,
+    int? edcType,
+    String? payRemark,
+    int? currencyID,
+    String? currencyCode,
+    double? payAmount,
+  }) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    int staffId = await SharedPref().getStaffID();
+    String staffName = await SharedPref().getStaffRoleName();
+
+    var param = {
+      "reqId": uuid,
+      "LangID": langID,
+    };
+
+    var data = {
+      "payTypeID": payTypeId,
+      "payTypeCode": payTypeCode,
+      "payTypeName": payTypeName,
+      "edcType": edcType,
+      "payRemark": payRemark,
+      "currencyID": currencyID,
+      "currencyCode": currencyCode,
+      "payAmount": payAmount,
+      "customerCode": "",
+      "edcResponse": "",
+      "staffID": staffId,
+      "staffName": staffName,
+      "tranData": jsonDecode(tranData),
+      "ccInfo": null,
+      "voucherInfo": null
+    };
+    // Constants().printError(jsonEncode(param));
+    // Constants().printError(jsonEncode(data));
+    var response = await APIService().postAndData(
+        url: Endpoints.paymentQRRequest,
+        param: param,
+        token: token,
+        data: data,
+        actionBy: 'paymentQRRequest');
+    return response;
+  }
+
   @override
   Future paymentCancel(
       {String? langID, String? tranData, String? payDetailId}) async {
@@ -45,6 +199,7 @@ class MenuRepository implements IMenuRepository {
       "username": username,
       "password": password,
     };
+
     var response = await APIService().postParams(
         url: Endpoints.authInfo,
         param: param,

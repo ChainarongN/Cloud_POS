@@ -1,12 +1,14 @@
 import 'dart:typed_data';
 
 import 'package:cloud_pos/networks/api_service.dart';
+import 'package:cloud_pos/providers/menu/functions/payment_func.dart';
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/service/printer.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style_2.dart';
+import 'package:cloud_pos/utils/widgets/dialog_payment.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -190,31 +192,6 @@ Future<void> moreChoiceDialog(
                   ),
                 ),
               ),
-              SizedBox(
-                height: Constants().screenheight(context) * 0.1,
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                right: Constants().screenWidth(context) * 0.015,
-                                left: Constants().screenWidth(context) * 0.015),
-                            child: const Icon(Icons.qr_code,
-                                color: Constants.primaryColor),
-                          ),
-                          AppTextStyle().textBold(
-                            'QR Payment',
-                            size: Constants().screenheight(context) * 0.03,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               GestureDetector(
                 onTap: () async {
                   if (menuWatch
@@ -259,6 +236,54 @@ Future<void> moreChoiceDialog(
                   ),
                 ),
               ),
+              Column(
+                children: List.generate(
+                  menuWatch.payTypeInfoList!.length,
+                  (index) => !menuWatch.resultPayTypeList!.contains(menuWatch
+                          .payTypeInfoList![index].payTypeID
+                          .toString())
+                      ? const SizedBox.shrink()
+                      : GestureDetector(
+                          onTap: () {
+                            PaymentFunc().paymentDinamic(context,
+                                edcType:
+                                    menuWatch.payTypeInfoList![index].eDCType,
+                                payTypeFlow: menuWatch
+                                    .payTypeInfoList![index].payTypeFlow!,
+                                payTypeId:
+                                    menuWatch.payTypeInfoList![index].payTypeID,
+                                payTypeName: menuWatch
+                                    .payTypeInfoList![index].payTypeName,
+                                payTypeCode: menuWatch
+                                    .payTypeInfoList![index].payTypeCode,
+                                payRemark: '',
+                                menuRead: menuRead,
+                                menuWatch: menuWatch);
+                          },
+                          child: SizedBox(
+                            height: Constants().screenheight(context) * 0.1,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                      color: Constants.primaryColor,
+                                      width: 2.0),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: AppTextStyle().textBold(
+                                    menuWatch
+                                        .payTypeInfoList![index].payTypeName!,
+                                    size: Constants().screenheight(context) *
+                                        0.03,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                ),
+              )
             ]),
           ),
         ),

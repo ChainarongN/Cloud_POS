@@ -1,4 +1,4 @@
-class PaymentQRRequest {
+class PaymentQRRequestModel {
   String? responseCode;
   String? responseText;
   Null? pendingReqId;
@@ -6,7 +6,7 @@ class PaymentQRRequest {
   Null? responseObj2;
   Null? loyaltyObj;
 
-  PaymentQRRequest(
+  PaymentQRRequestModel(
       {this.responseCode,
       this.responseText,
       this.pendingReqId,
@@ -14,7 +14,7 @@ class PaymentQRRequest {
       this.responseObj2,
       this.loyaltyObj});
 
-  PaymentQRRequest.fromJson(Map<String, dynamic> json) {
+  PaymentQRRequestModel.fromJson(Map<String, dynamic> json) {
     responseCode = json['ResponseCode'];
     responseText = json['ResponseText'];
     pendingReqId = json['PendingReqId'];
@@ -44,9 +44,9 @@ class ResponseObj {
   String? txnId;
   String? qrCode;
   String? qrImg;
-  int? amount;
-  int? amountNet;
-  int? amountCustFee;
+  double? amount;
+  double? amountNet;
+  double? amountCustFee;
   String? currency;
   String? createdAt;
   String? qrExpireAt;

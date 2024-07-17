@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class HoldBillModel {
   String? responseCode;
   String? responseText;

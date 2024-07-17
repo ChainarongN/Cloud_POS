@@ -82,7 +82,12 @@ class Constants {
   }
 
   printCheckFlow(var first, var second) {
-    Constants().printInfo(first.toString());
+    Constants().printInfo(first);
+    Constants().printWarning(second.toString());
+  }
+
+  printCheckError(var first, var second) {
+    Constants().printError(first.toString());
     Constants().printWarning(second.toString());
   }
 }
