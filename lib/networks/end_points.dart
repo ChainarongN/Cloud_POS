@@ -2,9 +2,9 @@ class Endpoints {
   Endpoints._();
 
   // static const String baseUrl = "https://apicore.vtec-system.com";
-  static const String authUrl = "https://auth.vtec-system.com/connect/token";
-  
+  // static const String authUrl = "https://auth.vtec-system.com/connect/token";
 
+  static const String authUrl = "api/Identity/Token";
   static const String coreDataInit = "api/POSModule/POS_Init";
   static const String login = "api/POSModule/POS_StaffLogin";
   static const String startProcess = "api/POSModule/POS_StartProcess";

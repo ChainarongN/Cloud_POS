@@ -186,9 +186,9 @@ class APIService {
     }
   }
 
-  Future post(String url, var data) async {
+  Future postToken({String? url, var param, String? actionBy}) async {
     String baseUrl = await SharedPref().getBaseUrl();
-    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+
     try {
       BaseOptions options = BaseOptions(
         baseUrl: baseUrl,
@@ -198,38 +198,131 @@ class APIService {
       );
       var dio = Dio(options);
       var response = await dio.request(
-        url,
-        options: Options(method: 'POST', headers: headers),
-        data: data,
+        '$baseUrl/$url',
+        options: Options(
+          method: 'POST',
+        ),
+        queryParameters: param,
       );
-      if (response.statusCode == 200) {
-        return json.encode(response.data);
-      }
 
+      if (response.statusCode == 200) {
+        if (response.headers['content-type'].toString().contains('text')) {
+          FirebaseLog().logData(true,
+              actionBy: actionBy,
+              params: param,
+              reqData: '',
+              res: response.data,
+              baseUrl: baseUrl,
+              pathUrl: url);
+          return response.data;
+        } else {
+          FirebaseLog().logData(true,
+              actionBy: actionBy,
+              params: param,
+              reqData: '',
+              res: response.data,
+              baseUrl: baseUrl,
+              pathUrl: url);
+          return json.encode(response.data);
+        }
+      }
+      FirebaseLog().logData(false,
+          actionBy: actionBy,
+          params: param,
+          res: response.data,
+          reqData: '',
+          baseUrl: baseUrl,
+          pathUrl: url);
       return Failure(
         code: response.statusCode!,
         errorResponse: response.data,
       );
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionTimeout) {
+        FirebaseLog().logData(false,
+            actionBy: actionBy,
+            params: param,
+            res: e,
+            reqData: '',
+            baseUrl: baseUrl,
+            pathUrl: url);
         return Failure(
           code: 408,
           errorResponse: 'Connection Timeout. Check your internet or Try again',
         );
       }
       if (e.type == DioExceptionType.receiveTimeout) {
+        FirebaseLog().logData(false,
+            actionBy: actionBy,
+            params: param,
+            res: e,
+            baseUrl: baseUrl,
+            reqData: '',
+            pathUrl: url);
         return Failure(
           code: 408,
           errorResponse: 'Connection Timeout. Check your internet or Try again',
         );
       }
     } catch (e) {
+      FirebaseLog().logData(false,
+          actionBy: actionBy,
+          params: param,
+          reqData: '',
+          res: e,
+          baseUrl: baseUrl,
+          pathUrl: url);
       return Failure(
         code: Constants.UNKNOWN_ERROR,
         errorResponse: '$e',
       );
     }
   }
+
+  // Future post(String url, var data) async {
+  //   String baseUrl = await SharedPref().getBaseUrl();
+  //   var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+  //   try {
+  //     BaseOptions options = BaseOptions(
+  //       baseUrl: baseUrl,
+  //       receiveDataWhenStatusError: true,
+  //       connectTimeout: const Duration(minutes: 1),
+  //       receiveTimeout: const Duration(minutes: 1),
+  //     );
+  //     var dio = Dio(options);
+  //     var response = await dio.request(
+  //       url,
+  //       options: Options(method: 'POST', headers: headers),
+  //       data: data,
+  //     );
+  //     if (response.statusCode == 200) {
+  //       return json.encode(response.data);
+  //     }
+
+  //     return Failure(
+  //       code: response.statusCode!,
+  //       errorResponse: response.data,
+  //     );
+  //   } on DioException catch (e) {
+  //     if (e.type == DioExceptionType.connectionTimeout) {
+  //       return Failure(
+  //         code: 408,
+  //         errorResponse: 'Connection Timeout. Check your internet or Try again',
+  //       );
+  //     }
+  //     if (e.type == DioExceptionType.receiveTimeout) {
+  //       return Failure(
+  //         code: 408,
+  //         errorResponse: 'Connection Timeout. Check your internet or Try again',
+  //       );
+  //     }
+  //   } catch (e) {
+  //     return Failure(
+  //       code: Constants.UNKNOWN_ERROR,
+  //       errorResponse: '$e',
+  //     );
+  //   }
+  // }
 }
 
 class Failure {

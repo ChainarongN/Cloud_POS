@@ -48,7 +48,7 @@ class AuthInfoModel {
 
 class ResponseObj {
   StaffInfo? staffInfo;
-  Null? staffPermission;
+  var staffPermission;
 
   ResponseObj({this.staffInfo, this.staffPermission});
 

@@ -1,3 +1,3 @@
 abstract class IConfigRepository {
-  authToken({String? clientID, String? grantType, String? clientSecret});
+  // authToken({String? clientID, String? grantType, String? clientSecret});
 }

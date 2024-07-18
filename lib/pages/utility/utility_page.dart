@@ -297,26 +297,30 @@ class _UtilityPageState extends State<UtilityPage> {
                     child: ContainerStyle2(
                       onPressed: () {
                         if (isSession) {
-                          homePvd.screenshotCloseSession
-                              .capture(
-                                  delay: const Duration(seconds: 1),
-                                  pixelRatio: 1.2)
-                              .then((Uint8List? value) async {
-                            Printer().printReceipt(value!).then((value) {
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, '/loginPage', (route) => false);
+                          if (utilityWatch.getHtml.isNotEmpty) {
+                            homePvd.screenshotCloseSession
+                                .capture(
+                                    delay: const Duration(seconds: 1),
+                                    pixelRatio: 1.2)
+                                .then((Uint8List? value) async {
+                              Printer().printReceipt(value!).then((value) {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, '/loginPage', (route) => false);
+                              });
                             });
-                          });
+                          }
                         } else {
-                          homePvd.screenshotEndday
-                              .capture(
-                                  delay: const Duration(seconds: 1),
-                                  pixelRatio: 1.2)
-                              .then((Uint8List? value) async {
-                            Printer().printReceipt(value!).then((value) {
-                              Navigator.maybePop(context);
+                          if (utilityWatch.getHtml.isNotEmpty) {
+                            homePvd.screenshotEndday
+                                .capture(
+                                    delay: const Duration(seconds: 1),
+                                    pixelRatio: 1.2)
+                                .then((Uint8List? value) async {
+                              Printer().printReceipt(value!).then((value) {
+                                Navigator.maybePop(context);
+                              });
                             });
-                          });
+                          }
                         }
                       },
                       radius: 25,

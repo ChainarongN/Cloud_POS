@@ -1,10 +1,10 @@
 class PaymentQRRequestModel {
   String? responseCode;
   String? responseText;
-  Null? pendingReqId;
+  var pendingReqId;
   ResponseObj? responseObj;
-  Null? responseObj2;
-  Null? loyaltyObj;
+  var responseObj2;
+  var loyaltyObj;
 
   PaymentQRRequestModel(
       {this.responseCode,

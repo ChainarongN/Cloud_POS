@@ -110,9 +110,9 @@ class LoginProvider extends ChangeNotifier {
     // String openTokenDay = await SharedPref().getOpenTokenDay();
     // if (openTokenDay.isEmpty || openTokenDay != now.day.toString()) {
     var response = await _loginRepository.authToken(
-        clientID: 'verticaltec.cloudinventory.dev',
-        grantType: 'client_credentials',
-        clientSecret: 'acf7e10c71296430');
+      clientID: 'testclient',
+      clientSecret: '3df55b7b9570492c',
+    );
     authTokenModel = await DetectLoginFunc().detectAuthToken(context, response);
     if (apisState == ApiState.COMPLETED) {
       await SharedPref().setToken(authTokenModel!.accessToken!);

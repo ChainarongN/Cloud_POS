@@ -78,16 +78,20 @@ class LoginRepository implements ILoginRepository {
   }
 
   @override
-  Future authToken(
-      {String? clientID, String? grantType, String? clientSecret}) async {
-    var data = {
-      'client_id': clientID,
-      'grant_type': grantType,
-      'client_secret': clientSecret
+  Future authToken({String? clientID, String? clientSecret}) async {
+    // var data = {
+    //   'client_id': clientID,
+    //   'grant_type': grantType,
+    //   'client_secret': clientSecret
+    // };
+    var param = {
+      'clientId': clientID,
+      'clientSecret': clientSecret,
     };
     String uuid = const Uuid().v4();
     await SharedPref().setUuid(uuid);
-    var response = await APIService().post(Endpoints.authUrl, data);
+    var response = await APIService()
+        .postToken(param: param, url: Endpoints.authUrl, actionBy: 'Token');
     return response;
   }
 

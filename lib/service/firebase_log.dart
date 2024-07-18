@@ -50,7 +50,7 @@ class FirebaseLog {
       "StaffId": staffId,
       "OrderId": orderId,
       "res": jsonEncode(res),
-      "reqData": reqData,
+      "reqData": jsonEncode(reqData),
       "reqParams": jsonEncode(params)
     });
   }
