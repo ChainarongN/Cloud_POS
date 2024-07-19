@@ -28,12 +28,15 @@ class PaymentFunc {
     menuRead!.clearPaymentField();
     switch (payTypeFlow) {
       case "":
-        // dialogCredit(context,
-        //     payTypeId: payTypeId,
-        //     payTypeName: payTypeName,
-        //     payTypeCode: payTypeCode,
-        //     menuRead: menuRead,
-        //     menuWatch: menuWatch);
+        paymentSubmitFlow(
+            context: context,
+            payTypeId: payTypeId,
+            payName: payTypeName,
+            payCode: payTypeCode,
+            payRemark: '',
+            fromQuick: true,
+            payAmount:
+                menuWatch!.transactionModel!.responseObj!.dueAmount.toString());
         break;
       case "ReqQR":
         DialogStyle().dialogLoadding(context);

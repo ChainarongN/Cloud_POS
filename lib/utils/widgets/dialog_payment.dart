@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
+import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
@@ -23,15 +24,18 @@ class DialogPayment {
       int? edcType,
       String? payRemark,
       MenuProvider? menuRead,
-      MenuProvider? menuWatch}) {
+      MenuProvider? menuWatch}) async {
+    String responsiveDevice = await SharedPref().getResponsiveDevice();
     return showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
             content: SizedBox(
-              height: Constants().screenheight(context) * 0.65,
-              width: Constants().screenWidth(context) * 0.3,
+              height: Constants().screenheight(context) * 0.45,
+              width: responsiveDevice == 'tablet'
+                  ? Constants().screenWidth(context) * 0.3
+                  : Constants().screenWidth(context),
               child: Padding(
                 padding:
                     EdgeInsets.all(Constants().screenWidth(context) * 0.01),
@@ -49,13 +53,17 @@ class DialogPayment {
                         child: Row(
                           children: [
                             AppTextStyle().textBold('Order id : ',
-                                size:
-                                    Constants().screenheight(context) * 0.025),
+                                size: responsiveDevice == 'tablet'
+                                    ? Constants().screenheight(context) * 0.025
+                                    : Constants().screenWidth(context) *
+                                        Constants.normalSize),
                             AppTextStyle().textNormal(
                                 menuWatch.paymentQRRequestModel!.responseObj!
                                     .orderId!,
-                                size:
-                                    Constants().screenheight(context) * 0.025),
+                                size: responsiveDevice == 'tablet'
+                                    ? Constants().screenheight(context) * 0.025
+                                    : Constants().screenWidth(context) *
+                                        Constants.normalSize),
                           ],
                         ),
                       ),
@@ -64,13 +72,17 @@ class DialogPayment {
                         child: Row(
                           children: [
                             AppTextStyle().textBold('Txn id : ',
-                                size:
-                                    Constants().screenheight(context) * 0.025),
+                                size: responsiveDevice == 'tablet'
+                                    ? Constants().screenheight(context) * 0.025
+                                    : Constants().screenWidth(context) *
+                                        Constants.normalSize),
                             AppTextStyle().textNormal(
                                 menuWatch
                                     .paymentQRRequestModel!.responseObj!.txnId!,
-                                size:
-                                    Constants().screenheight(context) * 0.025),
+                                size: responsiveDevice == 'tablet'
+                                    ? Constants().screenheight(context) * 0.025
+                                    : Constants().screenWidth(context) *
+                                        Constants.normalSize),
                           ],
                         ),
                       ),
@@ -79,12 +91,16 @@ class DialogPayment {
                         child: Row(
                           children: [
                             AppTextStyle().textBold('Amount : ',
-                                size:
-                                    Constants().screenheight(context) * 0.025),
+                                size: responsiveDevice == 'tablet'
+                                    ? Constants().screenheight(context) * 0.025
+                                    : Constants().screenWidth(context) *
+                                        Constants.normalSize),
                             AppTextStyle().textNormal(
                                 '${menuWatch.paymentQRRequestModel!.responseObj!.amount} ${menuWatch.paymentQRRequestModel!.responseObj!.currency}',
-                                size:
-                                    Constants().screenheight(context) * 0.025),
+                                size: responsiveDevice == 'tablet'
+                                    ? Constants().screenheight(context) * 0.025
+                                    : Constants().screenWidth(context) *
+                                        Constants.normalSize),
                           ],
                         ),
                       ),
@@ -96,19 +112,12 @@ class DialogPayment {
                             const Duration(minutes: 20, seconds: 00),
                           ),
                           timeTextStyle: TextStyle(
-                              fontSize:
-                                  Constants().screenheight(context) * 0.025),
+                              fontSize: responsiveDevice == 'tablet'
+                                  ? Constants().screenheight(context) * 0.025
+                                  : Constants().screenWidth(context) *
+                                      Constants.normalSize),
                         ),
                       ),
-                      // Container(
-                      //   margin: const EdgeInsets.only(top: 15),
-                      //   child: TextField(
-                      //     textInputAction: TextInputAction.go,
-                      //     controller: menuWatch.qrCodeForTestController,
-                      //     maxLines: null,
-                      //     keyboardType: TextInputType.multiline,
-                      //   ),
-                      // )
                     ],
                   ),
                 ),
@@ -117,7 +126,10 @@ class DialogPayment {
             actions: <Widget>[
               TextButton(
                 child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
-                    size: Constants().screenWidth(context) * 0.015,
+                    size: responsiveDevice == 'tablet'
+                        ? Constants().screenheight(context) * 0.015
+                        : Constants().screenWidth(context) *
+                            Constants.normalSize,
                     color: Colors.red),
                 onPressed: () async {
                   await DialogStyle().confirmDialog2(

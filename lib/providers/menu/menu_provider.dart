@@ -65,7 +65,8 @@ class MenuProvider extends ChangeNotifier {
       _valueFavGroup,
       _valueDept,
       _valueTitleSelect = 0,
-      indexSaleMode;
+      indexSaleMode,
+      _valuePaytypeIdSelect;
   String? _valueReasonGroupSelect,
       _htmlOrderSummary,
       _valueCurrency,
@@ -99,6 +100,7 @@ class MenuProvider extends ChangeNotifier {
   TabController get getTabController => _tabController!;
   String get getExceptionText => _exceptionText;
   int get getValueFavGroup => _valueFavGroup!;
+  int get getValuePaytypeIdSelect => _valuePaytypeIdSelect!;
   int get getValueDept => _valueDept!;
   int get getvalueMenuSelect => _valueMenuSelect!;
   int get getvalueTitleSelect => _valueTitleSelect!;
@@ -125,11 +127,10 @@ class MenuProvider extends ChangeNotifier {
 
     await _readData();
     setPayTypeResult(context);
-    // await setReason(context, 0);
-    // setWhereMenu(prodGroupList![0].productGroupID.toString());
+
     showMenuList(context, true,
         prodGroupId: prodGroupList!.first.productGroupID!);
-    showFavList(context, favoriteData!.first.pageIndex!);
+    // showFavList(context, favoriteData!.first.pageIndex!);
 
     Constants()
         .printWarning("OrderId : ${transactionModel!.responseObj!.orderID}");
@@ -778,6 +779,12 @@ class MenuProvider extends ChangeNotifier {
     resultPayTypeList =
         computerSplitList.intersection(saleModeSplitList).toList();
 
+    if (resultPayTypeList!.isNotEmpty) {
+      _valuePaytypeIdSelect = int.parse(resultPayTypeList![0]);
+    } else {
+      _valuePaytypeIdSelect = null;
+    }
+
     notifyListeners();
   }
 
@@ -903,6 +910,11 @@ class MenuProvider extends ChangeNotifier {
 
   setExceptionText(String value) {
     _exceptionText = value;
+    notifyListeners();
+  }
+
+  Future setValuePayTypeSelect(int value) async {
+    _valuePaytypeIdSelect = value;
     notifyListeners();
   }
 
