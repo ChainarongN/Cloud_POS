@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/menu/i_menu_repository.dart';
@@ -282,7 +281,6 @@ class MenuRepository implements IMenuRepository {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
-
     var param = {
       "reqId": uuid,
       "deviceKey": deviceId,

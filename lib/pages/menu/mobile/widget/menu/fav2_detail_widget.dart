@@ -50,7 +50,7 @@ class _Fav2DetailWidgetState extends State<Fav2DetailWidget> {
                         },
                         child: RecipeItemMobile(
                           recipeName: menuRead.getProdName(item.productID!),
-                          recipeImage: 'assets/coffee2.jpg',
+                          recipeImage: menuRead.getProdImage(item.productID!),
                         ),
                       );
               }).toList(),

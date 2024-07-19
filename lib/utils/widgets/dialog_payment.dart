@@ -37,6 +37,7 @@ class DialogPayment {
                     EdgeInsets.all(Constants().screenWidth(context) * 0.01),
                 child: SingleChildScrollView(
                   child: Column(
+                    // mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(

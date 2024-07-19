@@ -1,10 +1,11 @@
 import 'package:cloud_pos/pages/menu/mobile/widget/change_sale_mode.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/drawer_widget.dart';
-import 'package:cloud_pos/pages/menu/mobile/widget/menu_detail/fav1_detail_widget.dart';
-import 'package:cloud_pos/pages/menu/mobile/widget/menu_detail/fav2_detail_widget.dart';
-import 'package:cloud_pos/pages/menu/mobile/widget/menu_detail/menu_detail_widget.dart';
-import 'package:cloud_pos/pages/menu/mobile/widget/menugroup_widget.dart';
-import 'package:cloud_pos/pages/menu/mobile/widget/menutitle_widget.dart';
+import 'package:cloud_pos/pages/menu/mobile/widget/menu/fav1_detail_widget.dart';
+import 'package:cloud_pos/pages/menu/mobile/widget/menu/fav2_detail_widget.dart';
+import 'package:cloud_pos/pages/menu/mobile/widget/menu/menu_detail_widget.dart';
+import 'package:cloud_pos/pages/menu/mobile/widget/menu_dept_widget.dart';
+import 'package:cloud_pos/pages/menu/mobile/widget/menu_group_widget.dart';
+import 'package:cloud_pos/pages/menu/mobile/widget/menu_title_widget.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/searchbar/searchbar_widget.dart';
 import 'package:cloud_pos/providers/home/home_provider.dart';
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
@@ -102,11 +103,21 @@ class _MenuMobileState extends State<MenuMobile> {
                       child: const Divider(thickness: 0.5),
                     ),
                     const MenuGroupWidget(),
-
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: Constants().screenheight(context) * 0.001),
+                      child: const Divider(thickness: 0.5),
+                    ),
                     ///////////////////////////////////////////
 
                     menuWatch.getvalueTitleSelect == 0
-                        ? const MenuDetailWidget()
+                        ? const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              MenuDeptWidget(),
+                              MenuDetailWidget(),
+                            ],
+                          )
                         : menuWatch.getvalueTitleSelect == 1
                             ? const Fav1DetailWidget()
                             : const Fav2DetailWidget(),

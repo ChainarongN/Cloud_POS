@@ -53,7 +53,7 @@ class APIService {
             pathUrl: url);
         return json.encode(response.data);
       } else if (response.statusCode == 401) {
-        Provider.of<LoginProvider>(context, listen: false)
+        await Provider.of<LoginProvider>(context, listen: false)
             .authToken(context)
             .then((value) {
           postAndData(context,
@@ -76,6 +76,18 @@ class APIService {
         errorResponse: response.data,
       );
     } on DioException catch (e) {
+      if (e.response!.statusCode == 401) {
+        await Provider.of<LoginProvider>(context, listen: false)
+            .authToken(context)
+            .then((value) {
+          postAndData(context,
+              actionBy: actionBy,
+              data: data,
+              param: param,
+              token: token,
+              url: url);
+        });
+      }
       if (e.type == DioExceptionType.connectionTimeout) {
         FirebaseLog().logData(false,
             actionBy: actionBy,
@@ -147,7 +159,7 @@ class APIService {
             pathUrl: url);
         return json.encode(response.data);
       } else if (response.statusCode == 401) {
-        Provider.of<LoginProvider>(context, listen: false)
+        await Provider.of<LoginProvider>(context, listen: false)
             .authToken(context)
             .then((value) {
           postParams(context,
@@ -166,6 +178,14 @@ class APIService {
         errorResponse: response.data,
       );
     } on DioException catch (e) {
+      if (e.response!.statusCode == 401) {
+        await Provider.of<LoginProvider>(context, listen: false)
+            .authToken(context)
+            .then((value) {
+          postParams(context,
+              actionBy: actionBy, param: param, token: token, url: url);
+        });
+      }
       if (e.type == DioExceptionType.connectionTimeout) {
         FirebaseLog().logData(false,
             actionBy: actionBy,

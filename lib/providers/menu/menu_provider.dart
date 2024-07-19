@@ -579,16 +579,6 @@ class MenuProvider extends ChangeNotifier {
     }
   }
 
-  // Future setReason(BuildContext context, int index) async {
-  //   reasonModel = null;
-  //   apiState = ApiState.LOADING;
-  //   _valueReasonGroupSelect = reasonGroupList![index].name;
-  //   var response = await _menuRepository.reason(
-  //       langId: '1', reasonId: reasonGroupList![index].iD.toString());
-  //   reasonModel = await DetectMenuFunc().detectReason(context, response);
-  //   notifyListeners();
-  // }
-
   Future memberData(BuildContext context, String phone) async {
     apiState = ApiState.LOADING;
     var response =
@@ -677,14 +667,6 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  setWhereMenu(String value) {
-    _valueMenuSelect = int.parse(value);
-    prodToShow = prodList!
-        .where((e) => e.productGroupID.toString().contains(value))
-        .toList();
-    notifyListeners();
-  }
-
   Future showFavList(BuildContext context, int pageGroup) async {
     _valueFavGroup = pageGroup;
     favResultList = [];
@@ -737,7 +719,10 @@ class MenuProvider extends ChangeNotifier {
           } else {
             favResultList = [];
           }
-
+          break;
+        case 0:
+          showMenuList(context, true,
+              prodGroupId: prodGroupList!.first.productGroupID!);
           break;
       }
     });
@@ -796,8 +781,26 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  setValueTitle(int value) {
+  setValueTitle(BuildContext context, int value) {
     _valueTitleSelect = value;
+    if (value == 1) {
+      var result = favoriteGroupList!.where((element) => element.pageType == 0);
+      if (result.isNotEmpty) {
+        showFavList(context, result.first.pageIndex!);
+      } else {
+        favResultList = [];
+      }
+    } else if (value == 2) {
+      var result = favoriteGroupList!.where((element) => element.pageType == 1);
+      if (result.isNotEmpty) {
+        showFavList(context, result.first.pageIndex!);
+      } else {
+        favResultList = [];
+      }
+    } else if (value == 0) {
+      showMenuList(context, true,
+          prodGroupId: prodGroupList!.first.productGroupID!);
+    }
     notifyListeners();
   }
 

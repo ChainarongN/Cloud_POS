@@ -74,7 +74,8 @@ class MenuBtn extends StatelessWidget {
       onTap: () {
         switch (menuWatch.getvalueTitleSelect) {
           case 0:
-            menuRead.setWhereMenu(valueId.toString());
+            // menuRead.setWhereMenu(valueId.toString());
+            menuRead.showMenuList(context, true, prodGroupId: valueId);
             break;
           case 1:
             menuRead.showFavList(context, valueId);

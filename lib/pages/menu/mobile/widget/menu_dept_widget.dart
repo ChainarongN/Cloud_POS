@@ -4,20 +4,28 @@ import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MenuTitleWidget extends StatelessWidget {
-  const MenuTitleWidget({
+class MenuDeptWidget extends StatelessWidget {
+  const MenuDeptWidget({
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    return const Wrap(
-      alignment: WrapAlignment.start,
-      children: <Widget>[
-        MenuBtn(text: 'Menu', valueId: 0),
-        MenuBtn(text: 'Favorite#1', valueId: 1),
-        MenuBtn(text: 'Favorite#2', valueId: 2),
-      ],
+    var menuWatch = context.watch<MenuProvider>();
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Wrap(
+        alignment: WrapAlignment.start,
+        children: List.generate(
+          menuWatch.prodDeptList!.length,
+          (index) => menuWatch.prodDeptList![index].productGroupID !=
+                  menuWatch.getvalueMenuSelect
+              ? const SizedBox.shrink()
+              : MenuBtn(
+                  text: menuWatch.prodDeptList![index].productDeptName!,
+                  valueId: menuWatch.prodDeptList![index].productDeptID!,
+                ),
+        ),
+      ),
     );
   }
 }
@@ -31,31 +39,36 @@ class MenuBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     var menuRead = context.read<MenuProvider>();
     var menuWatch = context.watch<MenuProvider>();
+    int valueSelect;
+    if (menuWatch.getvalueTitleSelect == 0) {
+      valueSelect = menuWatch.getvalueMenuSelect;
+    } else {
+      valueSelect = menuWatch.getValueFavGroup;
+    }
     return GestureDetector(
       onTap: () {
-        menuRead.setValueTitle(valueId);
+        menuRead.showMenuList(context, false, prodDeptId: valueId);
       },
       child: Container(
         margin: EdgeInsets.only(
-          right: Constants().screenWidth(context) * 0.02,
+          right: Constants().screenWidth(context) * 0.01,
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Constants.primaryColor),
-          color: valueId == menuWatch.getvalueTitleSelect
+          color: valueId == menuWatch.getValueDept
               ? Constants.primaryColor
               : Constants.secondaryColor,
         ),
         child: Padding(
           padding: EdgeInsets.only(
-            top: Constants().screenheight(context) * 0.01,
-            bottom: Constants().screenheight(context) * 0.01,
+            top: Constants().screenheight(context) * 0.014,
+            bottom: Constants().screenheight(context) * 0.014,
             left: Constants().screenWidth(context) * 0.055,
             right: Constants().screenWidth(context) * 0.055,
           ),
           child: AppTextStyle().textBold(text,
               size: Constants().screenWidth(context) * Constants.normalSize,
-              color: valueId == menuWatch.getvalueTitleSelect
+              color: valueId == menuWatch.getValueDept
                   ? Colors.white
                   : Colors.black87),
         ),
