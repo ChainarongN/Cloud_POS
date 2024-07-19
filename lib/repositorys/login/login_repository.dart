@@ -4,11 +4,13 @@ import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class LoginRepository implements ILoginRepository {
   @override
-  Future openSession({String? langID, String? openAmount}) async {
+  Future openSession(BuildContext context,
+      {String? langID, String? openAmount}) async {
     String token = await SharedPref().getToken();
     String uuid = await SharedPref().getUuid();
     int staffId = await SharedPref().getStaffID();
@@ -29,7 +31,7 @@ class LoginRepository implements ILoginRepository {
       "saleDate": saleDate,
       "openAmount": int.parse(openAmount!)
     });
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.openSession,
         param: param,
         token: token,
@@ -39,7 +41,7 @@ class LoginRepository implements ILoginRepository {
   }
 
   @override
-  Future startProcess({String? langID}) async {
+  Future startProcess(BuildContext context, {String? langID}) async {
     String uuid = await SharedPref().getUuid();
     int staffId = await SharedPref().getStaffID();
     String token = await SharedPref().getToken();
@@ -51,7 +53,7 @@ class LoginRepository implements ILoginRepository {
       'LangID': langID,
       'StaffID': staffId.toString(),
     };
-    var response = await APIService().postParams(
+    var response = await APIService().postParams(context,
         url: Endpoints.startProcess,
         param: data,
         token: token,
@@ -60,7 +62,7 @@ class LoginRepository implements ILoginRepository {
   }
 
   @override
-  Future getCoreDataDetail({String? langID}) async {
+  Future getCoreDataDetail(BuildContext context, {String? langID}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
@@ -69,7 +71,7 @@ class LoginRepository implements ILoginRepository {
       "deviceKey": deviceId,
       "LangID": langID,
     };
-    var response = await APIService().postParams(
+    var response = await APIService().postParams(context,
         param: data,
         token: token,
         url: Endpoints.coreDataInit,
@@ -88,15 +90,14 @@ class LoginRepository implements ILoginRepository {
       'clientId': clientID,
       'clientSecret': clientSecret,
     };
-    String uuid = const Uuid().v4();
-    await SharedPref().setUuid(uuid);
     var response = await APIService()
         .postToken(param: param, url: Endpoints.authUrl, actionBy: 'Token');
     return response;
   }
 
   @override
-  Future login({String? langId, String? username, String? password}) async {
+  Future login(BuildContext context,
+      {String? langId, String? username, String? password}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
@@ -105,7 +106,6 @@ class LoginRepository implements ILoginRepository {
       uuid = const Uuid().v4();
       await SharedPref().setUuid(uuid);
     }
-
     var data = {
       'reqId': uuid,
       'deviceKey': deviceId,
@@ -113,7 +113,7 @@ class LoginRepository implements ILoginRepository {
       'username': username,
       'password': password
     };
-    var response = await APIService().postParams(
+    var response = await APIService().postParams(context,
         param: data, token: token, url: Endpoints.login, actionBy: 'login');
 
     return response;

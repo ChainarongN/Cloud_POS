@@ -242,7 +242,10 @@ Container totalPayAmount(
                     borderRadius: BorderRadius.circular(10)),
               ),
               onPressed: () {
-                menuRead.clearPaymentList(context);
+                if (menuWatch
+                    .transactionModel!.responseObj!.paymentList!.isNotEmpty) {
+                  menuRead.clearPaymentList(context);
+                }
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

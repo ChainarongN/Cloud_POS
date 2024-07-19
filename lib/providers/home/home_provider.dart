@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'dart:convert';
-import 'dart:math';
 import 'package:cloud_pos/models/hold_bill_search_model.dart';
 import 'package:cloud_pos/providers/home/functions/detect_home_func.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
@@ -61,15 +59,15 @@ class HomeProvider extends ChangeNotifier {
 
   Future holdBillSearch(BuildContext context) async {
     apisState = ApiState.LOADING;
-    var response = await _homeRepository.holdBillSearch(langID: '1');
+    var response = await _homeRepository.holdBillSearch(context, langID: '1');
     holdBillSearchModel =
         await DetectHomeFunc().detectHoldBillSearch(context, response);
   }
 
   Future unHoldBill(BuildContext context, String orderId) async {
     apisState = ApiState.LOADING;
-    var response =
-        await _homeRepository.unHoldBill(langID: '1', orderId: orderId);
+    var response = await _homeRepository.unHoldBill(context,
+        langID: '1', orderId: orderId);
     openTranModel = await DetectHomeFunc().detectOpenTran(context, response);
   }
 
@@ -82,7 +80,7 @@ class HomeProvider extends ChangeNotifier {
     String defaultNoCustomer =
         _customerCount.text.isEmpty ? '1' : _customerCount.text;
 
-    var response = await _homeRepository.openTransaction(
+    var response = await _homeRepository.openTransaction(context,
         langID: '1',
         noCustomer: int.parse(defaultNoCustomer),
         saleModeId: index == null

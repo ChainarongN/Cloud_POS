@@ -4,10 +4,12 @@ import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/home/i_home_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
+import 'package:flutter/material.dart';
 
 class HomeRepository implements IHomeRepository {
   @override
-  Future unHoldBill({String? langID, String? orderId}) async {
+  Future unHoldBill(BuildContext context,
+      {String? langID, String? orderId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int staffId = await SharedPref().getStaffID();
@@ -19,7 +21,7 @@ class HomeRepository implements IHomeRepository {
       "OrderId": orderId,
       "StaffID": staffId,
     };
-    var response = await APIService().postParams(
+    var response = await APIService().postParams(context,
         param: param,
         token: token,
         url: Endpoints.unHoldBill,
@@ -28,7 +30,7 @@ class HomeRepository implements IHomeRepository {
   }
 
   @override
-  Future holdBillSearch({String? langID}) async {
+  Future holdBillSearch(BuildContext context, {String? langID}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int staffId = await SharedPref().getStaffID();
@@ -45,7 +47,7 @@ class HomeRepository implements IHomeRepository {
       "StaffID": staffId,
       "ComputerID": computerId
     };
-    var response = await APIService().postParams(
+    var response = await APIService().postParams(context,
         param: param,
         token: token,
         url: Endpoints.holdBillSearch,
@@ -54,7 +56,7 @@ class HomeRepository implements IHomeRepository {
   }
 
   @override
-  Future openTransaction(
+  Future openTransaction(BuildContext context,
       {String? langID, int? saleModeId, int? noCustomer}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
@@ -80,7 +82,7 @@ class HomeRepository implements IHomeRepository {
       "noCustomer": noCustomer,
       "customerName": ""
     });
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         param: param,
         token: token,
         url: Endpoints.openTran,

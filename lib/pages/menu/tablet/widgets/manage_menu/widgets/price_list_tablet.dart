@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/menu/functions/payment_func.dart';
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
@@ -8,12 +9,9 @@ import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style_2.dart';
-import 'package:cloud_pos/utils/widgets/dialog_payment.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -24,14 +22,26 @@ Row priceListTablet(
     children: <Widget>[
       GestureDetector(
         onTap: () {
-          menuRead.paymentMulti(
-              context: context,
-              payAmount: '100',
-              payCode: 'CS',
-              payName: 'Cash',
-              payTypeId: 1,
-              payRemark: '',
-              fromQuick: true);
+          List<String> checkPayCash = menuWatch.resultPayTypeList!
+              .where((element) => element.toString() == '1')
+              .toList();
+          if (checkPayCash.isEmpty) {
+            DialogStyle().dialogError(context,
+                error: 'This computer ID does not accept cash payments.',
+                isPopUntil: false);
+          } else {
+            List<PayTypeInfo> paymentCash = menuWatch.payTypeInfoList!
+                .where((element) => element.payTypeID == 1)
+                .toList();
+            menuRead.paymentMulti(
+                context: context,
+                payAmount: '100',
+                payCode: paymentCash.first.payTypeCode,
+                payName: paymentCash.first.payTypeName,
+                payTypeId: paymentCash.first.payTypeID,
+                payRemark: '',
+                fromQuick: true);
+          }
         },
         child: Container(
           width: Constants().screenWidth(context) * 0.07,
@@ -53,14 +63,26 @@ Row priceListTablet(
       ),
       GestureDetector(
         onTap: () {
-          menuRead.paymentMulti(
-              context: context,
-              payAmount: '500',
-              payCode: 'CS',
-              payName: 'Cash',
-              payTypeId: 1,
-              payRemark: '',
-              fromQuick: true);
+          List<String> checkPayCash = menuWatch.resultPayTypeList!
+              .where((element) => element.toString() == '1')
+              .toList();
+          if (checkPayCash.isEmpty) {
+            DialogStyle().dialogError(context,
+                error: 'This computer ID does not accept cash payments.',
+                isPopUntil: false);
+          } else {
+            List<PayTypeInfo> paymentCash = menuWatch.payTypeInfoList!
+                .where((element) => element.payTypeID == 1)
+                .toList();
+            menuRead.paymentMulti(
+                context: context,
+                payAmount: '500',
+                payCode: paymentCash.first.payTypeCode,
+                payName: paymentCash.first.payTypeName,
+                payTypeId: paymentCash.first.payTypeID,
+                payRemark: '',
+                fromQuick: true);
+          }
         },
         child: Container(
           width: Constants().screenWidth(context) * 0.07,
@@ -83,14 +105,26 @@ Row priceListTablet(
       ),
       GestureDetector(
         onTap: () {
-          menuRead.paymentMulti(
-              context: context,
-              payAmount: '1000',
-              payCode: 'CS',
-              payName: 'Cash',
-              payTypeId: 1,
-              payRemark: '',
-              fromQuick: true);
+          List<String> checkPayCash = menuWatch.resultPayTypeList!
+              .where((element) => element.toString() == '1')
+              .toList();
+          if (checkPayCash.isEmpty) {
+            DialogStyle().dialogError(context,
+                error: 'This computer ID does not accept cash payments.',
+                isPopUntil: false);
+          } else {
+            List<PayTypeInfo> paymentCash = menuWatch.payTypeInfoList!
+                .where((element) => element.payTypeID == 1)
+                .toList();
+            menuRead.paymentMulti(
+                context: context,
+                payAmount: '1000',
+                payCode: paymentCash.first.payTypeCode,
+                payName: paymentCash.first.payTypeName,
+                payTypeId: paymentCash.first.payTypeID,
+                payRemark: '',
+                fromQuick: true);
+          }
         },
         child: Container(
           width: Constants().screenWidth(context) * 0.07,
@@ -155,16 +189,29 @@ Future<void> moreChoiceDialog(
             child: ListView(padding: EdgeInsets.zero, children: [
               GestureDetector(
                 onTap: () {
-                  menuRead.paymentMulti(
-                      context: context,
-                      payAmount: menuWatch
-                          .transactionModel!.responseObj!.dueAmount
-                          .toString(),
-                      payCode: 'CS',
-                      payName: 'Cash',
-                      payTypeId: 1,
-                      payRemark: '',
-                      fromQuick: true);
+                  List<String> checkPayCash = menuWatch.resultPayTypeList!
+                      .where((element) => element.toString() == '1')
+                      .toList();
+                  if (checkPayCash.isEmpty) {
+                    DialogStyle().dialogError(context,
+                        error:
+                            'This computer ID does not accept cash payments.',
+                        isPopUntil: false);
+                  } else {
+                    List<PayTypeInfo> paymentCash = menuWatch.payTypeInfoList!
+                        .where((element) => element.payTypeID == 1)
+                        .toList();
+                    menuRead.paymentMulti(
+                        context: context,
+                        payAmount: menuWatch
+                            .transactionModel!.responseObj!.dueAmount
+                            .toString(),
+                        payCode: paymentCash.first.payTypeCode,
+                        payName: paymentCash.first.payTypeName,
+                        payTypeId: paymentCash.first.payTypeID,
+                        payRemark: '',
+                        fromQuick: true);
+                  }
                 },
                 child: SizedBox(
                   height: Constants().screenheight(context) * 0.1,

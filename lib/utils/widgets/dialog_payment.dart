@@ -87,28 +87,27 @@ class DialogPayment {
                           ],
                         ),
                       ),
-                      Center(
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 5),
-                          child: TimerCountdown(
-                            format: CountDownTimerFormat.minutesSeconds,
-                            endTime: DateTime.now().add(
-                              const Duration(minutes: 20, seconds: 00),
-                            ),
-                            timeTextStyle: TextStyle(
-                                fontSize:
-                                    Constants().screenheight(context) * 0.025),
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        child: TimerCountdown(
+                          format: CountDownTimerFormat.minutesSeconds,
+                          endTime: DateTime.now().add(
+                            const Duration(minutes: 20, seconds: 00),
                           ),
+                          timeTextStyle: TextStyle(
+                              fontSize:
+                                  Constants().screenheight(context) * 0.025),
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 15),
-                        child: TextField(
-                          controller: menuWatch.qrCodeForTestController,
-                          maxLines: null,
-                          keyboardType: TextInputType.multiline,
-                        ),
-                      )
+                      // Container(
+                      //   margin: const EdgeInsets.only(top: 15),
+                      //   child: TextField(
+                      //     textInputAction: TextInputAction.go,
+                      //     controller: menuWatch.qrCodeForTestController,
+                      //     maxLines: null,
+                      //     keyboardType: TextInputType.multiline,
+                      //   ),
+                      // )
                     ],
                   ),
                 ),

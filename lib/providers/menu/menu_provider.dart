@@ -92,7 +92,7 @@ class MenuProvider extends ChangeNotifier {
   final ScreenshotController screenshotOrderSumController =
       ScreenshotController();
   final TextEditingController couponCodeController = TextEditingController();
-  final TextEditingController qrCodeForTestController = TextEditingController();
+  // final TextEditingController qrCodeForTestController = TextEditingController();
 
   // --------------------------- GET ---------------------------
   bool get getLoading => _isLoading;
@@ -166,7 +166,7 @@ class MenuProvider extends ChangeNotifier {
 
   Future paymentCancel(BuildContext context, String payDetailId) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.paymentCancel(
+    var response = await _menuRepository.paymentCancel(context,
         langID: '1',
         payDetailId: payDetailId,
         tranData: json.encode(transactionModel!.responseObj!.tranData));
@@ -189,7 +189,7 @@ class MenuProvider extends ChangeNotifier {
 
   Future authInfo(BuildContext context) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.authInfo(
+    var response = await _menuRepository.authInfo(context,
         langID: '1',
         authType: 'cancelbill',
         // username: 'vtec',
@@ -201,7 +201,7 @@ class MenuProvider extends ChangeNotifier {
 
   Future holdBill(BuildContext context) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.holdBill(
+    var response = await _menuRepository.holdBill(context,
         langID: '1',
         orderId: transactionModel!.responseObj!.tranData!.orderID,
         customerName: holdBillName,
@@ -223,7 +223,7 @@ class MenuProvider extends ChangeNotifier {
 
   Future eCouponInquiry(BuildContext context) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.eCouponInquiry(
+    var response = await _menuRepository.eCouponInquiry(context,
         langID: '1',
         voucherSN: couponCodeController.text,
         computerCode: '',
@@ -239,7 +239,7 @@ class MenuProvider extends ChangeNotifier {
 
   Future eCouponApply(BuildContext context) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.eCouponApply(
+    var response = await _menuRepository.eCouponApply(context,
         langID: '1',
         couponSN: couponInquiryModel!.responseObj!.voucherSN,
         tranData: json.encode(transactionModel!.responseObj!.tranData));
@@ -252,6 +252,7 @@ class MenuProvider extends ChangeNotifier {
       BuildContext context, int indexOutside, int indexInside) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.promotionCancel(
+      context,
       langID: '1',
       promoUUID: transactionModel!.responseObj!.promoList![indexOutside]
           .couponList![indexInside].promoUUID,
@@ -264,7 +265,7 @@ class MenuProvider extends ChangeNotifier {
 
   Future orderSummary(BuildContext context) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.orderSummary(
+    var response = await _menuRepository.orderSummary(context,
         orderId: transactionModel!.responseObj!.tranData!.orderID);
     transactionModel = await DetectMenuFunc()
         .detectTransaction(context, response, 'orderSummary');
@@ -282,7 +283,7 @@ class MenuProvider extends ChangeNotifier {
       String? payRemark,
       int? edcType}) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.paymentQRCancel(
+    var response = await _menuRepository.paymentQRCancel(context,
         langID: '1',
         edcType: edcType,
         payAmount: transactionModel!.responseObj!.tranData!.dueAmount!,
@@ -315,7 +316,7 @@ class MenuProvider extends ChangeNotifier {
       String? payRemark,
       int? edcType}) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.paymentQRRequest(
+    var response = await _menuRepository.paymentQRRequest(context,
         langID: '1',
         edcType: edcType,
         payAmount: transactionModel!.responseObj!.tranData!.dueAmount!,
@@ -328,10 +329,10 @@ class MenuProvider extends ChangeNotifier {
         payRemark: payRemark ?? '');
     paymentQRRequestModel = await DetectMenuFunc()
         .detectPaymentQRRequest(context, response, 'paymentQRRequest');
-    if (apiState == ApiState.COMPLETED) {
-      qrCodeForTestController.text =
-          paymentQRRequestModel!.responseObj!.qrCode!;
-    }
+    // if (apiState == ApiState.COMPLETED) {
+    //   qrCodeForTestController.text =
+    //       paymentQRRequestModel!.responseObj!.qrCode!;
+    // }
     notifyListeners();
   }
 
@@ -345,7 +346,7 @@ class MenuProvider extends ChangeNotifier {
     apiState = ApiState.LOADING;
     if (isRecursive!) {
       timerInquiry = Timer.periodic(const Duration(seconds: 5), (timer) async {
-        var response = await _menuRepository.paymentQRInquiry(
+        var response = await _menuRepository.paymentQRInquiry(context,
             langID: '1',
             edcType: edcType,
             payAmount: transactionModel!.responseObj!.tranData!.dueAmount!,
@@ -372,7 +373,7 @@ class MenuProvider extends ChangeNotifier {
         }
       });
     } else {
-      var response = await _menuRepository.paymentQRInquiry(
+      var response = await _menuRepository.paymentQRInquiry(context,
           langID: '1',
           edcType: edcType,
           payAmount: transactionModel!.responseObj!.tranData!.dueAmount!,
@@ -404,6 +405,7 @@ class MenuProvider extends ChangeNotifier {
     apiState = ApiState.LOADING;
     String deviceType = await SharedPref().getResponsiveDevice();
     var response = await _menuRepository.finalizeBill(
+      context,
       tranData: json.encode(transactionModel!.responseObj!.tranData),
     );
     transactionModel = await DetectMenuFunc()
@@ -442,7 +444,7 @@ class MenuProvider extends ChangeNotifier {
       int? payTypeId,
       String? payRemark}) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.paymentSubmit(
+    var response = await _menuRepository.paymentSubmit(context,
         payAmount: payAmount,
         tranData: json.encode(transactionModel!.responseObj!.tranData),
         payCode: payCode, //CS
@@ -464,7 +466,7 @@ class MenuProvider extends ChangeNotifier {
     try {
       productObjModel!.responseObj!.productData!.productQty = count;
       apiState = ApiState.LOADING;
-      var response = await _menuRepository.productAdd(
+      var response = await _menuRepository.productAdd(context,
           prodObj: json.encode(productObjModel!.responseObj));
       transactionModel = await DetectMenuFunc()
           .detectTransaction(context, response, 'productAdd');
@@ -487,7 +489,7 @@ class MenuProvider extends ChangeNotifier {
     String deviceType = await SharedPref().getResponsiveDevice();
     try {
       apiState = ApiState.LOADING;
-      var response = await _menuRepository.orderProcess(
+      var response = await _menuRepository.orderProcess(context,
           langID: '1',
           editOrderID: editOrderId,
           modifyId: modifyId,
@@ -524,7 +526,7 @@ class MenuProvider extends ChangeNotifier {
   Future productObj(
       BuildContext context, int prodId, String orderDetailId) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.productObj(
+    var response = await _menuRepository.productObj(context,
         tranData: json.encode(transactionModel!.responseObj!.tranData),
         productId: prodId.toString(),
         orderDetailId: orderDetailId);
@@ -536,7 +538,7 @@ class MenuProvider extends ChangeNotifier {
     apiState = ApiState.LOADING;
     await clearApplyCoupon(context);
     String deviceType = await SharedPref().getResponsiveDevice();
-    var response = await _menuRepository.cancelTran(
+    var response = await _menuRepository.cancelTran(context,
         langId: '1',
         orderId: transactionModel!.responseObj!.orderID,
         reasonIDList: valueIdReason.text,
@@ -589,7 +591,8 @@ class MenuProvider extends ChangeNotifier {
 
   Future memberData(BuildContext context, String phone) async {
     apiState = ApiState.LOADING;
-    var response = await _menuRepository.memberData(phoneMember: phone);
+    var response =
+        await _menuRepository.memberData(context, phoneMember: phone);
     memberDataModel =
         await DetectMenuFunc().detectMemberData(context, response);
   }
@@ -597,6 +600,7 @@ class MenuProvider extends ChangeNotifier {
   Future memberApply(BuildContext context) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.memberApply(
+      context,
       memberId: memberDataModel!.responseObj!.memberInfo!.memberID.toString(),
       tranData: json.encode(transactionModel!.responseObj!.tranData),
     );
@@ -607,6 +611,7 @@ class MenuProvider extends ChangeNotifier {
   Future memberCancel(BuildContext context) async {
     apiState = ApiState.LOADING;
     var response = await _menuRepository.memberCancel(
+      context,
       tranData: json.encode(transactionModel!.responseObj!.tranData),
     );
     transactionModel = await DetectMenuFunc()

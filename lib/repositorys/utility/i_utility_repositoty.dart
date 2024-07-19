@@ -1,6 +1,10 @@
+import 'package:flutter/material.dart';
+
 abstract class IUtilityRepository {
-  Future closeSession(
+  Future closeSession(BuildContext context,
       {String? langId, String? closeSSAmount, String? sessionId});
-  Future endDay();
-  Future sessionSearch({String? langId});
+  Future endDay(
+    BuildContext context,
+  );
+  Future sessionSearch(BuildContext context, {String? langId});
 }

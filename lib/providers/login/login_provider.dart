@@ -19,6 +19,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class LoginProvider extends ChangeNotifier {
   final ILoginRepository _loginRepository;
@@ -67,7 +68,7 @@ class LoginProvider extends ChangeNotifier {
     _errorText = '';
     _openSession = false;
     apisState = ApiState.LOADING;
-    await authToken(context);
+    // await authToken(context);
     await login(context);
     if (apisState == ApiState.COMPLETED) {
       await startProcess(context);
@@ -79,7 +80,7 @@ class LoginProvider extends ChangeNotifier {
 
   Future startProcess(BuildContext context) async {
     apisState = ApiState.LOADING;
-    var response = await _loginRepository.startProcess(langID: '1');
+    var response = await _loginRepository.startProcess(context, langID: '1');
     startProcessModel =
         await DetectLoginFunc().detectStartProcess(context, response);
     if (apisState == ApiState.COMPLETED) {
@@ -95,7 +96,7 @@ class LoginProvider extends ChangeNotifier {
 
   Future openSession(BuildContext context) async {
     apisState = ApiState.LOADING;
-    var response = await _loginRepository.openSession(
+    var response = await _loginRepository.openSession(context,
         langID: '1', openAmount: openAmountController.text);
     openSessionModel =
         await DetectLoginFunc().detectOpenSession(context, response);
@@ -106,9 +107,6 @@ class LoginProvider extends ChangeNotifier {
 
   Future authToken(BuildContext context) async {
     apisState = ApiState.LOADING;
-    DateTime now = DateTime.now();
-    // String openTokenDay = await SharedPref().getOpenTokenDay();
-    // if (openTokenDay.isEmpty || openTokenDay != now.day.toString()) {
     var response = await _loginRepository.authToken(
       clientID: 'testclient',
       clientSecret: '3df55b7b9570492c',
@@ -116,16 +114,19 @@ class LoginProvider extends ChangeNotifier {
     authTokenModel = await DetectLoginFunc().detectAuthToken(context, response);
     if (apisState == ApiState.COMPLETED) {
       await SharedPref().setToken(authTokenModel!.accessToken!);
-      await SharedPref().setOpenTokenDay(now.day.toString());
     }
-    // }
   }
 
   Future login(BuildContext context) async {
     apisState = ApiState.LOADING;
+    String token = await SharedPref().getToken();
+    if (token.isEmpty) {
+      await authToken(context);
+    }
     // String username = 'cpos';
     // String password = 'cpos';
     var response = await _loginRepository.login(
+      context,
       username: usernameController.text,
       password: passwordController.text,
       langId: '1',
@@ -180,7 +181,11 @@ class LoginProvider extends ChangeNotifier {
   Future getCoreDataInit(BuildContext context, bool loginAgain) async {
     var homePvd = context.read<HomeProvider>();
     apisState = ApiState.LOADING;
+    String uuid = const Uuid().v4();
+    await SharedPref().setUuid(uuid);
+
     var response = await _loginRepository.getCoreDataDetail(
+      context,
       langID: '1',
     );
     coreInitModel =

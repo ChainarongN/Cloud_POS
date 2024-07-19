@@ -227,8 +227,8 @@ class SharedPref {
 
   Future<String> getToken() async {
     SharedPreferences prefs = await _prefs;
-    String? token = prefs.getString(keyToken);
-    return token!;
+    String? token = prefs.getString(keyToken) ?? '';
+    return token;
   }
 
   Future<String> getUuid() async {

@@ -1,13 +1,17 @@
 import 'dart:convert';
 
+
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/networks/end_points.dart';
 import 'package:cloud_pos/repositorys/menu/i_menu_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
+import 'package:cloud_pos/utils/constants.dart';
+import 'package:flutter/material.dart';
 
 class MenuRepository implements IMenuRepository {
   @override
-  Future paymentQRCancel({
+  Future paymentQRCancel(
+    BuildContext context, {
     String? langID,
     var tranData,
     int? payTypeId,
@@ -48,7 +52,10 @@ class MenuRepository implements IMenuRepository {
       "ccInfo": null,
       "voucherInfo": null
     };
-    var response = await APIService().postAndData(
+// Constants().printError(jsonEncode(param));
+// Constants().printError(jsonEncode(data));
+
+    var response = await APIService().postAndData(context,
         url: Endpoints.paymentQRCancel,
         param: param,
         token: token,
@@ -58,7 +65,8 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future paymentQRInquiry({
+  Future paymentQRInquiry(
+    BuildContext context, {
     String? langID,
     var tranData,
     int? payTypeId,
@@ -99,7 +107,7 @@ class MenuRepository implements IMenuRepository {
     };
 
     // Constants().printError(data.toString());
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.paymentQRInquiry,
         param: param,
         token: token,
@@ -109,7 +117,8 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future paymentQRRequest({
+  Future paymentQRRequest(
+    BuildContext context, {
     String? langID,
     var tranData,
     int? payTypeId,
@@ -150,7 +159,7 @@ class MenuRepository implements IMenuRepository {
     };
     // Constants().printError(jsonEncode(param));
     // Constants().printError(jsonEncode(data));
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.paymentQRRequest,
         param: param,
         token: token,
@@ -160,7 +169,7 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future paymentCancel(
+  Future paymentCancel(BuildContext context,
       {String? langID, String? tranData, String? payDetailId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
@@ -172,7 +181,7 @@ class MenuRepository implements IMenuRepository {
       "PayDetailID": payDetailId,
       "ViewOrderInfo": 'true',
     };
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.paymentCancel,
         param: param,
         token: token,
@@ -182,7 +191,7 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future authInfo(
+  Future authInfo(BuildContext context,
       {String? langID,
       String? authType,
       String? username,
@@ -199,7 +208,7 @@ class MenuRepository implements IMenuRepository {
       "password": password,
     };
 
-    var response = await APIService().postParams(
+    var response = await APIService().postParams(context,
         url: Endpoints.authInfo,
         param: param,
         token: token,
@@ -208,7 +217,7 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future holdBill(
+  Future holdBill(BuildContext context,
       {String? langID,
       String? orderId,
       String? customerName,
@@ -226,7 +235,7 @@ class MenuRepository implements IMenuRepository {
       "CustomerMobile": customerMobile,
       "StaffID": staffId,
     };
-    var response = await APIService().postParams(
+    var response = await APIService().postParams(context,
         url: Endpoints.holdBill,
         param: param,
         token: token,
@@ -235,7 +244,7 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future orderProcess(
+  Future orderProcess(BuildContext context,
       {String? langID,
       String? tranData,
       String? modifyId,
@@ -258,7 +267,7 @@ class MenuRepository implements IMenuRepository {
       "LangID": '1',
       "showProductInfo": 'true'
     };
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.orderProcess,
         param: param,
         token: token,
@@ -268,7 +277,8 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future orderSummary({String? langID, String? orderId}) async {
+  Future orderSummary(BuildContext context,
+      {String? langID, String? orderId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
@@ -282,7 +292,7 @@ class MenuRepository implements IMenuRepository {
       "ViewBillSummary": 'true',
       "MoreBillInfo": 'true',
     };
-    var response = await APIService().postParams(
+    var response = await APIService().postParams(context,
         url: Endpoints.orderSummary,
         param: param,
         token: token,
@@ -292,7 +302,8 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future finalizeBill({String? langID, String? tranData}) async {
+  Future finalizeBill(BuildContext context,
+      {String? langID, String? tranData}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int staffId = await SharedPref().getStaffID();
@@ -305,7 +316,7 @@ class MenuRepository implements IMenuRepository {
       "CloseComputerID": computerId.toString(),
       "StaffID": staffId.toString()
     };
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.finalizeBill,
         param: param,
         token: token,
@@ -315,7 +326,7 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future paymentSubmit(
+  Future paymentSubmit(BuildContext context,
       {String? langID,
       String? payAmount,
       var tranData,
@@ -354,7 +365,7 @@ class MenuRepository implements IMenuRepository {
       "voucherInfo": null
     };
 
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.paymenySubmit,
         param: param,
         token: token,
@@ -365,7 +376,8 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future productAdd({String? langID, String? prodObj}) async {
+  Future productAdd(BuildContext context,
+      {String? langID, String? prodObj}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
@@ -376,7 +388,7 @@ class MenuRepository implements IMenuRepository {
       "LangID": '1',
       "ViewOrderInfo": 'true',
     };
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.productAdd,
         param: param,
         token: token,
@@ -387,7 +399,7 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future productObj(
+  Future productObj(BuildContext context,
       {String? langID,
       String? tranData,
       String? productId,
@@ -402,7 +414,7 @@ class MenuRepository implements IMenuRepository {
       "SelProductID": productId,
       "LangID": '1'
     };
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.productObj,
         token: token,
         param: param,
@@ -413,7 +425,8 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future memberData({String? langID, String? phoneMember}) async {
+  Future memberData(BuildContext context,
+      {String? langID, String? phoneMember}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
@@ -424,7 +437,7 @@ class MenuRepository implements IMenuRepository {
       "LangID": '1',
       "memberCode": phoneMember
     };
-    var response = await APIService().postParams(
+    var response = await APIService().postParams(context,
         url: Endpoints.memberData,
         token: token,
         param: param,
@@ -434,7 +447,7 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future memberApply(
+  Future memberApply(BuildContext context,
       {String? langID, String? tranData, String? memberId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
@@ -446,7 +459,7 @@ class MenuRepository implements IMenuRepository {
       "MemberID": memberId,
       "ViewOrderInfo": true
     };
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.memberApply,
         token: token,
         param: param,
@@ -457,7 +470,8 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future memberCancel({String? langID, String? tranData}) async {
+  Future memberCancel(BuildContext context,
+      {String? langID, String? tranData}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     String deviceId = await SharedPref().getDeviceId();
@@ -467,7 +481,7 @@ class MenuRepository implements IMenuRepository {
       "LangID": '1',
       "ViewOrderInfo": true
     };
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.memberCancel,
         token: token,
         param: param,
@@ -478,7 +492,8 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future reason({String? langId, String? reasonId}) async {
+  Future reason(BuildContext context,
+      {String? langId, String? reasonId}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
     int shopId = await SharedPref().getShopID();
@@ -492,13 +507,13 @@ class MenuRepository implements IMenuRepository {
       "ShopID": shopId.toString(),
       "StaffID": staffId.toString()
     };
-    var response = await APIService().postParams(
+    var response = await APIService().postParams(context,
         param: data, token: token, url: Endpoints.reason, actionBy: 'reason');
     return response;
   }
 
   @override
-  Future cancelTran(
+  Future cancelTran(BuildContext context,
       {String? orderId,
       String? reasonIDList,
       String? langId,
@@ -519,7 +534,7 @@ class MenuRepository implements IMenuRepository {
       "StaffID": staffId,
       "TodayDate": saleDate
     };
-    var response = await APIService().postParams(
+    var response = await APIService().postParams(context,
         param: data,
         token: token,
         url: Endpoints.cancelTran,
@@ -529,7 +544,8 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future eCouponInquiry({
+  Future eCouponInquiry(
+    BuildContext context, {
     String? langID,
     String? voucherSN,
     int? transactionID,
@@ -580,7 +596,7 @@ class MenuRepository implements IMenuRepository {
       "couponRedeem": ""
     };
 
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.eCouponInquiry,
         token: token,
         param: param,
@@ -591,7 +607,7 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future eCouponApply(
+  Future eCouponApply(BuildContext context,
       {String? langID, String? couponSN, String? tranData}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
@@ -605,7 +621,7 @@ class MenuRepository implements IMenuRepository {
       "ViewOrderInfo": "true"
     };
 
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.eCouponApply,
         token: token,
         param: param,
@@ -616,7 +632,7 @@ class MenuRepository implements IMenuRepository {
   }
 
   @override
-  Future promotionCancel(
+  Future promotionCancel(BuildContext context,
       {String? langID, String? promoUUID, String? tranData}) async {
     String uuid = await SharedPref().getUuid();
     String token = await SharedPref().getToken();
@@ -630,7 +646,7 @@ class MenuRepository implements IMenuRepository {
       "ViewOrderInfo": "true"
     };
 
-    var response = await APIService().postAndData(
+    var response = await APIService().postAndData(context,
         url: Endpoints.promotionCancel,
         token: token,
         param: param,

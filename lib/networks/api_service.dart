@@ -2,10 +2,13 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:cloud_pos/providers/login/login_provider.dart';
 import 'package:cloud_pos/service/firebase_log.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 // import 'package:http/http.dart' as http;
 
 class APIService {
@@ -13,7 +16,7 @@ class APIService {
   static final APIService _instance = APIService._internal();
   factory APIService() => _instance;
 
-  Future postAndData(
+  Future postAndData(BuildContext context,
       {String? url,
       String? token,
       var param,
@@ -49,6 +52,17 @@ class APIService {
             baseUrl: baseUrl,
             pathUrl: url);
         return json.encode(response.data);
+      } else if (response.statusCode == 401) {
+        Provider.of<LoginProvider>(context, listen: false)
+            .authToken(context)
+            .then((value) {
+          postAndData(context,
+              actionBy: actionBy,
+              data: data,
+              param: param,
+              token: token,
+              url: url);
+        });
       }
       FirebaseLog().logData(false,
           actionBy: actionBy,
@@ -103,7 +117,7 @@ class APIService {
     }
   }
 
-  Future postParams(
+  Future postParams(BuildContext context,
       {String? url, String? token, var param, String? actionBy}) async {
     String baseUrl = await SharedPref().getBaseUrl();
     var headers = {'Authorization': 'Bearer $token'};
@@ -132,6 +146,13 @@ class APIService {
             baseUrl: baseUrl,
             pathUrl: url);
         return json.encode(response.data);
+      } else if (response.statusCode == 401) {
+        Provider.of<LoginProvider>(context, listen: false)
+            .authToken(context)
+            .then((value) {
+          postParams(context,
+              actionBy: actionBy, param: param, token: token, url: url);
+        });
       }
       FirebaseLog().logData(false,
           actionBy: actionBy,
