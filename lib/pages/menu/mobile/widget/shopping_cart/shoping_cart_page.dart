@@ -2,12 +2,12 @@ import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/shopping_cart/manage_menu/order_detail_mobile.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/shopping_cart/manage_menu/order_list_mobile.dart';
-import 'package:cloud_pos/pages/menu/mobile/widget/shopping_cart/ordersummary.dart';
 import 'package:cloud_pos/providers/menu/functions/payment_func.dart';
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
+import 'package:cloud_pos/utils/widgets/receipt_bill_print.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -109,8 +109,8 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
                 await menuRead.orderSummary(context).then((value) {
                   if (menuWatch.apiState == ApiState.COMPLETED) {
                     Navigator.pop(context);
-                    showOrderSumDialog(
-                        context, menuWatch.getHtmlOrderSummary, menuWatch);
+                    showOrderSumDialog(context, menuWatch.getHtmlOrderSummary,
+                        menuWatch.screenshotOrderSumController);
                   }
                 });
               }),

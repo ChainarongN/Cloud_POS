@@ -18,7 +18,9 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
                     size: Constants().screenWidth(context) *
                         Constants.normalSize),
                 const Spacer(),
-                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
+                menuWatch.transactionModel!.responseObj!.orderList == null ||
+                        menuWatch
+                            .transactionModel!.responseObj!.orderList!.isEmpty
                     ? AppTextStyle().textNormal('-')
                     : AppTextStyle().textNormal(
                         menuWatch.transactionModel!.responseObj!.totalQty!
@@ -33,7 +35,9 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
                     size: Constants().screenWidth(context) *
                         Constants.normalSize),
                 const Spacer(),
-                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
+                menuWatch.transactionModel!.responseObj!.orderList == null ||
+                        menuWatch
+                            .transactionModel!.responseObj!.orderList!.isEmpty
                     ? AppTextStyle().textNormal('-')
                     : AppTextStyle().textNormal(
                         menuWatch.transactionModel!.responseObj!.totalDiscount!
@@ -48,7 +52,9 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
                     size: Constants().screenWidth(context) *
                         Constants.normalSize),
                 const Spacer(),
-                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
+                menuWatch.transactionModel!.responseObj!.orderList == null ||
+                        menuWatch
+                            .transactionModel!.responseObj!.orderList!.isEmpty
                     ? AppTextStyle().textNormal('-')
                     : AppTextStyle().textNormal(
                         menuWatch.transactionModel!.responseObj!.serviceCharge!
@@ -72,7 +78,9 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
                     size: Constants().screenWidth(context) *
                         Constants.normalSize),
                 const Spacer(),
-                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
+                menuWatch.transactionModel!.responseObj!.orderList == null ||
+                        menuWatch
+                            .transactionModel!.responseObj!.orderList!.isEmpty
                     ? AppTextStyle().textNormal('-')
                     : AppTextStyle().textNormal(
                         menuWatch.transactionModel!.responseObj!.vATPercent!
@@ -114,7 +122,9 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
                     size: Constants().screenWidth(context) *
                         Constants.normalSize),
                 const Spacer(),
-                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
+                menuWatch.transactionModel!.responseObj!.orderList == null ||
+                        menuWatch
+                            .transactionModel!.responseObj!.orderList!.isEmpty
                     ? AppTextStyle().textNormal('-')
                     : AppTextStyle().textNormal(
                         menuWatch.transactionModel!.responseObj!.roundingBill!
@@ -129,7 +139,9 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
                     size: Constants().screenWidth(context) *
                         Constants.normalSize),
                 const Spacer(),
-                menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
+                menuWatch.transactionModel!.responseObj!.orderList == null ||
+                        menuWatch
+                            .transactionModel!.responseObj!.orderList!.isEmpty
                     ? AppTextStyle().textNormal('-')
                     : AppTextStyle().textNormal(
                         menuWatch.transactionModel!.responseObj!.payAmount!

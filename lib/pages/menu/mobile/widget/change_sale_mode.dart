@@ -72,7 +72,7 @@ Future<void> confChangeDialog(BuildContext context, MenuProvider menuRead,
     builder: (context) {
       return AlertDialog(
         content: SizedBox(
-          height: Constants().screenheight(context) * 0.14,
+          height: Constants().screenheight(context) * 0.16,
           child: Column(
             children: [
               ElevatedButton(

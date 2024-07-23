@@ -20,7 +20,7 @@ class _MenuDetailWidgetState extends State<MenuDetailWidget> {
       margin: EdgeInsets.only(
         top: Constants().screenheight(context) * 0.015,
       ),
-      height: Constants().screenheight(context) * 0.62,
+      height: Constants().screenheight(context) * 0.56,
       width: Constants().screenWidth(context),
       child: GridView.builder(
         itemCount: menuWatch.prodToShow!.length,

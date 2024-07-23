@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:cloud_pos/models/auth_Info_model.dart';
 import 'package:cloud_pos/models/cencel_tran_model.dart';
 import 'package:cloud_pos/models/code_init_model.dart';
@@ -17,12 +18,15 @@ import 'package:cloud_pos/providers/menu/functions/add_product_func.dart';
 import 'package:cloud_pos/providers/menu/functions/detect_menu_func.dart';
 import 'package:cloud_pos/providers/menu/functions/manage_menu_func.dart';
 import 'package:cloud_pos/providers/menu/functions/payment_func.dart';
+import 'package:cloud_pos/service/printer.dart';
 import 'package:cloud_pos/service/read_file_func.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
+import 'package:cloud_pos/utils/widgets/receipt_bill_print.dart';
+import 'package:cloud_pos/utils/widgets/screen_printer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -361,13 +365,11 @@ class MenuProvider extends ChangeNotifier {
         if (jsonDecode(response)['ResponseCode'] != "90") {
           timer.cancel();
           transactionModel = await DetectMenuFunc()
-              .detectTransaction(context, response, 'paymentQRInquiry')
-              .then((value) async {
-            if (apiState == ApiState.COMPLETED) {
-              await finalizeBill(context);
-            }
-          });
-          notifyListeners();
+              .detectTransaction(context, response, 'paymentQRInquiry');
+          if (apiState == ApiState.COMPLETED) {
+            await finalizeBill(context);
+            notifyListeners();
+          }
         } else {
           Constants().printCheckFlow(
               jsonDecode(response).toString(), 'paymentQRInquiry');
@@ -388,13 +390,11 @@ class MenuProvider extends ChangeNotifier {
       if (jsonDecode(response)['ResponseCode'] != "90") {
         timerInquiry!.cancel();
         transactionModel = await DetectMenuFunc()
-            .detectTransaction(context, response, 'paymentQRInquiry')
-            .then((value) async {
-          if (apiState == ApiState.COMPLETED) {
-            await finalizeBill(context);
-          }
-        });
-        notifyListeners();
+            .detectTransaction(context, response, 'paymentQRInquiry');
+        if (apiState == ApiState.COMPLETED) {
+          await finalizeBill(context);
+          notifyListeners();
+        }
       } else {
         Constants().printCheckFlow(
             jsonDecode(response).toString(), 'paymentQRInquiry');
@@ -402,9 +402,49 @@ class MenuProvider extends ChangeNotifier {
     }
   }
 
-  Future finalizeBill(BuildContext context) async {
+  Future receiptBillPrint(BuildContext context) async {
     apiState = ApiState.LOADING;
     String deviceType = await SharedPref().getResponsiveDevice();
+    var response = await _menuRepository.receiptBillPrint(context,
+        orderId: transactionModel!.responseObj!.tranData!.orderID);
+    await DetectMenuFunc()
+        .detecTreceiptBillPrint(context, response, 'receiptBillPrint');
+    if (apiState == ApiState.COMPLETED) {
+      _htmlOrderSummary =
+          jsonDecode(response)['ResponseObj2']['ReceiptInfo']['ReceiptHtml'];
+      showReceiptBillPrint(
+        context,
+        _htmlOrderSummary!,
+        screenshotOrderSumController,
+        () {
+          screenshotOrderSumController
+              .capture(delay: const Duration(seconds: 1), pixelRatio: 1.2)
+              .then((Uint8List? value) async {
+            Printer().printReceipt(value!).then((value) async {
+              if (deviceType == 'tablet') {
+                Navigator.of(context)
+                    .popUntil(ModalRoute.withName('/homePage'));
+              } else {
+                var homePvd = context.read<HomeProvider>();
+                await homePvd.openTransaction(context).then((value) {
+                  if (homePvd.apisState == ApiState.COMPLETED) {
+                    setTranData(tranModel: json.encode(homePvd.openTranModel))
+                        .then((value) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/menuPage', (route) => false);
+                    });
+                  }
+                });
+              }
+            });
+          });
+        },
+      );
+    }
+  }
+
+  Future finalizeBill(BuildContext context) async {
+    apiState = ApiState.LOADING;
     var response = await _menuRepository.finalizeBill(
       context,
       tranData: json.encode(transactionModel!.responseObj!.tranData),
@@ -412,29 +452,15 @@ class MenuProvider extends ChangeNotifier {
     transactionModel = await DetectMenuFunc()
         .detectTransaction(context, response, 'finalizeBill');
     if (apiState == ApiState.COMPLETED) {
-      if (deviceType == 'tablet') {
-        await DialogStyle().dialogPayment2(context,
-            text: transactionModel!.responseObj!.paymentList!.last.cashChange
-                .toString(),
-            popUntil: true,
-            popToPage: '/homePage');
-      } else {
-        var homePvd = context.read<HomeProvider>();
-        await DialogStyle().dialogPaymentProcess(context,
-            text: transactionModel!.responseObj!.paymentList!.last.cashChange
-                .toString(), onPressed: () async {
+      DialogStyle().dialogPaymentProcess(
+        context,
+        text: transactionModel!.responseObj!.paymentList!.last.cashChange
+            .toString(),
+        onPressed: () async {
           DialogStyle().dialogLoadding(context);
-          await homePvd.openTransaction(context).then((value) {
-            if (homePvd.apisState == ApiState.COMPLETED) {
-              setTranData(tranModel: json.encode(homePvd.openTranModel))
-                  .then((value) {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/menuPage', (route) => false);
-              });
-            }
-          });
-        });
-      }
+          receiptBillPrint(context);
+        },
+      );
     }
   }
 

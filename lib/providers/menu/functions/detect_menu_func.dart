@@ -20,6 +20,36 @@ class DetectMenuFunc {
   static final DetectMenuFunc _instance = DetectMenuFunc._internal();
   factory DetectMenuFunc() => _instance;
 
+  Future detecTreceiptBillPrint(
+      BuildContext context, var response, String action) async {
+    var menuProvider = Provider.of<MenuProvider>(context, listen: false);
+    try {
+      if (response is Failure) {
+        menuProvider.apiState = ApiState.ERROR;
+        DialogStyle().dialogError(context,
+            error: response.errorResponse.toString(),
+            isPopUntil: true,
+            popToPage: '/menuPage');
+      } else {
+        if (jsonDecode(response)['ResponseCode'] == "") {
+          menuProvider.apiState = ApiState.COMPLETED;
+          Constants().printCheckFlow(response, action);
+        } else {
+          menuProvider.apiState = ApiState.ERROR;
+          DialogStyle().dialogError(context,
+              error: jsonDecode(response)['ResponseText'],
+              isPopUntil: true,
+              popToPage: '/menuPage');
+        }
+      }
+    } catch (e, strack) {
+      Constants().printError('$e - $strack');
+      menuProvider.apiState = ApiState.ERROR;
+      DialogStyle().dialogError(context,
+          error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
+    }
+  }
+
   Future<PaymentQRRequestModel> detectPaymentQRRequest(
       BuildContext context, var response, String action) async {
     var menuProvider = Provider.of<MenuProvider>(context, listen: false);

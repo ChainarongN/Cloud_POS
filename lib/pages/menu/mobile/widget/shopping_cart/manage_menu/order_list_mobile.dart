@@ -11,6 +11,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 Container orderListMobile(
     MenuProvider menuWatch, MenuProvider menuRead, BuildContext context) {
   return menuWatch.transactionModel == null ||
+          menuWatch.transactionModel!.responseObj!.orderList == null ||
           menuWatch.transactionModel!.responseObj!.orderList!.isEmpty
       ? Container(
           height: Constants().screenheight(context) * 0.3,

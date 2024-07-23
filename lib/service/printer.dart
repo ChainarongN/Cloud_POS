@@ -71,7 +71,7 @@ class Printer {
     //   ColumnMaker(text: 'TOT', width: 6, align: SunmiPrintAlign.RIGHT),
     // ]);
 
-    await SunmiPrinter.setAlignment(SunmiPrintAlign.CENTER);
+    // await SunmiPrinter.setAlignment(SunmiPrintAlign.CENTER);
     await SunmiPrinter.startTransactionPrint(true);
     await SunmiPrinter.printImage(image8List);
     await SunmiPrinter.lineWrap(5);

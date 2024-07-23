@@ -52,39 +52,18 @@ class APIService {
             baseUrl: baseUrl,
             pathUrl: url);
         return json.encode(response.data);
-      } else if (response.statusCode == 401) {
-        await Provider.of<LoginProvider>(context, listen: false)
-            .authToken(context)
-            .then((value) {
-          postAndData(context,
-              actionBy: actionBy,
-              data: data,
-              param: param,
-              token: token,
-              url: url);
-        });
       }
-      FirebaseLog().logData(false,
-          actionBy: actionBy,
-          params: param,
-          reqData: data,
-          res: response.data,
-          baseUrl: baseUrl,
-          pathUrl: url);
-      return Failure(
-        code: response.statusCode!,
-        errorResponse: response.data,
-      );
     } on DioException catch (e) {
       if (e.response!.statusCode == 401) {
         await Provider.of<LoginProvider>(context, listen: false)
             .authToken(context)
-            .then((value) {
+            .then((value) async {
+          String newToken = await SharedPref().getToken();
           postAndData(context,
               actionBy: actionBy,
               data: data,
               param: param,
-              token: token,
+              token: newToken,
               url: url);
         });
       }
@@ -149,6 +128,7 @@ class APIService {
         ),
         queryParameters: param,
       );
+
       if (response.statusCode == 200) {
         FirebaseLog().logData(true,
             actionBy: actionBy,
@@ -158,32 +138,15 @@ class APIService {
             baseUrl: baseUrl,
             pathUrl: url);
         return json.encode(response.data);
-      } else if (response.statusCode == 401) {
-        await Provider.of<LoginProvider>(context, listen: false)
-            .authToken(context)
-            .then((value) {
-          postParams(context,
-              actionBy: actionBy, param: param, token: token, url: url);
-        });
       }
-      FirebaseLog().logData(false,
-          actionBy: actionBy,
-          params: param,
-          res: response.data,
-          reqData: '',
-          baseUrl: baseUrl,
-          pathUrl: url);
-      return Failure(
-        code: response.statusCode!,
-        errorResponse: response.data,
-      );
     } on DioException catch (e) {
       if (e.response!.statusCode == 401) {
         await Provider.of<LoginProvider>(context, listen: false)
             .authToken(context)
-            .then((value) {
+            .then((value) async {
+          String newToken = await SharedPref().getToken();
           postParams(context,
-              actionBy: actionBy, param: param, token: token, url: url);
+              actionBy: actionBy, param: param, token: newToken, url: url);
         });
       }
       if (e.type == DioExceptionType.connectionTimeout) {
@@ -229,7 +192,6 @@ class APIService {
 
   Future postToken({String? url, var param, String? actionBy}) async {
     String baseUrl = await SharedPref().getBaseUrl();
-
     try {
       BaseOptions options = BaseOptions(
         baseUrl: baseUrl,
@@ -238,6 +200,10 @@ class APIService {
         receiveTimeout: const Duration(minutes: 1),
       );
       var dio = Dio(options);
+
+      Constants().printError(param.toString());
+      Constants().printError('$baseUrl/$url');
+
       var response = await dio.request(
         '$baseUrl/$url',
         options: Options(
@@ -248,71 +214,25 @@ class APIService {
 
       if (response.statusCode == 200) {
         if (response.headers['content-type'].toString().contains('text')) {
-          FirebaseLog().logData(true,
-              actionBy: actionBy,
-              params: param,
-              reqData: '',
-              res: response.data,
-              baseUrl: baseUrl,
-              pathUrl: url);
           return response.data;
         } else {
-          FirebaseLog().logData(true,
-              actionBy: actionBy,
-              params: param,
-              reqData: '',
-              res: response.data,
-              baseUrl: baseUrl,
-              pathUrl: url);
           return json.encode(response.data);
         }
       }
-      FirebaseLog().logData(false,
-          actionBy: actionBy,
-          params: param,
-          res: response.data,
-          reqData: '',
-          baseUrl: baseUrl,
-          pathUrl: url);
-      return Failure(
-        code: response.statusCode!,
-        errorResponse: response.data,
-      );
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionTimeout) {
-        FirebaseLog().logData(false,
-            actionBy: actionBy,
-            params: param,
-            res: e,
-            reqData: '',
-            baseUrl: baseUrl,
-            pathUrl: url);
         return Failure(
           code: 408,
           errorResponse: 'Connection Timeout. Check your internet or Try again',
         );
       }
       if (e.type == DioExceptionType.receiveTimeout) {
-        FirebaseLog().logData(false,
-            actionBy: actionBy,
-            params: param,
-            res: e,
-            baseUrl: baseUrl,
-            reqData: '',
-            pathUrl: url);
         return Failure(
           code: 408,
           errorResponse: 'Connection Timeout. Check your internet or Try again',
         );
       }
     } catch (e) {
-      FirebaseLog().logData(false,
-          actionBy: actionBy,
-          params: param,
-          reqData: '',
-          res: e,
-          baseUrl: baseUrl,
-          pathUrl: url);
       return Failure(
         code: Constants.UNKNOWN_ERROR,
         errorResponse: '$e',

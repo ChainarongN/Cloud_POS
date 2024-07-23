@@ -9,6 +9,28 @@ import 'package:flutter/material.dart';
 
 class MenuRepository implements IMenuRepository {
   @override
+  Future receiptBillPrint(BuildContext context,
+      {String? langID, String? orderId}) async {
+    String uuid = await SharedPref().getUuid();
+    String token = await SharedPref().getToken();
+    String deviceId = await SharedPref().getDeviceId();
+    var param = {
+      "reqId": uuid,
+      "deviceKey": deviceId,
+      "LangID": '1',
+      "OrderId": orderId,
+      "ViewReceipt": "2",
+      "ViewBillSummary": 'false',
+    };
+    var response = await APIService().postParams(context,
+        url: Endpoints.orderSummary,
+        param: param,
+        token: token,
+        actionBy: 'receiptBillPrint');
+    return response;
+  }
+
+  @override
   Future paymentQRCancel(
     BuildContext context, {
     String? langID,

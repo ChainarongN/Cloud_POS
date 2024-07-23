@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 abstract class IMenuRepository {
+  Future receiptBillPrint(BuildContext context,
+      {String? langID, String? orderId});
   Future paymentCancel(BuildContext context,
       {String? langID, String? tranData, String? payDetailId});
   Future authInfo(BuildContext context,
