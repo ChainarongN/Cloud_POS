@@ -23,10 +23,13 @@ class RecipeItemTablet extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             image: DecorationImage(
-              image: NetworkImage(recipeImage),
+              image: recipeImage.isEmpty
+                  ? const AssetImage('assets/images/no-image4.png')
+                      as ImageProvider
+                  : NetworkImage(recipeImage),
               fit: BoxFit.cover,
               onError: (error, stackTrace) =>
-                  const AssetImage('assets/images/no-image.png'),
+                  const AssetImage('assets/images/no-image4.png'),
             ),
           ),
         ),

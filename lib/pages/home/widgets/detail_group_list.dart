@@ -19,11 +19,11 @@ SizedBox detailGroupList(BuildContext context, HomeProvider homeWatch,
           homeWatch.saleModeDataList!.length,
           (index) => homeWatch.computerName!.saleModeList!.isEmpty
               ? saleModeContainer(homeWatch, index, context, homeRead, menuRead)
-              : !homeWatch.computerSaleMode.contains(
+              : homeWatch.computerSaleMode.contains(
                       homeWatch.saleModeDataList![index].saleModeID.toString())
-                  ? const SizedBox.shrink()
-                  : saleModeContainer(
-                      homeWatch, index, context, homeRead, menuRead),
+                  ? saleModeContainer(
+                      homeWatch, index, context, homeRead, menuRead)
+                  : const SizedBox.shrink(),
         ),
       ),
     ),

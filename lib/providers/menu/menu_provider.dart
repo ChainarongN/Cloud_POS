@@ -54,6 +54,7 @@ class MenuProvider extends ChangeNotifier {
   ShopData? shopData;
   ComputerName? computerName;
 
+  List computerSaleMode = [];
   List<int>? _selectDiscountList = [];
   ReasonModel? reasonModel;
   CancelTranModel? cancelTranModel;
@@ -121,6 +122,7 @@ class MenuProvider extends ChangeNotifier {
     totalPayListController.text = '0.00';
     _valueCurrency = 'THB';
     _valueCurrencyId = 1;
+    computerSaleMode = [];
     prodGroupList = [];
     prodDeptList = [];
     prodList = [];
@@ -134,7 +136,7 @@ class MenuProvider extends ChangeNotifier {
 
     showMenuList(context, true,
         prodGroupId: prodGroupList!.first.productGroupID!);
-    // showFavList(context, favoriteData!.first.pageIndex!);
+    showFavList(context, favoriteData!.first.pageIndex!);
 
     Constants()
         .printWarning("OrderId : ${transactionModel!.responseObj!.orderID}");
@@ -143,7 +145,10 @@ class MenuProvider extends ChangeNotifier {
     if (deviceType == 'tablet') {
       _tabController = TabController(length: 6, vsync: tabThis!);
       checkTabView(context);
+    } else {
+      setValueTitle(context, _valueTitleSelect!);
     }
+
     if (apiState == ApiState.COMPLETED) {
       _isLoading = false;
     }
@@ -673,6 +678,7 @@ class MenuProvider extends ChangeNotifier {
       currencyInfo = value[8] as List<CurrencyInfo>;
       prodDeptList = value[9] as List<ProductDept>;
 
+      computerSaleMode = computerName!.saleModeList!.split(',');
       apiState = ApiState.COMPLETED;
     } catch (e, strack) {
       _exceptionText = strack.toString();

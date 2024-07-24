@@ -109,15 +109,11 @@ class HomeProvider extends ChangeNotifier {
 
   Future readComputerName() async {
     computerName = await ReadFileFunc().readComputerName();
+    computerSaleMode = computerName!.saleModeList!.split(',');
     notifyListeners();
   }
 
   // --------------------------- SET ---------------------------
-
-  setComputerSaleMode() {
-    computerSaleMode = computerName!.saleModeList!.split(',');
-    notifyListeners();
-  }
 
   addCount() {
     _countValue++;

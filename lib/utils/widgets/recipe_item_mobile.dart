@@ -23,8 +23,11 @@ class RecipeItemMobile extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             image: DecorationImage(
               onError: (error, stackTrace) =>
-                  const AssetImage('assets/images/no-image.png'),
-              image: NetworkImage(recipeImage),
+                  const AssetImage('assets/images/no-image4.png'),
+              image: recipeImage.isEmpty
+                  ? const AssetImage('assets/images/no-image4.png')
+                      as ImageProvider
+                  : NetworkImage(recipeImage),
               fit: BoxFit.cover,
             ),
           ),

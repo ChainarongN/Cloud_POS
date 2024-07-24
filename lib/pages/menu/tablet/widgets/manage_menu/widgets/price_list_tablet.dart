@@ -352,99 +352,100 @@ Future<void> moreChoiceDialog(
 Future<dynamic> dialogResultHtml(
     BuildContext context, String html, MenuProvider menuWatch) {
   return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(
-                    right: Constants().screenWidth(context) * 0.05,
-                  ),
-                  child: Scrollbar(
-                    child: SingleChildScrollView(
-                      child: SizedBox(
-                        width: Constants().screenWidth(context) * 0.29,
-                        child: Screenshot(
-                          controller: menuWatch.screenshotOrderSumController,
-                          child: HtmlWidget(html),
-                        ),
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(
+                  right: Constants().screenWidth(context) * 0.05,
+                ),
+                child: Scrollbar(
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      width: Constants().screenWidth(context) * 0.29,
+                      child: Screenshot(
+                        controller: menuWatch.screenshotOrderSumController,
+                        child: HtmlWidget(html),
                       ),
                     ),
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(left: 10),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 5),
-                        child: ContainerStyle2(
-                          onPressed: () {
-                            if (menuWatch.apiState != ApiState.LOADING) {
-                              menuWatch.apiState = ApiState.LOADING;
-                              DialogStyle().dialogLoadding(context);
-                              menuWatch.screenshotOrderSumController
-                                  .capture(
-                                      delay: const Duration(seconds: 1),
-                                      pixelRatio: 1.3)
-                                  .then((Uint8List? value) async {
-                                await Printer()
-                                    .printReceipt(value!)
-                                    .then((value) {
-                                  menuWatch.apiState = ApiState.COMPLETED;
-                                  Navigator.of(context).popUntil(
-                                      ModalRoute.withName('/menuPage'));
-                                });
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 10),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      child: ContainerStyle2(
+                        onPressed: () {
+                          if (menuWatch.apiState != ApiState.LOADING) {
+                            menuWatch.apiState = ApiState.LOADING;
+                            DialogStyle().dialogLoadding(context);
+                            menuWatch.screenshotOrderSumController
+                                .capture(
+                                    delay: const Duration(seconds: 1),
+                                    pixelRatio: 1.3)
+                                .then((Uint8List? value) async {
+                              await Printer()
+                                  .printReceipt(value!)
+                                  .then((value) {
+                                menuWatch.apiState = ApiState.COMPLETED;
+                                Navigator.of(context)
+                                    .popUntil(ModalRoute.withName('/menuPage'));
                               });
-                            }
-                          },
-                          radius: 25,
-                          width: Constants().screenWidth(context) * 0.17,
-                          height: Constants().screenheight(context) * 0.18,
-                          title: LocaleKeys.print_bill.tr(),
-                          size: 20,
-                          onlyText: false,
-                          icon: Icons.add_chart_rounded,
-                          shadowColor: Colors.green.shade400,
-                          gradient1: Colors.green.shade200,
-                          gradient2: Colors.green.shade300,
-                          gradient3: Colors.green.shade500,
-                          gradient4: Colors.green.shade500,
-                        ),
+                            });
+                          }
+                        },
+                        radius: 25,
+                        width: Constants().screenWidth(context) * 0.17,
+                        height: Constants().screenheight(context) * 0.18,
+                        title: LocaleKeys.print_bill.tr(),
+                        size: 20,
+                        onlyText: false,
+                        icon: Icons.add_chart_rounded,
+                        shadowColor: Colors.green.shade400,
+                        gradient1: Colors.green.shade200,
+                        gradient2: Colors.green.shade300,
+                        gradient3: Colors.green.shade500,
+                        gradient4: Colors.green.shade500,
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 10),
-                        child: ContainerStyle2(
-                          onPressed: () {
-                            Navigator.of(context)
-                                .popUntil(ModalRoute.withName('/menuPage'));
-                          },
-                          radius: 25,
-                          width: Constants().screenWidth(context) * 0.17,
-                          height: Constants().screenheight(context) * 0.18,
-                          title: LocaleKeys.close.tr(),
-                          size: 20,
-                          icon: Icons.close_rounded,
-                          onlyText: false,
-                          shadowColor: Colors.red.shade400,
-                          gradient1: Colors.red.shade200,
-                          gradient2: Colors.red.shade300,
-                          gradient3: Colors.red.shade500,
-                          gradient4: Colors.red.shade500,
-                        ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      child: ContainerStyle2(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .popUntil(ModalRoute.withName('/menuPage'));
+                        },
+                        radius: 25,
+                        width: Constants().screenWidth(context) * 0.17,
+                        height: Constants().screenheight(context) * 0.18,
+                        title: LocaleKeys.close.tr(),
+                        size: 20,
+                        icon: Icons.close_rounded,
+                        onlyText: false,
+                        shadowColor: Colors.red.shade400,
+                        gradient1: Colors.red.shade200,
+                        gradient2: Colors.red.shade300,
+                        gradient3: Colors.red.shade500,
+                        gradient4: Colors.red.shade500,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        );
-      });
+        ),
+      );
+    },
+  );
 }

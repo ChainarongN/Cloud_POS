@@ -27,25 +27,17 @@ Future<void> changeSaleModeDialog(BuildContext context, HomeProvider homeWatch,
             child: ListView(
               padding: EdgeInsets.zero,
               children: List.generate(
-                  homeWatch.saleModeDataList!.length,
-                  (index) => GestureDetector(
-                        onTap: () {
-                          confChangeDialog(context, menuRead, index, menuWatch);
-                        },
-                        child: Card(
-                          child: Padding(
-                            padding: EdgeInsets.all(
-                                Constants().screenWidth(context) * 0.03),
-                            child: Center(
-                              child: AppTextStyle().textNormal(
-                                  homeWatch
-                                      .saleModeDataList![index].saleModeName!,
-                                  size: Constants().screenWidth(context) *
-                                      Constants.boldSize),
-                            ),
-                          ),
-                        ),
-                      )),
+                homeWatch.saleModeDataList!.length,
+                (index) => menuWatch.computerName!.saleModeList!.isEmpty
+                    ? saleModeContainer(
+                        context, menuRead, index, menuWatch, homeWatch)
+                    : menuWatch.computerSaleMode.contains(homeWatch
+                            .saleModeDataList![index].saleModeID
+                            .toString())
+                        ? saleModeContainer(
+                            context, menuRead, index, menuWatch, homeWatch)
+                        : const SizedBox.shrink(),
+              ),
             ),
           ),
         ),
@@ -61,6 +53,25 @@ Future<void> changeSaleModeDialog(BuildContext context, HomeProvider homeWatch,
         ],
       );
     },
+  );
+}
+
+GestureDetector saleModeContainer(BuildContext context, MenuProvider menuRead,
+    int index, MenuProvider menuWatch, HomeProvider homeWatch) {
+  return GestureDetector(
+    onTap: () {
+      confChangeDialog(context, menuRead, index, menuWatch);
+    },
+    child: Card(
+      child: Padding(
+        padding: EdgeInsets.all(Constants().screenWidth(context) * 0.03),
+        child: Center(
+          child: AppTextStyle().textNormal(
+              homeWatch.saleModeDataList![index].saleModeName!,
+              size: Constants().screenWidth(context) * Constants.boldSize),
+        ),
+      ),
+    ),
   );
 }
 

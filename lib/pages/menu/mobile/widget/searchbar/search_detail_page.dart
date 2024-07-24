@@ -92,7 +92,8 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                       },
                       child: RecipeItemMobile(
                         recipeName: menuWatch.prodToSearch![index].productName!,
-                        recipeImage: 'assets/coffee2.jpg',
+                        recipeImage:
+                            menuWatch.prodToSearch![index].imageFileName!,
                       ),
                     );
                   },

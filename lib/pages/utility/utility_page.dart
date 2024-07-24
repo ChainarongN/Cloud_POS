@@ -33,150 +33,152 @@ class _UtilityPageState extends State<UtilityPage> {
       backgroundColor: Constants.secondaryColor,
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              width: Constants().screenWidth(context),
-              child: Wrap(
-                runSpacing: 10,
-                spacing: 20,
-                children: <Widget>[
-                  ContainerStyle2(
-                    title: 'Session Close',
-                    icon: Icons.android,
-                    width: Constants().screenWidth(context) * 0.15,
-                    height: Constants().screenheight(context) * 0.27,
-                    shadowColor: Colors.deepOrange.shade300,
-                    gradient1: Colors.deepOrange.shade100,
-                    gradient2: Colors.deepOrange.shade200,
-                    gradient3: Colors.deepOrange.shade400,
-                    gradient4: Colors.deepOrange.shade400,
-                    radius: 40,
-                    onlyText: false,
-                    size: 20,
-                    onPressed: () {
-                      DialogStyle().confirmDialog2(context,
-                          title: 'Close Session',
-                          detail: 'You need to close session. ? ',
-                          onPressed: () {
-                        utilityRead.setCloseAmountController('');
-                        openAmountDialog(
-                            context, utilityWatch, utilityRead, true);
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                width: Constants().screenWidth(context),
+                child: Wrap(
+                  runSpacing: 10,
+                  spacing: 20,
+                  children: <Widget>[
+                    ContainerStyle2(
+                      title: 'Session Close',
+                      icon: Icons.android,
+                      width: Constants().screenWidth(context) * 0.15,
+                      height: Constants().screenheight(context) * 0.27,
+                      shadowColor: Colors.deepOrange.shade300,
+                      gradient1: Colors.deepOrange.shade100,
+                      gradient2: Colors.deepOrange.shade200,
+                      gradient3: Colors.deepOrange.shade400,
+                      gradient4: Colors.deepOrange.shade400,
+                      radius: 40,
+                      onlyText: false,
+                      size: 20,
+                      onPressed: () {
+                        DialogStyle().confirmDialog2(context,
+                            title: 'Close Session',
+                            detail: 'You need to close session. ? ',
+                            onPressed: () {
+                          utilityRead.setCloseAmountController('');
+                          openAmountDialog(
+                              context, utilityWatch, utilityRead, true);
 
-                        // utilityRead.setCloseAmountController('');
-                        // openAmountDialog(
-                        //         context, utilityWatch, utilityRead, true)
-                        //     .then((value) {
-                        //   if (utilityWatch.apiState == ApiState.COMPLETED) {
-                        //     dialogResultHtml(
-                        //         context, utilityWatch, utilityRead, true);
-                        //   }
-                        // });
+                          // utilityRead.setCloseAmountController('');
+                          // openAmountDialog(
+                          //         context, utilityWatch, utilityRead, true)
+                          //     .then((value) {
+                          //   if (utilityWatch.apiState == ApiState.COMPLETED) {
+                          //     dialogResultHtml(
+                          //         context, utilityWatch, utilityRead, true);
+                          //   }
+                          // });
 
-                        // utilityRead.setCloseAmountController('');
-                        // Navigator.maybePop(context).then((value) async {
-                        //   bool val = await openAmountDialog(
-                        //           context, utilityWatch, utilityRead) ??
-                        //       true;
-                        //   if (val != false) {
-                        //     if (utilityWatch.apiState == ApiState.COMPLETED) {
-                        //       Future.delayed(const Duration(milliseconds: 500),
-                        //           () {
-                        //         dialogResultHtml(
-                        //             context, utilityWatch, utilityRead, true);
-                        //       });
-                        //     }
-                        //   }
-                        // });
-                      });
-                    },
-                  ),
-                  ContainerStyle2(
-                    title: 'End Day',
-                    icon: Icons.android,
-                    width: Constants().screenWidth(context) * 0.15,
-                    height: Constants().screenheight(context) * 0.27,
-                    shadowColor: Colors.red.shade600,
-                    gradient1: Colors.red.shade400,
-                    gradient2: Colors.red.shade500,
-                    gradient3: Colors.red.shade700,
-                    gradient4: Colors.red.shade700,
-                    radius: 40,
-                    onlyText: false,
-                    size: 20,
-                    onPressed: () {
-                      DialogStyle().confirmDialog2(context,
-                          title: 'End day',
-                          detail:
-                              'You need to end day. ? If it ends, you will not be able to open another session today.',
-                          onPressed: () {
-                        utilityRead.setCloseAmountController('');
-                        openAmountDialog(
-                            context, utilityWatch, utilityRead, false);
+                          // utilityRead.setCloseAmountController('');
+                          // Navigator.maybePop(context).then((value) async {
+                          //   bool val = await openAmountDialog(
+                          //           context, utilityWatch, utilityRead) ??
+                          //       true;
+                          //   if (val != false) {
+                          //     if (utilityWatch.apiState == ApiState.COMPLETED) {
+                          //       Future.delayed(const Duration(milliseconds: 500),
+                          //           () {
+                          //         dialogResultHtml(
+                          //             context, utilityWatch, utilityRead, true);
+                          //       });
+                          //     }
+                          //   }
+                          // });
+                        });
+                      },
+                    ),
+                    ContainerStyle2(
+                      title: 'End Day',
+                      icon: Icons.android,
+                      width: Constants().screenWidth(context) * 0.15,
+                      height: Constants().screenheight(context) * 0.27,
+                      shadowColor: Colors.red.shade600,
+                      gradient1: Colors.red.shade400,
+                      gradient2: Colors.red.shade500,
+                      gradient3: Colors.red.shade700,
+                      gradient4: Colors.red.shade700,
+                      radius: 40,
+                      onlyText: false,
+                      size: 20,
+                      onPressed: () {
+                        DialogStyle().confirmDialog2(context,
+                            title: 'End day',
+                            detail:
+                                'You need to end day. ? If it ends, you will not be able to open another session today.',
+                            onPressed: () {
+                          utilityRead.setCloseAmountController('');
+                          openAmountDialog(
+                              context, utilityWatch, utilityRead, false);
 
-                        // utilityRead.setCloseAmountController('');
-                        // openAmountDialog(
-                        //         context, utilityWatch, utilityRead, false)
-                        //     .then((value) async {
-                        //   if (utilityWatch.apiState == ApiState.COMPLETED) {
-                        //     await dialogResultHtml(
-                        //             context, utilityWatch, utilityRead, false)
-                        //         .then((value) {
-                        //       if (utilityWatch.apiState != ApiState.LOADING) {
-                        //         DialogStyle().dialogLoadding(context);
-                        //         utilityRead.endDay(context).then((value) async {
-                        //           if (utilityWatch.apiState ==
-                        //               ApiState.COMPLETED) {
-                        //             Navigator.pop(context);
-                        //             await dialogResultHtml(context,
-                        //                 utilityWatch, utilityRead, false);
-                        //             exit(0);
-                        //           }
-                        //         });
-                        //       }
-                        //     });
-                        //   }
-                        // });
+                          // utilityRead.setCloseAmountController('');
+                          // openAmountDialog(
+                          //         context, utilityWatch, utilityRead, false)
+                          //     .then((value) async {
+                          //   if (utilityWatch.apiState == ApiState.COMPLETED) {
+                          //     await dialogResultHtml(
+                          //             context, utilityWatch, utilityRead, false)
+                          //         .then((value) {
+                          //       if (utilityWatch.apiState != ApiState.LOADING) {
+                          //         DialogStyle().dialogLoadding(context);
+                          //         utilityRead.endDay(context).then((value) async {
+                          //           if (utilityWatch.apiState ==
+                          //               ApiState.COMPLETED) {
+                          //             Navigator.pop(context);
+                          //             await dialogResultHtml(context,
+                          //                 utilityWatch, utilityRead, false);
+                          //             exit(0);
+                          //           }
+                          //         });
+                          //       }
+                          //     });
+                          //   }
+                          // });
 
-                        // utilityRead.setCloseAmountController('');
-                        // Navigator.maybePop(context).then((value) async {
-                        //   bool val = await openAmountDialog(
-                        //           context, utilityWatch, utilityRead) ??
-                        //       true;
-                        //   if (val != false) {
-                        //     if (utilityWatch.apiState == ApiState.COMPLETED) {
-                        //       Future.delayed(const Duration(milliseconds: 500),
-                        //           () async {
-                        //         dialogResultHtml(context, utilityWatch,
-                        //                 utilityRead, false)
-                        //             .then((value) async {
-                        //           if (utilityWatch.apiState !=
-                        //               ApiState.LOADING) {
-                        //             DialogStyle().dialogLoadding(context);
-                        //             utilityRead
-                        //                 .endDay(context)
-                        //                 .then((value) async {
-                        //               if (utilityWatch.apiState ==
-                        //                   ApiState.COMPLETED) {
-                        //                 Navigator.pop(context);
-                        //                 await dialogResultHtml(context,
-                        //                     utilityWatch, utilityRead, false);
-                        //                 exit(0);
-                        //               }
-                        //             });
-                        //           }
-                        //         });
-                        //       });
-                        //     }
-                        //   }
-                        // });
-                      });
-                    },
-                  ),
-                ],
-              ),
-            )
-          ],
+                          // utilityRead.setCloseAmountController('');
+                          // Navigator.maybePop(context).then((value) async {
+                          //   bool val = await openAmountDialog(
+                          //           context, utilityWatch, utilityRead) ??
+                          //       true;
+                          //   if (val != false) {
+                          //     if (utilityWatch.apiState == ApiState.COMPLETED) {
+                          //       Future.delayed(const Duration(milliseconds: 500),
+                          //           () async {
+                          //         dialogResultHtml(context, utilityWatch,
+                          //                 utilityRead, false)
+                          //             .then((value) async {
+                          //           if (utilityWatch.apiState !=
+                          //               ApiState.LOADING) {
+                          //             DialogStyle().dialogLoadding(context);
+                          //             utilityRead
+                          //                 .endDay(context)
+                          //                 .then((value) async {
+                          //               if (utilityWatch.apiState ==
+                          //                   ApiState.COMPLETED) {
+                          //                 Navigator.pop(context);
+                          //                 await dialogResultHtml(context,
+                          //                     utilityWatch, utilityRead, false);
+                          //                 exit(0);
+                          //               }
+                          //             });
+                          //           }
+                          //         });
+                          //       });
+                          //     }
+                          //   }
+                          // });
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -61,7 +61,8 @@ Center searchTabTablet(
                     },
                     child: RecipeItemTablet(
                       recipeName: menuWatch.prodToSearch![index].productName!,
-                      recipeImage: 'assets/coffee2.jpg',
+                      recipeImage:
+                          menuWatch.prodToSearch![index].imageFileName!,
                     ),
                   );
                 },
