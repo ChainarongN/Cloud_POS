@@ -164,7 +164,7 @@ class DialogStyle {
           ),
           content: SingleChildScrollView(
             child: Text(
-              'OnBackInvokedCallback is not enabled for the application.',
+              error!,
               style: TextStyle(
                   fontSize: deviceType == 'tablet'
                       ? Constants().screenWidth(context) * 0.015
