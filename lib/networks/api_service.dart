@@ -60,7 +60,7 @@ class APIService {
             .authToken(context);
         newToken = await SharedPref().getToken();
         if (newToken.isNotEmpty) {
-          postAndData(context,
+          return postAndData(context,
               actionBy: actionBy,
               data: data,
               param: param,
@@ -145,7 +145,7 @@ class APIService {
             .authToken(context);
         newToken = await SharedPref().getToken();
         if (newToken.isNotEmpty) {
-          postParams(context,
+          return postParams(context,
               actionBy: actionBy, param: param, token: newToken, url: url);
         }
       } else if (e.type == DioExceptionType.connectionTimeout) {

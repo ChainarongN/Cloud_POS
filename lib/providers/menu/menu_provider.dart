@@ -499,7 +499,7 @@ class MenuProvider extends ChangeNotifier {
       productObjModel!.responseObj!.productData!.productQty = count;
       apiState = ApiState.LOADING;
       var response = await _menuRepository.productAdd(context,
-          prodObj: json.encode(productObjModel!.responseObj));
+          langID: '1', prodObj: json.encode(productObjModel!.responseObj));
       transactionModel = await DetectMenuFunc()
           .detectTransaction(context, response, 'productAdd');
     } catch (e, strack) {

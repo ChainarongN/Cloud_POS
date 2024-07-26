@@ -139,44 +139,104 @@ class DialogStyle {
   Future<void> dialogError(BuildContext context,
       {String? error, bool? isPopUntil, String? popToPage}) async {
     String deviceType = await SharedPref().getResponsiveDevice();
-    return Dialogs.materialDialog(
-      barrierDismissible: false,
-      color: Colors.white,
-      titleStyle: TextStyle(
-          fontSize: deviceType == 'tablet'
-              ? Constants().screenWidth(context) * 0.015
-              : Constants().screenWidth(context) * Constants.boldSize,
-          fontWeight: FontWeight.bold),
-      msgStyle: TextStyle(
-          fontSize: deviceType == 'tablet'
-              ? Constants().screenWidth(context) * 0.015
-              : Constants().screenWidth(context) * Constants.boldSize,
-          overflow: TextOverflow.fade),
-      msg: error,
-      title: LocaleKeys.something_went_wrong.tr(),
-      lottieBuilder: Lottie.asset(
-        'assets/error_lottie.json',
-        fit: BoxFit.contain,
-      ),
-      dialogWidth: 0.3,
+    return showDialog(
       context: context,
-      actions: [
-        IconsButton(
-          onPressed: () {
-            isPopUntil!
-                ? Navigator.of(context)
-                    .popUntil(ModalRoute.withName(popToPage!))
-                : Navigator.pop(context);
-          },
-          text: LocaleKeys.ok.tr(),
-          iconData: Icons.done,
-          color: Colors.blue,
-          textStyle: const TextStyle(color: Colors.white),
-          iconColor: Colors.white,
-        ),
-      ],
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Lottie.asset(
+                'assets/error_lottie.json',
+                fit: BoxFit.contain,
+                height: Constants().screenheight(context) * 0.15,
+                // width: Constants().screenheight(context) * 0.015,
+              ),
+              Text(
+                LocaleKeys.something_went_wrong.tr(),
+                style: TextStyle(
+                    fontSize: deviceType == 'tablet'
+                        ? Constants().screenWidth(context) * 0.015
+                        : Constants().screenWidth(context) * Constants.boldSize,
+                    fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Text(
+              'OnBackInvokedCallback is not enabled for the application.',
+              style: TextStyle(
+                  fontSize: deviceType == 'tablet'
+                      ? Constants().screenWidth(context) * 0.015
+                      : Constants().screenWidth(context) * Constants.boldSize,
+                  overflow: TextOverflow.fade),
+            ),
+          ),
+          actions: [
+            IconsButton(
+              onPressed: () {
+                isPopUntil!
+                    ? Navigator.of(context)
+                        .popUntil(ModalRoute.withName(popToPage!))
+                    : Navigator.pop(context);
+              },
+              text: LocaleKeys.ok.tr(),
+              iconData: Icons.done,
+              color: Colors.blue,
+              textStyle: const TextStyle(color: Colors.white),
+              iconColor: Colors.white,
+            ),
+          ],
+        );
+        ;
+      },
     );
   }
+
+  // Future<void> dialogError(BuildContext context,
+  //     {String? error, bool? isPopUntil, String? popToPage}) async {
+  //   String deviceType = await SharedPref().getResponsiveDevice();
+  //   return Dialogs.materialDialog(
+  //     barrierDismissible: false,
+  //     color: Colors.white,
+  //     titleStyle:
+  // TextStyle(
+  //         fontSize: deviceType == 'tablet'
+  //             ? Constants().screenWidth(context) * 0.015
+  //             : Constants().screenWidth(context) * Constants.boldSize,
+  //         fontWeight: FontWeight.bold),
+  //     msgStyle:
+  // TextStyle(
+  //         fontSize: deviceType == 'tablet'
+  //             ? Constants().screenWidth(context) * 0.015
+  //             : Constants().screenWidth(context) * Constants.boldSize,
+  //         overflow: TextOverflow.fade),
+  //     msg: error,
+  //     title: LocaleKeys.something_went_wrong.tr(),
+  //     lottieBuilder:
+  // Lottie.asset(
+  //       'assets/error_lottie.json',
+  //       fit: BoxFit.contain,
+  //     ),
+  //     dialogWidth: 0.3,
+  //     context: context,
+  //     actions: [
+  //       IconsButton(
+  //         onPressed: () {
+  //           isPopUntil!
+  //               ? Navigator.of(context)
+  //                   .popUntil(ModalRoute.withName(popToPage!))
+  //               : Navigator.pop(context);
+  //         },
+  //         text: LocaleKeys.ok.tr(),
+  //         iconData: Icons.done,
+  //         color: Colors.blue,
+  //         textStyle: const TextStyle(color: Colors.white),
+  //         iconColor: Colors.white,
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Future<void> dialogSuccess(BuildContext context,
       {bool? isPopUntil, String? popToPage}) {
