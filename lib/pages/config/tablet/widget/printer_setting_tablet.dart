@@ -24,7 +24,7 @@ SingleChildScrollView printerSettingTablet(BuildContext context,
         receiptPrinter(context, configRead, configWatch),
         printerModel(context, configRead, configWatch),
         connectionType(context, configRead, configWatch),
-        configWatch.getConnectionValue == 'SunmiV2'
+        configWatch.getConnectionTypeValue == 'SunmiV2'
             ? const SizedBox.shrink()
             : printerAddress(context, configWatch, configRead),
         testPrintBtn(context, configRead, configWatch),
@@ -225,9 +225,9 @@ SizedBox connectionType(BuildContext context, ConfigProvider configRead,
                 configRead: configRead,
                 configWatch: configWatch,
                 itemMap: configWatch.getConnectList,
-                value: configWatch.getConnectionValue, onChanged: (value) {
+                value: configWatch.getConnectionTypeValue, onChanged: (value) {
               configRead.setConnectionValue(value!);
-              Constants().printWarning(configWatch.getConnectionValue);
+              Constants().printWarning(configWatch.getConnectionTypeValue);
             }),
           ),
         ],
@@ -257,9 +257,9 @@ Container printerModel(BuildContext context, ConfigProvider configRead,
                 configRead: configRead,
                 configWatch: configWatch,
                 itemMap: configWatch.getPrinterList,
-                value: configWatch.getPrintValue, onChanged: (value) {
+                value: configWatch.getPrintModelValue, onChanged: (value) {
               configRead.setPrinterValue(value!);
-              Constants().printWarning(configWatch.getPrintValue);
+              Constants().printWarning(configWatch.getPrintModelValue);
             }),
           ),
         ],

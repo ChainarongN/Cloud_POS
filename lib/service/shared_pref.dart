@@ -149,7 +149,7 @@ class SharedPref {
 
   Future<String> getPrinterType() async {
     SharedPreferences prefs = await _prefs;
-    String? result = prefs.getString(keyPrinterType) ?? 'Wifi';
+    String? result = prefs.getString(keyPrinterType) ?? '';
     return result;
   }
 

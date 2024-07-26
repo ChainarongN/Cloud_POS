@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_pos/models/code_init_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/service/read_file_func.dart';
@@ -6,6 +8,7 @@ import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 
 class ConfigProvider extends ChangeNotifier {
@@ -16,8 +19,8 @@ class ConfigProvider extends ChangeNotifier {
   String _widgetString = 'baseUrl';
   bool _printerSwitch = true;
   bool _newDataSwitch = false;
-  String? _printerValue = 'TM-30';
-  String? _connectionValue = 'Wifi';
+  String? _printerModelValue;
+  String? _connectionTypeValue;
   String? imageTest;
   ShopData? shopData;
   final ScreenshotController _screenshotController = ScreenshotController();
@@ -28,10 +31,10 @@ class ConfigProvider extends ChangeNotifier {
   String get getWidgetString => _widgetString;
   bool get getprinterSwitch => _printerSwitch;
   bool get getNewDataSwitch => _newDataSwitch;
-  String get getPrintValue => _printerValue!;
-  String get getConnectionValue => _connectionValue!;
-  List<String> get getPrinterList => _printerList;
-  List<String> get getConnectList => _connectionList;
+  String get getPrintModelValue => _printerModelValue!;
+  String get getConnectionTypeValue => _connectionTypeValue!;
+  List<String> get getPrinterList => _printerModelList;
+  List<String> get getConnectList => _connectionTypeList;
   ScreenshotController get getScreenShotController => _screenshotController;
 
   init(BuildContext context) async {
@@ -40,12 +43,26 @@ class ConfigProvider extends ChangeNotifier {
     deviceIdController.text = await SharedPref().getDeviceId();
     baseUrlController.text = await SharedPref().getBaseUrl();
     addressController.text = await SharedPref().getPrinterAddress();
+    _connectionTypeValue = await SharedPref().getPrinterType();
+    _printerModelValue = await SharedPref().getPrinterModel();
+    if (_connectionTypeValue!.isEmpty || _printerModelValue!.isEmpty) {
+      _connectionTypeValue = _connectionTypeList.first;
+      _printerModelValue = _printerModelList.first;
+    }
+    saveConfigPrinter();
+
     Constants().printError(deviceIdController.text);
     _readShopData();
   }
 
   Future _readShopData() async {
-    var value = await ReadFileFunc().readShopData();
+    ShopData? value;
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/${Constants.SHOP_DATA_TXT}');
+    bool fileExists = file.existsSync();
+    if (fileExists) {
+      value = await ReadFileFunc().readShopData();
+    }
     shopData = value;
     notifyListeners();
   }
@@ -62,15 +79,9 @@ class ConfigProvider extends ChangeNotifier {
   }
 
   Future saveConfigPrinter() async {
-    SharedPref().setPrinterType(_connectionValue!);
-    SharedPref().setPrinterModel(_printerValue!);
+    SharedPref().setPrinterType(_connectionTypeValue!);
+    SharedPref().setPrinterModel(_printerModelValue!);
     SharedPref().setPrinterAddress(addressController.text);
-
-    String type = await SharedPref().getPrinterType();
-    String model = await SharedPref().getPrinterModel();
-    String address = await SharedPref().getPrinterAddress();
-
-    Constants().printWarning('$type : $model : $address');
   }
 
   setWidgetString(String value) {
@@ -90,12 +101,12 @@ class ConfigProvider extends ChangeNotifier {
   }
 
   setPrinterValue(String value) {
-    _printerValue = value;
+    _printerModelValue = value;
     notifyListeners();
   }
 
   setConnectionValue(String value) {
-    _connectionValue = value;
+    _connectionTypeValue = value;
     notifyListeners();
   }
 
@@ -111,5 +122,5 @@ class ConfigProvider extends ChangeNotifier {
   }
 }
 
-List<String> _printerList = ['TM-30', 'Sunmi'];
-List<String> _connectionList = ['Wifi', 'SunmiV2'];
+List<String> _printerModelList = ['TM-30', 'Sunmi'];
+List<String> _connectionTypeList = ['Wifi', 'SunmiV2'];
