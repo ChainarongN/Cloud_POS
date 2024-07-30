@@ -14,6 +14,48 @@ class DialogStyle {
   static final DialogStyle _instance = DialogStyle._internal();
   factory DialogStyle() => _instance;
 
+  Future<void> commentDialog(BuildContext context) async {
+    String deviceType = await SharedPref().getResponsiveDevice();
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Comment',
+            style: TextStyle(
+                fontSize: deviceType == 'tablet'
+                    ? Constants().screenWidth(context) * 0.015
+                    : Constants().screenWidth(context) * Constants.boldSize,
+                fontWeight: FontWeight.bold),
+          ),
+          content: SingleChildScrollView(
+            child: Container(),
+          ),
+          actions: [
+            IconsButton(
+              onPressed: () {},
+              text: LocaleKeys.ok.tr(),
+              color: Colors.blue,
+              textStyle: const TextStyle(color: Colors.white),
+              iconColor: Colors.white,
+            ),
+            IconsButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .popUntil(ModalRoute.withName('/menuPage'));
+              },
+              text: LocaleKeys.cancel.tr(),
+              color: Colors.red,
+              textStyle: const TextStyle(color: Colors.white),
+              iconColor: Colors.white,
+            ),
+          ],
+        );
+        ;
+      },
+    );
+  }
+
   Future<void> dialogPayment2(BuildContext context,
       {String? text, bool? popUntil, String? popToPage}) async {
     String deviceType = await SharedPref().getResponsiveDevice();

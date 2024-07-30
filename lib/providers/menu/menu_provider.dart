@@ -955,7 +955,7 @@ class MenuProvider extends ChangeNotifier {
   }
 
   setCouponCodeControllerForTest() {
-    couponCodeController.text = '8F811112C4E72E72E177';
+    couponCodeController.text = '2623381B99D9438FB8360BC0BAC1A08393';
     notifyListeners();
   }
 
