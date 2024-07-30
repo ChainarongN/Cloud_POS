@@ -30,6 +30,7 @@ class DetectMenuFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/menuPage');
+        Constants().printCheckError(response.errorResponse, action);
       } else {
         if (jsonDecode(response)['ResponseCode'] == "") {
           menuProvider.apiState = ApiState.COMPLETED;
@@ -40,10 +41,12 @@ class DetectMenuFunc {
               error: jsonDecode(response)['ResponseText'],
               isPopUntil: true,
               popToPage: '/menuPage');
+          Constants()
+              .printCheckError(jsonDecode(response)['ResponseText'], action);
         }
       }
     } catch (e, strack) {
-      Constants().printError('$e - $strack');
+      Constants().printCheckError('$e - $strack', action);
       menuProvider.apiState = ApiState.ERROR;
       DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
@@ -61,7 +64,7 @@ class DetectMenuFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/menuPage');
-        Constants().printCheckError(response.errorResponse.toString(), action);
+        Constants().printCheckError(response.errorResponse, action);
       } else {
         if (jsonDecode(response)['ResponseCode'] == "") {
           paymentQRRequestModel =
@@ -79,7 +82,7 @@ class DetectMenuFunc {
         }
       }
     } catch (e, strack) {
-      Constants().printError('$e - $strack');
+      Constants().printCheckError('$e - $strack', action);
       menuProvider.apiState = ApiState.ERROR;
       DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
@@ -116,7 +119,7 @@ class DetectMenuFunc {
         }
       }
     } catch (e, strack) {
-      Constants().printError('$e - $strack');
+      Constants().printCheckError('$e - $strack', 'AuthInfoModel');
       menuProvider.apiState = ApiState.ERROR;
       DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
@@ -135,6 +138,7 @@ class DetectMenuFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/menuPage');
+        Constants().printCheckError(response.errorResponse, 'holdBill');
       } else {
         holdBillModel = HoldBillModel.fromJson(jsonDecode(response));
         if (holdBillModel.responseCode!.isEmpty) {
@@ -146,10 +150,11 @@ class DetectMenuFunc {
               error: holdBillModel.responseText,
               isPopUntil: true,
               popToPage: '/menuPage');
+          Constants().printCheckError(holdBillModel.responseText, 'holdBill');
         }
       }
     } catch (e, strack) {
-      Constants().printError('$e - $strack');
+      Constants().printCheckError('$e - $strack', 'holdBill');
       menuProvider.apiState = ApiState.ERROR;
       DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
@@ -168,6 +173,7 @@ class DetectMenuFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/menuPage');
+        Constants().printCheckError(response.errorResponse, 'productObj');
       } else {
         productObjModel = ProductObjModel.fromJson(jsonDecode(response));
         if (productObjModel.responseCode!.isEmpty) {
@@ -179,10 +185,12 @@ class DetectMenuFunc {
               error: productObjModel.responseText,
               isPopUntil: true,
               popToPage: '/menuPage');
+          Constants()
+              .printCheckError(productObjModel.responseText, 'productObj');
         }
       }
     } catch (e, strack) {
-      Constants().printError('$e - $strack');
+      Constants().printCheckError('$e - $strack', 'productObj');
       menuProvider.apiState = ApiState.ERROR;
       DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
@@ -201,6 +209,7 @@ class DetectMenuFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/menuPage');
+        Constants().printCheckError(response.errorResponse, action);
       } else {
         if (jsonDecode(response)['ResponseCode'] == "") {
           transactionModel = TransactionModel.fromJson(jsonDecode(response));
@@ -212,10 +221,12 @@ class DetectMenuFunc {
               error: jsonDecode(response)['ResponseText'],
               isPopUntil: true,
               popToPage: '/menuPage');
+          Constants()
+              .printCheckError(jsonDecode(response)['ResponseText'], action);
         }
       }
     } catch (e, strack) {
-      Constants().printError('$e - $strack');
+      Constants().printCheckError('$e - $strack', action);
       menuProvider.apiState = ApiState.ERROR;
       DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
@@ -237,6 +248,8 @@ class DetectMenuFunc {
                   error: response.errorResponse.toString(), isPopUntil: false)
               .then((value) => Navigator.of(context)
                   .popUntil(ModalRoute.withName('/homePage')));
+          Constants()
+              .printCheckError(response.errorResponse, 'CancelTransaction');
         });
       } else {
         cancelTranModel = CancelTranModel.fromJson(jsonDecode(response));
@@ -252,11 +265,13 @@ class DetectMenuFunc {
                     error: cancelTranModel!.responseText, isPopUntil: false)
                 .then((value) => Navigator.of(context)
                     .popUntil(ModalRoute.withName('/homePage')));
+            Constants().printCheckError(
+                cancelTranModel.responseText, 'CancelTransaction');
           });
         }
       }
     } catch (e, strack) {
-      Constants().printError('$e - $strack');
+      Constants().printCheckError('$e - $strack', 'CancelTransaction');
       menuProvider.apiState = ApiState.ERROR;
       Navigator.pop(context);
       Future.delayed(const Duration(milliseconds: 500), () {
@@ -278,6 +293,7 @@ class DetectMenuFunc {
         Future.delayed(const Duration(milliseconds: 500), () {
           DialogStyle().dialogError(context,
               error: response.errorResponse.toString(), isPopUntil: false);
+          Constants().printCheckError(response.errorResponse, 'reason');
         });
       } else {
         reasonModel = ReasonModel.fromJson(jsonDecode(response));
@@ -289,11 +305,12 @@ class DetectMenuFunc {
           Future.delayed(const Duration(milliseconds: 500), () {
             DialogStyle().dialogError(context,
                 error: reasonModel!.responseText, isPopUntil: false);
+            Constants().printCheckError(reasonModel.responseText, 'reason');
           });
         }
       }
     } catch (e, strack) {
-      Constants().printError('$e - $strack');
+      Constants().printCheckError('$e - $strack', 'reason');
       menuProvider.apiState = ApiState.ERROR;
       Future.delayed(const Duration(milliseconds: 500), () {
         DialogStyle()
@@ -315,6 +332,7 @@ class DetectMenuFunc {
               error: response.errorResponse.toString(),
               isPopUntil: true,
               popToPage: '/menuPage');
+          Constants().printCheckError(response.errorResponse, 'MemberData');
         });
       } else {
         memberDataModel = MemberDataModel.fromJson(jsonDecode(response));
@@ -328,11 +346,13 @@ class DetectMenuFunc {
                 error: memberDataModel!.responseText,
                 isPopUntil: true,
                 popToPage: '/menuPage');
+            Constants()
+                .printCheckError(memberDataModel.responseText, 'MemberData');
           });
         }
       }
     } catch (e, strack) {
-      Constants().printError('$e - $strack');
+      Constants().printCheckError('$e - $strack', 'MemberData');
       menuProvider.apiState = ApiState.ERROR;
       Future.delayed(const Duration(milliseconds: 500), () {
         DialogStyle().dialogError(context,
@@ -354,6 +374,7 @@ class DetectMenuFunc {
               error: response.errorResponse.toString(),
               isPopUntil: true,
               popToPage: '/menuPage');
+          Constants().printCheckError(response.errorResponse, 'eCouponInquiry');
         });
       } else {
         couponInquiryModel = CouponInquiryModel.fromJson(jsonDecode(response));
@@ -367,11 +388,13 @@ class DetectMenuFunc {
                 error: couponInquiryModel!.responseText,
                 isPopUntil: true,
                 popToPage: '/menuPage');
+            Constants().printCheckError(
+                couponInquiryModel.responseText, 'eCouponInquiry');
           });
         }
       }
     } catch (e, strack) {
-      Constants().printError('$e - $strack');
+      Constants().printCheckError('$e - $strack', 'eCouponInquiry');
       menuProvider.apiState = ApiState.ERROR;
       Future.delayed(const Duration(milliseconds: 500), () {
         DialogStyle().dialogError(context,

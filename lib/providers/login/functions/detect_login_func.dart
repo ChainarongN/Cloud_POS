@@ -28,6 +28,7 @@ class DetectLoginFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/loginPage');
+        Constants().printCheckError(response.errorResponse, 'auth token');
       } else {
         authTokenModel = AuthTokenModel.fromJson(jsonDecode(response));
         loginProvider.apisState = ApiState.COMPLETED;
@@ -35,9 +36,9 @@ class DetectLoginFunc {
       }
     } catch (e, strack) {
       loginProvider.apisState = ApiState.ERROR;
-      Constants().printError(strack.toString());
       await DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/loginPage');
+      Constants().printCheckError('$e - $strack', 'auth token');
     }
     return authTokenModel!;
   }
@@ -53,6 +54,7 @@ class DetectLoginFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/loginPage');
+        Constants().printCheckError(response.errorResponse, 'CoreDataInit');
       } else {
         coreInitModel = CoreInitModel.fromJson(jsonDecode(response));
         if (coreInitModel.responseCode!.isEmpty) {
@@ -64,11 +66,13 @@ class DetectLoginFunc {
               error: coreInitModel.responseText!,
               isPopUntil: true,
               popToPage: '/loginPage');
+          Constants()
+              .printCheckError(coreInitModel.responseText, 'CoreDataInit');
         }
       }
     } catch (e, strack) {
       loginProvider.apisState = ApiState.ERROR;
-      Constants().printError(strack.toString());
+      Constants().printCheckError('$e - $strack', 'CoreDataInit');
       DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/loginPage');
     }
@@ -85,13 +89,14 @@ class DetectLoginFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/loginPage');
+        Constants().printCheckError(response.errorResponse, 'Login');
       } else {
         loginModel = LoginModel.fromJson(jsonDecode(response));
         loginProvider.apisState = ApiState.COMPLETED;
       }
     } catch (e, strack) {
       loginProvider.apisState = ApiState.ERROR;
-      Constants().printError(strack.toString());
+      Constants().printCheckError('$e - $strack', 'Login');
       DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/loginPage');
     }
@@ -109,6 +114,7 @@ class DetectLoginFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/loginPage');
+        Constants().printCheckError(response.errorResponse, 'openSession');
       } else {
         openSessionModel = OpenSessionModel.fromJson(jsonDecode(response));
         if (openSessionModel.responseCode!.isEmpty) {
@@ -120,11 +126,13 @@ class DetectLoginFunc {
               error: openSessionModel.responseText!,
               isPopUntil: true,
               popToPage: '/loginPage');
+          Constants()
+              .printCheckError(openSessionModel.responseText, 'openSession');
         }
       }
     } catch (e, strack) {
       loginProvider.apisState = ApiState.ERROR;
-      Constants().printError(strack.toString());
+      Constants().printCheckError('$e - $strack', 'openSession');
       DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/loginPage');
     }
@@ -142,6 +150,7 @@ class DetectLoginFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/loginPage');
+        Constants().printCheckError(response.errorResponse, 'startProcess');
       } else {
         startProcessModel = StartProcessModel.fromJson(jsonDecode(response));
         if (startProcessModel.responseCode!.isEmpty) {
@@ -153,11 +162,13 @@ class DetectLoginFunc {
               error: startProcessModel.responseText!,
               isPopUntil: true,
               popToPage: '/loginPage');
+          Constants()
+              .printCheckError(startProcessModel.responseText, 'startProcess');
         }
       }
     } catch (e, strack) {
       loginProvider.apisState = ApiState.ERROR;
-      Constants().printError(strack.toString());
+      Constants().printCheckError('$e - $strack', 'startProcess');
       DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/loginPage');
     }

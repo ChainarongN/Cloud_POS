@@ -26,6 +26,7 @@ class DetectUtilityFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/utilityPage');
+        Constants().printCheckError(response.errorResponse, 'closeSession');
       } else {
         closeSessionModel = CloseSessionModel.fromJson(jsonDecode(response));
         if (closeSessionModel.responseCode!.isEmpty) {
@@ -37,11 +38,13 @@ class DetectUtilityFunc {
               error: closeSessionModel.responseText!,
               isPopUntil: true,
               popToPage: '/utilityPage');
+          Constants()
+              .printCheckError(closeSessionModel.responseText, 'closeSession');
         }
       }
     } catch (e, strack) {
       utilityProvider.apiState = ApiState.ERROR;
-      Constants().printError(strack.toString());
+      Constants().printCheckError('$e - $strack', 'closeSession');
       await DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/utilityPage');
     }
@@ -58,6 +61,7 @@ class DetectUtilityFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/utilityPage');
+        Constants().printCheckError(response.errorResponse, 'endDay');
       } else {
         endDayModel = EndDayModel.fromJson(jsonDecode(response));
         if (endDayModel.responseCode!.isEmpty) {
@@ -69,11 +73,12 @@ class DetectUtilityFunc {
               error: endDayModel.responseText!,
               isPopUntil: true,
               popToPage: '/utilityPage');
+          Constants().printCheckError(endDayModel.responseText, 'endDay');
         }
       }
     } catch (e, strack) {
       utilityProvider.apiState = ApiState.ERROR;
-      Constants().printError(strack.toString());
+      Constants().printCheckError('$e - $strack', 'endDay');
       await DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/utilityPage');
     }
@@ -91,6 +96,7 @@ class DetectUtilityFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/utilityPage');
+        Constants().printCheckError(response.errorResponse, 'SessionSearch');
       } else {
         sessionSearchModel = SessionSearch.fromJson(jsonDecode(response));
         if (sessionSearchModel.responseCode!.isEmpty) {
@@ -102,11 +108,13 @@ class DetectUtilityFunc {
               error: sessionSearchModel.responseText!,
               isPopUntil: true,
               popToPage: '/utilityPage');
+          Constants().printCheckError(
+              sessionSearchModel.responseText, 'SessionSearch');
         }
       }
     } catch (e, strack) {
       utilityProvider.apiState = ApiState.ERROR;
-      Constants().printError(strack.toString());
+      Constants().printCheckError('$e - $strack', 'SessionSearch');
       await DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/utilityPage');
     }

@@ -25,6 +25,7 @@ class DetectHomeFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/homePage');
+        Constants().printCheckError(response.errorResponse, 'holdBillSearch');
       } else {
         holdBillSearchModel =
             HoldBillSearchModel.fromJson(jsonDecode(response));
@@ -37,6 +38,8 @@ class DetectHomeFunc {
               error: holdBillSearchModel.responseText!,
               isPopUntil: true,
               popToPage: '/homePage');
+          Constants().printCheckError(
+              holdBillSearchModel.responseText, 'holdBillSearch');
         }
       }
     } catch (e, strack) {
@@ -44,6 +47,7 @@ class DetectHomeFunc {
       Constants().printError(strack.toString());
       DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/homePage');
+      Constants().printCheckError('$e - $strack', 'holdBillSearch');
     }
     return holdBillSearchModel!;
   }
@@ -59,6 +63,7 @@ class DetectHomeFunc {
             error: response.errorResponse.toString(),
             isPopUntil: true,
             popToPage: '/homePage');
+        Constants().printCheckError(response.errorResponse, 'OpenTransaction');
       } else {
         openTranModel = OpenTranModel.fromJson(jsonDecode(response));
         if (openTranModel.responseCode!.isEmpty) {
@@ -70,11 +75,13 @@ class DetectHomeFunc {
               error: openTranModel.responseText!,
               isPopUntil: true,
               popToPage: '/homePage');
+          Constants()
+              .printCheckError(openTranModel.responseText!, 'OpenTransaction');
         }
       }
     } catch (e, strack) {
       homeProvider.apisState = ApiState.ERROR;
-      Constants().printError(strack.toString());
+      Constants().printCheckError('$e - $strack', 'OpenTransaction');
       DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/homePage');
     }
