@@ -4,6 +4,7 @@ import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
+import 'package:cloud_pos/utils/widgets/scanner.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -384,7 +385,7 @@ Future<void> eCouponDialog(BuildContext context) {
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                      right: Constants().screenheight(context) * 0.05),
+                      right: Constants().screenheight(context) * 0.01),
                   width: Constants().screenWidth(context) * 0.1,
                   height: Constants().screenheight(context) * 0.09,
                   child: ElevatedButton(
@@ -413,6 +414,28 @@ Future<void> eCouponDialog(BuildContext context) {
                         dataProvider.setCouponCodeControllerForTest();
                       },
                       child: AppTextStyle().textBold(LocaleKeys.ok.tr(),
+                          size: Constants().screenheight(context) * 0.034,
+                          color: Colors.white)),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                      right: Constants().screenheight(context) * 0.03),
+                  width: Constants().screenWidth(context) * 0.1,
+                  height: Constants().screenheight(context) * 0.09,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey,
+                        side: const BorderSide(width: 2, color: Colors.white),
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const QRViewExample(),
+                        ));
+                      },
+                      child: AppTextStyle().textBold('Scan',
                           size: Constants().screenheight(context) * 0.034,
                           color: Colors.white)),
                 ),

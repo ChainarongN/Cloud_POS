@@ -58,6 +58,7 @@ dependencies:
   cached_network_image: ^3.3.1
   reorderable_grid: ^1.0.10
   flutter_timer_countdown: ^1.0.7
+  qr_code_scanner: ^1.0.1
 
   esc_pos_printer:
   esc_pos_utils:

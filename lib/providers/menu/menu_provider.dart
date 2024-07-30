@@ -954,6 +954,11 @@ class MenuProvider extends ChangeNotifier {
     transactionModel = TransactionModel.fromJson(jsonDecode(tranModel!));
   }
 
+  Future setCouponCodeController(String value) async {
+    couponCodeController.text = value;
+    notifyListeners();
+  }
+
   setCouponCodeControllerForTest() {
     couponCodeController.text = '2623381B99D9438FB8360BC0BAC1A08393';
     notifyListeners();

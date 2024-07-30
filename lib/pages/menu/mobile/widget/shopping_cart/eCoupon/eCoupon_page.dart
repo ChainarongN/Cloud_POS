@@ -7,6 +7,7 @@ import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
+import 'package:cloud_pos/utils/widgets/scanner.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -126,10 +127,12 @@ Future<void> addCouponDialog(BuildContext context) {
       return Consumer<MenuProvider>(
         builder: (context, dataProvider, child) => AlertDialog(
           content: SizedBox(
-            height: Constants().screenheight(context) * 0.18,
+            // height: Constants().screenheight(context) * 0.18,
             child: Padding(
               padding: EdgeInsets.all(Constants().screenWidth(context) * 0.015),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(
                     children: [
@@ -166,6 +169,16 @@ Future<void> addCouponDialog(BuildContext context) {
                               Constants.normalSize),
                     ),
                   ),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const QRViewExample(),
+                        ));
+                      },
+                      child: AppTextStyle().textBold('Scan',
+                          size: Constants().screenWidth(context) *
+                              Constants.normalSize,
+                          color: Constants.primaryColor))
                 ],
               ),
             ),
