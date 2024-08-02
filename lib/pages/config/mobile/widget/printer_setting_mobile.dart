@@ -52,7 +52,7 @@ GestureDetector testPrintBtn(BuildContext context, ConfigProvider configRead,
       //   Printer().printer(value!);
       // });
       Printer().testPrinter();
-      Constants().printInfo('aaaaaaaaaaaaaa');
+      // Constants().printInfo('aaaaaaaaaaaaaa');
     },
     child: Container(
       alignment: Alignment.center,

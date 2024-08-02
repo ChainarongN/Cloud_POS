@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 import 'dart:typed_data';
 import 'package:cloud_pos/models/auth_Info_model.dart';
 import 'package:cloud_pos/models/cencel_tran_model.dart';
@@ -27,7 +26,6 @@ import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:cloud_pos/utils/widgets/receipt_bill_print.dart';
-import 'package:cloud_pos/utils/widgets/screen_printer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

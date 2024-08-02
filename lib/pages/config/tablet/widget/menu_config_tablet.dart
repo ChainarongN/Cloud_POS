@@ -78,35 +78,35 @@ SingleChildScrollView menuConfigTablet(BuildContext context,
             ),
           ),
         ),
-        Container(
-          alignment: Alignment.center,
-          height: Constants().screenheight(context) * 0.09,
-          width: Constants().screenWidth(context) * 0.25,
-          margin: const EdgeInsets.only(bottom: 20),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: const LinearGradient(
-              colors: [
-                Color.fromARGB(255, 138, 196, 255),
-                Color.fromARGB(255, 182, 212, 255),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            boxShadow: const [
-              BoxShadow(
-                  color: Color.fromARGB(255, 182, 212, 255),
-                  blurRadius: 8,
-                  offset: Offset(0, 6)),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: AppTextStyle().textNormal(LocaleKeys.licenes_setting.tr(),
-                size: Constants().screenheight(context) * 0.03,
-                color: Colors.white),
-          ),
-        ),
+        // Container(
+        //   alignment: Alignment.center,
+        //   height: Constants().screenheight(context) * 0.09,
+        //   width: Constants().screenWidth(context) * 0.25,
+        //   margin: const EdgeInsets.only(bottom: 20),
+        //   decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(10),
+        //     gradient: const LinearGradient(
+        //       colors: [
+        //         Color.fromARGB(255, 138, 196, 255),
+        //         Color.fromARGB(255, 182, 212, 255),
+        //       ],
+        //       begin: Alignment.topLeft,
+        //       end: Alignment.bottomRight,
+        //     ),
+        //     boxShadow: const [
+        //       BoxShadow(
+        //           color: Color.fromARGB(255, 182, 212, 255),
+        //           blurRadius: 8,
+        //           offset: Offset(0, 6)),
+        //     ],
+        //   ),
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(10),
+        //     child: AppTextStyle().textNormal(LocaleKeys.licenes_setting.tr(),
+        //         size: Constants().screenheight(context) * 0.03,
+        //         color: Colors.white),
+        //   ),
+        // ),
         GestureDetector(
           onTap: () {
             configRead.setWidgetString('about');

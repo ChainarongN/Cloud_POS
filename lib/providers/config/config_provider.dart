@@ -6,7 +6,6 @@ import 'package:cloud_pos/service/read_file_func.dart';
 import 'package:cloud_pos/repositorys/config/i_config_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
-import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -23,6 +22,7 @@ class ConfigProvider extends ChangeNotifier {
   String? _connectionTypeValue;
   String? imageTest;
   ShopData? shopData;
+  ComputerName? computerName;
   final ScreenshotController _screenshotController = ScreenshotController();
   final TextEditingController deviceIdController = TextEditingController();
   final TextEditingController baseUrlController = TextEditingController();
@@ -53,6 +53,7 @@ class ConfigProvider extends ChangeNotifier {
 
     Constants().printError(deviceIdController.text);
     _readShopData();
+    _readComputerName();
   }
 
   Future _readShopData() async {
@@ -64,6 +65,18 @@ class ConfigProvider extends ChangeNotifier {
       value = await ReadFileFunc().readShopData();
     }
     shopData = value;
+    notifyListeners();
+  }
+
+  Future _readComputerName() async {
+    ComputerName? value;
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/${Constants.COMPUTER_NAME_TXT}');
+    bool fileExists = file.existsSync();
+    if (fileExists) {
+      value = await ReadFileFunc().readComputerName();
+    }
+    computerName = value;
     notifyListeners();
   }
 

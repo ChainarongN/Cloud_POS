@@ -39,12 +39,6 @@ class MenuBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     var menuRead = context.read<MenuProvider>();
     var menuWatch = context.watch<MenuProvider>();
-    int valueSelect;
-    if (menuWatch.getvalueTitleSelect == 0) {
-      valueSelect = menuWatch.getvalueMenuSelect;
-    } else {
-      valueSelect = menuWatch.getValueFavGroup;
-    }
     return GestureDetector(
       onTap: () {
         menuRead.showMenuList(context, false, prodDeptId: valueId);

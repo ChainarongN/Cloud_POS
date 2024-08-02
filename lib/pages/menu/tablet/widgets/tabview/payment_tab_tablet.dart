@@ -5,7 +5,6 @@ import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/container_style.dart';
-import 'package:cloud_pos/utils/widgets/dialog_payment.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';

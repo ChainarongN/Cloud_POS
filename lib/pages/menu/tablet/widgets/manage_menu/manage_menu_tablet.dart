@@ -1,4 +1,3 @@
-import 'package:cloud_pos/pages/menu/tablet/widgets/coupon_tablet.dart';
 import 'package:cloud_pos/pages/menu/tablet/widgets/manage_menu/widgets/order_detail_tablet.dart';
 import 'package:cloud_pos/pages/menu/tablet/widgets/manage_menu/widgets/order_list_tablet.dart';
 import 'package:cloud_pos/pages/menu/tablet/widgets/manage_menu/widgets/order_title_tablet.dart';

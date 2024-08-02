@@ -43,6 +43,26 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                AppTextStyle().textBold('Merchant Key',
+                    size: Constants().screenheight(context) * 0.025),
+                configWatch.shopData == null
+                    ? AppTextStyle().textNormal('-',
+                        size: Constants().screenheight(context) * 0.025)
+                    : AppTextStyle().textNormal(
+                        configWatch.shopData!.merchantKey!,
+                        size: Constants().screenheight(context) * 0.025),
+              ],
+            ),
+          ],
+        ),
+      ),
+      cardDetail(
+        context,
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
                 AppTextStyle().textBold(LocaleKeys.brand_name.tr(),
                     size: Constants().screenheight(context) * 0.025),
                 configWatch.shopData == null
@@ -50,6 +70,18 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
                         size: Constants().screenheight(context) * 0.025)
                     : AppTextStyle().textNormal(
                         configWatch.shopData!.brandName!,
+                        size: Constants().screenheight(context) * 0.025),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppTextStyle().textBold('Brand Key',
+                    size: Constants().screenheight(context) * 0.025),
+                configWatch.shopData == null
+                    ? AppTextStyle().textNormal('-',
+                        size: Constants().screenheight(context) * 0.025)
+                    : AppTextStyle().textNormal(configWatch.shopData!.brandKey!,
                         size: Constants().screenheight(context) * 0.025),
               ],
             ),
@@ -96,10 +128,11 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
               children: [
                 AppTextStyle().textBold(LocaleKeys.pos_name.tr(),
                     size: Constants().screenheight(context) * 0.025),
-                configWatch.shopData == null
+                configWatch.computerName == null
                     ? AppTextStyle().textNormal('-',
                         size: Constants().screenheight(context) * 0.025)
-                    : AppTextStyle().textNormal('-',
+                    : AppTextStyle().textNormal(
+                        configWatch.computerName!.computerName!,
                         size: Constants().screenheight(context) * 0.025),
               ],
             ),
