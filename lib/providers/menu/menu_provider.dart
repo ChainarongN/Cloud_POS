@@ -866,6 +866,32 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future setQtyCombo(bool selected, int indexGroup, int indexitemList,
+      int indexCommentGroup, int indexComment) async {
+    List<Comments> commentList = productObjModel!.responseObj!.comboData!
+        .group![indexGroup].itemList![indexitemList].comments!;
+
+    if (productObjModel!
+            .responseObj!.comboData!.commentGroup![indexCommentGroup].isMulti ==
+        0) {
+      for (var element in commentList) {
+        if (element.groupID ==
+            productObjModel!.responseObj!.comboData!
+                .commentGroup![indexCommentGroup].groupID) {
+          element.qty = 0;
+        }
+      }
+    }
+    if (selected) {
+      productObjModel!.responseObj!.comboData!.group![indexGroup]
+          .itemList![indexitemList].comments![indexComment].qty = 1.0;
+    } else {
+      productObjModel!.responseObj!.comboData!.group![indexGroup]
+          .itemList![indexitemList].comments![indexComment].qty = 0.0;
+    }
+    notifyListeners();
+  }
+
   Future setSelectDiscount(int prodId) async {
     if (_selectDiscountList!.contains(prodId)) {
       _selectDiscountList!.removeWhere((item) => item == prodId);

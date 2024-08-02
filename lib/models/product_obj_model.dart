@@ -42,7 +42,7 @@ class ProductObjModel {
 class ResponseObj {
   TranData? tranData;
   ProductData? productData;
-  var comboData;
+  ComboData? comboData;
 
   ResponseObj({this.tranData, this.productData, this.comboData});
 
@@ -52,7 +52,9 @@ class ResponseObj {
     productData = json['ProductData'] != null
         ? ProductData.fromJson(json['ProductData'])
         : null;
-    comboData = json['ComboData'];
+    comboData = json['ComboData'] != null
+        ? ComboData.fromJson(json['ComboData'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -63,7 +65,10 @@ class ResponseObj {
     if (productData != null) {
       data['ProductData'] = productData!.toJson();
     }
-    data['ComboData'] = comboData;
+    if (comboData != null) {
+      data['ComboData'] = comboData!.toJson();
+    }
+
     return data;
   }
 }
@@ -319,6 +324,189 @@ class Comments {
     data['Qty'] = qty;
     data['PricePerUnit'] = pricePerUnit;
     data['CommentText'] = commentText;
+    return data;
+  }
+}
+
+class ComboData {
+  int? orderDetailID;
+  int? productParentID;
+  String? productParentCode;
+  String? productParentName;
+  String? productParentDesp;
+  String? imageUrl;
+  int? productTypeID;
+  String? productTypeName;
+  double? productQty;
+  List<CommentGroup>? commentGroup;
+  List<Group>? group;
+
+  ComboData(
+      {this.orderDetailID,
+      this.productParentID,
+      this.productParentCode,
+      this.productParentName,
+      this.productParentDesp,
+      this.imageUrl,
+      this.productTypeID,
+      this.productTypeName,
+      this.productQty,
+      this.commentGroup,
+      this.group});
+
+  ComboData.fromJson(Map<String, dynamic> json) {
+    orderDetailID = json['OrderDetailID'];
+    productParentID = json['ProductParentID'];
+    productParentCode = json['ProductParentCode'];
+    productParentName = json['ProductParentName'];
+    productParentDesp = json['ProductParentDesp'];
+    imageUrl = json['ImageUrl'];
+    productTypeID = json['ProductTypeID'];
+    productTypeName = json['ProductTypeName'];
+    productQty = json['ProductQty'];
+    if (json['CommentGroup'] != null) {
+      commentGroup = <CommentGroup>[];
+      json['CommentGroup'].forEach((v) {
+        commentGroup!.add(new CommentGroup.fromJson(v));
+      });
+    }
+    if (json['Group'] != null) {
+      group = <Group>[];
+      json['Group'].forEach((v) {
+        group!.add(new Group.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['OrderDetailID'] = this.orderDetailID;
+    data['ProductParentID'] = this.productParentID;
+    data['ProductParentCode'] = this.productParentCode;
+    data['ProductParentName'] = this.productParentName;
+    data['ProductParentDesp'] = this.productParentDesp;
+    data['ImageUrl'] = this.imageUrl;
+    data['ProductTypeID'] = this.productTypeID;
+    data['ProductTypeName'] = this.productTypeName;
+    data['ProductQty'] = this.productQty;
+    if (this.commentGroup != null) {
+      data['CommentGroup'] = this.commentGroup!.map((v) => v.toJson()).toList();
+    }
+    if (this.group != null) {
+      data['Group'] = this.group!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Group {
+  int? groupID;
+  int? groupNo;
+  String? groupName;
+  String? groupDesp;
+  double? minQty;
+  double? maxQty;
+  double? requireQty;
+  List<ItemList>? itemList;
+
+  Group(
+      {this.groupID,
+      this.groupNo,
+      this.groupName,
+      this.groupDesp,
+      this.minQty,
+      this.maxQty,
+      this.requireQty,
+      this.itemList});
+
+  Group.fromJson(Map<String, dynamic> json) {
+    groupID = json['GroupID'];
+    groupNo = json['GroupNo'];
+    groupName = json['GroupName'];
+    groupDesp = json['GroupDesp'];
+    minQty = json['MinQty'];
+    maxQty = json['MaxQty'];
+    requireQty = json['RequireQty'];
+    if (json['ItemList'] != null) {
+      itemList = <ItemList>[];
+      json['ItemList'].forEach((v) {
+        itemList!.add(new ItemList.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['GroupID'] = this.groupID;
+    data['GroupNo'] = this.groupNo;
+    data['GroupName'] = this.groupName;
+    data['GroupDesp'] = this.groupDesp;
+    data['MinQty'] = this.minQty;
+    data['MaxQty'] = this.maxQty;
+    data['RequireQty'] = this.requireQty;
+    if (this.itemList != null) {
+      data['ItemList'] = this.itemList!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ItemList {
+  int? productID;
+  String? productCode;
+  String? productName;
+  String? productDesp;
+  String? imageUrl;
+  double? qty;
+  double? qtyRatio;
+  double? qtyValue;
+  double? addPrice;
+  List<Comments>? comments;
+
+  ItemList(
+      {this.productID,
+      this.productCode,
+      this.productName,
+      this.productDesp,
+      this.imageUrl,
+      this.qty,
+      this.qtyRatio,
+      this.qtyValue,
+      this.addPrice,
+      this.comments});
+
+  ItemList.fromJson(Map<String, dynamic> json) {
+    productID = json['ProductID'];
+    productCode = json['ProductCode'];
+    productName = json['ProductName'];
+    productDesp = json['ProductDesp'];
+    imageUrl = json['ImageUrl'];
+    qty = json['Qty'];
+    qtyRatio = json['QtyRatio'];
+    qtyValue = json['QtyValue'];
+    addPrice = json['AddPrice'];
+    if (json['Comments'] != null) {
+      comments = <Comments>[];
+      json['Comments'].forEach((v) {
+        comments!.add(new Comments.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ProductID'] = this.productID;
+    data['ProductCode'] = this.productCode;
+    data['ProductName'] = this.productName;
+    data['ProductDesp'] = this.productDesp;
+    data['ImageUrl'] = this.imageUrl;
+    data['Qty'] = this.qty;
+    data['QtyRatio'] = this.qtyRatio;
+    data['QtyValue'] = this.qtyValue;
+    data['AddPrice'] = this.addPrice;
+    if (this.comments != null) {
+      data['Comments'] = this.comments!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

@@ -2,6 +2,7 @@
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/utils/constants.dart';
+import 'package:cloud_pos/utils/widgets/combo_dialog.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -66,8 +67,10 @@ class AddProductFunc {
 // ---------------------------------------------- Combo set ------------------------
       else {
         ////////////  is Combo wait dev
-        Constants().printError('This way is Product Combo');
-        Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
+        // Constants().printError('This way is Product Combo');
+        ComboDialog().dialog(context, () {
+          Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
+        });
       }
     }
   }

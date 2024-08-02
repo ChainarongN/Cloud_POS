@@ -25,7 +25,7 @@ class _ECouponPageState extends State<ECouponPage> {
   @override
   Widget build(BuildContext context) {
     var menuWatch = context.watch<MenuProvider>();
-    var menuRead = context.read<MenuProvider>();
+    // var menuRead = context.read<MenuProvider>();
     return DefaultTabController(
       length: 3,
       initialIndex: 0,

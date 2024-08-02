@@ -54,7 +54,7 @@ class DialogStyle {
                                   ? Constants().screenWidth(context) * 0.015
                                   : Constants().screenWidth(context) *
                                       Constants.boldSize),
-                          manageComment(
+                          manageSelectComment(
                               menuPvd, indexCommentGroup, deviceType, context),
                         ],
                       ),
@@ -112,7 +112,7 @@ class DialogStyle {
     );
   }
 
-  Column manageComment(MenuProvider menuPvd, int indexCommentGroup,
+  Column manageSelectComment(MenuProvider menuPvd, int indexCommentGroup,
       String deviceType, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
