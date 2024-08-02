@@ -191,6 +191,7 @@ class ProductData {
   int? productTypeID;
   String? productTypeName;
   double? productQty;
+  List<CommentGroup>? commentGroup;
   List<Comments>? comments;
 
   ProductData(
@@ -215,6 +216,12 @@ class ProductData {
     productTypeID = json['ProductTypeID'];
     productTypeName = json['ProductTypeName'];
     productQty = json['ProductQty'];
+    if (json['CommentGroup'] != null) {
+      commentGroup = <CommentGroup>[];
+      json['CommentGroup'].forEach((v) {
+        commentGroup!.add(CommentGroup.fromJson(v));
+      });
+    }
     if (json['Comments'] != null) {
       comments = <Comments>[];
       json['Comments'].forEach((v) {
@@ -241,7 +248,30 @@ class ProductData {
   }
 }
 
+class CommentGroup {
+  int? groupID;
+  String? groupName;
+  int? isMulti;
+
+  CommentGroup({this.groupID, this.groupName, this.isMulti});
+
+  CommentGroup.fromJson(Map<String, dynamic> json) {
+    groupID = json['GroupID'];
+    groupName = json['GroupName'];
+    isMulti = json['IsMulti'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['GroupID'] = this.groupID;
+    data['GroupName'] = this.groupName;
+    data['IsMulti'] = this.isMulti;
+    return data;
+  }
+}
+
 class Comments {
+  int? groupID;
   int? productID;
   double? commentPrice;
   String? productCode;
@@ -253,7 +283,8 @@ class Comments {
   String? commentText;
 
   Comments(
-      {this.productID,
+      {this.groupID,
+      this.productID,
       this.commentPrice,
       this.productCode,
       this.productName,
@@ -264,6 +295,7 @@ class Comments {
       this.commentText});
 
   Comments.fromJson(Map<String, dynamic> json) {
+    groupID = json['GroupID'];
     productID = json['ProductID'];
     commentPrice = json['CommentPrice'];
     productCode = json['ProductCode'];
@@ -277,6 +309,7 @@ class Comments {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['GroupID'] = groupID;
     data['ProductID'] = productID;
     data['CommentPrice'] = commentPrice;
     data['ProductCode'] = productCode;

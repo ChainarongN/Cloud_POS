@@ -1,20 +1,26 @@
+import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
+import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
+import 'package:provider/provider.dart';
 
 class DialogStyle {
   DialogStyle._internal();
   static final DialogStyle _instance = DialogStyle._internal();
   factory DialogStyle() => _instance;
 
-  Future<void> commentDialog(BuildContext context) async {
+  Future<void> commentDialog(
+      BuildContext context, Function()? onPressed) async {
     String deviceType = await SharedPref().getResponsiveDevice();
     return showDialog(
       context: context,
@@ -24,18 +30,68 @@ class DialogStyle {
             'Comment',
             style: TextStyle(
                 fontSize: deviceType == 'tablet'
-                    ? Constants().screenWidth(context) * 0.015
+                    ? Constants().screenWidth(context) * 0.02
                     : Constants().screenWidth(context) * Constants.boldSize,
                 fontWeight: FontWeight.bold),
           ),
           content: SingleChildScrollView(
-            child: Container(),
+            child: Consumer<MenuProvider>(
+              builder: (context, menuPvd, child) => Column(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(
+                      menuPvd.productObjModel!.responseObj!.productData!
+                          .commentGroup!.length,
+                      (indexCommentGroup) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const Divider(),
+                          AppTextStyle().textBold(
+                              menuPvd.productObjModel!.responseObj!.productData!
+                                  .commentGroup![indexCommentGroup].groupName!,
+                              size: deviceType == 'tablet'
+                                  ? Constants().screenWidth(context) * 0.015
+                                  : Constants().screenWidth(context) *
+                                      Constants.boldSize),
+                          manageComment(
+                              menuPvd, indexCommentGroup, deviceType, context),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Divider(),
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 5, top: 5),
+                    width: deviceType == 'tablet'
+                        ? null
+                        : Constants().screenWidth(context),
+                    child: TextField(
+                      controller: menuPvd.remarkOrderController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.5),
+                        labelText: 'หมายเหตุ',
+                        border: Constants().myinputborder(), //normal border
+                        enabledBorder:
+                            Constants().myinputborder(), //enabled border
+                        focusedBorder:
+                            Constants().myfocusborder(), //focused border
+                      ),
+                      style: TextStyle(
+                          color: Constants.textColor,
+                          fontSize: Constants().screenheight(context) * 0.024),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
           actions: [
             IconsButton(
-              onPressed: () {},
+              onPressed: onPressed!,
               text: LocaleKeys.ok.tr(),
-              color: Colors.blue,
+              color: Constants.primaryColor,
               textStyle: const TextStyle(color: Colors.white),
               iconColor: Colors.white,
             ),
@@ -45,7 +101,7 @@ class DialogStyle {
                     .popUntil(ModalRoute.withName('/menuPage'));
               },
               text: LocaleKeys.cancel.tr(),
-              color: Colors.red,
+              color: Colors.red.shade400,
               textStyle: const TextStyle(color: Colors.white),
               iconColor: Colors.white,
             ),
@@ -53,6 +109,62 @@ class DialogStyle {
         );
         ;
       },
+    );
+  }
+
+  Column manageComment(MenuProvider menuPvd, int indexCommentGroup,
+      String deviceType, BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: List.generate(
+          menuPvd.productObjModel!.responseObj!.productData!.comments!.length,
+          (index) => menuPvd.productObjModel!.responseObj!.productData!
+                      .comments![index].groupID ==
+                  menuPvd.productObjModel!.responseObj!.productData!
+                      .commentGroup![indexCommentGroup].groupID
+              ? Container(
+                  margin: const EdgeInsets.only(top: 5),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: menuPvd.productObjModel!.responseObj!
+                                    .productData!.comments![index].qty ==
+                                0
+                            ? false
+                            : true,
+                        onChanged: (bool? newValue) {
+                          menuPvd.setQtyComment(
+                              indexCommentGroup, index, newValue!);
+                        },
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: AppTextStyle().textNormal(
+                            menuPvd.productObjModel!.responseObj!.productData!
+                                .comments![index].productName!,
+                            size: deviceType == 'tablet'
+                                ? Constants().screenWidth(context) * 0.015
+                                : Constants().screenWidth(context) *
+                                    Constants.normalSize),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          alignment: Alignment.centerRight,
+                          child: AppTextStyle().textNormal(
+                              menuPvd.productObjModel!.responseObj!.productData!
+                                  .comments![index].pricePerUnit!
+                                  .toString(),
+                              size: deviceType == 'tablet'
+                                  ? Constants().screenWidth(context) * 0.015
+                                  : Constants().screenWidth(context) *
+                                      Constants.normalSize),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : const SizedBox.shrink()),
     );
   }
 
@@ -234,51 +346,6 @@ class DialogStyle {
       },
     );
   }
-
-  // Future<void> dialogError(BuildContext context,
-  //     {String? error, bool? isPopUntil, String? popToPage}) async {
-  //   String deviceType = await SharedPref().getResponsiveDevice();
-  //   return Dialogs.materialDialog(
-  //     barrierDismissible: false,
-  //     color: Colors.white,
-  //     titleStyle:
-  // TextStyle(
-  //         fontSize: deviceType == 'tablet'
-  //             ? Constants().screenWidth(context) * 0.015
-  //             : Constants().screenWidth(context) * Constants.boldSize,
-  //         fontWeight: FontWeight.bold),
-  //     msgStyle:
-  // TextStyle(
-  //         fontSize: deviceType == 'tablet'
-  //             ? Constants().screenWidth(context) * 0.015
-  //             : Constants().screenWidth(context) * Constants.boldSize,
-  //         overflow: TextOverflow.fade),
-  //     msg: error,
-  //     title: LocaleKeys.something_went_wrong.tr(),
-  //     lottieBuilder:
-  // Lottie.asset(
-  //       'assets/error_lottie.json',
-  //       fit: BoxFit.contain,
-  //     ),
-  //     dialogWidth: 0.3,
-  //     context: context,
-  //     actions: [
-  //       IconsButton(
-  //         onPressed: () {
-  //           isPopUntil!
-  //               ? Navigator.of(context)
-  //                   .popUntil(ModalRoute.withName(popToPage!))
-  //               : Navigator.pop(context);
-  //         },
-  //         text: LocaleKeys.ok.tr(),
-  //         iconData: Icons.done,
-  //         color: Colors.blue,
-  //         textStyle: const TextStyle(color: Colors.white),
-  //         iconColor: Colors.white,
-  //       ),
-  //     ],
-  //   );
-  // }
 
   Future<void> dialogSuccess(BuildContext context,
       {bool? isPopUntil, String? popToPage}) {

@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:cloud_pos/models/auth_Info_model.dart';
 import 'package:cloud_pos/models/cencel_tran_model.dart';
@@ -98,6 +99,7 @@ class MenuProvider extends ChangeNotifier {
   final ScreenshotController screenshotOrderSumController =
       ScreenshotController();
   final TextEditingController couponCodeController = TextEditingController();
+  final TextEditingController remarkOrderController = TextEditingController();
   // final TextEditingController qrCodeForTestController = TextEditingController();
 
   // --------------------------- GET ---------------------------
@@ -130,23 +132,20 @@ class MenuProvider extends ChangeNotifier {
     prodToSearch = [];
     _selectDiscountList = [];
     timerInquiry = Timer(const Duration(seconds: 1200), () {});
-
     await _readData();
     setPayTypeResult(context);
-
     showMenuList(context, true,
         prodGroupId: prodGroupList!.first.productGroupID!);
     showFavList(context, favoriteData!.first.pageIndex!);
 
-    Constants()
-        .printWarning("OrderId : ${transactionModel!.responseObj!.orderID}");
     SharedPref().setOrderId(transactionModel!.responseObj!.orderID!);
     String deviceType = await SharedPref().getResponsiveDevice();
     if (deviceType == 'tablet') {
-      _tabController = TabController(length: 6, vsync: tabThis!);
+      _tabController =
+          TabController(length: 6, vsync: tabThis!, initialIndex: 0);
       checkTabView(context);
     } else {
-      setValueTitle(context, _valueTitleSelect!);
+      setValueTitle(context, 0);
     }
 
     if (apiState == ApiState.COMPLETED) {
@@ -508,6 +507,7 @@ class MenuProvider extends ChangeNotifier {
       DialogStyle().dialogError(context,
           error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
     }
+    notifyListeners();
   }
 
   Future orderProcess(
@@ -811,12 +811,12 @@ class MenuProvider extends ChangeNotifier {
     resultPayTypeList =
         computerSplitList.intersection(saleModeSplitList).toList();
 
+// first select payment for mobile
     if (resultPayTypeList!.isNotEmpty) {
       _valuePaytypeIdSelect = int.parse(resultPayTypeList![0]);
     } else {
       _valuePaytypeIdSelect = null;
     }
-
     notifyListeners();
   }
 
@@ -839,6 +839,31 @@ class MenuProvider extends ChangeNotifier {
     } else if (value == 0) {
       showMenuList(context, true,
           prodGroupId: prodGroupList!.first.productGroupID!);
+    }
+    notifyListeners();
+  }
+
+  Future setQtyComment(
+      int indexCommentGroup, int commentindex, bool selected) async {
+    List<Comments> commentList =
+        productObjModel!.responseObj!.productData!.comments!;
+    if (productObjModel!.responseObj!.productData!
+            .commentGroup![indexCommentGroup].isMulti ==
+        0) {
+      for (var element in commentList) {
+        if (element.groupID ==
+            productObjModel!.responseObj!.productData!
+                .commentGroup![indexCommentGroup].groupID) {
+          element.qty = 0;
+        }
+      }
+    }
+    if (selected) {
+      productObjModel!.responseObj!.productData!.comments![commentindex].qty =
+          1.0;
+    } else {
+      productObjModel!.responseObj!.productData!.comments![commentindex].qty =
+          0.0;
     }
     notifyListeners();
   }

@@ -9,7 +9,6 @@ import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:cloud_pos/utils/widgets/receipt_bill_print.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class ShopingCartPage extends StatefulWidget {
@@ -69,26 +68,29 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
                         Constants().screenWidth(context) * Constants.boldSize),
               ),
               orderListMobile(menuWatch, menuRead, context),
-              Row(
-                children: [
-                  AppTextStyle().textBold('ทั้งหมด',
-                      size: Constants().screenWidth(context) *
-                          Constants.boldSize),
-                  const Spacer(),
-                  Container(
-                    child: menuWatch.transactionModel!.responseCode!.isEmpty
-                        ? AppTextStyle().textBold(
-                            menuWatch.transactionModel!.responseObj!.dueAmount
-                                .toString(),
-                            size: Constants().screenWidth(context) *
-                                Constants.boldSize)
-                        : AppTextStyle().textBold(
-                            '0.00',
-                            size: Constants().screenWidth(context) *
-                                Constants.boldSize,
-                          ),
-                  ),
-                ],
+              Container(
+                margin: const EdgeInsets.only(top: 10),
+                child: Row(
+                  children: [
+                    AppTextStyle().textBold('ทั้งหมด',
+                        size: Constants().screenWidth(context) *
+                            Constants.boldSize),
+                    const Spacer(),
+                    Container(
+                      child: menuWatch.transactionModel!.responseCode!.isEmpty
+                          ? AppTextStyle().textBold(
+                              menuWatch.transactionModel!.responseObj!.dueAmount
+                                  .toString(),
+                              size: Constants().screenWidth(context) *
+                                  Constants.boldSize)
+                          : AppTextStyle().textBold(
+                              '0.00',
+                              size: Constants().screenWidth(context) *
+                                  Constants.boldSize,
+                            ),
+                    ),
+                  ],
+                ),
               ),
               Divider(thickness: 1, color: Colors.grey.shade300),
               cardTitle(context,
@@ -224,75 +226,75 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
     );
   }
 
-  Future<void> openPayAmountDialog(
-      BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          content: SizedBox(
-            height: Constants().screenheight(context) * 0.15,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  // width: Constants().screenWidth(context) * 0.2,
-                  margin: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white.withOpacity(0.3),
-                      labelText: 'Payment amount',
-                      border: Constants().myinputborder(), //normal border
-                      enabledBorder:
-                          Constants().myinputborder(), //enabled border
-                      focusedBorder:
-                          Constants().myfocusborder(), //focused border
-                    ),
-                    style: TextStyle(
-                        color: Constants.textColor,
-                        fontSize: Constants().screenheight(context) * 0.025),
-                    onChanged: (value) {
-                      menuRead.payAmountMobile = value;
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: AppTextStyle().textNormal('OK', size: 18),
-              onPressed: () async {
-                if (menuWatch.payAmountMobile!.isNotEmpty) {
-                  menuRead.paymentMulti(
-                      context: context,
-                      payAmount: menuWatch.payAmountMobile,
-                      payCode: 'CS',
-                      payName: 'Cash',
-                      payTypeId: 1,
-                      payRemark: '',
-                      fromQuick: true);
-                }
-              },
-            ),
-            TextButton(
-              child: AppTextStyle()
-                  .textNormal('Cancel', size: 18, color: Colors.red),
-              onPressed: () async {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // Future<void> openPayAmountDialog(
+  //     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
+  //   return showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         content: SizedBox(
+  //           height: Constants().screenheight(context) * 0.15,
+  //           child: Column(
+  //             children: <Widget>[
+  //               Container(
+  //                 // width: Constants().screenWidth(context) * 0.2,
+  //                 margin: const EdgeInsets.only(top: 10, bottom: 10),
+  //                 child: TextField(
+  //                   keyboardType: TextInputType.number,
+  //                   inputFormatters: <TextInputFormatter>[
+  //                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+  //                     FilteringTextInputFormatter.digitsOnly
+  //                   ],
+  //                   decoration: InputDecoration(
+  //                     filled: true,
+  //                     fillColor: Colors.white.withOpacity(0.3),
+  //                     labelText: 'Payment amount',
+  //                     border: Constants().myinputborder(), //normal border
+  //                     enabledBorder:
+  //                         Constants().myinputborder(), //enabled border
+  //                     focusedBorder:
+  //                         Constants().myfocusborder(), //focused border
+  //                   ),
+  //                   style: TextStyle(
+  //                       color: Constants.textColor,
+  //                       fontSize: Constants().screenheight(context) * 0.025),
+  //                   onChanged: (value) {
+  //                     menuRead.payAmountMobile = value;
+  //                   },
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: AppTextStyle().textNormal('OK', size: 18),
+  //             onPressed: () async {
+  //               if (menuWatch.payAmountMobile!.isNotEmpty) {
+  //                 menuRead.paymentMulti(
+  //                     context: context,
+  //                     payAmount: menuWatch.payAmountMobile,
+  //                     payCode: 'CS',
+  //                     payName: 'Cash',
+  //                     payTypeId: 1,
+  //                     payRemark: '',
+  //                     fromQuick: true);
+  //               }
+  //             },
+  //           ),
+  //           TextButton(
+  //             child: AppTextStyle()
+  //                 .textNormal('Cancel', size: 18, color: Colors.red),
+  //             onPressed: () async {
+  //               Navigator.pop(context);
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   GestureDetector cardTitle(
     BuildContext context, {

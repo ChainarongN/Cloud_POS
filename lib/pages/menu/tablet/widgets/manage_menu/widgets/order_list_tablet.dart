@@ -28,11 +28,9 @@ SizedBox orderListTablet(
                 margin: EdgeInsets.only(
                     bottom: Constants().screenheight(context) * 0.015),
                 width: Constants().screenWidth(context),
-                height: Constants().screenheight(context) * 0.14,
                 decoration: BoxDecoration(
                   color: Constants.secondaryColor,
                   borderRadius: BorderRadius.circular(10),
-                  // border: Border.all(color: Colors.grey, width: 2),
                   boxShadow: const [
                     BoxShadow(
                         color: Constants.primaryColor,
@@ -57,43 +55,6 @@ Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
           flex: 2,
           borderRadius: BorderRadius.circular(10),
           onPressed: (contextSlidable) {
-            showDialog(
-                context: contextSlidable,
-                builder: (context) {
-                  return AlertDialog(
-                    title: AppTextStyle().textNormal(menuWatch.transactionModel!
-                        .responseObj!.orderList![index].itemName!),
-                    content: TextField(
-                      onChanged: (value) {},
-                      decoration: InputDecoration(
-                          hintText: LocaleKeys.input_your_remark.tr()),
-                    ),
-                    actions: [
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
-                            color: Colors.red),
-                      ),
-                      SizedBox(
-                          width: Constants().screenheight(context) * 0.025),
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: AppTextStyle().textBold(LocaleKeys.ok.tr(),
-                            color: Constants.primaryColor),
-                      ),
-                    ],
-                  );
-                });
-          },
-          backgroundColor: Colors.grey,
-          foregroundColor: Colors.white,
-          icon: Icons.archive,
-          label: LocaleKeys.remark.tr(),
-        ),
-        SlidableAction(
-          flex: 2,
-          borderRadius: BorderRadius.circular(10),
-          onPressed: (contextSlidable) {
             menuRead.manageCountOrder(context, index, 'delete');
           },
           backgroundColor: Colors.red,
@@ -103,7 +64,89 @@ Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
         ),
       ],
     ),
-    child: orderContainer(context, menuWatch, index, menuRead),
+    child: Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: [
+              AppTextStyle().textBold(
+                menuWatch
+                    .transactionModel!.responseObj!.orderList![index].itemName!,
+                size: Constants().screenheight(context) * 0.024,
+              ),
+              const Spacer(),
+              AppTextStyle().textBold(
+                menuWatch.transactionModel!.responseObj!.orderList![index]
+                    .retailPrice!
+                    .toString(),
+                size: Constants().screenheight(context) * 0.024,
+              ),
+            ],
+          ),
+          Column(
+            children: List.generate(
+              menuWatch.transactionModel!.responseObj!.orderList![index]
+                  .childItemList!.length,
+              (indexchildItemList) => Row(
+                children: [
+                  AppTextStyle().textNormal(
+                    menuWatch.transactionModel!.responseObj!.orderList![index]
+                        .childItemList![indexchildItemList].itemName!,
+                    size: Constants().screenheight(context) * 0.022,
+                  ),
+                  const Spacer(),
+                  AppTextStyle().textNormal(
+                    menuWatch.transactionModel!.responseObj!.orderList![index]
+                        .childItemList![indexchildItemList].unitPrice!
+                        .toString(),
+                    size: Constants().screenheight(context) * 0.022,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () =>
+                      menuRead.manageCountOrder(context, index, 'remove'),
+                  child: Icon(Icons.remove_circle_outline,
+                      color: Colors.red,
+                      size: Constants().screenheight(context) * 0.045),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    menuRead.clearReasonText();
+                    openQtyDialog(context, menuWatch, menuRead, index);
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: Constants().screenWidth(context) * 0.02,
+                    child: AppTextStyle().textBold(
+                      menuWatch
+                          .transactionModel!.responseObj!.orderList![index].qty!
+                          .toInt()
+                          .toString(),
+                      size: Constants().screenheight(context) * 0.022,
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => menuRead.manageCountOrder(context, index, 'add'),
+                  child: Icon(Icons.add_box_outlined,
+                      color: Constants.primaryColor,
+                      size: Constants().screenheight(context) * 0.045),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
   );
 }
 
@@ -113,68 +156,86 @@ Padding orderContainer(BuildContext context, MenuProvider menuWatch, int index,
     padding: const EdgeInsets.all(8.0),
     child: Row(
       children: <Widget>[
-        Expanded(
-          flex: 3,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              AppTextStyle().textBold(
-                menuWatch
-                    .transactionModel!.responseObj!.orderList![index].itemName!,
-                size: Constants().screenheight(context) * 0.022,
-              )
-            ],
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              AppTextStyle().textBold(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            AppTextStyle().textBold(
+              menuWatch
+                  .transactionModel!.responseObj!.orderList![index].itemName!,
+              size: Constants().screenheight(context) * 0.025,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(
                 menuWatch.transactionModel!.responseObj!.orderList![index]
-                    .retailPrice!
-                    .toString(),
-                size: Constants().screenheight(context) * 0.022,
+                    .childItemList!.length,
+                (indexChildItemList) => AppTextStyle().textNormal(
+                  menuWatch.transactionModel!.responseObj!.orderList![index]
+                      .childItemList![indexChildItemList].itemName!,
+                  size: Constants().screenheight(context) * 0.022,
+                ),
               ),
-              const Spacer(),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () =>
-                        menuRead.manageCountOrder(context, index, 'remove'),
-                    child: Icon(Icons.remove_circle_outline,
-                        color: Colors.red,
-                        size: Constants().screenheight(context) * 0.045),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      menuRead.clearReasonText();
-                      openQtyDialog(context, menuWatch, menuRead, index);
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: Constants().screenWidth(context) * 0.02,
-                      child: AppTextStyle().textBold(
-                        menuWatch.transactionModel!.responseObj!
-                            .orderList![index].qty!
-                            .toInt()
-                            .toString(),
-                        size: Constants().screenheight(context) * 0.022,
-                      ),
+            )
+          ],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            AppTextStyle().textBold(
+              menuWatch
+                  .transactionModel!.responseObj!.orderList![index].retailPrice!
+                  .toString(),
+              size: Constants().screenheight(context) * 0.025,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(
+                menuWatch.transactionModel!.responseObj!.orderList![index]
+                    .childItemList!.length,
+                (indexChildItemList) => AppTextStyle().textNormal(
+                  menuWatch.transactionModel!.responseObj!.orderList![index]
+                      .childItemList![indexChildItemList].unitPrice!
+                      .toString(),
+                  size: Constants().screenheight(context) * 0.022,
+                ),
+              ),
+            ),
+            const Spacer(),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () =>
+                      menuRead.manageCountOrder(context, index, 'remove'),
+                  child: Icon(Icons.remove_circle_outline,
+                      color: Colors.red,
+                      size: Constants().screenheight(context) * 0.045),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    menuRead.clearReasonText();
+                    openQtyDialog(context, menuWatch, menuRead, index);
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: Constants().screenWidth(context) * 0.02,
+                    child: AppTextStyle().textBold(
+                      menuWatch
+                          .transactionModel!.responseObj!.orderList![index].qty!
+                          .toInt()
+                          .toString(),
+                      size: Constants().screenheight(context) * 0.022,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () =>
-                        menuRead.manageCountOrder(context, index, 'add'),
-                    child: Icon(Icons.add_box_outlined,
-                        color: Constants.primaryColor,
-                        size: Constants().screenheight(context) * 0.045),
-                  ),
-                ],
-              )
-            ],
-          ),
+                ),
+                GestureDetector(
+                  onTap: () => menuRead.manageCountOrder(context, index, 'add'),
+                  child: Icon(Icons.add_box_outlined,
+                      color: Constants.primaryColor,
+                      size: Constants().screenheight(context) * 0.045),
+                ),
+              ],
+            )
+          ],
         ),
       ],
     ),

@@ -32,7 +32,7 @@ class DialogPayment {
         builder: (BuildContext context) {
           return AlertDialog(
             content: SizedBox(
-              height: Constants().screenheight(context) * 0.45,
+              // height: Constants().screenheight(context) * 0.45,
               width: responsiveDevice == 'tablet'
                   ? Constants().screenWidth(context) * 0.3
                   : Constants().screenWidth(context),
@@ -41,7 +41,7 @@ class DialogPayment {
                     EdgeInsets.all(Constants().screenWidth(context) * 0.01),
                 child: SingleChildScrollView(
                   child: Column(
-                    // mainAxisSize: MainAxisSize.min,
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
@@ -127,7 +127,7 @@ class DialogPayment {
               TextButton(
                 child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
                     size: responsiveDevice == 'tablet'
-                        ? Constants().screenheight(context) * 0.015
+                        ? Constants().screenheight(context) * 0.02
                         : Constants().screenWidth(context) *
                             Constants.normalSize,
                     color: Colors.red),

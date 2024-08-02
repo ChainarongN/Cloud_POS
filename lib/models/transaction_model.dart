@@ -341,6 +341,7 @@ class OrderList {
   int? statusID;
   int? pProductID;
   List<PromoItemList>? promoItemList;
+  List<ChildItemList>? childItemList;
 
   OrderList(
       {this.orderDetailID,
@@ -374,6 +375,12 @@ class OrderList {
         promoItemList!.add(PromoItemList.fromJson(v));
       });
     }
+    if (json['ChildItemList'] != null) {
+      childItemList = <ChildItemList>[];
+      json['ChildItemList'].forEach((v) {
+        childItemList!.add(ChildItemList.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -393,6 +400,51 @@ class OrderList {
       data['PromoItemList'] = promoItemList!.map((v) => v.toJson()).toList();
     }
 
+    return data;
+  }
+}
+
+class ChildItemList {
+  String? itemName;
+  int? productID;
+  int? indentLevel;
+  int? isComment;
+  double? unitPrice;
+  double? qty;
+  double? salePrice;
+  String? vATCode;
+
+  ChildItemList(
+      {this.itemName,
+      this.productID,
+      this.indentLevel,
+      this.isComment,
+      this.unitPrice,
+      this.qty,
+      this.salePrice,
+      this.vATCode});
+
+  ChildItemList.fromJson(Map<String, dynamic> json) {
+    itemName = json['ItemName'];
+    productID = json['ProductID'];
+    indentLevel = json['IndentLevel'];
+    isComment = json['IsComment'];
+    unitPrice = json['UnitPrice'];
+    qty = json['Qty'];
+    salePrice = json['SalePrice'];
+    vATCode = json['VATCode'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ItemName'] = this.itemName;
+    data['ProductID'] = this.productID;
+    data['IndentLevel'] = this.indentLevel;
+    data['IsComment'] = this.isComment;
+    data['UnitPrice'] = this.unitPrice;
+    data['Qty'] = this.qty;
+    data['SalePrice'] = this.salePrice;
+    data['VATCode'] = this.vATCode;
     return data;
   }
 }
