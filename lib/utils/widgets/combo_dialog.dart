@@ -183,22 +183,21 @@ class ComboDialog {
       int indexCommentGroup,
       String deviceType,
       BuildContext context) {
+    bool checkCommentQty = menuPvd
+            .productObjModel!
+            .responseObj!
+            .comboData!
+            .group![indexGroup]
+            .itemList![indexitemList]
+            .comments![indexComment]
+            .qty ==
+        0;
     return Container(
       margin: const EdgeInsets.only(top: 5),
       child: Row(
         children: [
           Checkbox(
-            value: menuPvd
-                        .productObjModel!
-                        .responseObj!
-                        .comboData!
-                        .group![indexGroup]
-                        .itemList![indexitemList]
-                        .comments![indexComment]
-                        .qty ==
-                    0
-                ? false
-                : true,
+            value: checkCommentQty ? false : true,
             onChanged: (bool? newValue) {
               menuPvd.setQtyCombo(newValue!, indexGroup, indexitemList,
                   indexCommentGroup, indexComment);
