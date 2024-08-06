@@ -491,10 +491,15 @@ class MenuProvider extends ChangeNotifier {
     }
   }
 
-  Future productAdd(BuildContext context, double count) async {
+  Future productAdd(BuildContext context, double count, bool isCombo) async {
+    apiState = ApiState.LOADING;
     try {
-      productObjModel!.responseObj!.productData!.productQty = count;
-      apiState = ApiState.LOADING;
+      if (isCombo) {
+        productObjModel!.responseObj!.comboData!.productQty = count;
+      } else {
+        productObjModel!.responseObj!.productData!.productQty = count;
+      }
+
       var response = await _menuRepository.productAdd(context,
           langID: '1', prodObj: json.encode(productObjModel!.responseObj));
       transactionModel = await DetectMenuFunc()
@@ -502,8 +507,8 @@ class MenuProvider extends ChangeNotifier {
     } catch (e, strack) {
       apiState = ApiState.ERROR;
       Constants().printError(strack.toString());
-      DialogStyle().dialogError(context,
-          error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
+      // DialogStyle().dialogError(context,
+      //     error: e.toString(), isPopUntil: true, popToPage: '/menuPage');
     }
     notifyListeners();
   }
@@ -867,29 +872,48 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future setQtyCombo(bool selected, int indexGroup, int indexitemList,
-      int indexCommentGroup, int indexComment) async {
+      int indexCommentGroup, int indexComment, bool isComment) async {
     List<Comments> commentList = productObjModel!.responseObj!.comboData!
         .group![indexGroup].itemList![indexitemList].comments!;
 
-    if (productObjModel!
-            .responseObj!.comboData!.commentGroup![indexCommentGroup].isMulti ==
-        0) {
-      for (var element in commentList) {
-        if (element.groupID ==
-            productObjModel!.responseObj!.comboData!
-                .commentGroup![indexCommentGroup].groupID) {
-          element.qty = 0;
+    if (isComment) {
+      if (productObjModel!.responseObj!.comboData!
+              .commentGroup![indexCommentGroup].isMulti ==
+          0) {
+        for (var element in commentList) {
+          if (element.groupID ==
+              productObjModel!.responseObj!.comboData!
+                  .commentGroup![indexCommentGroup].groupID) {
+            element.qty = 0;
+          }
         }
       }
-    }
-    if (selected) {
-      productObjModel!.responseObj!.comboData!.group![indexGroup]
-          .itemList![indexitemList].comments![indexComment].qty = 1.0;
+      if (selected) {
+        productObjModel!.responseObj!.comboData!.group![indexGroup]
+            .itemList![indexitemList].comments![indexComment].qty = 1.0;
+      } else {
+        productObjModel!.responseObj!.comboData!.group![indexGroup]
+            .itemList![indexitemList].comments![indexComment].qty = 0.0;
+      }
     } else {
-      productObjModel!.responseObj!.comboData!.group![indexGroup]
-          .itemList![indexitemList].comments![indexComment].qty = 0.0;
+      if (selected) {
+        productObjModel!.responseObj!.comboData!.group![indexGroup]
+            .itemList![indexitemList].qtyValue = 1.0;
+      } else {
+        productObjModel!.responseObj!.comboData!.group![indexGroup]
+            .itemList![indexitemList].qtyValue = 0.0;
+      }
     }
     notifyListeners();
+  }
+
+  Future setRemarkComboSet(
+      String value, int indexGroup, int indexitemList) async {
+    var remark = productObjModel!.responseObj!.comboData!.group![indexGroup]
+        .itemList![indexitemList].comments!
+        .where((element) => element.groupID == -1);
+    remark.first.commentText = value;
+    remark.first.qty = 1.0;
   }
 
   Future setSelectDiscount(int prodId) async {

@@ -5,9 +5,7 @@ import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/loading_data.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
@@ -35,8 +33,12 @@ class DialogStyle {
                 fontWeight: FontWeight.bold),
           ),
           content: SingleChildScrollView(
-            child: Consumer<MenuProvider>(
-              builder: (context, menuPvd, child) => Column(
+            child: Consumer<MenuProvider>(builder: (context, menuPvd, child) {
+              List checkCommentRemark = menuPvd
+                  .productObjModel!.responseObj!.productData!.comments!
+                  .where((element) => element.groupID == -1)
+                  .toList();
+              return Column(
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,31 +63,35 @@ class DialogStyle {
                     ),
                   ),
                   const Divider(),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 5, top: 5),
-                    width: deviceType == 'tablet'
-                        ? null
-                        : Constants().screenWidth(context),
-                    child: TextField(
-                      controller: menuPvd.remarkOrderController,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.5),
-                        labelText: 'หมายเหตุ',
-                        border: Constants().myinputborder(), //normal border
-                        enabledBorder:
-                            Constants().myinputborder(), //enabled border
-                        focusedBorder:
-                            Constants().myfocusborder(), //focused border
-                      ),
-                      style: TextStyle(
-                          color: Constants.textColor,
-                          fontSize: Constants().screenheight(context) * 0.024),
-                    ),
-                  ),
+                  checkCommentRemark.isEmpty
+                      ? const SizedBox.shrink()
+                      : Container(
+                          margin: const EdgeInsets.only(bottom: 5, top: 5),
+                          width: deviceType == 'tablet'
+                              ? null
+                              : Constants().screenWidth(context),
+                          child: TextField(
+                            controller: menuPvd.remarkOrderController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.5),
+                              labelText: 'หมายเหตุ',
+                              border:
+                                  Constants().myinputborder(), //normal border
+                              enabledBorder:
+                                  Constants().myinputborder(), //enabled border
+                              focusedBorder:
+                                  Constants().myfocusborder(), //focused border
+                            ),
+                            style: TextStyle(
+                                color: Constants.textColor,
+                                fontSize:
+                                    Constants().screenheight(context) * 0.024),
+                          ),
+                        ),
                 ],
-              ),
-            ),
+              );
+            }),
           ),
           actions: [
             IconsButton(
@@ -114,29 +120,44 @@ class DialogStyle {
 
   Column manageSelectComment(MenuProvider menuPvd, int indexCommentGroup,
       String deviceType, BuildContext context) {
+    bool isNotMulti = menuPvd.productObjModel!.responseObj!.productData!
+            .commentGroup![indexCommentGroup].isMulti ==
+        0;
+    int? commentGroupId = menuPvd.productObjModel!.responseObj!.productData!
+        .commentGroup![indexCommentGroup].groupID;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: List.generate(
           menuPvd.productObjModel!.responseObj!.productData!.comments!.length,
           (index) => menuPvd.productObjModel!.responseObj!.productData!
                       .comments![index].groupID ==
-                  menuPvd.productObjModel!.responseObj!.productData!
-                      .commentGroup![indexCommentGroup].groupID
+                  commentGroupId
               ? Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Row(
                     children: [
-                      Checkbox(
-                        value: menuPvd.productObjModel!.responseObj!
-                                    .productData!.comments![index].qty ==
-                                0
-                            ? false
-                            : true,
-                        onChanged: (bool? newValue) {
-                          menuPvd.setQtyComment(
-                              indexCommentGroup, index, newValue!);
-                        },
-                      ),
+                      isNotMulti
+                          ? Radio(
+                              value: 1,
+                              groupValue: menuPvd.productObjModel!.responseObj!
+                                  .productData!.comments![index].qty,
+                              activeColor: Colors.blue,
+                              onChanged: (value) {
+                                menuPvd.setQtyComment(
+                                    indexCommentGroup, index, true);
+                              },
+                            )
+                          : Checkbox(
+                              value: menuPvd.productObjModel!.responseObj!
+                                          .productData!.comments![index].qty ==
+                                      0
+                                  ? false
+                                  : true,
+                              onChanged: (bool? newValue) {
+                                menuPvd.setQtyComment(
+                                    indexCommentGroup, index, newValue!);
+                              },
+                            ),
                       Expanded(
                         flex: 2,
                         child: AppTextStyle().textNormal(

@@ -217,7 +217,7 @@ class DetectMenuFunc {
           Constants().printCheckFlow(response, action);
         } else {
           menuProvider.apiState = ApiState.ERROR;
-          DialogStyle().dialogError(context,
+          await DialogStyle().dialogError(context,
               error: jsonDecode(response)['ResponseText'],
               isPopUntil: true,
               popToPage: '/menuPage');

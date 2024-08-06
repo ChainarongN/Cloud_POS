@@ -28,7 +28,7 @@ class AddProductFunc {
             -1;
 // ----------------------------------------------  No Comment  --------------------------
         if (commentEmpty && commentGroupId) {
-          await menuPvd.productAdd(context, count!);
+          await menuPvd.productAdd(context, count!, false);
           if (menuPvd.apiState == ApiState.COMPLETED) {
             Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
           }
@@ -39,24 +39,13 @@ class AddProductFunc {
           DialogStyle().commentDialog(context, () async {
             DialogStyle().dialogLoadding(context);
             if (menuPvd.remarkOrderController.text.isNotEmpty) {
-              int lengthComment = menuPvd
-                  .productObjModel!.responseObj!.productData!.comments!.length;
-              for (var i = 0; i < lengthComment; i++) {
-                if (menuPvd.productObjModel!.responseObj!.productData!
-                        .comments![i].groupID ==
-                    -1) {
-                  menuPvd
-                      .productObjModel!
-                      .responseObj!
-                      .productData!
-                      .comments![i]
-                      .commentText = menuPvd.remarkOrderController.text;
-                  menuPvd.productObjModel!.responseObj!.productData!
-                      .comments![i].qty = 1.0;
-                }
-              }
+              var remark = menuPvd
+                  .productObjModel!.responseObj!.productData!.comments!
+                  .where((element) => element.groupID == -1);
+              remark.first.commentText = menuPvd.remarkOrderController.text;
+              remark.first.qty = 1.0;
             }
-            await menuPvd.productAdd(context, count!);
+            await menuPvd.productAdd(context, count!, false);
             if (menuPvd.apiState == ApiState.COMPLETED) {
               Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
             }
@@ -68,8 +57,12 @@ class AddProductFunc {
       else {
         ////////////  is Combo wait dev
         // Constants().printError('This way is Product Combo');
-        ComboDialog().dialog(context, () {
-          Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
+        ComboDialog().dialog(context, () async {
+          DialogStyle().dialogLoadding(context);
+          await menuPvd.productAdd(context, count!, true);
+          if (menuPvd.apiState == ApiState.COMPLETED) {
+            Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
+          }
         });
       }
     }
