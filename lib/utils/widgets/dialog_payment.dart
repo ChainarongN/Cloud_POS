@@ -8,9 +8,12 @@ import 'package:cloud_pos/utils/constants.dart';
 import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DialogPayment {
   DialogPayment._internal();
@@ -44,10 +47,57 @@ class DialogPayment {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(
-                        child: Image.memory(base64Decode(menuWatch!
-                            .paymentQRRequestModel!.responseObj!.qrImg!)),
-                      ),
+                      menuWatch!.paymentQRRequestModel!.responseObj!.qrImg ==
+                              null
+                          ? Container(
+                              margin: const EdgeInsets.only(top: 5),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: AppTextStyle().textBold('Url : ',
+                                        size: responsiveDevice == 'tablet'
+                                            ? Constants()
+                                                    .screenheight(context) *
+                                                0.025
+                                            : Constants().screenWidth(context) *
+                                                Constants.normalSize),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        launchUrl(
+                                            Uri.parse(menuWatch
+                                                .paymentQRRequestModel!
+                                                .responseObj!
+                                                .formUrl!),
+                                            mode:
+                                                LaunchMode.externalApplication);
+                                      },
+                                      child: Text(
+                                        menuWatch.paymentQRRequestModel!
+                                            .responseObj!.formUrl!,
+                                        style: TextStyle(
+                                            fontSize: responsiveDevice ==
+                                                    'tablet'
+                                                ? Constants()
+                                                        .screenheight(context) *
+                                                    0.025
+                                                : Constants()
+                                                        .screenWidth(context) *
+                                                    Constants.normalSize,
+                                            color: Colors.blueAccent),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Center(
+                              child: Image.memory(base64Decode(menuWatch
+                                  .paymentQRRequestModel!.responseObj!.qrImg!)),
+                            ),
                       Container(
                         margin: const EdgeInsets.only(top: 20),
                         child: Row(

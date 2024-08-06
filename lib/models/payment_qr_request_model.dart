@@ -1,93 +1,106 @@
 class PaymentQRRequestModel {
-  String? responseCode;
-  String? responseText;
-  var pendingReqId;
-  ResponseObj? responseObj;
-  var responseObj2;
-  var loyaltyObj;
+  PaymentQRRequestModel({
+    required this.responseCode,
+    required this.responseText,
+    required this.pendingReqId,
+    required this.responseObj,
+    required this.responseObj2,
+    required this.loyaltyObj,
+  });
 
-  PaymentQRRequestModel(
-      {this.responseCode,
-      this.responseText,
-      this.pendingReqId,
-      this.responseObj,
-      this.responseObj2,
-      this.loyaltyObj});
+  final String? responseCode;
+  final String? responseText;
+  final dynamic pendingReqId;
+  final ResponseObj? responseObj;
+  final dynamic responseObj2;
+  final dynamic loyaltyObj;
 
-  PaymentQRRequestModel.fromJson(Map<String, dynamic> json) {
-    responseCode = json['ResponseCode'];
-    responseText = json['ResponseText'];
-    pendingReqId = json['PendingReqId'];
-    responseObj = json['ResponseObj'] != null
-        ? new ResponseObj.fromJson(json['ResponseObj'])
-        : null;
-    responseObj2 = json['ResponseObj2'];
-    loyaltyObj = json['LoyaltyObj'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ResponseCode'] = this.responseCode;
-    data['ResponseText'] = this.responseText;
-    data['PendingReqId'] = this.pendingReqId;
-    if (this.responseObj != null) {
-      data['ResponseObj'] = this.responseObj!.toJson();
-    }
-    data['ResponseObj2'] = this.responseObj2;
-    data['LoyaltyObj'] = this.loyaltyObj;
-    return data;
+  factory PaymentQRRequestModel.fromJson(Map<String, dynamic> json) {
+    return PaymentQRRequestModel(
+      responseCode: json["ResponseCode"],
+      responseText: json["ResponseText"],
+      pendingReqId: json["PendingReqId"],
+      responseObj: json["ResponseObj"] == null
+          ? null
+          : ResponseObj.fromJson(json["ResponseObj"]),
+      responseObj2: json["ResponseObj2"],
+      loyaltyObj: json["LoyaltyObj"],
+    );
   }
 }
 
 class ResponseObj {
-  String? orderId;
-  String? txnId;
-  String? qrCode;
-  String? qrImg;
-  double? amount;
-  double? amountNet;
-  double? amountCustFee;
-  String? currency;
-  String? createdAt;
-  String? qrExpireAt;
+  ResponseObj({
+    required this.orderId,
+    required this.txnId,
+    required this.qrCode,
+    required this.qrImg,
+    required this.txnToken,
+    required this.status,
+    required this.statusMessage,
+    required this.createAt,
+    required this.custId,
+    required this.formUrl,
+    required this.amountCustFee,
+    required this.amountNet,
+    required this.amount,
+    required this.currency,
+    required this.createdAt,
+    required this.qrExpireAt,
+    required this.the3Ds,
+  });
 
-  ResponseObj(
-      {this.orderId,
-      this.txnId,
-      this.qrCode,
-      this.qrImg,
-      this.amount,
-      this.amountNet,
-      this.amountCustFee,
-      this.currency,
-      this.createdAt,
-      this.qrExpireAt});
+  final String? orderId;
+  final String? txnId;
+  final String? qrCode;
+  final String? qrImg;
+  final String? txnToken;
+  final String? status;
+  final String? statusMessage;
+  final dynamic createAt;
+  final String? custId;
+  final String? formUrl;
+  final double? amountCustFee;
+  final double? amountNet;
+  final double? amount;
+  final String? currency;
+  final DateTime? createdAt;
+  final DateTime? qrExpireAt;
+  final The3Ds? the3Ds;
 
-  ResponseObj.fromJson(Map<String, dynamic> json) {
-    orderId = json['order_id'];
-    txnId = json['txn_id'];
-    qrCode = json['qr_code'];
-    qrImg = json['qr_img'];
-    amount = json['amount'];
-    amountNet = json['amount_net'];
-    amountCustFee = json['amount_cust_fee'];
-    currency = json['currency'];
-    createdAt = json['created_at'];
-    qrExpireAt = json['qr_expire_at'];
+  factory ResponseObj.fromJson(Map<String, dynamic> json) {
+    return ResponseObj(
+      orderId: json["order_id"],
+      txnId: json["txn_id"],
+      qrCode: json["qr_code"],
+      qrImg: json["qr_img"],
+      txnToken: json["txn_token"],
+      status: json["status"],
+      statusMessage: json["status_message"],
+      createAt: json["create_at"],
+      custId: json["cust_id"],
+      formUrl: json["form_url"],
+      amountCustFee: json["amount_cust_fee"],
+      amountNet: json["amount_net"],
+      amount: json["amount"],
+      currency: json["currency"],
+      createdAt: DateTime.tryParse(json["created_at"] ?? ""),
+      qrExpireAt: DateTime.tryParse(json["qr_expire_at"] ?? ""),
+      the3Ds: json["3ds"] == null ? null : The3Ds.fromJson(json["3ds"]),
+    );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['order_id'] = this.orderId;
-    data['txn_id'] = this.txnId;
-    data['qr_code'] = this.qrCode;
-    data['qr_img'] = this.qrImg;
-    data['amount'] = this.amount;
-    data['amount_net'] = this.amountNet;
-    data['amount_cust_fee'] = this.amountCustFee;
-    data['currency'] = this.currency;
-    data['created_at'] = this.createdAt;
-    data['qr_expire_at'] = this.qrExpireAt;
-    return data;
+class The3Ds {
+  The3Ds({
+    required this.the3DsRequired,
+  });
+
+  final bool? the3DsRequired;
+
+  factory The3Ds.fromJson(Map<String, dynamic> json) {
+    return The3Ds(
+      the3DsRequired: json["3ds_required"],
+    );
   }
 }

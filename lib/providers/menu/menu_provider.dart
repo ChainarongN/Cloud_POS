@@ -322,6 +322,7 @@ class MenuProvider extends ChangeNotifier {
       int? payTypeId,
       String? payRemark,
       int? edcType}) async {
+    paymentQRRequestModel = null;
     apiState = ApiState.LOADING;
     var response = await _menuRepository.paymentQRRequest(context,
         langID: '1',
