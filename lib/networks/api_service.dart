@@ -118,6 +118,10 @@ class APIService {
         connectTimeout: const Duration(minutes: 1),
         receiveTimeout: const Duration(minutes: 1),
       );
+
+      // Constants().printWarning(jsonEncode(param));
+      // Constants().printWarning(url!);
+
       var dio = Dio(options);
       var response = await dio.request(
         '$baseUrl/$url',

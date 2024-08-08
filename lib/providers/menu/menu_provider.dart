@@ -55,6 +55,7 @@ class MenuProvider extends ChangeNotifier {
 
   List computerSaleMode = [];
   List<int>? _selectDiscountList = [];
+  List<String> propertyInfo = [];
   ReasonModel? reasonModel;
   CancelTranModel? cancelTranModel;
   ProductObjModel? productObjModel;
@@ -139,8 +140,8 @@ class MenuProvider extends ChangeNotifier {
     SharedPref().setOrderId(transactionModel!.responseObj!.orderID!);
     String deviceType = await SharedPref().getResponsiveDevice();
     if (deviceType == 'tablet') {
-      _tabController =
-          TabController(length: 6, vsync: tabThis!, initialIndex: 0);
+      _tabController = TabController(
+          length: propertyInfo.length, vsync: tabThis!, initialIndex: 0);
       checkTabView(context);
     } else {
       setValueTitle(context, 0);
@@ -353,7 +354,7 @@ class MenuProvider extends ChangeNotifier {
       bool? isRecursive}) async {
     apiState = ApiState.LOADING;
     if (isRecursive!) {
-      timerInquiry = Timer.periodic(const Duration(seconds: 5), (timer) async {
+      timerInquiry = Timer.periodic(const Duration(seconds: 8), (timer) async {
         var response = await _menuRepository.paymentQRInquiry(context,
             langID: '1',
             edcType: edcType,
@@ -729,8 +730,9 @@ class MenuProvider extends ChangeNotifier {
 
   checkTabView(BuildContext context) {
     _tabController!.addListener(() async {
-      switch (_tabController!.index) {
-        case 5:
+      String tabName = propertyInfo[_tabController!.index];
+      switch (tabName) {
+        case 'Payment':
           if (transactionModel!.responseObj!.orderList!.isEmpty) {
             await DialogStyle().dialogError(context,
                 error: LocaleKeys.must_have_at_least_1_order.tr(),
@@ -739,7 +741,7 @@ class MenuProvider extends ChangeNotifier {
             setTabToPayment(0);
           }
           break;
-        case 1:
+        case 'Fav#1':
           var result =
               favoriteGroupList!.where((element) => element.pageType == 0);
           if (result.isNotEmpty) {
@@ -748,7 +750,7 @@ class MenuProvider extends ChangeNotifier {
             favResultList = [];
           }
           break;
-        case 2:
+        case 'Fav#2':
           var result =
               favoriteGroupList!.where((element) => element.pageType == 1);
           if (result.isNotEmpty) {
@@ -757,7 +759,7 @@ class MenuProvider extends ChangeNotifier {
             favResultList = [];
           }
           break;
-        case 0:
+        case 'Menu':
           showMenuList(context, true,
               prodGroupId: prodGroupList!.first.productGroupID!);
           break;
@@ -1033,6 +1035,11 @@ class MenuProvider extends ChangeNotifier {
 
   Future setTranData({String? tranModel}) async {
     transactionModel = TransactionModel.fromJson(jsonDecode(tranModel!));
+  }
+
+  Future setPropertyInfo(List<String> value) async {
+    propertyInfo = value;
+    notifyListeners();
   }
 
   Future setCouponCodeController(String value) async {

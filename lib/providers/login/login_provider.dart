@@ -10,6 +10,7 @@ import 'package:cloud_pos/models/start_process_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/home/home_provider.dart';
 import 'package:cloud_pos/providers/login/functions/detect_login_func.dart';
+import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/service/read_file_func.dart';
 import 'package:cloud_pos/repositorys/login/i_login_repository.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -219,9 +220,12 @@ class LoginProvider extends ChangeNotifier {
               Constants.COMPUTER_NAME_TXT),
           _writeCoreInit(
               jsonEncode(coreInitModel!.responseObj!.payTypeData!.currencyInfo),
-              Constants.CURRENCY_INFO_TXT)
+              Constants.CURRENCY_INFO_TXT),
+          _writeCoreInit(jsonEncode(coreInitModel!.responseObj!.propertyInfo),
+              Constants.PROPERTY_INFO_TXT)
         ],
       );
+      setPropertyInfo(context);
       shopData = coreInitModel!.responseObj!.shopData;
       saleModeDataList = [];
       await readSaleModeFile();
@@ -263,6 +267,37 @@ class LoginProvider extends ChangeNotifier {
   }
 
   // --------------------------- SET ---------------------------
+  setPropertyInfo(BuildContext context) {
+    int typeId = 1;
+    List<String> propertyInfo = [];
+    if (coreInitModel!.responseObj!.propertyInfo!.frontLayout!.menuGroupTap ==
+        typeId) {
+      propertyInfo.add('Menu');
+    }
+    if (coreInitModel!.responseObj!.propertyInfo!.frontLayout!.favTextTap ==
+        typeId) {
+      propertyInfo.add('Fav#1');
+    }
+    if (coreInitModel!.responseObj!.propertyInfo!.frontLayout!.favImageTap ==
+        typeId) {
+      propertyInfo.add('Fav#2');
+    }
+    if (coreInitModel!.responseObj!.propertyInfo!.frontLayout!.searchTap ==
+        typeId) {
+      propertyInfo.add('Search');
+    }
+    if (coreInitModel!.responseObj!.propertyInfo!.frontLayout!.promotionTap ==
+        typeId) {
+      propertyInfo.add('Discount');
+    }
+    if (coreInitModel!.responseObj!.propertyInfo!.frontLayout!.paymentTap ==
+        typeId) {
+      propertyInfo.add('Payment');
+    }
+    var menuPvd = context.read<MenuProvider>();
+    menuPvd.setPropertyInfo(propertyInfo);
+  }
+
   setPasswordVisible() {
     _passwordVisible = !_passwordVisible;
     notifyListeners();

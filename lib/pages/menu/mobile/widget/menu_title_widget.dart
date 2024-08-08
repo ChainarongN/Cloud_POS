@@ -11,14 +11,30 @@ class MenuTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Wrap(
-      alignment: WrapAlignment.start,
-      children: <Widget>[
-        MenuBtn(text: 'Menu', valueId: 0),
-        MenuBtn(text: 'Favorite#1', valueId: 1),
-        MenuBtn(text: 'Favorite#2', valueId: 2),
-      ],
-    );
+    var menuPvd = Provider.of<MenuProvider>(context, listen: false);
+    return Wrap(
+        alignment: WrapAlignment.start,
+        children: List.generate(menuPvd.propertyInfo.length, (index) {
+          Widget widget = const SizedBox.shrink();
+          switch (menuPvd.propertyInfo[index]) {
+            case 'Menu':
+              widget = const MenuBtn(text: 'Menu', valueId: 0);
+              break;
+            case 'Fav#1':
+              widget = const MenuBtn(text: 'Favorite#1', valueId: 1);
+              break;
+            case 'Fav#2':
+              widget = const MenuBtn(text: 'Favorite#2', valueId: 2);
+              break;
+          }
+          return widget;
+        })
+        // <Widget>[
+        //   MenuBtn(text: 'Menu', valueId: 0),
+        //   MenuBtn(text: 'Favorite#1', valueId: 1),
+        //   MenuBtn(text: 'Favorite#2', valueId: 2),
+        // ],
+        );
   }
 }
 

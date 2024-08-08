@@ -95,7 +95,9 @@ class _MenuMobileState extends State<MenuMobile> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const SearchBarWidget(),
+                    menuWatch.propertyInfo.contains('Search')
+                        ? const SearchBarWidget()
+                        : const SizedBox.shrink(),
                     const MenuTitleWidget(),
                     Container(
                       margin: EdgeInsets.only(
@@ -112,7 +114,7 @@ class _MenuMobileState extends State<MenuMobile> {
 
                     menuWatch.getvalueTitleSelect == 0
                         ? const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               MenuDeptWidget(),
                               MenuDetailWidget(),

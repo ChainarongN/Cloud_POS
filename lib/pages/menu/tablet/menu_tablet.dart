@@ -102,17 +102,37 @@ class _MenuTabletState extends State<MenuTablet>
           tabViewTitleTablet(context, menuWatch),
           Expanded(
             child: TabBarView(
-              controller: menuWatch.getTabController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                menuTabTablet(context, menuWatch, menuRead),
-                favoriteTab1Tablet(context, menuWatch, menuRead),
-                favoriteTab2Tablet(context, menuWatch, menuRead),
-                searchTabTablet(context, menuWatch, menuRead),
-                discountTablet(context, menuWatch, menuRead),
-                paymentTabTablet(context, menuRead, menuWatch),
-              ],
-            ),
+                controller: menuWatch.getTabController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: List.generate(
+                  menuWatch.propertyInfo.length,
+                  (index) {
+                    Widget widget = const SizedBox.shrink();
+                    switch (menuWatch.propertyInfo[index]) {
+                      case 'Menu':
+                        widget = menuTabTablet(context, menuWatch, menuRead);
+                        break;
+                      case 'Fav#1':
+                        widget =
+                            favoriteTab1Tablet(context, menuWatch, menuRead);
+                        break;
+                      case 'Fav#2':
+                        widget =
+                            favoriteTab2Tablet(context, menuWatch, menuRead);
+                        break;
+                      case 'Search':
+                        widget = searchTabTablet(context, menuWatch, menuRead);
+                        break;
+                      case 'Discount':
+                        widget = discountTablet(context, menuWatch, menuRead);
+                        break;
+                      case 'Payment':
+                        widget = paymentTabTablet(context, menuRead, menuWatch);
+                        break;
+                    }
+                    return widget;
+                  },
+                )),
           ),
         ],
       ),

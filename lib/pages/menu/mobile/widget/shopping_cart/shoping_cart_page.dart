@@ -101,10 +101,10 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
                       : 'ใช้คูปอง', onTap: () {
                 Navigator.pushNamed(context, '/eCouponPage');
               }),
-              cardTitle(context,
-                  title: 'Discount', subTitle: 'ใช้ส่วนลด', onTap: () {}),
-              cardTitle(context,
-                  title: 'Discount other', subTitle: 'ใช้ส่วนลด', onTap: () {}),
+              menuWatch.propertyInfo.contains('Discount')
+                  ? cardTitle(context,
+                      title: 'Discount', subTitle: 'ใช้ส่วนลด', onTap: () {})
+                  : const SizedBox.shrink(),
               cardTitle(context, title: 'Order summary', subTitle: '',
                   onTap: () async {
                 DialogStyle().dialogLoadding(context);

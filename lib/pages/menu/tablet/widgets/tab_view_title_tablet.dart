@@ -9,71 +9,85 @@ Column tabViewTitleTablet(BuildContext context, MenuProvider menuWatch) {
   return Column(
     children: [
       TabBar(
-        controller: menuWatch.getTabController,
-        tabs: <Widget>[
-          Tab(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(Icons.mediation_outlined,
-                    color: Colors.black, size: 20.0),
-                AppTextStyle().textNormal(LocaleKeys.menu.tr(),
-                    size: Constants().screenheight(context) * 0.023),
-              ],
+          controller: menuWatch.getTabController,
+          tabs: List.generate(
+            menuWatch.propertyInfo.length,
+            (index) => Tab(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Icon(Icons.mediation_outlined,
+                      color: Colors.black, size: 20.0),
+                  AppTextStyle().textNormal(menuWatch.propertyInfo[index],
+                      size: Constants().screenheight(context) * 0.023),
+                ],
+              ),
             ),
+          )
+          //     <Widget>[
+          //   Tab(
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //       children: [
+          //         const Icon(Icons.mediation_outlined,
+          //             color: Colors.black, size: 20.0),
+          //         AppTextStyle().textNormal(LocaleKeys.menu.tr(),
+          //             size: Constants().screenheight(context) * 0.023),
+          //       ],
+          //     ),
+          //   ),
+          //   Tab(
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //       children: [
+          //         const Icon(Icons.star, color: Colors.black, size: 20.0),
+          //         AppTextStyle().textNormal('Fav#1',
+          //             size: Constants().screenheight(context) * 0.023),
+          //       ],
+          //     ),
+          //   ),
+          //   Tab(
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //       children: [
+          //         const Icon(Icons.star, color: Colors.black, size: 20.0),
+          //         AppTextStyle().textNormal('Fav#2',
+          //             size: Constants().screenheight(context) * 0.023),
+          //       ],
+          //     ),
+          //   ),
+          //   Tab(
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //       children: [
+          //         const Icon(Icons.search, color: Colors.black, size: 20.0),
+          //         AppTextStyle().textNormal(LocaleKeys.search.tr(),
+          //             size: Constants().screenheight(context) * 0.023),
+          //       ],
+          //     ),
+          //   ),
+          //   Tab(
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //       children: [
+          //         const Icon(Icons.discount, color: Colors.black, size: 20.0),
+          //         AppTextStyle().textNormal(LocaleKeys.discount.tr(),
+          //             size: Constants().screenheight(context) * 0.023),
+          //       ],
+          //     ),
+          //   ),
+          //   Tab(
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //       children: [
+          //         const Icon(Icons.payment, color: Colors.black, size: 20.0),
+          //         AppTextStyle().textNormal(LocaleKeys.payment.tr(),
+          //             size: Constants().screenheight(context) * 0.023),
+          //       ],
+          //     ),
+          //   ),
+          // ],
           ),
-          Tab(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(Icons.star, color: Colors.black, size: 20.0),
-                AppTextStyle().textNormal('Fav#1',
-                    size: Constants().screenheight(context) * 0.023),
-              ],
-            ),
-          ),
-          Tab(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(Icons.star, color: Colors.black, size: 20.0),
-                AppTextStyle().textNormal('Fav#2',
-                    size: Constants().screenheight(context) * 0.023),
-              ],
-            ),
-          ),
-          Tab(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(Icons.search, color: Colors.black, size: 20.0),
-                AppTextStyle().textNormal(LocaleKeys.search.tr(),
-                    size: Constants().screenheight(context) * 0.023),
-              ],
-            ),
-          ),
-          Tab(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(Icons.discount, color: Colors.black, size: 20.0),
-                AppTextStyle().textNormal(LocaleKeys.discount.tr(),
-                    size: Constants().screenheight(context) * 0.023),
-              ],
-            ),
-          ),
-          Tab(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(Icons.payment, color: Colors.black, size: 20.0),
-                AppTextStyle().textNormal(LocaleKeys.payment.tr(),
-                    size: Constants().screenheight(context) * 0.023),
-              ],
-            ),
-          ),
-        ],
-      ),
     ],
   );
 }

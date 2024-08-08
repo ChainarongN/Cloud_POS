@@ -23,6 +23,7 @@ class Constants {
   static const SHOP_DATA_TXT = 'shop_data.txt';
   static const COMPUTER_NAME_TXT = 'computer_name.txt';
   static const CURRENCY_INFO_TXT = 'currency_info.txt';
+  static const PROPERTY_INFO_TXT = 'property_info.txt';
   static const INVALID_LOGIN =
       'This log in information is not registered to system.';
 

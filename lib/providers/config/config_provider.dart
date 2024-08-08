@@ -83,7 +83,6 @@ class ConfigProvider extends ChangeNotifier {
   Future setDeviceID(String deviceID) async {
     await SharedPref().setDeviceId(deviceID);
     deviceIdController.text = await SharedPref().getDeviceId();
-    // await SharedPref().setDeviceId('0288-7363-6560-2714');
     notifyListeners();
   }
 
