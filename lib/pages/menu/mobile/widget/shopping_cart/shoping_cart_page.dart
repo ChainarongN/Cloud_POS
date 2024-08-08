@@ -130,28 +130,31 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
                       top: Constants().screenheight(context) * 0.01,
                       left: Constants().screenWidth(context) * 0.055,
                       bottom: Constants().screenheight(context) * 0.13),
-                  child: Row(
-                    children: [
-                      AppTextStyle().textNormal(
-                          menuWatch.payTypeInfoList!
-                              .where((element) =>
-                                  element.payTypeID ==
-                                  menuWatch.getValuePaytypeIdSelect)
-                              .first
-                              .payTypeName!,
-                          size: Constants().screenWidth(context) *
-                              Constants.boldSize),
-                      const Spacer(),
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: Constants().screenWidth(context) * 0.015),
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.grey,
-                          size: Constants().screenWidth(context) * 0.04,
-                        ),
-                      )
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      children: [
+                        AppTextStyle().textNormal(
+                            menuWatch.payTypeInfoList!
+                                .where((element) =>
+                                    element.payTypeID ==
+                                    menuWatch.getValuePaytypeIdSelect)
+                                .first
+                                .payTypeName!,
+                            size: Constants().screenWidth(context) *
+                                Constants.boldSize),
+                        const Spacer(),
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: Constants().screenWidth(context) * 0.015),
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey,
+                            size: Constants().screenWidth(context) * 0.04,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -225,76 +228,6 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
       },
     );
   }
-
-  // Future<void> openPayAmountDialog(
-  //     BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
-  //   return showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (context) {
-  //       return AlertDialog(
-  //         content: SizedBox(
-  //           height: Constants().screenheight(context) * 0.15,
-  //           child: Column(
-  //             children: <Widget>[
-  //               Container(
-  //                 // width: Constants().screenWidth(context) * 0.2,
-  //                 margin: const EdgeInsets.only(top: 10, bottom: 10),
-  //                 child: TextField(
-  //                   keyboardType: TextInputType.number,
-  //                   inputFormatters: <TextInputFormatter>[
-  //                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-  //                     FilteringTextInputFormatter.digitsOnly
-  //                   ],
-  //                   decoration: InputDecoration(
-  //                     filled: true,
-  //                     fillColor: Colors.white.withOpacity(0.3),
-  //                     labelText: 'Payment amount',
-  //                     border: Constants().myinputborder(), //normal border
-  //                     enabledBorder:
-  //                         Constants().myinputborder(), //enabled border
-  //                     focusedBorder:
-  //                         Constants().myfocusborder(), //focused border
-  //                   ),
-  //                   style: TextStyle(
-  //                       color: Constants.textColor,
-  //                       fontSize: Constants().screenheight(context) * 0.025),
-  //                   onChanged: (value) {
-  //                     menuRead.payAmountMobile = value;
-  //                   },
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             child: AppTextStyle().textNormal('OK', size: 18),
-  //             onPressed: () async {
-  //               if (menuWatch.payAmountMobile!.isNotEmpty) {
-  //                 menuRead.paymentMulti(
-  //                     context: context,
-  //                     payAmount: menuWatch.payAmountMobile,
-  //                     payCode: 'CS',
-  //                     payName: 'Cash',
-  //                     payTypeId: 1,
-  //                     payRemark: '',
-  //                     fromQuick: true);
-  //               }
-  //             },
-  //           ),
-  //           TextButton(
-  //             child: AppTextStyle()
-  //                 .textNormal('Cancel', size: 18, color: Colors.red),
-  //             onPressed: () async {
-  //               Navigator.pop(context);
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
   GestureDetector cardTitle(
     BuildContext context, {
