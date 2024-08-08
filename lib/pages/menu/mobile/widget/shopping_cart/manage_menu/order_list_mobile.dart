@@ -1,3 +1,4 @@
+import 'package:cloud_pos/providers/menu/functions/manage_order_func.dart';
 import 'package:cloud_pos/providers/menu/menu_provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -88,8 +89,16 @@ Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
         Container(
           margin: const EdgeInsets.only(top: 5),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              GestureDetector(
+                onTap: () {
+                  ManageOrderFunc().editOrder(context, index);
+                },
+                child: AppTextStyle().textBold('แก้ไข',
+                    size: Constants().screenWidth(context) * Constants.boldSize,
+                    color: Constants.primaryColor),
+              ),
+              const Spacer(),
               GestureDetector(
                 onTap: () =>
                     menuRead.manageCountOrder(context, index, 'remove'),

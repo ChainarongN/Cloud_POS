@@ -39,28 +39,52 @@ class DialogStyle {
                   .where((element) => element.groupID == -1)
                   .toList();
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Container(
+                    child: AppTextStyle().textBold(
+                        menuPvd.productObjModel!.responseObj!.productData!
+                            .productName!,
+                        size: deviceType == 'tablet'
+                            ? Constants().screenWidth(context) * 0.015
+                            : Constants().screenWidth(context) *
+                                Constants.boldSize),
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: List.generate(
-                      menuPvd.productObjModel!.responseObj!.productData!
-                          .commentGroup!.length,
-                      (indexCommentGroup) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          const Divider(),
-                          AppTextStyle().textBold(
+                        menuPvd.productObjModel!.responseObj!.productData!
+                            .commentGroup!.length, (indexCommentGroup) {
+                      List checkEmptyCommentGroup = menuPvd
+                          .productObjModel!.responseObj!.productData!.comments!
+                          .where((element) =>
+                              element.groupID ==
                               menuPvd.productObjModel!.responseObj!.productData!
-                                  .commentGroup![indexCommentGroup].groupName!,
-                              size: deviceType == 'tablet'
-                                  ? Constants().screenWidth(context) * 0.015
-                                  : Constants().screenWidth(context) *
-                                      Constants.boldSize),
-                          manageSelectComment(
-                              menuPvd, indexCommentGroup, deviceType, context),
-                        ],
-                      ),
-                    ),
+                                  .commentGroup![indexCommentGroup].groupID)
+                          .toList();
+                      return checkEmptyCommentGroup.isEmpty
+                          ? const SizedBox.shrink()
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                const Divider(),
+                                AppTextStyle().textBold(
+                                    menuPvd
+                                        .productObjModel!
+                                        .responseObj!
+                                        .productData!
+                                        .commentGroup![indexCommentGroup]
+                                        .groupName!,
+                                    size: deviceType == 'tablet'
+                                        ? Constants().screenWidth(context) *
+                                            0.015
+                                        : Constants().screenWidth(context) *
+                                            Constants.boldSize),
+                                manageSelectComment(menuPvd, indexCommentGroup,
+                                    deviceType, context),
+                              ],
+                            );
+                    }),
                   ),
                   const Divider(),
                   checkCommentRemark.isEmpty
@@ -71,7 +95,10 @@ class DialogStyle {
                               ? null
                               : Constants().screenWidth(context),
                           child: TextField(
-                            controller: menuPvd.remarkOrderController,
+                            // controller: menuPvd.remarkOrderController,
+                            onChanged: (value) {
+                              menuPvd.setRemarkComment(value);
+                            },
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white.withOpacity(0.5),
@@ -103,8 +130,13 @@ class DialogStyle {
             ),
             IconsButton(
               onPressed: () {
-                Navigator.of(context)
-                    .popUntil(ModalRoute.withName('/menuPage'));
+                if (deviceType == 'tablet') {
+                  Navigator.of(context)
+                      .popUntil(ModalRoute.withName('/menuPage'));
+                } else {
+                  Navigator.of(context)
+                      .popUntil(ModalRoute.withName('/shopingCartPage'));
+                }
               },
               text: LocaleKeys.cancel.tr(),
               color: Colors.red.shade400,

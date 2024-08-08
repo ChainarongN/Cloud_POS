@@ -29,15 +29,29 @@ class ComboDialog {
           content: Consumer<MenuProvider>(
             builder: (context, menuPvd, child) => SingleChildScrollView(
               child: Column(
-                children: List.generate(
-                  menuPvd
-                      .productObjModel!.responseObj!.comboData!.group!.length,
-                  (indexGroup) => menuPvd.productObjModel!.responseObj!
-                          .comboData!.group![indexGroup].itemList!.isEmpty
-                      ? const SizedBox.shrink()
-                      : groupListWidget(
-                          menuPvd, indexGroup, deviceType, context),
-                ),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: AppTextStyle().textBold(
+                        menuPvd.productObjModel!.responseObj!.comboData!
+                            .productParentName!,
+                        size: deviceType == 'tablet'
+                            ? Constants().screenWidth(context) * 0.015
+                            : Constants().screenWidth(context) *
+                                Constants.boldSize),
+                  ),
+                  Column(
+                    children: List.generate(
+                      menuPvd.productObjModel!.responseObj!.comboData!.group!
+                          .length,
+                      (indexGroup) => menuPvd.productObjModel!.responseObj!
+                              .comboData!.group![indexGroup].itemList!.isEmpty
+                          ? const SizedBox.shrink()
+                          : groupListWidget(
+                              menuPvd, indexGroup, deviceType, context),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -51,8 +65,13 @@ class ComboDialog {
             ),
             IconsButton(
               onPressed: () {
-                Navigator.of(context)
-                    .popUntil(ModalRoute.withName('/menuPage'));
+                if (deviceType == 'tablet') {
+                  Navigator.of(context)
+                      .popUntil(ModalRoute.withName('/menuPage'));
+                } else {
+                  Navigator.of(context)
+                      .popUntil(ModalRoute.withName('/shopingCartPage'));
+                }
               },
               text: LocaleKeys.cancel.tr(),
               color: Colors.red.shade400,

@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
-import 'package:cloud_pos/utils/widgets/dialog_payment.dart';
+import 'package:cloud_pos/utils/widgets/payment_dialog.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +50,7 @@ class PaymentFunc {
             .then((value) {
           if (ApiState.COMPLETED == menuWatch!.apiState) {
             Navigator.maybePop(context);
-            DialogPayment().dialogPaymentQR(context,
+            PaymentDialog().dialogPaymentQR(context,
                 menuRead: menuRead,
                 menuWatch: menuWatch,
                 payRemark: '',

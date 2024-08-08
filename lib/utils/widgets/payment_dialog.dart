@@ -13,12 +13,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class DialogPayment {
-  DialogPayment._internal();
-  static final DialogPayment _instance = DialogPayment._internal();
-  factory DialogPayment() => _instance;
+class PaymentDialog {
+  PaymentDialog._internal();
+  static final PaymentDialog _instance = PaymentDialog._internal();
+  factory PaymentDialog() => _instance;
 
   Future<void> dialogPaymentQR(BuildContext context,
       {int? payTypeId,
@@ -47,51 +48,22 @@ class DialogPayment {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 15),
+                        child: AppTextStyle().textBold(payTypeName!,
+                            size: responsiveDevice == 'tablet'
+                                ? Constants().screenheight(context) * 0.025
+                                : Constants().screenWidth(context) *
+                                    Constants.normalSize),
+                      ),
                       menuWatch!.paymentQRRequestModel!.responseObj!.qrImg ==
                               null
-                          ? Container(
-                              margin: const EdgeInsets.only(top: 5),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: AppTextStyle().textBold('Url : ',
-                                        size: responsiveDevice == 'tablet'
-                                            ? Constants()
-                                                    .screenheight(context) *
-                                                0.025
-                                            : Constants().screenWidth(context) *
-                                                Constants.normalSize),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        launchUrl(
-                                            Uri.parse(menuWatch
-                                                .paymentQRRequestModel!
-                                                .responseObj!
-                                                .formUrl!),
-                                            mode:
-                                                LaunchMode.externalApplication);
-                                      },
-                                      child: Text(
-                                        menuWatch.paymentQRRequestModel!
-                                            .responseObj!.formUrl!,
-                                        style: TextStyle(
-                                            fontSize: responsiveDevice ==
-                                                    'tablet'
-                                                ? Constants()
-                                                        .screenheight(context) *
-                                                    0.025
-                                                : Constants()
-                                                        .screenWidth(context) *
-                                                    Constants.normalSize,
-                                            color: Colors.blueAccent),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                          ? Center(
+                              child: QrImageView(
+                                data: menuWatch.paymentQRRequestModel!
+                                    .responseObj!.formUrl!,
+                                version: QrVersions.auto,
+                                size: 200.0,
                               ),
                             )
                           : Center(

@@ -14,7 +14,7 @@ import 'package:cloud_pos/models/transaction_model.dart';
 import 'package:cloud_pos/models/product_obj_model.dart';
 import 'package:cloud_pos/models/reason_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
-import 'package:cloud_pos/providers/menu/functions/add_product_func.dart';
+import 'package:cloud_pos/providers/menu/functions/manage_order_func.dart';
 import 'package:cloud_pos/providers/menu/functions/detect_menu_func.dart';
 import 'package:cloud_pos/providers/menu/functions/manage_menu_func.dart';
 import 'package:cloud_pos/providers/menu/functions/payment_func.dart';
@@ -219,7 +219,7 @@ class MenuProvider extends ChangeNotifier {
   Future addProductToList(BuildContext context, int prodId, double count,
       String orderDetailId) async {
     DialogStyle().dialogLoadding(context);
-    await AddProductFunc().addProductToList(
+    await ManageOrderFunc().addProductToList(
       context,
       orderDetailId: orderDetailId,
       prodId: prodId,
@@ -912,6 +912,13 @@ class MenuProvider extends ChangeNotifier {
       String value, int indexGroup, int indexitemList) async {
     var remark = productObjModel!.responseObj!.comboData!.group![indexGroup]
         .itemList![indexitemList].comments!
+        .where((element) => element.groupID == -1);
+    remark.first.commentText = value;
+    remark.first.qty = 1.0;
+  }
+
+  Future setRemarkComment(String value) async {
+    var remark = productObjModel!.responseObj!.productData!.comments!
         .where((element) => element.groupID == -1);
     remark.first.commentText = value;
     remark.first.qty = 1.0;
