@@ -54,7 +54,7 @@ class RecipeItemMobile extends StatelessWidget {
                 child: AppTextStyle().textNormal(recipeName,
                     color: Colors.white,
                     size: Constants().screenWidth(context) *
-                        Constants.normalSize),
+                        Constants.normalSizeMB),
               ),
             ),
           ),

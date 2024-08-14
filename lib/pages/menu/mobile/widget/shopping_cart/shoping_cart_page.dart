@@ -49,7 +49,7 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
           },
           child: Center(
             child: AppTextStyle().textBold('Payment',
-                size: Constants().screenWidth(context) * Constants.boldSize,
+                size: Constants().screenWidth(context) * Constants.boldSizeMB,
                 color: Colors.white),
           ),
         ),
@@ -64,8 +64,8 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
                 margin: EdgeInsets.only(
                     bottom: Constants().screenheight(context) * 0.015),
                 child: AppTextStyle().textBold('Order List',
-                    size:
-                        Constants().screenWidth(context) * Constants.boldSize),
+                    size: Constants().screenWidth(context) *
+                        Constants.boldSizeMB),
               ),
               orderListMobile(menuWatch, menuRead, context),
               Container(
@@ -74,7 +74,7 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
                   children: [
                     AppTextStyle().textBold('ทั้งหมด',
                         size: Constants().screenWidth(context) *
-                            Constants.boldSize),
+                            Constants.boldSizeMB),
                     const Spacer(),
                     Container(
                       child: menuWatch.transactionModel!.responseCode!.isEmpty
@@ -82,11 +82,11 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
                               menuWatch.transactionModel!.responseObj!.dueAmount
                                   .toString(),
                               size: Constants().screenWidth(context) *
-                                  Constants.boldSize)
+                                  Constants.boldSizeMB)
                           : AppTextStyle().textBold(
                               '0.00',
                               size: Constants().screenWidth(context) *
-                                  Constants.boldSize,
+                                  Constants.boldSizeMB,
                             ),
                     ),
                   ],
@@ -120,7 +120,8 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
               orderDetailMobile(context, menuWatch),
               Divider(thickness: 1, color: Colors.grey.shade300),
               AppTextStyle().textBold('ชำระเงินโดย',
-                  size: Constants().screenWidth(context) * Constants.boldSize),
+                  size:
+                      Constants().screenWidth(context) * Constants.boldSizeMB),
               GestureDetector(
                 onTap: () {
                   selectPayTypeDialog(context, menuWatch, menuRead);
@@ -142,7 +143,7 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
                                 .first
                                 .payTypeName!,
                             size: Constants().screenWidth(context) *
-                                Constants.boldSize),
+                                Constants.boldSizeMB),
                         const Spacer(),
                         Container(
                           margin: EdgeInsets.only(
@@ -205,7 +206,7 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
                                       menuWatch
                                           .payTypeInfoList![index].payTypeName!,
                                       size: Constants().screenWidth(context) *
-                                          Constants.normalSize,
+                                          Constants.normalSizeMB,
                                     ),
                                   ),
                                 ),
@@ -243,11 +244,12 @@ class _ShopingCartPageState extends State<ShopingCartPage> {
           child: Row(
             children: [
               AppTextStyle().textBold(title!,
-                  size:
-                      Constants().screenWidth(context) * Constants.normalSize),
+                  size: Constants().screenWidth(context) *
+                      Constants.normalSizeMB),
               const Spacer(),
               AppTextStyle().textBold(subTitle!,
-                  size: Constants().screenWidth(context) * Constants.normalSize,
+                  size:
+                      Constants().screenWidth(context) * Constants.normalSizeMB,
                   color: Colors.grey),
               Container(
                 margin: EdgeInsets.only(

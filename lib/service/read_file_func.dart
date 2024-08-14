@@ -82,6 +82,14 @@ class ReadFileFunc {
     return prodList;
   }
 
+  Future<PropertyInfo> readPropertyInfo() async {
+    PropertyInfo propertyInfo;
+    String? fileResponse = await _readFile(Constants.PROPERTY_INFO_TXT);
+    propertyInfo = PropertyInfo.fromJson(jsonDecode(fileResponse));
+    Constants().printWarning('Read from file "${Constants.PROPERTY_INFO_TXT}"');
+    return propertyInfo;
+  }
+
   Future<ShopData> readShopData() async {
     ShopData shopData;
     String? fileResponse = await _readFile(Constants.SHOP_DATA_TXT);

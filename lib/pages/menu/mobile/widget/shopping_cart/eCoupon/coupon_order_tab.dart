@@ -20,12 +20,12 @@ Column showOrderFromCoupon(
                 children: [
                   AppTextStyle().textBold('${LocaleKeys.product_name.tr()} : ',
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   AppTextStyle().textNormal(
                       dataProvider.transactionModel!.responseObj!
                           .orderList![index].itemName!,
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ],
               ),
               SizedBox(height: Constants().screenheight(context) * 0.005),
@@ -34,14 +34,14 @@ Column showOrderFromCoupon(
                 children: [
                   AppTextStyle().textBold('${LocaleKeys.qty.tr()} : ',
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   AppTextStyle().textNormal(
                       dataProvider
                           .transactionModel!.responseObj!.orderList![index].qty!
                           .toInt()
                           .toString(),
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ],
               ),
               SizedBox(height: Constants().screenheight(context) * 0.005),
@@ -50,13 +50,13 @@ Column showOrderFromCoupon(
                 children: [
                   AppTextStyle().textBold('${LocaleKeys.price.tr()} : ',
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   AppTextStyle().textNormal(
                       dataProvider.transactionModel!.responseObj!
                           .orderList![index].unitPrice!
                           .toString(),
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ],
               ),
               SizedBox(height: Constants().screenheight(context) * 0.005),
@@ -65,13 +65,13 @@ Column showOrderFromCoupon(
                 children: [
                   AppTextStyle().textBold('${LocaleKeys.total_price.tr()} : ',
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   AppTextStyle().textNormal(
                       dataProvider.transactionModel!.responseObj!
                           .orderList![index].retailPrice!
                           .toString(),
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ],
               ),
               SizedBox(height: Constants().screenheight(context) * 0.005),
@@ -80,13 +80,13 @@ Column showOrderFromCoupon(
                 children: [
                   AppTextStyle().textBold('${LocaleKeys.disc_qty.tr()} : ',
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   AppTextStyle().textNormal(
                       dataProvider.transactionModel!.responseObj!
                           .orderList![index].promoItemList!.length
                           .toString(),
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ],
               ),
               SizedBox(height: Constants().screenheight(context) * 0.005),
@@ -95,11 +95,11 @@ Column showOrderFromCoupon(
                 children: [
                   AppTextStyle().textBold('${LocaleKeys.promo_disc.tr()} : ',
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   AppTextStyle().textNormal(
                       dataProvider.sumTotalDiscountCoupon(index, 'totalDis'),
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ],
               ),
               SizedBox(height: Constants().screenheight(context) * 0.005),
@@ -108,11 +108,11 @@ Column showOrderFromCoupon(
                 children: [
                   AppTextStyle().textBold('${LocaleKeys.sales_prices.tr()} : ',
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   AppTextStyle().textNormal(
                       dataProvider.sumTotalDiscountCoupon(index, 'salesPrice'),
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ],
               ),
               SizedBox(height: Constants().screenheight(context) * 0.005),
@@ -122,7 +122,7 @@ Column showOrderFromCoupon(
                   AppTextStyle().textBold(
                       '${LocaleKeys.promotion_name.tr()} : ',
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   AppTextStyle().textNormal(
                       dataProvider.transactionModel!.responseObj!
                           .orderList![index].promoItemList!
@@ -130,7 +130,7 @@ Column showOrderFromCoupon(
                           .toList()
                           .join(", "),
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ],
               ),
               SizedBox(height: Constants().screenheight(context) * 0.005),

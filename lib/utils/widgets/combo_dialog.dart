@@ -24,7 +24,7 @@ class ComboDialog {
             'Combo set',
             size: deviceType == 'tablet'
                 ? Constants().screenWidth(context) * 0.02
-                : Constants().screenWidth(context) * Constants.boldSize,
+                : Constants().screenWidth(context) * Constants.boldSizeMB,
           ),
           content: Consumer<MenuProvider>(
             builder: (context, menuPvd, child) => SingleChildScrollView(
@@ -38,7 +38,7 @@ class ComboDialog {
                         size: deviceType == 'tablet'
                             ? Constants().screenWidth(context) * 0.015
                             : Constants().screenWidth(context) *
-                                Constants.boldSize),
+                                Constants.boldSizeMB),
                   ),
                   Column(
                     children: List.generate(
@@ -99,14 +99,15 @@ class ComboDialog {
                   size: deviceType == 'tablet'
                       ? Constants().screenWidth(context) * 0.018
                       : Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
             ),
             Container(
               child: AppTextStyle().textBold(
                   ' ( Select ${menuPvd.productObjModel!.responseObj!.comboData!.group![indexGroup].requireQty!.toInt()} options )',
                   size: deviceType == 'tablet'
                       ? Constants().screenWidth(context) * 0.018
-                      : Constants().screenWidth(context) * Constants.normalSize,
+                      : Constants().screenWidth(context) *
+                          Constants.normalSizeMB,
                   color: Constants.primaryColor),
             )
           ],
@@ -166,7 +167,7 @@ class ComboDialog {
                     size: deviceType == 'tablet'
                         ? Constants().screenWidth(context) * 0.015
                         : Constants().screenWidth(context) *
-                            Constants.normalSize),
+                            Constants.normalSizeMB),
               ),
             ),
           ],
@@ -251,7 +252,7 @@ class ComboDialog {
                 .commentGroup![indexCommentGroup].groupName!,
             size: deviceType == 'tablet'
                 ? Constants().screenWidth(context) * 0.015
-                : Constants().screenWidth(context) * Constants.normalSize),
+                : Constants().screenWidth(context) * Constants.normalSizeMB),
         Column(
           children: List.generate(
               menuPvd.productObjModel!.responseObj!.comboData!
@@ -335,7 +336,8 @@ class ComboDialog {
                     .productName!,
                 size: deviceType == 'tablet'
                     ? Constants().screenWidth(context) * 0.015
-                    : Constants().screenWidth(context) * Constants.normalSize),
+                    : Constants().screenWidth(context) *
+                        Constants.normalSizeMB),
           ),
           Expanded(
             flex: 1,
@@ -354,7 +356,7 @@ class ComboDialog {
                   size: deviceType == 'tablet'
                       ? Constants().screenWidth(context) * 0.015
                       : Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
             ),
           ),
         ],

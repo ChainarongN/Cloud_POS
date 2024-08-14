@@ -21,12 +21,12 @@ Column showPromotionSum(
                   AppTextStyle().textBold(
                       '${LocaleKeys.promotion_name.tr()} : ',
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   AppTextStyle().textNormal(
                       dataProvider.transactionModel!.responseObj!
                           .promoList![index].promotionName!,
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ],
               ),
               SizedBox(height: Constants().screenheight(context) * 0.005),
@@ -35,7 +35,7 @@ Column showPromotionSum(
                 children: [
                   AppTextStyle().textBold('Coupon/Voucher No. : ',
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   AppTextStyle().textNormal(
                       dataProvider.transactionModel!.responseObj!
                           .promoList![index].couponList!
@@ -43,7 +43,7 @@ Column showPromotionSum(
                           .toList()
                           .join(", "),
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ],
               ),
               SizedBox(height: Constants().screenheight(context) * 0.005),
@@ -52,13 +52,13 @@ Column showPromotionSum(
                 children: [
                   AppTextStyle().textBold('Discount Amount : ',
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   AppTextStyle().textNormal(
                       dataProvider.transactionModel!.responseObj!
                           .promoList![index].totalDiscount
                           .toString(),
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ],
               ),
               SizedBox(height: Constants().screenheight(context) * 0.005),

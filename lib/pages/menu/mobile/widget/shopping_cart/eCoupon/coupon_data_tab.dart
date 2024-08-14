@@ -29,7 +29,7 @@ Column showCouponData(
                           AppTextStyle().textBold(
                               '${LocaleKeys.promotion_code.tr()} : ',
                               size: Constants().screenWidth(context) *
-                                  Constants.normalSize),
+                                  Constants.normalSizeMB),
                           AppTextStyle().textNormal(
                               dataProvider
                                   .transactionModel!
@@ -38,7 +38,7 @@ Column showCouponData(
                                   .couponList![indexInside]
                                   .couponNumber!,
                               size: Constants().screenWidth(context) *
-                                  Constants.normalSize),
+                                  Constants.normalSizeMB),
                         ],
                       ),
                       SizedBox(
@@ -48,12 +48,12 @@ Column showCouponData(
                           AppTextStyle().textBold(
                               '${LocaleKeys.promotion_name.tr()} : ',
                               size: Constants().screenWidth(context) *
-                                  Constants.normalSize),
+                                  Constants.normalSizeMB),
                           AppTextStyle().textNormal(
                               dataProvider.transactionModel!.responseObj!
                                   .promoList![indexOutside].promotionName!,
                               size: Constants().screenWidth(context) *
-                                  Constants.normalSize)
+                                  Constants.normalSizeMB)
                         ],
                       ),
                     ],

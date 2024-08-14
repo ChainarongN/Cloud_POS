@@ -17,7 +17,7 @@ SizedBox orderListTablet(
           height: Constants().screenheight(context) * 0.56,
           child: Center(
               child:
-                  AppTextStyle().textNormal(LocaleKeys.there_is_no_menu.tr())),
+                  AppTextStyle().textNormal(LocaleKeys.there_is_no_menu.tr(),size: Constants().screenheight(context) * 0.020)),
         )
       : SizedBox(
           width: Constants().screenWidth(context),

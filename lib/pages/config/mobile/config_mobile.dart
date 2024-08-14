@@ -33,7 +33,7 @@ class _ConfigMobileState extends State<ConfigMobile> {
       child: Scaffold(
         appBar: AppBar(
           title: AppTextStyle().textNormal('vTec - Cloud POS Configuration',
-              size: Constants().screenWidth(context) * Constants.boldSize),
+              size: Constants().fontSizeMB(context, Constants.boldSizeMB)),
           bottom: const TabBar(
             tabs: <Widget>[
               Tab(

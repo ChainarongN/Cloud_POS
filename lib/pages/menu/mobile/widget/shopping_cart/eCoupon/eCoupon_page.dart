@@ -145,7 +145,7 @@ Future<void> addCouponDialog(BuildContext context) {
                       AppTextStyle().textBold(
                           '${LocaleKeys.coupon.tr()} / ${LocaleKeys.promotion.tr()}',
                           size: Constants().screenWidth(context) *
-                              Constants.normalSize),
+                              Constants.normalSizeMB),
                     ],
                   ),
                   Container(
@@ -166,7 +166,7 @@ Future<void> addCouponDialog(BuildContext context) {
                       style: TextStyle(
                           color: Constants.textColor,
                           fontSize: Constants().screenWidth(context) *
-                              Constants.normalSize),
+                              Constants.normalSizeMB),
                     ),
                   ),
                   TextButton(
@@ -177,7 +177,7 @@ Future<void> addCouponDialog(BuildContext context) {
                       },
                       child: AppTextStyle().textBold('Scan',
                           size: Constants().screenWidth(context) *
-                              Constants.normalSize,
+                              Constants.normalSizeMB,
                           color: Constants.primaryColor))
                 ],
               ),
@@ -186,7 +186,7 @@ Future<void> addCouponDialog(BuildContext context) {
           actions: <Widget>[
             TextButton(
               child: AppTextStyle().textNormal(LocaleKeys.ok.tr(),
-                  size: Constants().screenWidth(context) * Constants.normalSize,
+                  size: Constants().screenWidth(context) * Constants.normalSizeMB,
                   color: Constants.primaryColor),
               onPressed: () async {
                 if (dataProvider.couponCodeController.text.isNotEmpty) {
@@ -207,7 +207,7 @@ Future<void> addCouponDialog(BuildContext context) {
             ),
             TextButton(
               child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
-                  size: Constants().screenWidth(context) * Constants.normalSize,
+                  size: Constants().screenWidth(context) * Constants.normalSizeMB,
                   color: Colors.red),
               onPressed: () async {
                 Navigator.pop(context);
@@ -248,7 +248,7 @@ Future<dynamic> eCouponInquiryDialog(
                         AppTextStyle().textNormal(
                             LocaleKeys.voucher_information.tr(),
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize),
+                                Constants.normalSizeMB),
                       ],
                     ),
                   ),
@@ -275,13 +275,13 @@ Future<dynamic> eCouponInquiryDialog(
                                 AppTextStyle().textBold(
                                     LocaleKeys.voucher_id.tr(),
                                     size: Constants().screenWidth(context) *
-                                        Constants.normalSize),
+                                        Constants.normalSizeMB),
                                 AppTextStyle().textNormal(
                                     menuPvd.couponInquiryModel!.responseObj!
                                         .voucherID
                                         .toString(),
                                     size: Constants().screenWidth(context) *
-                                        Constants.normalSize)
+                                        Constants.normalSizeMB)
                               ],
                             ),
                           ),
@@ -295,12 +295,12 @@ Future<dynamic> eCouponInquiryDialog(
                                 AppTextStyle().textBold(
                                     LocaleKeys.coupon_system.tr(),
                                     size: Constants().screenWidth(context) *
-                                        Constants.normalSize),
+                                        Constants.normalSizeMB),
                                 AppTextStyle().textNormal(
                                     menuPvd.couponInquiryModel!.responseObj!
                                         .couponSystem!,
                                     size: Constants().screenWidth(context) *
-                                        Constants.normalSize)
+                                        Constants.normalSizeMB)
                               ],
                             ),
                           ),
@@ -320,12 +320,12 @@ Future<dynamic> eCouponInquiryDialog(
                           AppTextStyle().textBold(
                               LocaleKeys.voucher_status.tr(),
                               size: Constants().screenWidth(context) *
-                                  Constants.normalSize),
+                                  Constants.normalSizeMB),
                           AppTextStyle().textNormal(
                               menuPvd
                                   .couponInquiryModel!.responseObj!.resultText!,
                               size: Constants().screenWidth(context) *
-                                  Constants.normalSize,
+                                  Constants.normalSizeMB,
                               color: menuPvd.couponInquiryModel!.responseObj!
                                           .voucherStatus ==
                                       1
@@ -344,7 +344,7 @@ Future<dynamic> eCouponInquiryDialog(
                         AppTextStyle().textBold(
                             '${LocaleKeys.voucher.tr()} S/N :',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize),
+                                Constants.normalSizeMB),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!.voucherSN!
                                     .isNotEmpty
@@ -352,7 +352,7 @@ Future<dynamic> eCouponInquiryDialog(
                                     .couponInquiryModel!.responseObj!.voucherSN!
                                 : '-',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize)
+                                Constants.normalSizeMB)
                       ],
                     ),
                   ),
@@ -365,7 +365,7 @@ Future<dynamic> eCouponInquiryDialog(
                         AppTextStyle().textBold(
                             '${LocaleKeys.voucher_name.tr()} :',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize),
+                                Constants.normalSizeMB),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!
                                     .voucherName!.isNotEmpty
@@ -373,7 +373,7 @@ Future<dynamic> eCouponInquiryDialog(
                                     .voucherName!
                                 : '-',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize)
+                                Constants.normalSizeMB)
                       ],
                     ),
                   ),
@@ -386,7 +386,7 @@ Future<dynamic> eCouponInquiryDialog(
                         AppTextStyle().textBold(
                             '${LocaleKeys.promotion_code.tr()} :',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize),
+                                Constants.normalSizeMB),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!
                                     .promotionCode!.isNotEmpty
@@ -394,7 +394,7 @@ Future<dynamic> eCouponInquiryDialog(
                                     .promotionCode!
                                 : '-',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize)
+                                Constants.normalSizeMB)
                       ],
                     ),
                   ),
@@ -407,7 +407,7 @@ Future<dynamic> eCouponInquiryDialog(
                         AppTextStyle().textBold(
                             '${LocaleKeys.promotion_name.tr()} :',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize),
+                                Constants.normalSizeMB),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!
                                     .promotionName!.isNotEmpty
@@ -415,7 +415,7 @@ Future<dynamic> eCouponInquiryDialog(
                                     .promotionName!
                                 : '-',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize)
+                                Constants.normalSizeMB)
                       ],
                     ),
                   ),
@@ -428,7 +428,7 @@ Future<dynamic> eCouponInquiryDialog(
                         AppTextStyle().textBold(
                             '${LocaleKeys.voucher_amount.tr()} :',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize),
+                                Constants.normalSizeMB),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!
                                     .voucherAmount!.isNotEmpty
@@ -436,7 +436,7 @@ Future<dynamic> eCouponInquiryDialog(
                                     .voucherAmount!
                                 : '-',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize)
+                                Constants.normalSizeMB)
                       ],
                     ),
                   ),
@@ -449,7 +449,7 @@ Future<dynamic> eCouponInquiryDialog(
                         AppTextStyle().textBold(
                             '${LocaleKeys.voucher_value.tr()} :',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize),
+                                Constants.normalSizeMB),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!
                                     .voucherValue!.isNotEmpty
@@ -457,7 +457,7 @@ Future<dynamic> eCouponInquiryDialog(
                                     .voucherValue!
                                 : '-',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize)
+                                Constants.normalSizeMB)
                       ],
                     ),
                   ),
@@ -470,7 +470,7 @@ Future<dynamic> eCouponInquiryDialog(
                         AppTextStyle().textBold(
                             '${LocaleKeys.expire_date.tr()} :',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize),
+                                Constants.normalSizeMB),
                         AppTextStyle().textNormal(
                             menuPvd.couponInquiryModel!.responseObj!.expireDate!
                                     .isNotEmpty
@@ -478,7 +478,7 @@ Future<dynamic> eCouponInquiryDialog(
                                     .expireDate!
                                 : '-',
                             size: Constants().screenWidth(context) *
-                                Constants.normalSize)
+                                Constants.normalSizeMB)
                       ],
                     ),
                   ),
@@ -489,7 +489,7 @@ Future<dynamic> eCouponInquiryDialog(
           actions: [
             TextButton(
               child: AppTextStyle().textNormal(LocaleKeys.apply.tr(),
-                  size: Constants().screenWidth(context) * Constants.normalSize,
+                  size: Constants().screenWidth(context) * Constants.normalSizeMB,
                   color:
                       menuPvd.couponInquiryModel!.responseObj!.voucherStatus !=
                               1
@@ -510,7 +510,7 @@ Future<dynamic> eCouponInquiryDialog(
             ),
             TextButton(
               child: AppTextStyle().textNormal(LocaleKeys.close.tr(),
-                  size: Constants().screenWidth(context) * Constants.normalSize,
+                  size: Constants().screenWidth(context) * Constants.normalSizeMB,
                   color: Colors.red),
               onPressed: () async {
                 Navigator.of(context)

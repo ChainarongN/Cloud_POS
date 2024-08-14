@@ -36,6 +36,7 @@ class LoginProvider extends ChangeNotifier {
   String? _errorText = '', versionName = '';
   List<SaleModeData>? saleModeDataList;
   ShopData? shopData;
+  ComputerName? computerName;
   final TextEditingController openAmountController = TextEditingController();
   final TextEditingController deviceController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
@@ -60,7 +61,7 @@ class LoginProvider extends ChangeNotifier {
     final File file = File('${directory.path}/${Constants.SHOP_DATA_TXT}');
     bool fileExists = file.existsSync();
     if (fileExists) {
-      _readShopData();
+      _readShopAndComputer();
     }
     notifyListeners();
   }
@@ -174,7 +175,7 @@ class LoginProvider extends ChangeNotifier {
       saleModeDataList = [];
       await readSaleModeFile();
       homePvd.setSaleModeData(saleModeDataList);
-      _readShopData();
+      _readShopAndComputer();
     }
     notifyListeners();
   }
@@ -260,9 +261,11 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future _readShopData() async {
-    var value = await ReadFileFunc().readShopData();
-    shopData = value;
+  Future _readShopAndComputer() async {
+    var valueShop = await ReadFileFunc().readShopData();
+    var valueComputer = await ReadFileFunc().readComputerName();
+    shopData = valueShop;
+    computerName = valueComputer;
     notifyListeners();
   }
 

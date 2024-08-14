@@ -54,7 +54,7 @@ class PaymentDialog {
                             size: responsiveDevice == 'tablet'
                                 ? Constants().screenheight(context) * 0.025
                                 : Constants().screenWidth(context) *
-                                    Constants.normalSize),
+                                    Constants.normalSizeMB),
                       ),
                       menuWatch!.paymentQRRequestModel!.responseObj!.qrImg ==
                               null
@@ -78,14 +78,14 @@ class PaymentDialog {
                                 size: responsiveDevice == 'tablet'
                                     ? Constants().screenheight(context) * 0.025
                                     : Constants().screenWidth(context) *
-                                        Constants.normalSize),
+                                        Constants.normalSizeMB),
                             AppTextStyle().textNormal(
                                 menuWatch.paymentQRRequestModel!.responseObj!
                                     .orderId!,
                                 size: responsiveDevice == 'tablet'
                                     ? Constants().screenheight(context) * 0.025
                                     : Constants().screenWidth(context) *
-                                        Constants.normalSize),
+                                        Constants.normalSizeMB),
                           ],
                         ),
                       ),
@@ -97,14 +97,14 @@ class PaymentDialog {
                                 size: responsiveDevice == 'tablet'
                                     ? Constants().screenheight(context) * 0.025
                                     : Constants().screenWidth(context) *
-                                        Constants.normalSize),
+                                        Constants.normalSizeMB),
                             AppTextStyle().textNormal(
                                 menuWatch
                                     .paymentQRRequestModel!.responseObj!.txnId!,
                                 size: responsiveDevice == 'tablet'
                                     ? Constants().screenheight(context) * 0.025
                                     : Constants().screenWidth(context) *
-                                        Constants.normalSize),
+                                        Constants.normalSizeMB),
                           ],
                         ),
                       ),
@@ -116,13 +116,13 @@ class PaymentDialog {
                                 size: responsiveDevice == 'tablet'
                                     ? Constants().screenheight(context) * 0.025
                                     : Constants().screenWidth(context) *
-                                        Constants.normalSize),
+                                        Constants.normalSizeMB),
                             AppTextStyle().textNormal(
                                 '${menuWatch.paymentQRRequestModel!.responseObj!.amount} ${menuWatch.paymentQRRequestModel!.responseObj!.currency}',
                                 size: responsiveDevice == 'tablet'
                                     ? Constants().screenheight(context) * 0.025
                                     : Constants().screenWidth(context) *
-                                        Constants.normalSize),
+                                        Constants.normalSizeMB),
                           ],
                         ),
                       ),
@@ -137,7 +137,7 @@ class PaymentDialog {
                               fontSize: responsiveDevice == 'tablet'
                                   ? Constants().screenheight(context) * 0.025
                                   : Constants().screenWidth(context) *
-                                      Constants.normalSize),
+                                      Constants.normalSizeMB),
                         ),
                       ),
                     ],
@@ -151,7 +151,7 @@ class PaymentDialog {
                     size: responsiveDevice == 'tablet'
                         ? Constants().screenheight(context) * 0.02
                         : Constants().screenWidth(context) *
-                            Constants.normalSize,
+                            Constants.normalSizeMB,
                     color: Colors.red),
                 onPressed: () async {
                   await DialogStyle().confirmDialog2(

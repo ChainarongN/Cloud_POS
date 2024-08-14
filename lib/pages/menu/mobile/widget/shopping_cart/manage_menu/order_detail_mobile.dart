@@ -16,7 +16,7 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.total_qty.tr()}:',
                     size: Constants().screenWidth(context) *
-                        Constants.normalSize),
+                        Constants.normalSizeMB),
                 const Spacer(),
                 menuWatch.transactionModel!.responseObj!.orderList == null ||
                         menuWatch
@@ -26,14 +26,14 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
                         menuWatch.transactionModel!.responseObj!.totalQty!
                             .toStringAsFixed(2),
                         size: Constants().screenWidth(context) *
-                            Constants.normalSize),
+                            Constants.normalSizeMB),
               ],
             ),
             Row(
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.total_discount.tr()}:',
                     size: Constants().screenWidth(context) *
-                        Constants.normalSize),
+                        Constants.normalSizeMB),
                 const Spacer(),
                 menuWatch.transactionModel!.responseObj!.orderList == null ||
                         menuWatch
@@ -43,14 +43,14 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
                         menuWatch.transactionModel!.responseObj!.totalDiscount!
                             .toStringAsFixed(2),
                         size: Constants().screenWidth(context) *
-                            Constants.normalSize),
+                            Constants.normalSizeMB),
               ],
             ),
             Row(
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.service_charge.tr()}:',
                     size: Constants().screenWidth(context) *
-                        Constants.normalSize),
+                        Constants.normalSizeMB),
                 const Spacer(),
                 menuWatch.transactionModel!.responseObj!.orderList == null ||
                         menuWatch
@@ -60,14 +60,14 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
                         menuWatch.transactionModel!.responseObj!.serviceCharge!
                             .toStringAsFixed(2),
                         size: Constants().screenWidth(context) *
-                            Constants.normalSize),
+                            Constants.normalSizeMB),
               ],
             ),
             Row(
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.other_income.tr()}:',
                     size: Constants().screenWidth(context) *
-                        Constants.normalSize),
+                        Constants.normalSizeMB),
                 const Spacer(),
                 AppTextStyle().textNormal('-'),
               ],
@@ -76,7 +76,7 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.tax.tr()} 7.00%:',
                     size: Constants().screenWidth(context) *
-                        Constants.normalSize),
+                        Constants.normalSizeMB),
                 const Spacer(),
                 menuWatch.transactionModel!.responseObj!.orderList == null ||
                         menuWatch
@@ -86,7 +86,7 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
                         menuWatch.transactionModel!.responseObj!.vATPercent!
                             .toStringAsFixed(2),
                         size: Constants().screenWidth(context) *
-                            Constants.normalSize),
+                            Constants.normalSizeMB),
               ],
             ),
           ],
@@ -102,7 +102,7 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.sub_total.tr()}:',
                     size: Constants().screenWidth(context) *
-                        Constants.normalSize),
+                        Constants.normalSizeMB),
                 const Spacer(),
                 AppTextStyle().textNormal('-'),
               ],
@@ -111,7 +111,7 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.grand_total.tr()}:',
                     size: Constants().screenWidth(context) *
-                        Constants.normalSize),
+                        Constants.normalSizeMB),
                 const Spacer(),
                 AppTextStyle().textNormal('-'),
               ],
@@ -120,7 +120,7 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
               children: <Widget>[
                 AppTextStyle().textNormal('Rounding:',
                     size: Constants().screenWidth(context) *
-                        Constants.normalSize),
+                        Constants.normalSizeMB),
                 const Spacer(),
                 menuWatch.transactionModel!.responseObj!.orderList == null ||
                         menuWatch
@@ -130,14 +130,14 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
                         menuWatch.transactionModel!.responseObj!.roundingBill!
                             .toStringAsFixed(2),
                         size: Constants().screenWidth(context) *
-                            Constants.normalSize),
+                            Constants.normalSizeMB),
               ],
             ),
             Row(
               children: <Widget>[
                 AppTextStyle().textNormal('${LocaleKeys.pay_amount.tr()}:',
                     size: Constants().screenWidth(context) *
-                        Constants.normalSize),
+                        Constants.normalSizeMB),
                 const Spacer(),
                 menuWatch.transactionModel!.responseObj!.orderList == null ||
                         menuWatch
@@ -147,14 +147,14 @@ Row orderDetailMobile(BuildContext context, MenuProvider menuWatch) {
                         menuWatch.transactionModel!.responseObj!.payAmount!
                             .toStringAsFixed(2),
                         size: Constants().screenWidth(context) *
-                            Constants.normalSize),
+                            Constants.normalSizeMB),
               ],
             ),
             Row(
               children: <Widget>[
                 AppTextStyle().textNormal('Before Tex:',
                     size: Constants().screenWidth(context) *
-                        Constants.normalSize),
+                        Constants.normalSizeMB),
                 const Spacer(),
                 AppTextStyle().textNormal('-'),
               ],

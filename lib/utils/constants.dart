@@ -38,9 +38,22 @@ class Constants {
   static const five_hundredImg = 'assets/images/five_hundred.png';
   static const thousandImg = 'assets/images/thousand.png';
 
-  // static const headerSize =
-  static const normalSize = 0.035;
-  static const boldSize = 0.045;
+  // size mobile
+  static const normalSizeMB = 0.035;
+  static const boldSizeMB = 0.045;
+  static const descSizeMB = 0.025;
+  // size Tablet
+  static const normalSizeTL = 0.023;
+  static const boldSizeTL = 0.025;
+  static const descSizeTL = 0.020;
+
+  double fontSizeMB(BuildContext context, double size) {
+    return MediaQuery.sizeOf(context).width * size;
+  }
+
+  double fontSizeTL(BuildContext context, double size) {
+    return MediaQuery.sizeOf(context).height * size;
+  }
 
   double screenWidth(BuildContext context) => MediaQuery.sizeOf(context).width;
   double screenheight(BuildContext context) =>

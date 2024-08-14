@@ -35,7 +35,7 @@ Future<void> openHoldBillDialog(BuildContext context, MenuProvider menuRead) {
                   style: TextStyle(
                       color: Constants.textColor,
                       fontSize: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   onChanged: (value) {
                     menuRead.holdBillName = value;
                   },
@@ -53,7 +53,7 @@ Future<void> openHoldBillDialog(BuildContext context, MenuProvider menuRead) {
                   style: TextStyle(
                       color: Constants.textColor,
                       fontSize: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   onChanged: (value) {
                     menuRead.holdBillPhone = value;
                   },
@@ -65,7 +65,7 @@ Future<void> openHoldBillDialog(BuildContext context, MenuProvider menuRead) {
         actions: <Widget>[
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.ok.tr(),
-                size: Constants().screenWidth(context) * Constants.normalSize),
+                size: Constants().screenWidth(context) * Constants.normalSizeMB),
             onPressed: () async {
               DialogStyle().dialogLoadding(context);
               menuRead.holdBill(context).then((value) async {
@@ -88,7 +88,7 @@ Future<void> openHoldBillDialog(BuildContext context, MenuProvider menuRead) {
           ),
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
-                size: Constants().screenWidth(context) * Constants.normalSize,
+                size: Constants().screenWidth(context) * Constants.normalSizeMB,
                 color: Colors.red),
             onPressed: () async {
               Navigator.pop(context);

@@ -73,7 +73,7 @@ class _Fav1DetailWidgetState extends State<Fav1DetailWidget> {
                             child: AppTextStyle().textNormal(
                                 menuRead.getProdName(item.productID!),
                                 size: Constants().screenWidth(context) *
-                                    Constants.normalSize,
+                                    Constants.normalSizeMB,
                                 color: Colors.black),
                           ),
                         ),

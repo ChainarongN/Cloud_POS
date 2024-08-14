@@ -70,7 +70,7 @@ class _CancelTranPageState extends State<CancelTranPage> {
         },
         child: Center(
           child: AppTextStyle().textBold('Close Transaction',
-              size: Constants().screenWidth(context) * Constants.boldSize,
+              size: Constants().screenWidth(context) * Constants.boldSizeMB,
               color: Colors.white),
         ),
       ),
@@ -171,7 +171,7 @@ Future<void> openConfCancel(
         actions: <Widget>[
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.ok.tr(),
-                size: Constants().screenWidth(context) * Constants.normalSize),
+                size: Constants().screenWidth(context) * Constants.normalSizeMB),
             onLongPress: () {
               menuRead.setCancelUserNameForTest();
             },
@@ -200,7 +200,7 @@ Future<void> openConfCancel(
           ),
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
-                size: Constants().screenWidth(context) * Constants.normalSize,
+                size: Constants().screenWidth(context) * Constants.normalSizeMB,
                 color: Colors.red),
             onPressed: () async {
               Navigator.pop(context);

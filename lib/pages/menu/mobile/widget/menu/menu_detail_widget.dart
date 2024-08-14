@@ -61,7 +61,7 @@ class _MenuDetailWidgetState extends State<MenuDetailWidget> {
                 child: AppTextStyle().textNormal(
                     menuWatch.prodToShow![index].productName!,
                     size:
-                        Constants().screenWidth(context) * Constants.normalSize,
+                        Constants().screenWidth(context) * Constants.normalSizeMB,
                     color: Colors.white),
               ),
             ),

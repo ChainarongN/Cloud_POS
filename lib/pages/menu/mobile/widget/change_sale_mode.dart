@@ -44,7 +44,7 @@ Future<void> changeSaleModeDialog(BuildContext context, HomeProvider homeWatch,
         actions: <Widget>[
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
-                size: Constants().screenWidth(context) * Constants.normalSize,
+                size: Constants().screenWidth(context) * Constants.normalSizeMB,
                 color: Colors.red),
             onPressed: () async {
               Navigator.pop(context);
@@ -68,7 +68,7 @@ GestureDetector saleModeContainer(BuildContext context, MenuProvider menuRead,
         child: Center(
           child: AppTextStyle().textNormal(
               homeWatch.saleModeDataList![index].saleModeName!,
-              size: Constants().screenWidth(context) * Constants.boldSize),
+              size: Constants().screenWidth(context) * Constants.boldSizeMB),
         ),
       ),
     ),
@@ -94,7 +94,7 @@ Future<void> confChangeDialog(BuildContext context, MenuProvider menuRead,
                 child: Center(
                   child: AppTextStyle().textBold('Cancel Transaction',
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ),
               ),
               SizedBox(height: Constants().screenheight(context) * 0.01),
@@ -123,7 +123,7 @@ Future<void> confChangeDialog(BuildContext context, MenuProvider menuRead,
                 child: Center(
                   child: AppTextStyle().textBold('Hold Bill',
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ),
               ),
             ],
@@ -132,7 +132,7 @@ Future<void> confChangeDialog(BuildContext context, MenuProvider menuRead,
         actions: <Widget>[
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.close.tr(),
-                size: Constants().screenWidth(context) * Constants.normalSize,
+                size: Constants().screenWidth(context) * Constants.normalSizeMB,
                 color: Colors.grey),
             onPressed: () async {
               Navigator.pop(context);

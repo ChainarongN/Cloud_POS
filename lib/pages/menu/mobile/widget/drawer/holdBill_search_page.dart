@@ -75,7 +75,7 @@ class _HoldBillSearchPageState extends State<HoldBillSearchPage> {
                                           homeWatch.holdBillSearchModel!
                                               .responseObj![index].saleModeName!,
                                           size: Constants().screenWidth(context) *
-                                              Constants.normalSize),
+                                              Constants.normalSizeMB),
                                     ),
                                     Container(
                                       margin: EdgeInsets.only(
@@ -86,7 +86,7 @@ class _HoldBillSearchPageState extends State<HoldBillSearchPage> {
                                           homeWatch.holdBillSearchModel!
                                               .responseObj![index].customerName!,
                                           size: Constants().screenWidth(context) *
-                                              Constants.normalSize),
+                                              Constants.normalSizeMB),
                                     ),
                                     Container(
                                       margin: EdgeInsets.only(
@@ -99,14 +99,14 @@ class _HoldBillSearchPageState extends State<HoldBillSearchPage> {
                                               .responseObj![index]
                                               .customerMobile!,
                                           size: Constants().screenWidth(context) *
-                                              Constants.normalSize),
+                                              Constants.normalSizeMB),
                                     ),
                                     Container(
                                       child: AppTextStyle().textNormal(
                                           homeWatch.holdBillSearchModel!
                                               .responseObj![index].openTime!,
                                           size: Constants().screenWidth(context) *
-                                              Constants.normalSize),
+                                              Constants.normalSizeMB),
                                     ),
                                   ],
                                 ),

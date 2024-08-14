@@ -103,7 +103,7 @@ class MenuBtn extends StatelessWidget {
             right: Constants().screenWidth(context) * 0.055,
           ),
           child: AppTextStyle().textBold(text,
-              size: Constants().screenWidth(context) * Constants.normalSize,
+              size: Constants().screenWidth(context) * Constants.normalSizeMB,
               color: valueId == valueSelect ? Colors.white : Colors.black87),
         ),
       ),

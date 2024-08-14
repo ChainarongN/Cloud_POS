@@ -51,6 +51,8 @@ class MenuProvider extends ChangeNotifier {
   List<FavoriteData>? favResultList;
   List<String>? resultPayTypeList;
   ShopData? shopData;
+  PropertyInfo? propertyInfoData;
+
   ComputerName? computerName;
 
   List computerSaleMode = [];
@@ -671,6 +673,7 @@ class MenuProvider extends ChangeNotifier {
         ReadFileFunc().readComputerName(),
         ReadFileFunc().readCurrencyInfo(),
         ReadFileFunc().readProdDept(),
+        ReadFileFunc().readPropertyInfo(),
       ]);
       prodGroupList = value[0] as List<ProductGroup>;
       prodList = value[1] as List<Products>;
@@ -682,6 +685,7 @@ class MenuProvider extends ChangeNotifier {
       computerName = value[7] as ComputerName;
       currencyInfo = value[8] as List<CurrencyInfo>;
       prodDeptList = value[9] as List<ProductDept>;
+      propertyInfoData = value[10] as PropertyInfo;
 
       computerSaleMode = computerName!.saleModeList!.split(',');
       apiState = ApiState.COMPLETED;
@@ -1039,6 +1043,7 @@ class MenuProvider extends ChangeNotifier {
 
   Future setPropertyInfo(List<String> value) async {
     propertyInfo = value;
+    Constants().printWarning('FrontLayout : ${propertyInfo.toString()}');
     notifyListeners();
   }
 

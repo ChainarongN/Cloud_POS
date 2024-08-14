@@ -51,14 +51,14 @@ Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
             AppTextStyle().textBold(
               menuWatch
                   .transactionModel!.responseObj!.orderList![index].itemName!,
-              size: Constants().screenWidth(context) * Constants.boldSize,
+              size: Constants().screenWidth(context) * Constants.boldSizeMB,
             ),
             const Spacer(),
             AppTextStyle().textBold(
               menuWatch
                   .transactionModel!.responseObj!.orderList![index].retailPrice!
                   .toString(),
-              size: Constants().screenWidth(context) * Constants.boldSize,
+              size: Constants().screenWidth(context) * Constants.boldSizeMB,
             ),
           ],
         ),
@@ -72,7 +72,7 @@ Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
                     menuWatch.transactionModel!.responseObj!.orderList![index]
                         .childItemList![indexchildItemList].itemName!,
                     size:
-                        Constants().screenWidth(context) * Constants.normalSize,
+                        Constants().screenWidth(context) * Constants.normalSizeMB,
                     color: Colors.grey),
                 const Spacer(),
                 AppTextStyle().textNormal(
@@ -80,7 +80,7 @@ Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
                         .childItemList![indexchildItemList].unitPrice!
                         .toString(),
                     size:
-                        Constants().screenWidth(context) * Constants.normalSize,
+                        Constants().screenWidth(context) * Constants.normalSizeMB,
                     color: Colors.grey),
               ],
             ),
@@ -95,7 +95,7 @@ Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
                   ManageOrderFunc().editOrder(context, index);
                 },
                 child: AppTextStyle().textBold('แก้ไข',
-                    size: Constants().screenWidth(context) * Constants.boldSize,
+                    size: Constants().screenWidth(context) * Constants.boldSizeMB,
                     color: Constants.primaryColor),
               ),
               const Spacer(),
@@ -120,7 +120,7 @@ Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
                         .transactionModel!.responseObj!.orderList![index].qty!
                         .toInt()
                         .toString(),
-                    size: Constants().screenWidth(context) * Constants.boldSize,
+                    size: Constants().screenWidth(context) * Constants.boldSizeMB,
                   ),
                 ),
               ),
@@ -188,7 +188,7 @@ Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
 //                       //                     LocaleKeys.cancel.tr(),
 //                       //                     size:
 //                       //                         Constants().screenWidth(context) *
-//                       //                             Constants.normalSize,
+//                       //                             Constants.normalSizeMB,
 //                       //                     color: Colors.red),
 //                       //               ),
 //                       //               SizedBox(
@@ -201,7 +201,7 @@ Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
 //                       //                     LocaleKeys.ok.tr(),
 //                       //                     size:
 //                       //                         Constants().screenWidth(context) *
-//                       //                             Constants.normalSize,
+//                       //                             Constants.normalSizeMB,
 //                       //                     color: Constants.primaryColor),
 //                       //               ),
 //                       //             ],
@@ -247,7 +247,7 @@ Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
 //                                     .toInt()
 //                                     .toString(),
 //                                 size: Constants().screenWidth(context) *
-//                                     Constants.normalSize),
+//                                     Constants.normalSizeMB),
 //                           ),
 //                         ),
 //                         GestureDetector(
@@ -265,7 +265,7 @@ Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
 //                                 menuWatch.transactionModel!.responseObj!
 //                                     .orderList![index].itemName!,
 //                                 size: Constants().screenWidth(context) *
-//                                     Constants.normalSize)),
+//                                     Constants.normalSizeMB)),
 //                         const Spacer(),
 //                         Container(
 //                             alignment: Alignment.centerRight,
@@ -275,7 +275,7 @@ Slidable slidable(MenuProvider menuWatch, int index, MenuProvider menuRead,
 //                                     .orderList![index].retailPrice!
 //                                     .toString(),
 //                                 size: Constants().screenWidth(context) *
-//                                     Constants.normalSize)),
+//                                     Constants.normalSizeMB)),
 //                       ],
 //                     ),
 //                   ),

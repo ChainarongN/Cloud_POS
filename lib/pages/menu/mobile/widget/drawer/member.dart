@@ -41,7 +41,7 @@ Future<void> openNumberMemberDialog(
                   style: TextStyle(
                       color: Constants.textColor,
                       fontSize: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                 ),
               ),
             ],
@@ -50,7 +50,7 @@ Future<void> openNumberMemberDialog(
         actions: <Widget>[
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.ok.tr(),
-                size: Constants().screenWidth(context) * Constants.normalSize),
+                size: Constants().screenWidth(context) * Constants.normalSizeMB),
             onLongPress: () {
               menuRead.setPhoneMemberForTest();
             },
@@ -71,7 +71,7 @@ Future<void> openNumberMemberDialog(
           ),
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
-                size: Constants().screenWidth(context) * Constants.normalSize,
+                size: Constants().screenWidth(context) * Constants.normalSizeMB,
                 color: Colors.red),
             onPressed: () async {
               Navigator.pop(context);
@@ -107,13 +107,13 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                           AppTextStyle().textBold(
                               LocaleKeys.member_cash_balance.tr(),
                               size: Constants().screenWidth(context) *
-                                  Constants.normalSize),
+                                  Constants.normalSizeMB),
                           AppTextStyle().textNormal(
                               menuWatch.memberDataModel!.responseObj!
                                   .memberInfo!.memberCashBalance
                                   .toString(),
                               size: Constants().screenWidth(context) *
-                                  Constants.normalSize)
+                                  Constants.normalSizeMB)
                         ],
                       ),
                     ),
@@ -129,13 +129,13 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                         children: <Widget>[
                           AppTextStyle().textBold(LocaleKeys.member_points.tr(),
                               size: Constants().screenWidth(context) *
-                                  Constants.normalSize),
+                                  Constants.normalSizeMB),
                           AppTextStyle().textNormal(
                               menuWatch.memberDataModel!.responseObj!
                                   .memberInfo!.memberPoints
                                   .toString(),
                               size: Constants().screenWidth(context) *
-                                  Constants.normalSize)
+                                  Constants.normalSizeMB)
                         ],
                       ),
                     ),
@@ -149,12 +149,12 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                       AppTextStyle().textBold(
                           '${LocaleKeys.first_name.tr()} : ',
                           size: Constants().screenWidth(context) *
-                              Constants.normalSize),
+                              Constants.normalSizeMB),
                       AppTextStyle().textNormal(
                           menuWatch.memberDataModel!.responseObj!.memberInfo!
                               .memberFirstName!,
                           size: Constants().screenWidth(context) *
-                              Constants.normalSize)
+                              Constants.normalSizeMB)
                     ],
                   ),
                 ),
@@ -166,12 +166,12 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                       AppTextStyle().textBold(
                           '${LocaleKeys.group_name.tr()} : ',
                           size: Constants().screenWidth(context) *
-                              Constants.normalSize),
+                              Constants.normalSizeMB),
                       AppTextStyle().textNormal(
                           menuWatch.memberDataModel!.responseObj!.memberInfo!
                               .memberGroupName!,
                           size: Constants().screenWidth(context) *
-                              Constants.normalSize)
+                              Constants.normalSizeMB)
                     ],
                   ),
                 ),
@@ -184,7 +184,7 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
               ? TextButton(
                   child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize,
+                          Constants.normalSizeMB,
                       color: Colors.red),
                   onPressed: () async {
                     DialogStyle().dialogLoadding(context);
@@ -199,7 +199,7 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
               : TextButton(
                   child: AppTextStyle().textNormal(LocaleKeys.apply.tr(),
                       size: Constants().screenWidth(context) *
-                          Constants.normalSize),
+                          Constants.normalSizeMB),
                   onPressed: () async {
                     DialogStyle().dialogLoadding(context);
                     menuRead.memberApply(context).then((value) {
@@ -212,10 +212,39 @@ showMemberDetail(BuildContext context, MenuProvider menuWatch,
                 ),
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.close.tr(),
-                size: Constants().screenWidth(context) * Constants.normalSize,
+                size: Constants().screenWidth(context) * Constants.normalSizeMB,
                 color: Colors.grey),
             onPressed: () async {
               Navigator.of(context).popUntil(ModalRoute.withName('/menuPage'));
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> openOtherTestDialog(
+    BuildContext context, MenuProvider menuWatch, MenuProvider menuRead) {
+  menuRead.clearField();
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return AlertDialog(
+        content: SizedBox(
+            height: Constants().screenheight(context) * 0.15,
+            child: Center(
+              child: AppTextStyle().textNormal(
+                  'FrontLayout Member is : ${menuWatch.propertyInfoData!.frontLayout!.memberFeature}'),
+            )),
+        actions: <Widget>[
+          TextButton(
+            child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
+                size: Constants().screenWidth(context) * Constants.normalSizeMB,
+                color: Colors.red),
+            onPressed: () async {
+              Navigator.pop(context);
             },
           ),
         ],

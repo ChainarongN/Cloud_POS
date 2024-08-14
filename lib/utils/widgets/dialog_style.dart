@@ -29,7 +29,7 @@ class DialogStyle {
             style: TextStyle(
                 fontSize: deviceType == 'tablet'
                     ? Constants().screenWidth(context) * 0.02
-                    : Constants().screenWidth(context) * Constants.boldSize,
+                    : Constants().screenWidth(context) * Constants.boldSizeMB,
                 fontWeight: FontWeight.bold),
           ),
           content: SingleChildScrollView(
@@ -48,7 +48,7 @@ class DialogStyle {
                         size: deviceType == 'tablet'
                             ? Constants().screenWidth(context) * 0.015
                             : Constants().screenWidth(context) *
-                                Constants.boldSize),
+                                Constants.boldSizeMB),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +79,7 @@ class DialogStyle {
                                         ? Constants().screenWidth(context) *
                                             0.015
                                         : Constants().screenWidth(context) *
-                                            Constants.boldSize),
+                                            Constants.boldSizeMB),
                                 manageSelectComment(menuPvd, indexCommentGroup,
                                     deviceType, context),
                               ],
@@ -198,7 +198,7 @@ class DialogStyle {
                             size: deviceType == 'tablet'
                                 ? Constants().screenWidth(context) * 0.015
                                 : Constants().screenWidth(context) *
-                                    Constants.normalSize),
+                                    Constants.normalSizeMB),
                       ),
                       Expanded(
                         flex: 1,
@@ -211,7 +211,7 @@ class DialogStyle {
                               size: deviceType == 'tablet'
                                   ? Constants().screenWidth(context) * 0.015
                                   : Constants().screenWidth(context) *
-                                      Constants.normalSize),
+                                      Constants.normalSizeMB),
                         ),
                       ),
                     ],
@@ -230,7 +230,7 @@ class DialogStyle {
       titleStyle: TextStyle(
           fontSize: deviceType == 'tablet'
               ? Constants().screenWidth(context) * 0.015
-              : Constants().screenWidth(context) * Constants.normalSize,
+              : Constants().screenWidth(context) * Constants.normalSizeMB,
           fontWeight: FontWeight.bold),
       msgStyle: const TextStyle(fontSize: 18),
       msg: '${LocaleKeys.change.tr()} $text  THB.',
@@ -268,7 +268,7 @@ class DialogStyle {
       titleStyle: TextStyle(
           fontSize: deviceType == 'tablet'
               ? Constants().screenWidth(context) * 0.015
-              : Constants().screenWidth(context) * Constants.normalSize,
+              : Constants().screenWidth(context) * Constants.normalSizeMB,
           fontWeight: FontWeight.bold),
       msgStyle: const TextStyle(fontSize: 18),
       msg: '${LocaleKeys.change.tr()} $text  THB.',
@@ -305,12 +305,12 @@ class DialogStyle {
         titleStyle: TextStyle(
             fontSize: deviceType == 'tablet'
                 ? Constants().screenWidth(context) * 0.015
-                : Constants().screenWidth(context) * Constants.normalSize,
+                : Constants().screenWidth(context) * Constants.normalSizeMB,
             fontWeight: FontWeight.bold),
         msgStyle: TextStyle(
           fontSize: deviceType == 'tablet'
               ? Constants().screenWidth(context) * 0.015
-              : Constants().screenWidth(context) * Constants.normalSize,
+              : Constants().screenWidth(context) * Constants.normalSizeMB,
         ),
         actions: [
           IconsButton(
@@ -364,7 +364,7 @@ class DialogStyle {
                 style: TextStyle(
                     fontSize: deviceType == 'tablet'
                         ? Constants().screenWidth(context) * 0.015
-                        : Constants().screenWidth(context) * Constants.boldSize,
+                        : Constants().screenWidth(context) * Constants.boldSizeMB,
                     fontWeight: FontWeight.bold),
               ),
             ],
@@ -375,7 +375,7 @@ class DialogStyle {
               style: TextStyle(
                   fontSize: deviceType == 'tablet'
                       ? Constants().screenWidth(context) * 0.015
-                      : Constants().screenWidth(context) * Constants.boldSize,
+                      : Constants().screenWidth(context) * Constants.boldSizeMB,
                   overflow: TextOverflow.fade),
             ),
           ),
@@ -406,7 +406,7 @@ class DialogStyle {
       barrierDismissible: false,
       color: Colors.white,
       titleStyle: TextStyle(
-        fontSize: Constants().screenWidth(context) * Constants.normalSize,
+        fontSize: Constants().screenWidth(context) * Constants.normalSizeMB,
       ),
       title: 'Success',
       lottieBuilder: Lottie.asset('assets/success_lottie.json'),

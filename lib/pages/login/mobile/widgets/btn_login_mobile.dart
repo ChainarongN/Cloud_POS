@@ -68,7 +68,7 @@ GestureDetector btnLoginMobile(
           secondaryColor: Colors.blue.shade400,
           selected: false,
           widget: AppTextStyle().textNormal(LocaleKeys.login.tr(),
-              size: Constants().screenheight(context) * 0.022,
+              size: Constants().fontSizeMB(context, Constants.boldSizeMB),
               color: Colors.white),
         ),
       ));
@@ -118,7 +118,7 @@ Future<void> openDeviceIdDialog(
         actions: <Widget>[
           TextButton(
             child: AppTextStyle().textNormal('OK',
-                size: Constants().screenheight(context) * 0.02),
+                size: Constants().fontSizeMB(context, Constants.normalSizeMB)),
             onLongPress: () {
               loginRead.setMockDeviceId();
             },
@@ -152,7 +152,7 @@ Future<void> openDeviceIdDialog(
           ),
           TextButton(
             child: AppTextStyle().textNormal('Cancel',
-                size: Constants().screenheight(context) * 0.02,
+                size: Constants().fontSizeMB(context, Constants.normalSizeMB),
                 color: Colors.red),
             onPressed: () async {
               Navigator.of(context).popUntil(ModalRoute.withName("/loginPage"));
@@ -205,7 +205,8 @@ Future<void> openAmountDialog(
         ),
         actions: <Widget>[
           TextButton(
-            child: AppTextStyle().textNormal('OK', size: 18),
+            child: AppTextStyle().textNormal('OK',
+                size: Constants().fontSizeMB(context, Constants.normalSizeMB)),
             onPressed: () async {
               if (loginWatch.openAmountController.text.isNotEmpty) {
                 DialogStyle().dialogLoadding(context);
@@ -228,8 +229,9 @@ Future<void> openAmountDialog(
             },
           ),
           TextButton(
-            child: AppTextStyle()
-                .textNormal('Cancel', size: 18, color: Colors.red),
+            child: AppTextStyle().textNormal('Cancel',
+                size: Constants().fontSizeMB(context, Constants.normalSizeMB),
+                color: Colors.red),
             onPressed: () async {
               Navigator.of(context).popUntil(ModalRoute.withName("/loginPage"));
             },

@@ -2,7 +2,7 @@ import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/drawer/cancel_tran_page.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/drawer/close_session.dart';
 import 'package:cloud_pos/pages/menu/mobile/widget/drawer/holdBill.dart';
-import 'package:cloud_pos/pages/menu/mobile/widget/drawer/member.dart';
+import 'package:cloud_pos/providers/menu/functions/member_func.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
 import 'package:cloud_pos/utils/constants.dart';
@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 Drawer drawerWidget(BuildContext context) {
   var menuRead = context.read<MenuProvider>();
   var menuWatch = context.watch<MenuProvider>();
-  double textSize = Constants().screenWidth(context) * Constants.normalSize;
+  double textSize = Constants().screenWidth(context) * Constants.normalSizeMB;
   return Drawer(
     child: Padding(
       padding: EdgeInsets.all(Constants().screenheight(context) * 0.015),
@@ -64,29 +64,7 @@ Drawer drawerWidget(BuildContext context) {
               title: AppTextStyle().textNormal('Member', size: textSize),
               leading: const Icon(Icons.access_alarm),
               onTap: () {
-                DialogStyle().dialogLoadding(context);
-                menuRead.orderSummary(context).then((value) {
-                  if (menuWatch.apiState == ApiState.COMPLETED) {
-                    Navigator.pop(context);
-                    if (menuWatch.transactionModel!.responseObj!.tranData!
-                            .memberID ==
-                        0) {
-                      openNumberMemberDialog(context, menuWatch, menuRead);
-                    } else {
-                      menuRead
-                          .memberData(
-                              context,
-                              menuWatch
-                                  .transactionModel!.responseObj!.memberMobile!)
-                          .then((value) {
-                        if (menuWatch.apiState == ApiState.COMPLETED) {
-                          Navigator.maybePop(context);
-                          showMemberDetail(context, menuWatch, menuRead, true);
-                        }
-                      });
-                    }
-                  }
-                });
+                MemberFunc().showMemberDialog(context, menuRead, menuWatch);
               },
             ),
             ListTile(
