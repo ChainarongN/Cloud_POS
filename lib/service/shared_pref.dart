@@ -27,8 +27,26 @@ class SharedPref {
   static const String keyPrinterType = 'printerType';
   static const String keyPrinterAddress = 'printerAddress';
   static const String keyPrinterReceipt = 'printerReceipt';
+  static const String keyPrinterNameUSB = 'PrinterNameUSB';
+  static const String keyPrinterProdIdUSB = 'PrinterProdIdUSB';
+  static const String keyPrinterVendorIdUSB = 'PrinterVendorIdUSB';
 
   // ----------------------------- set ------------------------------- //
+  Future setPrinterNameUSB(String value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setString(keyPrinterNameUSB, value);
+  }
+
+  Future setPrinterProdIdUSB(String value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setString(keyPrinterProdIdUSB, value);
+  }
+
+  Future setPrinterVendorIdUSB(String value) async {
+    SharedPreferences prefs = await _prefs;
+    await prefs.setString(keyPrinterVendorIdUSB, value);
+  }
+
   Future setPrinterReceipt(bool value) async {
     SharedPreferences prefs = await _prefs;
     await prefs.setBool(keyPrinterReceipt, value);
@@ -135,6 +153,25 @@ class SharedPref {
   }
 
   // ----------------------------- get ------------------------------- //
+
+  Future<String> getPrinterNameUSB() async {
+    SharedPreferences prefs = await _prefs;
+    String? result = prefs.getString(keyPrinterNameUSB) ?? '';
+    return result;
+  }
+
+  Future<String> getPrinterProdIdUSB() async {
+    SharedPreferences prefs = await _prefs;
+    String? result = prefs.getString(keyPrinterProdIdUSB) ?? '';
+    return result;
+  }
+
+  Future<String> getPrinterVendorIdUSB() async {
+    SharedPreferences prefs = await _prefs;
+    String? result = prefs.getString(keyPrinterVendorIdUSB) ?? '';
+    return result;
+  }
+
   Future<bool> getPrinterReceipt() async {
     SharedPreferences prefs = await _prefs;
     bool? result = prefs.getBool(keyPrinterReceipt) ?? true;

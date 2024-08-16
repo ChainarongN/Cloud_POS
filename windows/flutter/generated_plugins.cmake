@@ -6,6 +6,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   charset_converter
   cloud_firestore
   firebase_core
+  flutter_pos_printer_platform_image_3
   url_launcher_windows
 )
 

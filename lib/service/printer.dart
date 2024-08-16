@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_pos/service/shared_pref.dart';
@@ -6,6 +7,7 @@ import 'package:esc_pos_printer/esc_pos_printer.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:flutter/services.dart';
+import 'package:flutter_pos_printer_platform_image_3/flutter_pos_printer_platform_image_3.dart';
 
 import 'package:image/image.dart';
 import 'package:path_provider/path_provider.dart';
@@ -35,7 +37,38 @@ class Printer {
       case 'SunmiV2':
         sunmiPrinterFunc(image8List);
         break;
+      case 'USB':
+        printerUSB(image8List);
+        break;
     }
+  }
+
+  Future printerUSB(Uint8List image8List) async {
+    var printerManager = PrinterManager.instance;
+    String namePrinterUSB = await SharedPref().getPrinterNameUSB();
+    String prodIdPrinterUSB = await SharedPref().getPrinterProdIdUSB();
+    String vendorIdPrinterUSB = await SharedPref().getPrinterVendorIdUSB();
+    List<int> bytes = [];
+    final profile = await CapabilityProfile.load();
+    final generator = Generator(PaperSize.mm80, profile);
+    // bytes += generator.setGlobalCodeTable('CP1252');
+    // bytes += generator.text('Test Print',
+    //     styles: const PosStyles(align: PosAlign.center));
+    // bytes += generator.text('Product 1');
+    // bytes += generator.text('Product 2');
+    final Image? imageResult = decodeImage(image8List);
+    bytes += generator.image(imageResult!);
+
+    bytes += generator.feed(2);
+    bytes += generator.cut();
+    await printerManager.connect(
+        type: PrinterType.usb,
+        model: UsbPrinterInput(
+            name: namePrinterUSB,
+            productId: prodIdPrinterUSB,
+            vendorId: vendorIdPrinterUSB));
+    await printerManager.send(type: PrinterType.usb, bytes: bytes);
+    await printerManager.disconnect(type: PrinterType.usb);
   }
 
   Future printerNetwork(Uint8List image8List) async {
@@ -132,6 +165,9 @@ class Printer {
     String type = await SharedPref().getPrinterType();
     // String model = await SharedPref().getPrinterModel();
     String address = await SharedPref().getPrinterAddress();
+    String namePrinterUSB = await SharedPref().getPrinterNameUSB();
+    String prodIdPrinterUSB = await SharedPref().getPrinterProdIdUSB();
+    String vendorIdPrinterUSB = await SharedPref().getPrinterVendorIdUSB();
 
     Constants().printError(address);
     switch (type) {
@@ -154,6 +190,28 @@ class Printer {
         await SunmiPrinter.printText('Using the old way to bold!');
         await SunmiPrinter.lineWrap(8);
         await SunmiPrinter.exitTransactionPrint(true);
+        break;
+      case 'USB':
+        var printerManager = PrinterManager.instance;
+        List<int> bytes = [];
+        final profile = await CapabilityProfile.load();
+        final generator = Generator(PaperSize.mm80, profile);
+        // bytes += generator.setGlobalCodeTable('CP1252');
+        bytes += generator.text('Test Print',
+            styles: const PosStyles(align: PosAlign.center));
+        bytes += generator.text('Product 1');
+        bytes += generator.text('Product 2');
+        bytes += generator.feed(2);
+        bytes += generator.cut();
+
+        await printerManager.connect(
+            type: PrinterType.usb,
+            model: UsbPrinterInput(
+                name: namePrinterUSB,
+                productId: prodIdPrinterUSB,
+                vendorId: vendorIdPrinterUSB));
+        printerManager.send(type: PrinterType.usb, bytes: bytes);
+        await printerManager.disconnect(type: PrinterType.usb);
         break;
     }
   }

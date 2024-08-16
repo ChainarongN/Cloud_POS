@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:cloud_pos/models/code_init_model.dart';
@@ -6,9 +8,13 @@ import 'package:cloud_pos/service/read_file_func.dart';
 import 'package:cloud_pos/repositorys/config/i_config_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
+import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_pos_printer_platform_image_3/flutter_pos_printer_platform_image_3.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart';
 
 class ConfigProvider extends ChangeNotifier {
   final IConfigRepository _configRepository;
@@ -20,7 +26,7 @@ class ConfigProvider extends ChangeNotifier {
   bool _newDataSwitch = false;
   String? _printerModelValue;
   String? _connectionTypeValue;
-  String? imageTest;
+  String? imageTest, nameSelectedUSB;
   ShopData? shopData;
   ComputerName? computerName;
   final ScreenshotController _screenshotController = ScreenshotController();
@@ -37,6 +43,10 @@ class ConfigProvider extends ChangeNotifier {
   List<String> get getConnectList => _connectionTypeList;
   ScreenshotController get getScreenShotController => _screenshotController;
 
+  var printerManager = PrinterManager.instance;
+  var devices = <PrinterDevice>[];
+  // PrinterDevice? selectedPrinter;
+
   init(BuildContext context) async {
     _widgetString = 'baseUrl';
     _newDataSwitch = await SharedPref().getNewDataSwitch();
@@ -50,10 +60,42 @@ class ConfigProvider extends ChangeNotifier {
       _printerModelValue = _printerModelList.first;
     }
     saveConfigPrinter();
+    nameSelectedUSB = await SharedPref().getPrinterNameUSB();
 
     Constants().printError(deviceIdController.text);
     _readShopData();
     _readComputerName();
+  }
+
+  scan({bool isBle = false}) async {
+    devices.clear();
+    printerManager
+        .discovery(type: PrinterType.usb, isBle: isBle)
+        .listen((device) {
+      devices.add(device);
+      notifyListeners();
+    });
+  }
+
+  void selectDevice(BuildContext context, int indexSelect) async {
+    nameSelectedUSB = await SharedPref().getPrinterNameUSB();
+    if (nameSelectedUSB!.isNotEmpty) {
+      if (nameSelectedUSB != devices[indexSelect].name) {
+        await printerManager.disconnect(type: PrinterType.usb);
+      }
+    }
+    bool isConnect = await printerManager.connect(
+        type: PrinterType.usb,
+        model: UsbPrinterInput(
+            name: devices[indexSelect].name,
+            productId: devices[indexSelect].productId!,
+            vendorId: devices[indexSelect].vendorId!));
+    if (isConnect) {
+      await SharedPref().setPrinterNameUSB(devices[indexSelect].name);
+      await SharedPref().setPrinterProdIdUSB(devices[indexSelect].productId!);
+      await SharedPref().setPrinterVendorIdUSB(devices[indexSelect].vendorId!);
+    }
+    notifyListeners();
   }
 
   Future _readShopData() async {

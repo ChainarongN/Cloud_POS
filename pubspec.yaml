@@ -61,6 +61,7 @@ dependencies:
   flutter_timer_countdown: ^1.0.7
   qr_code_scanner: ^1.0.1
   
+  flutter_pos_printer_platform_image_3:
 
   esc_pos_printer:
   esc_pos_utils:

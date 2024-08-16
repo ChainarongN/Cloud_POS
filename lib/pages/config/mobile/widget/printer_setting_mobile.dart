@@ -6,6 +6,7 @@ import 'package:cloud_pos/utils/widgets/app_textstyle.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
@@ -27,7 +28,9 @@ SingleChildScrollView printerSettingMobile(BuildContext context,
 
         configWatch.getConnectionTypeValue == 'SunmiV2'
             ? const SizedBox.shrink()
-            : printerAddress(context, configWatch, configRead),
+            : configWatch.getConnectionTypeValue == 'USB'
+                ? usbWidget(context, configWatch, configRead)
+                : printerAddress(context, configWatch, configRead),
 
         testPrintBtn(context, configRead, configWatch),
         btnSave(context, configWatch, configRead),
@@ -43,10 +46,104 @@ SingleChildScrollView printerSettingMobile(BuildContext context,
   );
 }
 
+Column usbWidget(BuildContext context, ConfigProvider configWatch,
+    ConfigProvider configRead) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      GestureDetector(
+        onTap: () {
+          configRead.scan();
+        },
+        child: Container(
+          width: 100,
+          alignment: Alignment.center,
+          margin: EdgeInsets.only(
+            top: Constants().screenheight(context) * 0.01,
+            left: Constants().screenWidth(context) * 0.015,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            gradient: LinearGradient(
+              colors: [
+                Colors.blue.shade200,
+                Colors.blue.shade400,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.blue.shade200,
+                blurRadius: 8,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
+            child: AppTextStyle().textNormal('Scan',
+                size: Constants().screenWidth(context) * Constants.normalSizeMB,
+                color: Colors.white),
+          ),
+        ),
+      ),
+      Padding(
+        padding: EdgeInsets.only(
+            left: Constants().screenheight(context) * 0.035,
+            right: Constants().screenheight(context) * 0.035),
+        child: Column(
+          children: List.generate(
+            configWatch.devices.length,
+            (index) => ListTile(
+              contentPadding: const EdgeInsets.all(0),
+              title: Text(
+                configWatch.devices[index].name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('ProdId: ${configWatch.devices[index].productId}'),
+                  Text('VendorId: ${configWatch.devices[index].vendorId}')
+                ],
+              ),
+              trailing: GestureDetector(
+                onTap: () {
+                  configRead.selectDevice(context, index);
+                },
+                child: Container(
+                    width: 80,
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(
+                          Constants().screenheight(context) * 0.01),
+                      child: AppTextStyle().textBold('Connect',
+                          size: Constants().screenWidth(context) *
+                              Constants.normalSizeMB,
+                          color: configWatch.nameSelectedUSB !=
+                                  configWatch.devices[index].name
+                              ? Colors.black
+                              : Colors.grey),
+                    )),
+              ),
+            ),
+          ),
+        ),
+      )
+    ],
+  );
+}
+
 GestureDetector testPrintBtn(BuildContext context, ConfigProvider configRead,
     ConfigProvider configWatch) {
   return GestureDetector(
     onTap: () async {
+      configRead.scan();
       // configWatch.getScreenShotController
       //     .capture(delay: const Duration(seconds: 1), pixelRatio: 1.2)
       //     .then((Uint8List? value) async {
@@ -91,7 +188,7 @@ GestureDetector testPrintBtn(BuildContext context, ConfigProvider configRead,
                     right: Constants().screenheight(context) * 0.01),
                 child: Icon(
                   Icons.print,
-                  size: Constants().screenWidth(context) * 0.025,
+                  size: Constants().screenWidth(context) * 0.035,
                   color: Colors.white,
                 )),
             AppTextStyle().textNormal(LocaleKeys.test_print.tr(),
