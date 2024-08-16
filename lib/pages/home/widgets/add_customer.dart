@@ -35,7 +35,8 @@ Row addCustomer(
           ),
           style: TextStyle(
               color: Constants.textColor,
-              fontSize: Constants().screenheight(context) * 0.02),
+              fontSize:
+                  Constants().fontSizeTL(context, Constants.normalSizeTL)),
         ),
       ),
       GestureDetector(

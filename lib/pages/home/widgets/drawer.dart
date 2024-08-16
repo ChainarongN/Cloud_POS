@@ -190,14 +190,17 @@ Future<void> holdBillDialog(
                 Container(
                   margin: const EdgeInsets.only(bottom: 20),
                   child: AppTextStyle().textBold('Hold Bill List',
-                      size: Constants().screenWidth(context) * 0.015),
+                      size: Constants()
+                          .fontSizeTL(context, Constants.boldSizeTL)),
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.6,
                   child: homeWatch.holdBillSearchModel!.responseObj!.isEmpty
                       ? Center(
-                          child: AppTextStyle().textNormal('No information'),
+                          child: AppTextStyle().textNormal('No information',
+                              size: Constants()
+                                  .fontSizeTL(context, Constants.normalSizeTL)),
                         )
                       : ListView.builder(
                           padding: const EdgeInsets.all(8),
@@ -227,60 +230,66 @@ Future<void> holdBillDialog(
                                   padding: EdgeInsets.all(
                                     Constants().screenWidth(context) * 0.02,
                                   ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                            right: Constants()
-                                                    .screenWidth(context) *
-                                                0.03),
-                                        child: AppTextStyle().textNormal(
-                                            homeWatch
-                                                .holdBillSearchModel!
-                                                .responseObj![index]
-                                                .saleModeName!,
-                                            size: Constants()
-                                                    .screenWidth(context) *
-                                                0.013),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                            right: Constants()
-                                                    .screenWidth(context) *
-                                                0.03),
-                                        child: AppTextStyle().textNormal(
-                                            homeWatch
-                                                .holdBillSearchModel!
-                                                .responseObj![index]
-                                                .customerName!,
-                                            size: Constants()
-                                                    .screenWidth(context) *
-                                                0.013),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                            right: Constants()
-                                                    .screenWidth(context) *
-                                                0.03),
-                                        child: AppTextStyle().textNormal(
-                                            homeWatch
-                                                .holdBillSearchModel!
-                                                .responseObj![index]
-                                                .customerMobile!,
-                                            size: Constants()
-                                                    .screenWidth(context) *
-                                                0.013),
-                                      ),
-                                      Container(
-                                        child: AppTextStyle().textNormal(
-                                            homeWatch.holdBillSearchModel!
-                                                .responseObj![index].openTime!,
-                                            size: Constants()
-                                                    .screenWidth(context) *
-                                                0.013),
-                                      ),
-                                    ],
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              right: Constants()
+                                                      .screenWidth(context) *
+                                                  0.03),
+                                          child: AppTextStyle().textNormal(
+                                              homeWatch
+                                                  .holdBillSearchModel!
+                                                  .responseObj![index]
+                                                  .saleModeName!,
+                                              size: Constants().fontSizeTL(
+                                                  context,
+                                                  Constants.normalSizeTL)),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              right: Constants()
+                                                      .screenWidth(context) *
+                                                  0.03),
+                                          child: AppTextStyle().textNormal(
+                                              homeWatch
+                                                  .holdBillSearchModel!
+                                                  .responseObj![index]
+                                                  .customerName!,
+                                              size: Constants().fontSizeTL(
+                                                  context,
+                                                  Constants.normalSizeTL)),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              right: Constants()
+                                                      .screenWidth(context) *
+                                                  0.03),
+                                          child: AppTextStyle().textNormal(
+                                              homeWatch
+                                                  .holdBillSearchModel!
+                                                  .responseObj![index]
+                                                  .customerMobile!,
+                                              size: Constants().fontSizeTL(
+                                                  context,
+                                                  Constants.normalSizeTL)),
+                                        ),
+                                        Container(
+                                          child: AppTextStyle().textNormal(
+                                              homeWatch
+                                                  .holdBillSearchModel!
+                                                  .responseObj![index]
+                                                  .openTime!,
+                                              size: Constants().fontSizeTL(
+                                                  context,
+                                                  Constants.normalSizeTL)),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -294,7 +303,8 @@ Future<void> holdBillDialog(
         actions: <Widget>[
           TextButton(
             child: AppTextStyle().textNormal(LocaleKeys.cancel.tr(),
-                size: 18, color: Colors.red),
+                size: Constants().fontSizeTL(context, Constants.normalSizeTL),
+                color: Colors.red),
             onPressed: () async {
               Navigator.of(context).popUntil(ModalRoute.withName("/homePage"));
             },

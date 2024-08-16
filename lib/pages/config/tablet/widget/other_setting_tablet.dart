@@ -24,7 +24,8 @@ SingleChildScrollView otherSettingTablet(BuildContext context,
             child: Row(
               children: <Widget>[
                 AppTextStyle().textNormal('Device ID : ',
-                    size: Constants().screenheight(context) * 0.027),
+                    size:
+                        Constants().fontSizeTL(context, Constants.boldSizeTL)),
                 const Spacer(),
                 SizedBox(
                   width: Constants().screenWidth(context) * 0.4,
@@ -56,7 +57,8 @@ SingleChildScrollView otherSettingTablet(BuildContext context,
                         )),
                     style: TextStyle(
                         color: Constants.textColor,
-                        fontSize: Constants().screenheight(context) * 0.025),
+                        fontSize: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL)),
                     onChanged: (value) {
                       if (value.length == 19 || value.isEmpty) {
                         configRead.setDeviceID(value);
@@ -113,11 +115,12 @@ Container loadDataSetting(BuildContext context, ConfigProvider configRead,
             children: [
               AppTextStyle().textNormal(
                 LocaleKeys.get_new_data.tr(),
-                size: Constants().screenheight(context) * 0.03,
+                size: Constants().fontSizeTL(context, Constants.h2SizeTL),
                 color: Colors.white,
               ),
               AppTextStyle().textNormal(LocaleKeys.get_new_data_detail.tr(),
-                  size: 16, color: Colors.grey.shade100)
+                  size: Constants().fontSizeTL(context, Constants.descSizeTL),
+                  color: Colors.grey.shade100)
             ],
           ),
           const Spacer(),

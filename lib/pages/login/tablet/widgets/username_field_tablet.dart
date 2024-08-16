@@ -24,7 +24,7 @@ Container usernameTablet(BuildContext context, LoginProvider loginWatch) {
       ),
       style: TextStyle(
           color: Constants.textColor,
-          fontSize: Constants().screenheight(context) * 0.024),
+          fontSize: Constants().fontSizeTL(context, Constants.normalSizeTL)),
     ),
   );
 }

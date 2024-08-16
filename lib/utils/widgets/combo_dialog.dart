@@ -147,8 +147,8 @@ class ComboDialog {
               child: Checkbox(
                 value: qtyValue ? false : true,
                 onChanged: (bool? newValue) {
-                  menuPvd.setQtyCombo(
-                      newValue!, indexGroup, indexitemList, 0, 0, false);
+                  menuPvd.setSelectCombo(context, newValue!, indexGroup,
+                      indexitemList, 0, 0, false);
                 },
               ),
             ),
@@ -312,15 +312,15 @@ class ComboDialog {
                       .qty,
                   activeColor: Colors.blue,
                   onChanged: (value) {
-                    menuPvd.setQtyCombo(true, indexGroup, indexitemList,
-                        indexCommentGroup, indexComment, true);
+                    menuPvd.setSelectCombo(context, true, indexGroup,
+                        indexitemList, indexCommentGroup, indexComment, true);
                   },
                 )
               : Checkbox(
                   value: checkCommentQty ? false : true,
                   onChanged: (bool? newValue) {
-                    menuPvd.setQtyCombo(newValue!, indexGroup, indexitemList,
-                        indexCommentGroup, indexComment, true);
+                    menuPvd.setSelectCombo(context, newValue!, indexGroup,
+                        indexitemList, indexCommentGroup, indexComment, true);
                   },
                 ),
           Expanded(

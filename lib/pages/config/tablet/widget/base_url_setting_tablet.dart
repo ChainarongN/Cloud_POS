@@ -31,26 +31,32 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppTextStyle().textBold(LocaleKeys.merchant_name.tr(),
-                    size: Constants().screenheight(context) * 0.025),
+                    size:
+                        Constants().fontSizeTL(context, Constants.boldSizeTL)),
                 configWatch.shopData == null
                     ? AppTextStyle().textNormal('-',
-                        size: Constants().screenheight(context) * 0.025)
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL))
                     : AppTextStyle().textNormal(
                         configWatch.shopData!.merchantName!,
-                        size: Constants().screenheight(context) * 0.025),
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL)),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppTextStyle().textBold('Merchant Key',
-                    size: Constants().screenheight(context) * 0.025),
+                    size:
+                        Constants().fontSizeTL(context, Constants.boldSizeTL)),
                 configWatch.shopData == null
                     ? AppTextStyle().textNormal('-',
-                        size: Constants().screenheight(context) * 0.025)
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL))
                     : AppTextStyle().textNormal(
                         configWatch.shopData!.merchantKey!,
-                        size: Constants().screenheight(context) * 0.025),
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL)),
               ],
             ),
           ],
@@ -64,25 +70,31 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppTextStyle().textBold(LocaleKeys.brand_name.tr(),
-                    size: Constants().screenheight(context) * 0.025),
+                    size:
+                        Constants().fontSizeTL(context, Constants.boldSizeTL)),
                 configWatch.shopData == null
                     ? AppTextStyle().textNormal('-',
-                        size: Constants().screenheight(context) * 0.025)
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL))
                     : AppTextStyle().textNormal(
                         configWatch.shopData!.brandName!,
-                        size: Constants().screenheight(context) * 0.025),
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL)),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppTextStyle().textBold('Brand Key',
-                    size: Constants().screenheight(context) * 0.025),
+                    size:
+                        Constants().fontSizeTL(context, Constants.boldSizeTL)),
                 configWatch.shopData == null
                     ? AppTextStyle().textNormal('-',
-                        size: Constants().screenheight(context) * 0.025)
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL))
                     : AppTextStyle().textNormal(configWatch.shopData!.brandKey!,
-                        size: Constants().screenheight(context) * 0.025),
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL)),
               ],
             ),
           ],
@@ -96,24 +108,30 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppTextStyle().textBold(LocaleKeys.shop_name.tr(),
-                    size: Constants().screenheight(context) * 0.025),
+                    size:
+                        Constants().fontSizeTL(context, Constants.boldSizeTL)),
                 configWatch.shopData == null
                     ? AppTextStyle().textNormal('-',
-                        size: Constants().screenheight(context) * 0.025)
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL))
                     : AppTextStyle().textNormal(configWatch.shopData!.shopName!,
-                        size: Constants().screenheight(context) * 0.025),
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL)),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppTextStyle().textBold(LocaleKeys.shop_key.tr(),
-                    size: Constants().screenheight(context) * 0.025),
+                    size:
+                        Constants().fontSizeTL(context, Constants.boldSizeTL)),
                 configWatch.shopData == null
                     ? AppTextStyle().textNormal('-',
-                        size: Constants().screenheight(context) * 0.025)
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL))
                     : AppTextStyle().textNormal(configWatch.shopData!.shopKey!,
-                        size: Constants().screenheight(context) * 0.025),
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL)),
               ],
             ),
           ],
@@ -127,22 +145,27 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppTextStyle().textBold(LocaleKeys.pos_name.tr(),
-                    size: Constants().screenheight(context) * 0.025),
+                    size:
+                        Constants().fontSizeTL(context, Constants.boldSizeTL)),
                 configWatch.computerName == null
                     ? AppTextStyle().textNormal('-',
-                        size: Constants().screenheight(context) * 0.025)
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL))
                     : AppTextStyle().textNormal(
                         configWatch.computerName!.computerName!,
-                        size: Constants().screenheight(context) * 0.025),
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL)),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppTextStyle().textBold(LocaleKeys.device_key.tr(),
-                    size: Constants().screenheight(context) * 0.025),
+                    size:
+                        Constants().fontSizeTL(context, Constants.boldSizeTL)),
                 AppTextStyle().textNormal(configWatch.deviceIdController.text,
-                    size: Constants().screenheight(context) * 0.025),
+                    size:
+                        Constants().fontSizeTL(context, Constants.boldSizeTL)),
               ],
             ),
           ],
@@ -156,21 +179,26 @@ Column detailBrand(BuildContext context, ConfigProvider configWatch) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppTextStyle().textBold(LocaleKeys.store_address.tr(),
-                    size: Constants().screenheight(context) * 0.025),
+                    size:
+                        Constants().fontSizeTL(context, Constants.boldSizeTL)),
                 configWatch.shopData == null
                     ? AppTextStyle().textNormal('-',
-                        size: Constants().screenheight(context) * 0.025)
+                        size: Constants()
+                            .fontSizeTL(context, Constants.boldSizeTL))
                     : Column(
                         children: [
                           AppTextStyle().textNormal(
                               '${configWatch.shopData!.storeAddress1}',
-                              size: Constants().screenheight(context) * 0.025),
+                              size: Constants()
+                                  .fontSizeTL(context, Constants.boldSizeTL)),
                           AppTextStyle().textNormal(
                               '${configWatch.shopData!.storeAddress2}',
-                              size: Constants().screenheight(context) * 0.025),
+                              size: Constants()
+                                  .fontSizeTL(context, Constants.boldSizeTL)),
                           AppTextStyle().textNormal(
                               '${configWatch.shopData!.storeAddress3}',
-                              size: Constants().screenheight(context) * 0.025),
+                              size: Constants()
+                                  .fontSizeTL(context, Constants.boldSizeTL)),
                         ],
                       ),
               ],
@@ -247,7 +275,7 @@ GestureDetector saveConfigBtn(BuildContext context, ConfigProvider configRead) {
                   color: Colors.white,
                 )),
             AppTextStyle().textNormal(LocaleKeys.save_config.tr(),
-                size: Constants().screenheight(context) * 0.03,
+                size: Constants().fontSizeTL(context, Constants.h2SizeTL),
                 color: Colors.white),
           ],
         ),
@@ -290,7 +318,7 @@ Column baseUrlConfig(BuildContext context, ConfigProvider configWatch) {
               )),
           style: TextStyle(
               color: Constants.textColor,
-              fontSize: Constants().screenheight(context) * 0.03),
+              fontSize: Constants().fontSizeTL(context, Constants.h2SizeTL)),
         ),
       ),
       Container(
@@ -329,7 +357,7 @@ Column baseUrlConfig(BuildContext context, ConfigProvider configWatch) {
                     color: Colors.white,
                   )),
               AppTextStyle().textNormal(LocaleKeys.get_shop_data.tr(),
-                  size: Constants().screenheight(context) * 0.03,
+                  size: Constants().fontSizeTL(context, Constants.h2SizeTL),
                   color: Colors.white),
             ],
           ),

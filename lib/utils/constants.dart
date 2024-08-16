@@ -43,6 +43,7 @@ class Constants {
   static const boldSizeMB = 0.045;
   static const descSizeMB = 0.025;
   // size Tablet
+  static const h2SizeTL = 0.03;
   static const normalSizeTL = 0.023;
   static const boldSizeTL = 0.025;
   static const descSizeTL = 0.020;

@@ -853,64 +853,23 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future setQtyComment(
-      int indexCommentGroup, int commentindex, bool selected) async {
-    List<Comments> commentList =
-        productObjModel!.responseObj!.productData!.comments!;
-    if (productObjModel!.responseObj!.productData!
-            .commentGroup![indexCommentGroup].isMulti ==
-        0) {
-      for (var element in commentList) {
-        if (element.groupID ==
-            productObjModel!.responseObj!.productData!
-                .commentGroup![indexCommentGroup].groupID) {
-          element.qty = 0;
-        }
-      }
-    }
-    if (selected) {
-      productObjModel!.responseObj!.productData!.comments![commentindex].qty =
-          1.0;
-    } else {
-      productObjModel!.responseObj!.productData!.comments![commentindex].qty =
-          0.0;
-    }
+  Future setSelectComment(BuildContext context, int indexCommentGroup,
+      int commentindex, bool selected) async {
+    await ManageOrderFunc()
+        .setSelectComment(context, indexCommentGroup, commentindex, selected);
     notifyListeners();
   }
 
-  Future setQtyCombo(bool selected, int indexGroup, int indexitemList,
-      int indexCommentGroup, int indexComment, bool isComment) async {
-    List<Comments> commentList = productObjModel!.responseObj!.comboData!
-        .group![indexGroup].itemList![indexitemList].comments!;
-
-    if (isComment) {
-      if (productObjModel!.responseObj!.comboData!
-              .commentGroup![indexCommentGroup].isMulti ==
-          0) {
-        for (var element in commentList) {
-          if (element.groupID ==
-              productObjModel!.responseObj!.comboData!
-                  .commentGroup![indexCommentGroup].groupID) {
-            element.qty = 0;
-          }
-        }
-      }
-      if (selected) {
-        productObjModel!.responseObj!.comboData!.group![indexGroup]
-            .itemList![indexitemList].comments![indexComment].qty = 1.0;
-      } else {
-        productObjModel!.responseObj!.comboData!.group![indexGroup]
-            .itemList![indexitemList].comments![indexComment].qty = 0.0;
-      }
-    } else {
-      if (selected) {
-        productObjModel!.responseObj!.comboData!.group![indexGroup]
-            .itemList![indexitemList].qtyValue = 1.0;
-      } else {
-        productObjModel!.responseObj!.comboData!.group![indexGroup]
-            .itemList![indexitemList].qtyValue = 0.0;
-      }
-    }
+  Future setSelectCombo(
+      BuildContext context,
+      bool selected,
+      int indexGroup,
+      int indexitemList,
+      int indexCommentGroup,
+      int indexComment,
+      bool isComment) async {
+    await ManageOrderFunc().setSelectCombo(context, selected, indexGroup,
+        indexitemList, indexCommentGroup, indexComment, isComment);
     notifyListeners();
   }
 
@@ -964,46 +923,8 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  manageCountOrder(BuildContext context, int index, String frag) {
-    if (frag == 'add') {
-      orderProcess(
-          context,
-          transactionModel!.responseObj!.orderList![index].qty! + 1,
-          transactionModel!.responseObj!.orderList![index].orderDetailID
-              .toString(),
-          '2',
-          transactionModel!.responseObj!.orderList![index].productID!
-              .toString());
-    } else if (frag == 'remove') {
-      if (transactionModel!.responseObj!.orderList![index].qty! > 1) {
-        orderProcess(
-            context,
-            transactionModel!.responseObj!.orderList![index].qty! - 1,
-            transactionModel!.responseObj!.orderList![index].orderDetailID
-                .toString(),
-            '2',
-            transactionModel!.responseObj!.orderList![index].productID!
-                .toString());
-      }
-    } else if (frag == 'dialog') {
-      orderProcess(
-          context,
-          double.parse(valueQtyOrderController.text),
-          transactionModel!.responseObj!.orderList![index].orderDetailID
-              .toString(),
-          '2',
-          transactionModel!.responseObj!.orderList![index].productID!
-              .toString());
-    } else {
-      orderProcess(
-          context,
-          transactionModel!.responseObj!.orderList![index].qty!,
-          transactionModel!.responseObj!.orderList![index].orderDetailID
-              .toString(),
-          '1',
-          transactionModel!.responseObj!.orderList![index].productID!
-              .toString());
-    }
+  manageCountOrder(BuildContext context, int index, String frag) async {
+    await ManageOrderFunc().setCountOrder(context, index, frag);
   }
 
   Future setPayAmountField(int value) async {

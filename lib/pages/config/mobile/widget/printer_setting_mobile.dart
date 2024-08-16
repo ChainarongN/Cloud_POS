@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:cloud_pos/providers/config/config_provider.dart';
 import 'package:cloud_pos/service/printer.dart';
 import 'package:cloud_pos/translations/locale_key.g.dart';
@@ -25,9 +24,11 @@ SingleChildScrollView printerSettingMobile(BuildContext context,
         receiptPrinter(context, configRead, configWatch),
         printerModel(context, configRead, configWatch),
         connectionType(context, configRead, configWatch),
+
         configWatch.getConnectionTypeValue == 'SunmiV2'
             ? const SizedBox.shrink()
             : printerAddress(context, configWatch, configRead),
+
         testPrintBtn(context, configRead, configWatch),
         btnSave(context, configWatch, configRead),
         // Container(
@@ -210,8 +211,8 @@ SizedBox printerAddress(BuildContext context, ConfigProvider configWatch,
                   )),
               style: TextStyle(
                   color: Constants.textColor,
-                  fontSize:
-                      Constants().screenWidth(context) * Constants.normalSizeMB),
+                  fontSize: Constants().screenWidth(context) *
+                      Constants.normalSizeMB),
             ),
           ),
         ],

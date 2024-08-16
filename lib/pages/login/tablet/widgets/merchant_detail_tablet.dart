@@ -17,16 +17,19 @@ Container merchantDetailTablet(
               width: Constants().screenWidth(context) * 0.11,
               child: AppTextStyle().textBold(
                   '${LocaleKeys.merchant_name.tr()} : ',
-                  size: Constants().screenheight(context) * 0.023),
+                  size:
+                      Constants().fontSizeTL(context, Constants.normalSizeTL)),
             ),
             loginWatch.shopData == null
                 ? AppTextStyle().textNormal('-',
-                    size: Constants().screenheight(context) * 0.023)
+                    size:
+                        Constants().fontSizeTL(context, Constants.normalSizeTL))
                 : SizedBox(
                     width: Constants().screenWidth(context) * 0.2,
                     child: AppTextStyle().textNormal(
                         loginWatch.shopData!.merchantName!,
-                        size: Constants().screenheight(context) * 0.023),
+                        size: Constants()
+                            .fontSizeTL(context, Constants.normalSizeTL)),
                   )
           ],
         ),
@@ -35,16 +38,19 @@ Container merchantDetailTablet(
             SizedBox(
               width: Constants().screenWidth(context) * 0.11,
               child: AppTextStyle().textBold('${LocaleKeys.brand_name.tr()} : ',
-                  size: Constants().screenheight(context) * 0.023),
+                  size:
+                      Constants().fontSizeTL(context, Constants.normalSizeTL)),
             ),
             loginWatch.shopData == null
                 ? AppTextStyle().textNormal('-',
-                    size: Constants().screenheight(context) * 0.023)
+                    size:
+                        Constants().fontSizeTL(context, Constants.normalSizeTL))
                 : SizedBox(
                     width: Constants().screenWidth(context) * 0.2,
                     child: AppTextStyle().textNormal(
                         loginWatch.shopData!.brandName!,
-                        size: Constants().screenheight(context) * 0.023),
+                        size: Constants()
+                            .fontSizeTL(context, Constants.normalSizeTL)),
                   )
           ],
         ),
@@ -53,16 +59,19 @@ Container merchantDetailTablet(
             SizedBox(
               width: Constants().screenWidth(context) * 0.11,
               child: AppTextStyle().textBold('${LocaleKeys.shop_name.tr()} : ',
-                  size: Constants().screenheight(context) * 0.023),
+                  size:
+                      Constants().fontSizeTL(context, Constants.normalSizeTL)),
             ),
             loginWatch.shopData == null
                 ? AppTextStyle().textNormal('-',
-                    size: Constants().screenheight(context) * 0.023)
+                    size:
+                        Constants().fontSizeTL(context, Constants.normalSizeTL))
                 : SizedBox(
                     width: Constants().screenWidth(context) * 0.2,
                     child: AppTextStyle().textNormal(
                         loginWatch.shopData!.shopName!,
-                        size: Constants().screenheight(context) * 0.023),
+                        size: Constants()
+                            .fontSizeTL(context, Constants.normalSizeTL)),
                   )
           ],
         ),
@@ -71,15 +80,18 @@ Container merchantDetailTablet(
             SizedBox(
               width: Constants().screenWidth(context) * 0.11,
               child: AppTextStyle().textBold('${LocaleKeys.pos_name.tr()} : ',
-                  size: Constants().screenheight(context) * 0.023),
+                  size:
+                      Constants().fontSizeTL(context, Constants.normalSizeTL)),
             ),
             loginWatch.shopData == null
                 ? AppTextStyle().textNormal('-',
-                    size: Constants().screenheight(context) * 0.023)
+                    size:
+                        Constants().fontSizeTL(context, Constants.normalSizeTL))
                 : SizedBox(
                     width: Constants().screenWidth(context) * 0.2,
                     child: AppTextStyle().textNormal('-',
-                        size: Constants().screenheight(context) * 0.023),
+                        size: Constants()
+                            .fontSizeTL(context, Constants.normalSizeTL)),
                   )
           ],
         ),

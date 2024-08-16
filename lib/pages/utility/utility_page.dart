@@ -54,7 +54,8 @@ class _UtilityPageState extends State<UtilityPage> {
                       gradient4: Colors.deepOrange.shade400,
                       radius: 40,
                       onlyText: false,
-                      size: 20,
+                      size:
+                          Constants().fontSizeTL(context, Constants.boldSizeTL),
                       onPressed: () {
                         DialogStyle().confirmDialog2(context,
                             title: 'Close Session',
@@ -104,7 +105,8 @@ class _UtilityPageState extends State<UtilityPage> {
                       gradient4: Colors.red.shade700,
                       radius: 40,
                       onlyText: false,
-                      size: 20,
+                      size:
+                          Constants().fontSizeTL(context, Constants.boldSizeTL),
                       onPressed: () {
                         DialogStyle().confirmDialog2(context,
                             title: 'End day',
@@ -224,7 +226,9 @@ class _UtilityPageState extends State<UtilityPage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: AppTextStyle().textNormal('OK', size: 18),
+              child: AppTextStyle().textNormal('OK',
+                  size:
+                      Constants().fontSizeTL(context, Constants.normalSizeTL)),
               onPressed: () async {
                 if (utilityWatch.getCloseAmountController.text.isNotEmpty) {
                   DialogStyle().dialogLoadding(context);
@@ -253,8 +257,9 @@ class _UtilityPageState extends State<UtilityPage> {
               },
             ),
             TextButton(
-              child: AppTextStyle()
-                  .textNormal('Cancel', size: 18, color: Colors.red),
+              child: AppTextStyle().textNormal('Cancel',
+                  size: Constants().fontSizeTL(context, Constants.normalSizeTL),
+                  color: Colors.red),
               onPressed: () async {
                 Navigator.pop(context, false);
               },

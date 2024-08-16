@@ -175,8 +175,8 @@ class DialogStyle {
                                   .productData!.comments![index].qty,
                               activeColor: Colors.blue,
                               onChanged: (value) {
-                                menuPvd.setQtyComment(
-                                    indexCommentGroup, index, true);
+                                menuPvd.setSelectComment(
+                                    context, indexCommentGroup, index, true);
                               },
                             )
                           : Checkbox(
@@ -186,7 +186,7 @@ class DialogStyle {
                                   ? false
                                   : true,
                               onChanged: (bool? newValue) {
-                                menuPvd.setQtyComment(
+                                menuPvd.setSelectComment(context,
                                     indexCommentGroup, index, newValue!);
                               },
                             ),
@@ -364,7 +364,8 @@ class DialogStyle {
                 style: TextStyle(
                     fontSize: deviceType == 'tablet'
                         ? Constants().screenWidth(context) * 0.015
-                        : Constants().screenWidth(context) * Constants.boldSizeMB,
+                        : Constants().screenWidth(context) *
+                            Constants.boldSizeMB,
                     fontWeight: FontWeight.bold),
               ),
             ],

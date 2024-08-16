@@ -56,7 +56,8 @@ class _LoginTabletState extends State<LoginTablet> {
                     child: Column(
                       children: [
                         AppTextStyle().textNormal('vTec - Cloud POS',
-                            size: Constants().screenheight(context) * 0.024),
+                            size: Constants()
+                                .fontSizeTL(context, Constants.boldSizeTL)),
                         usernameTablet(context, loginWatch),
                         SizedBox(
                             height: Constants().screenheight(context) * 0.02),
@@ -64,7 +65,9 @@ class _LoginTabletState extends State<LoginTablet> {
                         SizedBox(
                             height: Constants().screenheight(context) * 0.01),
                         AppTextStyle().textNormal(loginWatch.getErrorText,
-                            color: Colors.red),
+                            color: Colors.red,
+                            size: Constants()
+                                .fontSizeTL(context, Constants.descSizeTL)),
                         SizedBox(
                             height: Constants().screenheight(context) * 0.01),
                         btnLoginTablet(context, loginRead, loginWatch),

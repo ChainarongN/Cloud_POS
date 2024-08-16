@@ -135,4 +135,4 @@ class ConfigProvider extends ChangeNotifier {
 }
 
 List<String> _printerModelList = ['TM-30', 'Sunmi'];
-List<String> _connectionTypeList = ['Wifi', 'SunmiV2'];
+List<String> _connectionTypeList = ['Wifi', 'SunmiV2', 'USB'];

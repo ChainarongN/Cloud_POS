@@ -19,7 +19,8 @@ SizedBox groupList(
                     onlyText: true,
                     title: homeWatch.getGroupItem[index],
                     icon: Icons.android,
-                    size: Constants().screenheight(context) * 0.023,
+                    size:
+                        Constants().fontSizeTL(context, Constants.normalSizeTL),
                     radius: 8,
                     width: Constants().screenWidth(context) * 0.1,
                     height: Constants().screenheight(context) * 0.15,
@@ -36,7 +37,8 @@ SizedBox groupList(
                     onlyText: true,
                     title: homeWatch.getGroupItem[index],
                     icon: Icons.android,
-                    size: Constants().screenheight(context) * 0.023,
+                    size:
+                        Constants().fontSizeTL(context, Constants.normalSizeTL),
                     radius: 8,
                     width: Constants().screenWidth(context) * 0.1,
                     height: Constants().screenheight(context) * 0.15,

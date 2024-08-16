@@ -12,7 +12,7 @@ Row footbarTablet(BuildContext context, LoginProvider loginWatch) {
     children: <Widget>[
       AppTextStyle().textNormal(
           '${LocaleKeys.device_key.tr()} : ${loginWatch.deviceController.text}',
-          size: Constants().screenheight(context) * 0.023),
+          size: Constants().fontSizeTL(context, Constants.normalSizeTL)),
       const Spacer(),
       Column(
         children: [
@@ -45,13 +45,14 @@ Row footbarTablet(BuildContext context, LoginProvider loginWatch) {
                 padding:
                     EdgeInsets.all(Constants().screenheight(context) * 0.015),
                 child: AppTextStyle().textNormal(LocaleKeys.configuration.tr(),
-                    size: Constants().screenheight(context) * 0.023),
+                    size: Constants()
+                        .fontSizeTL(context, Constants.normalSizeTL)),
               ),
             ),
           ),
           AppTextStyle().textNormal(
               '${LocaleKeys.version.tr()} : ${loginWatch.versionName}',
-              size: Constants().screenheight(context) * 0.023),
+              size: Constants().fontSizeTL(context, Constants.normalSizeTL)),
         ],
       ),
     ],

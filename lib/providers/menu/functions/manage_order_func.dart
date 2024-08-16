@@ -1,4 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
+import 'dart:async';
+
+import 'package:cloud_pos/models/product_obj_model.dart';
 import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
@@ -98,6 +101,117 @@ class ManageOrderFunc {
           }
         }
       });
+    }
+  }
+
+  Future setSelectComment(BuildContext context, int indexCommentGroup,
+      int commentindex, bool selected) async {
+    var menuPvd = Provider.of<MenuProvider>(context, listen: false);
+    List<Comments> commentList =
+        menuPvd.productObjModel!.responseObj!.productData!.comments!;
+    if (menuPvd.productObjModel!.responseObj!.productData!
+            .commentGroup![indexCommentGroup].isMulti ==
+        0) {
+      for (var element in commentList) {
+        if (element.groupID ==
+            menuPvd.productObjModel!.responseObj!.productData!
+                .commentGroup![indexCommentGroup].groupID) {
+          element.qty = 0;
+        }
+      }
+    }
+    if (selected) {
+      menuPvd.productObjModel!.responseObj!.productData!.comments![commentindex]
+          .qty = 1.0;
+    } else {
+      menuPvd.productObjModel!.responseObj!.productData!.comments![commentindex]
+          .qty = 0.0;
+    }
+  }
+
+  Future setSelectCombo(
+      BuildContext context,
+      bool selected,
+      int indexGroup,
+      int indexitemList,
+      int indexCommentGroup,
+      int indexComment,
+      bool isComment) async {
+    var menuPvd = Provider.of<MenuProvider>(context, listen: false);
+    List<Comments> commentList = menuPvd.productObjModel!.responseObj!
+        .comboData!.group![indexGroup].itemList![indexitemList].comments!;
+
+    if (isComment) {
+      if (menuPvd.productObjModel!.responseObj!.comboData!
+              .commentGroup![indexCommentGroup].isMulti ==
+          0) {
+        for (var element in commentList) {
+          if (element.groupID ==
+              menuPvd.productObjModel!.responseObj!.comboData!
+                  .commentGroup![indexCommentGroup].groupID) {
+            element.qty = 0;
+          }
+        }
+      }
+      if (selected) {
+        menuPvd.productObjModel!.responseObj!.comboData!.group![indexGroup]
+            .itemList![indexitemList].comments![indexComment].qty = 1.0;
+      } else {
+        menuPvd.productObjModel!.responseObj!.comboData!.group![indexGroup]
+            .itemList![indexitemList].comments![indexComment].qty = 0.0;
+      }
+    } else {
+      if (selected) {
+        menuPvd.productObjModel!.responseObj!.comboData!.group![indexGroup]
+            .itemList![indexitemList].qtyValue = 1.0;
+      } else {
+        menuPvd.productObjModel!.responseObj!.comboData!.group![indexGroup]
+            .itemList![indexitemList].qtyValue = 0.0;
+      }
+    }
+  }
+
+  Future setCountOrder(BuildContext context, int index, String frag) async {
+    var menuPvd = Provider.of<MenuProvider>(context, listen: false);
+    if (frag == 'add') {
+      menuPvd.orderProcess(
+          context,
+          menuPvd.transactionModel!.responseObj!.orderList![index].qty! + 1,
+          menuPvd.transactionModel!.responseObj!.orderList![index].orderDetailID
+              .toString(),
+          '2',
+          menuPvd.transactionModel!.responseObj!.orderList![index].productID!
+              .toString());
+    } else if (frag == 'remove') {
+      if (menuPvd.transactionModel!.responseObj!.orderList![index].qty! > 1) {
+        menuPvd.orderProcess(
+            context,
+            menuPvd.transactionModel!.responseObj!.orderList![index].qty! - 1,
+            menuPvd
+                .transactionModel!.responseObj!.orderList![index].orderDetailID
+                .toString(),
+            '2',
+            menuPvd.transactionModel!.responseObj!.orderList![index].productID!
+                .toString());
+      }
+    } else if (frag == 'dialog') {
+      menuPvd.orderProcess(
+          context,
+          double.parse(menuPvd.valueQtyOrderController.text),
+          menuPvd.transactionModel!.responseObj!.orderList![index].orderDetailID
+              .toString(),
+          '2',
+          menuPvd.transactionModel!.responseObj!.orderList![index].productID!
+              .toString());
+    } else {
+      menuPvd.orderProcess(
+          context,
+          menuPvd.transactionModel!.responseObj!.orderList![index].qty!,
+          menuPvd.transactionModel!.responseObj!.orderList![index].orderDetailID
+              .toString(),
+          '1',
+          menuPvd.transactionModel!.responseObj!.orderList![index].productID!
+              .toString());
     }
   }
 }

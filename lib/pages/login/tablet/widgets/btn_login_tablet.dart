@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 
 GestureDetector btnLoginTablet(
     BuildContext context, LoginProvider loginRead, LoginProvider loginWatch) {
-  var configPvd = Provider.of<ConfigProvider>(context, listen: false);
+  // var configPvd = Provider.of<ConfigProvider>(context, listen: false);
   return GestureDetector(
       onLongPress: () {
         loginRead.setUsernameForTest();
@@ -57,7 +57,7 @@ GestureDetector btnLoginTablet(
           secondaryColor: Colors.blue.shade400,
           selected: false,
           widget: AppTextStyle().textNormal(LocaleKeys.login.tr(),
-              size: Constants().screenheight(context) * 0.024,
+              size: Constants().fontSizeTL(context, Constants.boldSizeTL),
               color: Colors.white),
         ),
       ));
@@ -105,7 +105,8 @@ Future<void> openDeviceIdDialog(
         ),
         actions: <Widget>[
           TextButton(
-            child: AppTextStyle().textNormal('OK', size: 18),
+            child: AppTextStyle().textNormal('OK',
+                size: Constants().fontSizeTL(context, Constants.normalSizeTL)),
             onLongPress: () {
               loginRead.setMockDeviceId();
             },
@@ -128,8 +129,9 @@ Future<void> openDeviceIdDialog(
             },
           ),
           TextButton(
-            child: AppTextStyle()
-                .textNormal('Cancel', size: 18, color: Colors.red),
+            child: AppTextStyle().textNormal('Cancel',
+                size: Constants().fontSizeTL(context, Constants.normalSizeTL),
+                color: Colors.red),
             onPressed: () async {
               Navigator.pop(context);
             },
