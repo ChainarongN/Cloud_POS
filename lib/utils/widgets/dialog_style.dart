@@ -395,7 +395,6 @@ class DialogStyle {
             ),
           ],
         );
-        ;
       },
     );
   }
