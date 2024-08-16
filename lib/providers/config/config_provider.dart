@@ -8,13 +8,10 @@ import 'package:cloud_pos/service/read_file_func.dart';
 import 'package:cloud_pos/repositorys/config/i_config_repository.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/constants.dart';
-import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_pos_printer_platform_image_3/flutter_pos_printer_platform_image_3.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:esc_pos_utils/esc_pos_utils.dart';
 
 class ConfigProvider extends ChangeNotifier {
   final IConfigRepository _configRepository;

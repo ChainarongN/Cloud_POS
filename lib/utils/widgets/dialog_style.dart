@@ -145,7 +145,6 @@ class DialogStyle {
             ),
           ],
         );
-        ;
       },
     );
   }
