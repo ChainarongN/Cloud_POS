@@ -181,7 +181,7 @@ class Printer {
         break;
       case 'SunmiV2':
         _bindingPrinter();
-        await SunmiPrinter.printText('Using the old way to bold!');
+        await SunmiPrinter.printText('Hello World');
         await SunmiPrinter.lineWrap(8);
         await SunmiPrinter.exitTransactionPrint(true);
         break;
@@ -191,7 +191,7 @@ class Printer {
         final profile = await CapabilityProfile.load();
         final generator = Generator(PaperSize.mm80, profile);
         // bytes += generator.setGlobalCodeTable('CP1252');
-        bytes += generator.text('Test Print',
+        bytes += generator.text('Hello World',
             styles: const PosStyles(align: PosAlign.center));
         bytes += generator.text('Product 1');
         bytes += generator.text('Product 2');

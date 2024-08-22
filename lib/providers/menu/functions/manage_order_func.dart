@@ -36,7 +36,7 @@ class ManageOrderFunc {
 // ---------------------------------------------- Close ---------------------------------
 // ---------------------------------------------- Have Comment  -------------------------
         else {
-          DialogStyle().commentDialog(context, () async {
+          DialogStyle().commentDialog(context, frag: '', () async {
             DialogStyle().dialogLoadding(context);
             await menuPvd.productAdd(context, count!, false);
             if (menuPvd.apiState == ApiState.COMPLETED) {
@@ -48,7 +48,7 @@ class ManageOrderFunc {
 // ---------------------------------------------- Close ------------------------------
 // ---------------------------------------------- Combo set ------------------------
       else {
-        ComboDialog().dialog(context, () async {
+        ComboDialog().dialog(context, frag: '', () async {
           DialogStyle().dialogLoadding(context);
           await menuPvd.productAdd(context, count!, true);
           if (menuPvd.apiState == ApiState.COMPLETED) {
@@ -75,7 +75,7 @@ class ManageOrderFunc {
       var commentList =
           menuPvd.productObjModel!.responseObj!.productData!.comments!;
       if (commentList.isNotEmpty) {
-        DialogStyle().commentDialog(context, () async {
+        DialogStyle().commentDialog(context, frag: 'edit', () async {
           DialogStyle().dialogLoadding(context);
           await menuPvd.productAdd(context, count, false);
           if (menuPvd.apiState == ApiState.COMPLETED) {
@@ -89,7 +89,7 @@ class ManageOrderFunc {
         });
       }
     } else {
-      ComboDialog().dialog(context, () async {
+      ComboDialog().dialog(context, frag: 'edit', () async {
         DialogStyle().dialogLoadding(context);
         await menuPvd.productAdd(context, count, true);
         if (menuPvd.apiState == ApiState.COMPLETED) {

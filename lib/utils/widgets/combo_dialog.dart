@@ -14,7 +14,8 @@ class ComboDialog {
   static final ComboDialog _instance = ComboDialog._internal();
   factory ComboDialog() => _instance;
 
-  Future<void> dialog(BuildContext context, Function()? onPressed) async {
+  Future<void> dialog(BuildContext context, Function()? onPressed,
+      {String? frag}) async {
     String deviceType = await SharedPref().getResponsiveDevice();
     return showDialog(
       context: context,
@@ -69,8 +70,13 @@ class ComboDialog {
                   Navigator.of(context)
                       .popUntil(ModalRoute.withName('/menuPage'));
                 } else {
-                  Navigator.of(context)
-                      .popUntil(ModalRoute.withName('/shopingCartPage'));
+                  if (frag == 'edit') {
+                    Navigator.of(context)
+                        .popUntil(ModalRoute.withName('/shopingCartPage'));
+                  } else {
+                    Navigator.of(context)
+                        .popUntil(ModalRoute.withName('/menuPage'));
+                  }
                 }
               },
               text: LocaleKeys.cancel.tr(),

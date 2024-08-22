@@ -17,8 +17,8 @@ class DialogStyle {
   static final DialogStyle _instance = DialogStyle._internal();
   factory DialogStyle() => _instance;
 
-  Future<void> commentDialog(
-      BuildContext context, Function()? onPressed) async {
+  Future<void> commentDialog(BuildContext context, Function()? onPressed,
+      {String? frag}) async {
     String deviceType = await SharedPref().getResponsiveDevice();
     return showDialog(
       context: context,
@@ -134,8 +134,13 @@ class DialogStyle {
                   Navigator.of(context)
                       .popUntil(ModalRoute.withName('/menuPage'));
                 } else {
-                  Navigator.of(context)
-                      .popUntil(ModalRoute.withName('/shopingCartPage'));
+                  if (frag == 'edit') {
+                    Navigator.of(context)
+                        .popUntil(ModalRoute.withName('/shopingCartPage'));
+                  } else {
+                    Navigator.of(context)
+                        .popUntil(ModalRoute.withName('/menuPage'));
+                  }
                 }
               },
               text: LocaleKeys.cancel.tr(),
