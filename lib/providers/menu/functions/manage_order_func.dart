@@ -6,6 +6,7 @@ import 'package:cloud_pos/networks/api_service.dart';
 import 'package:cloud_pos/providers/provider.dart';
 import 'package:cloud_pos/service/shared_pref.dart';
 import 'package:cloud_pos/utils/widgets/combo_dialog.dart';
+import 'package:cloud_pos/utils/widgets/comment_dialog.dart';
 import 'package:cloud_pos/utils/widgets/dialog_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +37,7 @@ class ManageOrderFunc {
 // ---------------------------------------------- Close ---------------------------------
 // ---------------------------------------------- Have Comment  -------------------------
         else {
-          DialogStyle().commentDialog(context, frag: '', () async {
+          CommentDialog().dialog(context, frag: '', () async {
             DialogStyle().dialogLoadding(context);
             await menuPvd.productAdd(context, count!, false);
             if (menuPvd.apiState == ApiState.COMPLETED) {
@@ -75,7 +76,7 @@ class ManageOrderFunc {
       var commentList =
           menuPvd.productObjModel!.responseObj!.productData!.comments!;
       if (commentList.isNotEmpty) {
-        DialogStyle().commentDialog(context, frag: 'edit', () async {
+        CommentDialog().dialog(context, frag: 'edit', () async {
           DialogStyle().dialogLoadding(context);
           await menuPvd.productAdd(context, count, false);
           if (menuPvd.apiState == ApiState.COMPLETED) {

@@ -11,7 +11,7 @@ SingleChildScrollView baseUrlSettingTablet(BuildContext context,
   return SingleChildScrollView(
     child: Column(
       children: <Widget>[
-        baseUrlConfig(context, configWatch),
+        baseUrlConfig(context, configWatch, configRead),
         detailBrand(context, configWatch),
         saveConfigBtn(context, configRead),
       ],
@@ -284,7 +284,8 @@ GestureDetector saveConfigBtn(BuildContext context, ConfigProvider configRead) {
   );
 }
 
-Column baseUrlConfig(BuildContext context, ConfigProvider configWatch) {
+Column baseUrlConfig(BuildContext context, ConfigProvider configWatch,
+    ConfigProvider configRead) {
   return Column(
     children: [
       Container(
@@ -314,7 +315,12 @@ Column baseUrlConfig(BuildContext context, ConfigProvider configWatch) {
               suffixIcon: Padding(
                 padding: EdgeInsets.only(
                     right: Constants().screenheight(context) * 0.02),
-                child: const Icon(Icons.cancel),
+                child: GestureDetector(
+                  onTap: () {
+                    configRead.clearBaseUrl();
+                  },
+                  child: const Icon(Icons.cancel),
+                ),
               )),
           style: TextStyle(
               color: Constants.textColor,

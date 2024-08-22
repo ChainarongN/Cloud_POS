@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_pos/models/code_init_model.dart';
@@ -53,10 +54,11 @@ class ConfigProvider extends ChangeNotifier {
     _connectionTypeValue = await SharedPref().getPrinterType();
     _printerModelValue = await SharedPref().getPrinterModel();
     if (_connectionTypeValue!.isEmpty || _printerModelValue!.isEmpty) {
-      _connectionTypeValue = _connectionTypeList.first;
       _printerModelValue = _printerModelList.first;
+      setPrinterValue(_printerModelValue!);
+      saveConfigPrinter();
     }
-    saveConfigPrinter();
+
     nameSelectedUSB = await SharedPref().getPrinterNameUSB();
 
     Constants().printError(deviceIdController.text);
@@ -145,6 +147,11 @@ class ConfigProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  clearBaseUrl() {
+    baseUrlController.text = '';
+    notifyListeners();
+  }
+
   setNewDataSwitch(bool value) async {
     _newDataSwitch = value;
     await SharedPref().setNewDataSwitch(value);
@@ -152,7 +159,13 @@ class ConfigProvider extends ChangeNotifier {
   }
 
   setPrinterValue(String value) {
+    for (var element in _connectionTypeJson) {
+      if (element['ModelName'] == value) {
+        _connectionTypeList = element['ConnectionType'];
+      }
+    }
     _printerModelValue = value;
+    _connectionTypeValue = _connectionTypeList.first;
     notifyListeners();
   }
 
@@ -175,3 +188,13 @@ class ConfigProvider extends ChangeNotifier {
 
 List<String> _printerModelList = ['TM-30', 'Sunmi'];
 List<String> _connectionTypeList = ['Wifi', 'SunmiV2', 'USB'];
+dynamic _connectionTypeJson = [
+  {
+    "ModelName": "TM-30",
+    "ConnectionType": ['Wifi', 'USB']
+  },
+  {
+    "ModelName": "Sunmi",
+    "ConnectionType": ['Wifi', 'SunmiV2', 'USB']
+  }
+];

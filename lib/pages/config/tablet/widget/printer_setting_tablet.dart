@@ -24,9 +24,13 @@ SingleChildScrollView printerSettingTablet(BuildContext context,
         receiptPrinter(context, configRead, configWatch),
         printerModel(context, configRead, configWatch),
         connectionType(context, configRead, configWatch),
+
         configWatch.getConnectionTypeValue == 'SunmiV2'
             ? const SizedBox.shrink()
-            : printerAddress(context, configWatch, configRead),
+            : configWatch.getConnectionTypeValue == 'USB'
+                ? usbWidget(context, configWatch, configRead)
+                : printerAddress(context, configWatch, configRead),
+
         testPrintBtn(context, configRead, configWatch),
         btnSave(context, configWatch, configRead),
         // Container(
@@ -38,6 +42,98 @@ SingleChildScrollView printerSettingTablet(BuildContext context,
         // ),
       ],
     ),
+  );
+}
+
+Column usbWidget(BuildContext context, ConfigProvider configWatch,
+    ConfigProvider configRead) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      GestureDetector(
+        onTap: () {
+          configRead.scan();
+        },
+        child: Container(
+          width: Constants().screenheight(context) * 0.2,
+          alignment: Alignment.center,
+          margin: EdgeInsets.only(
+            top: Constants().screenheight(context) * 0.01,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            gradient: LinearGradient(
+              colors: [
+                Colors.blue.shade200,
+                Colors.blue.shade400,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.blue.shade200,
+                blurRadius: 8,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: AppTextStyle().textNormal('Scan',
+                size: Constants().screenheight(context) * Constants.h2SizeTL,
+                color: Colors.white),
+          ),
+        ),
+      ),
+      Padding(
+        padding: EdgeInsets.only(
+            left: Constants().screenheight(context) * 0.035,
+            right: Constants().screenheight(context) * 0.035),
+        child: Column(
+          children: List.generate(
+            configWatch.devices.length,
+            (index) => ListTile(
+              contentPadding: const EdgeInsets.all(0),
+              title: Text(
+                configWatch.devices[index].name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('ProdId: ${configWatch.devices[index].productId}'),
+                  Text('VendorId: ${configWatch.devices[index].vendorId}')
+                ],
+              ),
+              trailing: GestureDetector(
+                onTap: () {
+                  configRead.selectDevice(context, index);
+                },
+                child: Container(
+                    width: 80,
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(
+                          Constants().screenheight(context) * 0.01),
+                      child: AppTextStyle().textBold('Connect',
+                          size: Constants().screenWidth(context) *
+                              Constants.normalSizeTL,
+                          color: configWatch.nameSelectedUSB !=
+                                  configWatch.devices[index].name
+                              ? Colors.black
+                              : Colors.grey),
+                    )),
+              ),
+            ),
+          ),
+        ),
+      )
+    ],
   );
 }
 
