@@ -30,6 +30,8 @@ class Constants {
   static const primaryColor = Color(0xff87C4FF);
   static const secondaryColor = Color(0xffEEF5FF);
   static const textColor = Color(0xFF222B45);
+  static const primaryColorHex = '87C4FF';
+  static const secondaryColorHex = 'EEF5FF';
 
   static const bgLogin = 'assets/bg_1.jpg';
   static const twentyImg = 'assets/images/twenty.png';
