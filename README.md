@@ -1,6 +1,7 @@
 # Cloud_pos
 
 # Flutter Install
+
 - https://docs.flutter.dev/get-started/install
 
 # Run
@@ -24,10 +25,11 @@
 2. create file key.properties in path "android\key.properties"
 
 - add this text to "key.properties"
-  storePassword=vtecsystem
-  keyPassword=vtecsystem
-  keyAlias=key
-  storeFile=C:/Github/CloudPos/android/key.jks
+
+  - storePassword=vtecsystem
+    keyPassword=vtecsystem
+    keyAlias=key
+    storeFile=C:/Github/CloudPos/android/key.jks
 
 - "storeFile is path of .jks file"
 
