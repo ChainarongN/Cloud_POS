@@ -1,5 +1,12 @@
 # Cloud_pos
 
+# Download File
+
+1. https://github.com/ChainarongN/Cloud_POS
+2. https://drive.google.com/drive/folders/10ovs2LIC64TyDrQCp11zP67WhzC9ugp7?usp=sharing
+
+   - if file project name "CloudPos.zip" is wrong or error. Go to download file project name "CloudPos_(Flutter_version_3.19.3).zip" and use flutter version "3.19.3"
+
 # Flutter Install
 
 - https://docs.flutter.dev/get-started/install
