@@ -327,45 +327,51 @@ Column baseUrlConfig(BuildContext context, ConfigProvider configWatch,
               fontSize: Constants().fontSizeTL(context, Constants.h2SizeTL)),
         ),
       ),
-      Container(
-        alignment: Alignment.center,
-        height: Constants().screenheight(context) * 0.09,
-        width: Constants().screenWidth(context) * 0.45,
-        margin: EdgeInsets.only(top: Constants().screenheight(context) * 0.02),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          gradient: const LinearGradient(
-            colors: [
-              Color.fromARGB(255, 113, 134, 255),
-              Color.fromARGB(255, 157, 198, 255),
+      GestureDetector(
+        onTap: () {
+          Constants().printInfo('test get shop data');
+        },
+        child: Container(
+          alignment: Alignment.center,
+          height: Constants().screenheight(context) * 0.09,
+          width: Constants().screenWidth(context) * 0.45,
+          margin:
+              EdgeInsets.only(top: Constants().screenheight(context) * 0.02),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            gradient: const LinearGradient(
+              colors: [
+                Color.fromARGB(255, 113, 134, 255),
+                Color.fromARGB(255, 157, 198, 255),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: const [
+              BoxShadow(
+                  color: Color.fromARGB(255, 157, 198, 255),
+                  blurRadius: 8,
+                  offset: Offset(0, 6)),
             ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
           ),
-          boxShadow: const [
-            BoxShadow(
-                color: Color.fromARGB(255, 157, 198, 255),
-                blurRadius: 8,
-                offset: Offset(0, 6)),
-          ],
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                  margin: EdgeInsets.only(
-                      right: Constants().screenheight(context) * 0.03),
-                  child: Icon(
-                    Icons.cloud_done_outlined,
-                    size: Constants().screenheight(context) * 0.055,
-                    color: Colors.white,
-                  )),
-              AppTextStyle().textNormal(LocaleKeys.get_shop_data.tr(),
-                  size: Constants().fontSizeTL(context, Constants.h2SizeTL),
-                  color: Colors.white),
-            ],
+          child: Padding(
+            padding: EdgeInsets.all(Constants().screenheight(context) * 0.01),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    margin: EdgeInsets.only(
+                        right: Constants().screenheight(context) * 0.03),
+                    child: Icon(
+                      Icons.cloud_done_outlined,
+                      size: Constants().screenheight(context) * 0.055,
+                      color: Colors.white,
+                    )),
+                AppTextStyle().textNormal(LocaleKeys.get_shop_data.tr(),
+                    size: Constants().fontSizeTL(context, Constants.h2SizeTL),
+                    color: Colors.white),
+              ],
+            ),
           ),
         ),
       ),

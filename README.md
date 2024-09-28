@@ -1,5 +1,8 @@
 # Cloud_pos
 
+# Flutter Install
+- https://docs.flutter.dev/get-started/install
+
 # Run
 
 - flutter pub get
